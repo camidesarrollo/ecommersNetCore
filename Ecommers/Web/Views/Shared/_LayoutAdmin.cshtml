@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @await Component.InvokeAsync("Configuracion")
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- Recursos del Header -->
+    <link rel="stylesheet" href="~/css/components/sidebar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/spinner.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sweetalert2.min.css" asp-append-version="true">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="min-h-screen bg-gray-light">
+
+    <!-- Navbar fijo arriba -->
+    @await Component.InvokeAsync("NavbarAdmin")
+
+    <!-- Contenedor principal con sidebar y contenido -->
+    <div class="flex h-[calc(100vh-4rem)]">
+
+        <!-- Sidebar -->
+        @await Component.InvokeAsync("Sidebar")
+
+        <!-- Área de contenido principal -->
+        <main class="flex-1 overflow-y-auto bg-gray-light lg:ml-24">
+            <div class="px-4 md:px-8 lg:px-10 py-8 mx-auto w-full">
+                @RenderBody()
+            </div>
+        </main>
+
+    </div>
+    @await Html.PartialAsync("~/Web/Views/Shared/Components/Spinner/Default.cshtml")
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/application/site.js" asp-append-version="true"></script>
+    <!-- Scripts del Header -->
+    <script defer src="~/js/application/components/sidebar.js" asp-append-version="true"></script>
+    <script defer src="~/js/application/components/navbarAdmin.js" asp-append-version="true"></script>
+    <script defer src="~/js/application/components/spinner.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

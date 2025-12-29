@@ -1,0 +1,175 @@
+﻿@model Ecommers.Domain.Entities.CategoriesD
+
+@{
+    ViewData["Title"] = "Eliminar Categoría";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-pattern min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- Breadcrumb -->
+        <nav class="mb-6" aria-label="breadcrumb">
+            <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
+                <li>
+                    <a href="@Url.Action("Index", "Home")" class="text-olive-green-600 hover:text-olive-green-700">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
+                <li>
+                    <a href="@Url.Action("Index", "Categorias")" class="text-olive-green-600 hover:text-olive-green-700">Categorías</a>
+                </li>
+                <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
+                <li class="text-dark-chocolate font-medium">Detalle</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="glass-effect rounded-2xl p-6 shadow-olive-green/30 flex flex-col sm:flex-row justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-dark-chocolate flex items-center gap-3">
+                    <i class="fas fa-folder-open text-olive-green-600"></i>
+                    @Model.Name
+                </h1>
+            </div>
+            <div class="flex gap-2">
+                <form asp-action="Eliminar" method="post" enctype="multipart/form-data" id="formCategoria" class="slide-in delay-400">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
+                        <i class="fas fa-edit mr-2"></i>Eliminar
+                    </button>
+                </form>
+                <a href="@Url.Action("Index", "Categorias")" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
+                    <i class="fas fa-arrow-left mr-2"></i>Volver
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Info principal -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-4 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-olive-green-600"></i>
+                        Información
+                    </h5>
+
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <dt class="text-sm text-gray-500">Nombre</dt>
+                            <dd id="nombre" class="font-semibold text-dark-chocolate">@Model.Name</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Slug</dt>
+                            <dd class="font-mono text-sm">@Model.Slug</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Orden</dt>
+                            <dd>@Model.SortOrder</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Estado</dt>
+                            <dd>
+                                @if (Model.IsActive)
+                                {
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-mint-green-700 text-sm font-semibold">
+                                        <i class="fas fa-circle"></i> Activa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
+                                        <i class="fas fa-circle"></i> Inactiva
+                                    </span>
+                                }
+                            </dd>
+                        </div>
+                    </dl>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+                    {
+                        <div class="mt-6">
+                            <div class="text-sm text-gray-500 mb-1">Descripción corta</div>
+                            <p class="text-gray-700">@Model.ShortDescription</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500 mb-1">Descripción completa</div>
+                            <p class="text-gray-700">@Model.Description</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Preview visual -->
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-4 flex items-center gap-2">
+                        <i class="fas fa-eye text-olive-green-600"></i>
+                        Vista en el sitio
+                    </h5>
+
+                    <div class="relative h-64 flex items-center justify-center rounded-xl @Model.BgClass">
+                        <div class="absolute top-3 right-3 bg-burgundy-red text-white text-xs px-3 py-1.5 rounded-full font-bold">Categoría</div>
+
+                        <div class="text-center space-y-3">
+                            @if (!string.IsNullOrEmpty(Model.Image))
+                            {
+                                <img src="@Model.Image" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg" />
+                            }
+                            <h3 class="text-2xl font-bold text-white drop-shadow">@Model.Name</h3>
+                            @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+                            {
+                                <p class="text-white/90 italic max-w-xs">@Model.ShortDescription</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lateral -->
+            <div class="space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-golden-yellow/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-4 flex items-center gap-2">
+                        <i class="fas fa-image text-golden-yellow-600"></i>
+                        Imagen
+                    </h5>
+
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="@Model.Image" class="w-full rounded-xl shadow-md" />
+                    }
+                    else
+                    {
+                        <div class="text-gray-500 text-sm">Sin imagen asignada</div>
+                    }
+                </div>
+
+                <div class="glass-effect rounded-2xl p-6 shadow-mint-green/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-4 flex items-center gap-2">
+                        <i class="fas fa-palette text-mint-green-700"></i>
+                        Estilo
+                    </h5>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-md @Model.BgClass"></div>
+                        <span class="text-sm text-gray-700">@Model.BgClass</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+@section Scripts {
+
+
+    <script type="module" src="~/js/application/categorias/generic.js"></script>
+    <script type="module" src="~/js/application/categorias/delete.js"></script>
+}

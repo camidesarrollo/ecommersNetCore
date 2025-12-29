@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "lib": [ "ES2020", "DOM" ],
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "strict": false,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": [ "Web/Configuration/node_modules/*" ]
+        },
+        "typeRoots": [
+            "./Web/Configuration/node_modules/@types"
+        ]
+    },
+    "include": [
+        "wwwroot/js/**/*.ts"
+, "wwwroot/js/domain/utils/vendors_dayjs.js", "wwwroot/js/domain/vendors_zod.js"    ],
+    "exclude": [
+        "Web/Configuration/node_modules",
+        "wwwroot/js/bundle"
+    ]
+}

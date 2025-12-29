@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Ecommers.Domain.Entities.CategoriesD>
+
+@{
+    ViewData["Title"] = "Servicios";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+
+    var basePath = Context.Request.PathBase;
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}";
+}
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="~/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/css/dataTables.css">
+}
+
+<!-- Header -->
+<div class="bg-gradient-to-r from-amber-800 to-amber-900 rounded-2xl p-8 mb-6 shadow-lg">
+    <div class="flex justify-between items-center flex-wrap gap-4">
+        <div class="text-white">
+            <h1 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                <i class="fas fa-cog"></i>
+                Servicios
+            </h1>
+            <p class="opacity-90">Gestiona las servicios de la tienda</p>
+        </div>
+        <a href="/Gestion/Servicios/Crear" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md hover:shadow-lg">
+            <i class="fas fa-plus"></i>
+            Nuevo servicio
+        </a>
+    </div>
+</div>
+
+<!-- Tabla -->
+<div class="bg-white rounded-2xl p-6 shadow-lg">
+    <table id="tabla-dinamica" class="dataTable display responsive w-full">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Icono</th>
+                <th>Estado</th>
+                <th>Fecha Creación</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+@section Scripts {
+    <script type="module" src="/js/application/servicio/index.js"></script>
+}

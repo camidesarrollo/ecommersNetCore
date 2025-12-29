@@ -1,0 +1,237 @@
+﻿/* ========================
+   INPUT WRAPPER
+======================== */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+    /* ========================
+   INPUT BASE
+======================== */
+    .input-wrapper input {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    /* ========================
+   FLOATING LABEL
+======================== */
+    .input-wrapper label {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        margin: 0 20px;
+        font-size: 0.9rem;
+        color: #8d6e5c;
+        pointer-events: none;
+        transition: all 0.2s ease;
+    }
+
+    .input-wrapper.has-value label,
+    .input-wrapper input:focus + label {
+        top: -6px;
+        font-size: 0.75rem;
+        color: #6b8e23;
+    }
+
+    /* ========================
+   VALID STATES
+======================== */
+    .input-wrapper.error input {
+        border-color: #901c2d;
+    }
+
+    .input-wrapper.success input {
+        border-color: #6b8e23;
+    }
+
+    .input-wrapper input:focus {
+        border-color: #6b8e23;
+    }
+
+/* ========================
+   ERROR MESSAGE ANIMATION
+======================== */
+.ui-error {
+    color: #901c2d;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: flex;
+    gap: 4px;
+    animation: errorPulse 0.2s ease-in-out 2;
+}
+
+@keyframes errorPulse {
+    0% {
+        transform: translateX(0px);
+    }
+
+    25% {
+        transform: translateX(3px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+/* ========================
+   ACCESSIBILITY
+======================== */
+.input-wrapper input[aria-invalid="true"] {
+    outline: 2px solid #901c2d;
+}
+
+.input-wrapper input:focus-visible {
+    outline: 2px solid #6b8e23;
+    outline-offset: 1px;
+}
+
+/* ========================
+   ICONS
+======================== */
+.input-icon-left {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #444;
+    font-size: 1rem;
+    z-index: 5;
+}
+
+
+.input-icon-right {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #444;
+    z-index: 5;
+}
+
+
+/* ========================
+   HELPER TEXT
+======================== */
+.ui-helper {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    color: #7a6f6d;
+}
+
+/* ========================
+   COUNTER
+======================== */
+.ui-counter {
+    font-size: 0.7rem;
+    text-align: right;
+    color: #7a6f6d;
+}
+
+/* CUANDO HAY ICONO A LA IZQUIERDA → DESPLAZAR TEXTO */
+.input-wrapper .has-prefix input {
+    padding-left: 3rem !important;
+}
+
+/* CUANDO HAY ICONO A LA DERECHA */
+.input-wrapper .has-suffix input {
+    padding-right: 3rem !important;
+}
+
+/* CUANDO HAY AMBOS */
+.input-wrapper .has-prefix.has-suffix input {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
+
+/* Error state */
+.input-wrapper.has-error input {
+    border-color: #B91C1C !important;
+    box-shadow: 0 0 0 1px rgba(185,28,28,0.4);
+}
+
+/* Inline error */
+.inline-error {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: #B91C1C;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Animación tipo Vue */
+.shake {
+    animation: shake 0.25s ease-in-out;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    50% {
+        transform: translateX(3px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* ============================
+   ICONO ROJO EN ERROR
+============================ */
+
+.input-wrapper.has-error i {
+    color: #b91c1c !important; /* rojo cardenal */
+}
+
+/* efecto shake suave */
+.input-wrapper .shake {
+    animation: shake 0.25s ease-in-out 2;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.error-icon i {
+    color: #b91c1c;
+}

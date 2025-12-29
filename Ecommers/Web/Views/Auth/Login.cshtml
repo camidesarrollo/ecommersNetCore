@@ -1,0 +1,159 @@
+﻿@using Ecommers.Web.Models.Shared.TagHelpers
+@using Ecommers.Web.Models.Shared.TagHelpers.Ui
+@model Ecommers.Web.Models.Auth.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = "~/Web/Views/Shared/_LayoutAuth.cshtml";
+}
+
+<!-- Contenido principal -->
+<div class="relative z-10 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+
+        <!-- Logo y título -->
+        <div class="text-center mb-8 slide-in">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <div class="rounded-full p-2 bg-gradient-to-br from-yellow-700 to-yellow-500 text-white text-xl animate-bounce">
+                    <img src="/img/fbe92c76-59d0-4525-a1fe-8e06a4c98dbd2.PNG" alt="Logo" class="w-10 h-10" />
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">¡Bienvenido de vuelta!</h1>
+            <p class="text-gray-600">Ingresa a tu cuenta de @ViewBag.AppName</p>
+        </div>
+
+        <!-- Tarjeta -->
+        <div class="glass-effect rounded-2xl p-8 shadow-2xl slide-in delay-200">
+            <form id="loginForm" asp-action="Login" asp-controller="Auth" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- Email -->
+                <div class="mb-6">
+                    <ui-input ui-input-model="@(new UiInputModel {
+                            Id = "email",
+                            Type = "email",
+                            Label = "Correo Electrónico",
+                            Placeholder = "tu@email.com",
+                            Icon = "fas fa-envelope",
+                            PrefixIcon = "fas fa-envelope",
+                            Error = ViewData.ModelState["Email"]?.Errors.FirstOrDefault()?.ErrorMessage,
+                            Required = true
+                        })"></ui-input>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-6">
+                    <ui-input ui-input-model="@(new UiInputModel {
+                            Id = "password",
+                            Type = "password",
+                            Label = "Contraseña",
+                            Placeholder = "••••••••",
+                            Icon = "fas fa-lock",
+                            PrefixIcon = "fas fa-lock",
+                            ShowPasswordToggle = true,
+                            Error = ViewData.ModelState["Password"]?.Errors.FirstOrDefault()?.ErrorMessage,
+                            Required = true
+                        })"></ui-input>
+                </div>
+
+                <!-- Recordarme / Olvidé contraseña -->
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" name="RememberMe"
+                               class="w-4 h-4 rounded border-2 border-gray-300 text-green-700 focus:ring-green-700">
+                        <span class="ml-2 text-sm text-gray-600">Recordarme</span>
+                    </label>
+
+                    <a href="@Url.Action("ForgotPassword", "Auth")"
+                       class="text-sm text-green-700 hover:text-yellow-700 transition-colors">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+
+                <!-- Errores -->
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-exclamation-triangle text-red-500 mt-0.5 mr-3"></i>
+
+                            <div class="flex-1">
+                                <h3 class="text-sm font-semibold text-red-800 mb-2">
+                                    Por favor, corrige los siguientes errores:
+                                </h3>
+
+                                <ul class="text-sm text-red-700 space-y-1">
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <button type="button"
+                                    onclick="this.parentElement.parentElement.remove()"
+                                    class="text-red-500 hover:text-red-700 ml-2">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <!-- Botón -->
+                <div class="w-full">
+                    <ui-button ui-button-model="@(new UiButtonModel {
+                        TipoBoton ="submit",
+                        Tipo = "agregar",
+                        Label = "Iniciar Sesión",
+                        Icono = "sign-in-alt",
+                        IconFamily = "fas",
+                        LoadingText = "Ingresando...",
+                        Loading = false,
+                        IsFormValid = true,
+                        Accion = " "
+                    })"></ui-button>
+                </div>
+            </form>
+
+            <!-- Separador -->
+            <div class="my-6 flex items-center">
+                <div class="flex-1 border-t border-gray-300"></div>
+                <span class="px-4 text-sm text-gray-600 bg-white rounded-full">O continúa con</span>
+                <div class="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            <!-- Social login -->
+            <div class="grid grid-cols-1 gap-3">
+                <button onclick="loginWithGoogle()"
+                        class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <i class="fab fa-google text-red-600 mr-2"></i> Google
+                </button>
+            </div>
+
+            <!-- Registro -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    ¿No tienes una cuenta?
+                    <a href="@Url.Action("Register", "Auth")"
+                       class="text-green-700 hover:text-yellow-700 font-semibold transition-colors">
+                        Regístrate aquí
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Volver a la tienda -->
+        <div class="text-center mt-6 slide-in delay-400">
+            <a href="@Url.Action("Index", "Home")"
+               class="inline-flex items-center text-gray-600 hover:text-green-700 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver a la tienda
+            </a>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script type="module" src="~/js/application/auth/login.js" defer></script>
+}

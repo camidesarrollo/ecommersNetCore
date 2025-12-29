@@ -1,0 +1,373 @@
+﻿@model Ecommers.Domain.Entities.CategoriesD
+
+@{
+    ViewData["Title"] = "Crear Categoría";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-pattern min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="mb-6 slide-in" aria-label="breadcrumb">
+            <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
+                <li class="flex items-center">
+                    <a href="@Url.Action("Index", "Home")" class="text-olive-green-600 hover:text-olive-green-700 transition-colors flex items-center">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="text-olive-green-500">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </li>
+                <li class="flex items-center">
+                    <a href="@Url.Action("Index", "Categorias")" class="text-olive-green-600 hover:text-olive-green-700 transition-colors">
+                        Categorías
+                    </a>
+                </li>
+                <li class="text-olive-green-500">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </li>
+                <li class="text-dark-chocolate font-medium" aria-current="page">
+                    Crear Categoría
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="mb-6 slide-in delay-200">
+            <div class="glass-effect rounded-2xl p-6 shadow-olive-green/30">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
+                            <i class="fas fa-folder-plus text-olive-green-600 mr-3"></i>
+                            Nueva Categoría
+                        </h1>
+                        <p class="text-gray-600">Complete los campos para crear una nueva categoría de productos</p>
+                    </div>
+                    <a href="@Url.Action("Index", "Categorias")"
+                       class="inline-flex items-center px-6 py-3 bg-gray-light hover:bg-gray-light-dark text-dark-chocolate font-semibold rounded-lg shadow-sm transition-all duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i>Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <form asp-action="Crear" method="post" enctype="multipart/form-data" id="formCategoria" class="slide-in delay-400">
+            @Html.AntiForgeryToken()
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Columna Izquierda: Información Principal (2/3) -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                            <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                            Información Principal
+                        </h5>
+
+                        <!-- Nombre -->
+                        <div class="mb-6">
+                            <label asp-for="Name" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-tag text-olive-green-600 mr-1"></i>
+                                Nombre de la Categoría <span class="text-burgundy-red-500">*</span>
+                            </label>
+                            <input asp-for="Name"
+                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                   placeholder="Ej: Frutos Secos Premium"
+                                   required />
+                            <span asp-validation-for="Name" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Slug -->
+                        <div class="mb-6">
+                            <label asp-for="Slug" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-link text-olive-green-600 mr-1"></i>
+                                Slug URL <span class="text-burgundy-red-500">*</span>
+                            </label>
+                            <div class="flex">
+                                <span class="inline-flex items-center px-4 bg-beige-500 border-2 border-r-0 border-olive-green-300 rounded-l-lg">
+                                    <i class="fas fa-globe text-olive-green-600"></i>
+                                </span>
+                                <input asp-for="Slug"
+                                       class="flex-1 px-4 py-3 text-lg border-2 border-olive-green-300 rounded-r-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                       placeholder="frutos-secos-premium"
+                                       required />
+                            </div>
+                            <p class="text-gray-600 text-sm mt-2">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                URL amigable para la categoría (sin espacios, usar guiones)
+                            </p>
+                            <span asp-validation-for="Slug" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Descripción Corta -->
+                        <div class="mb-6">
+                            <label asp-for="ShortDescription" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-align-left text-olive-green-600 mr-1"></i>
+                                Descripción Corta
+                            </label>
+                            <textarea asp-for="ShortDescription"
+                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 resize-none"
+                                      rows="2"
+                                      maxlength="150"
+                                      placeholder="Breve descripción de la categoría (máx. 150 caracteres)"></textarea>
+                            <span asp-validation-for="ShortDescription" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Descripción Completa -->
+                        <div class="mb-0">
+                            <label asp-for="Description" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-align-justify text-olive-green-600 mr-1"></i>
+                                Descripción Completa
+                            </label>
+                            <textarea asp-for="Description"
+                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 resize-none"
+                                      rows="4"
+                                      placeholder="Descripción detallada de la categoría y sus productos"></textarea>
+                            <span asp-validation-for="Description" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+                    </div>
+                    <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                            <i class="fas fa-eye text-olive-green-600 mr-2"></i>
+                            Vista Previa
+                        </h5>
+                        <!-- Card de Preview -->
+                        <div id="BgClassView"
+                             class="relative h-64 bg-gradient-to-br from-lime-yellow to-magenta-strong flex flex-col items-center justify-center p-6 transition-all duration-300">
+                            <!-- Badge "Nuevo" - Esquina superior derecha -->
+                            <div class="absolute top-3 right-3 bg-burgundy-red text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
+                                <i class="fas fa-star text-xs"></i>
+                                <span>Nuevo</span>
+                            </div>
+                            <!-- Cantidad de productos - Esquina superior izquierda (opcional) -->
+                            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md">
+                                <i class="fas fa-box mr-1"></i>
+                                <span id="ProductCountPreview">0</span> productos
+                            </div>
+                             <!-- Contenido Central -->
+                            <div class="flex flex-col items-center justify-center text-center space-y-4 z-10">
+                                <!-- Imagen -->
+                                <div class="relative group">
+                                    <img id="ImageFilePreview"
+                                         src=""
+                                         alt="Preview"
+                                         class="w-24 h-24 rounded-full object-cover shadow-2xl border-4 border-white/80 transition-transform duration-300 group-hover:scale-110"
+                                          />
+                                    <div class="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                </div>
+
+                                <!-- Nombre -->
+                                <h3 id="NamePreview" class="text-2xl font-bold text-white drop-shadow-lg px-4">
+                                    Nombre de Categoría
+                                </h3>
+
+                                <!-- Descripción Corta -->
+                                <p id="ShortDescriptionPreview" class="text-sm text-white/95 italic max-w-xs px-4 line-clamp-2">
+                                    Descripción breve de la categoría
+                                </p>
+                            </div>
+                         </div>
+
+                        <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                            <!-- Footer Info (Opcional) -->
+                            <div class="bg-gray-50 px-6 py-3 border-t border-gray-200">
+                                <div class="flex items-center justify-between text-xs text-gray-600">
+                                    <div class="flex items-center gap-1">
+                                        <i class="fas fa-palette"></i>
+                                        <span id="BgClassLabelPreview">Sin gradiente</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <i class="fas fa-circle text-mint-green-700" id="StatusIconPreview"></i>
+                                        <span id="StatusLabelPreview">Activa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Info adicional -->
+                        <div class="mt-4 p-3 bg-beige-100 rounded-lg">
+                            <p class="text-xs text-gray-600 flex items-start gap-2">
+                                <i class="fas fa-info-circle text-olive-green-600 mt-0.5"></i>
+                                <span>Esta es una vista previa de cómo se verá la categoría en el sitio web. Los cambios se reflejan en tiempo real.</span>
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Columna Derecha: Configuración y Medios (1/3) -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- Imagen -->
+                    <div class="glass-effect rounded-2xl p-6 shadow-golden-yellow/30">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-golden-yellow-500 flex items-center">
+                            <i class="fas fa-image text-golden-yellow-600 mr-2"></i>
+                            Imagen de Categoría
+                        </h5>
+
+                        <!-- Preview de Imagen -->
+                        <div class="mb-4">
+                            <div id="imagePreview"
+                                 class="relative border-4 border-dashed border-golden-yellow-400 rounded-xl p-6 bg-beige-100 hover:border-golden-yellow-600 hover:bg-beige-200 transition-all duration-300 cursor-pointer overflow-hidden"
+                                 style="min-height: 200px;">
+                                @if (!string.IsNullOrEmpty(Model?.Image))
+                                {
+                                    <img src="@Model.Image" alt="Preview" class="w-full h-48 object-cover rounded-lg shadow-sm" id="previewImg" />
+                                }
+                                else
+                                {
+                                    <div class="flex flex-col items-center justify-center h-full" id="placeholderContent">
+                                        <i class="fas fa-cloud-upload-alt text-6xl text-golden-yellow-500 mb-4"></i>
+                                        <p class="text-gray-700 font-medium mb-1">Haz clic para subir una imagen</p>
+                                        <p class="text-gray-500 text-sm">PNG, JPG o WEBP (máx. 2MB)</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <input type="file"
+                               asp-for="Image"
+                               name="ImageFile"
+                               id="imageInput"
+                               data-preview-target="#imagePreview"
+                               data-max-size="2"
+                               data-allowed-types="image/jpeg,image/png,image/webp"
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer"
+                               accept="image/*" />
+                        <input type="hidden" asp-for="Image" id="imageUrlHidden" />
+                        <span asp-validation-for="Image" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                    </div>
+
+                    <!-- Configuración -->
+                    <div class="glass-effect rounded-2xl p-6 shadow-mint-green/30">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-mint-green-500 flex items-center">
+                            <i class="fas fa-cog text-mint-green-700 mr-2"></i>
+                            Configuración
+                        </h5>
+
+                        <!-- Clase de Fondo -->
+                        <div class="mb-4">
+                            <label asp-for="BgClass" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-palette text-mint-green-700 mr-1"></i>
+                                Clase de Fondo
+                            </label>
+                            <div class="relative w-full" id="gradientSelect">
+                                <!-- Input hidden para ASP.NET -->
+                                <input type="hidden" name="BgClass" id="BgClass">
+
+                                <!-- Botón selector -->
+                                <button type="button"
+                                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg flex items-center justify-between gap-3 focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 transition-all bg-white"
+                                        id="gradientButton">
+                                    <div class="flex items-center gap-3">
+                                        <div id="gradientPreview" class="w-8 h-8 rounded-md bg-gray-200"></div>
+                                        <span id="gradientLabel" class="text-gray-500">
+                                            Seleccionar color…
+                                        </span>
+                                    </div>
+                                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <!-- Dropdown -->
+                                <div class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg hidden"
+                                     id="gradientDropdown">
+                                    <div class="p-2 grid grid-cols-2 gap-2">
+                                        <!-- ITEM -->
+                                        <div class="cursor-pointer rounded-lg p-2 flex items-center gap-2 hover:ring-2 ring-olive-green-400"
+                                             data-value="bg-gradient-to-br from-lime-yellow to-magenta-strong">
+                                            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-lime-yellow to-magenta-strong"></div>
+                                            <span class="text-sm">Lima → Magenta</span>
+                                        </div>
+
+                                        <div class="cursor-pointer rounded-lg p-2 flex items-center gap-2 hover:ring-2 ring-olive-green-400"
+                                             data-value="bg-gradient-to-br from-golden-yellow to-nut-brown">
+                                            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-golden-yellow to-nut-brown"></div>
+                                            <span class="text-sm">Dorado → Marrón</span>
+                                        </div>
+
+                                        <div class="cursor-pointer rounded-lg p-2 flex items-center gap-2 hover:ring-2 ring-olive-green-400"
+                                             data-value="bg-gradient-to-br from-beige to-mint-green">
+                                            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-beige to-mint-green"></div>
+                                            <span class="text-sm">Beige → Menta</span>
+                                        </div>
+
+                                        <div class="cursor-pointer rounded-lg p-2 flex items-center gap-2 hover:ring-2 ring-olive-green-400"
+                                             data-value="bg-gradient-to-br from-beige to-golden-yellow">
+                                            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-beige to-golden-yellow"></div>
+                                            <span class="text-sm">Beige → Dorado</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="BgClass" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Categoría Padre -->
+                        <div class="mb-4">
+                            <label asp-for="ParentId" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-sitemap text-mint-green-700 mr-1"></i>
+                                Categoría Padre
+                            </label>
+                            <select asp-for="ParentId"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 bg-white">
+                                <option value="">Sin categoría padre</option>
+                            </select>
+                            <p class="text-gray-600 text-sm mt-1">Dejar vacío para categoría principal</p>
+                            <span asp-validation-for="ParentId" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Orden -->
+                        <div class="mb-4">
+                            <label asp-for="SortOrder" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-sort-numeric-down text-mint-green-700 mr-1"></i>
+                                Orden de Visualización
+                            </label>
+                            <input asp-for="SortOrder"
+                                   type="number"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                   min="0"
+                                   placeholder="0" />
+                            <p class="text-gray-600 text-sm mt-1">Mayor número = mayor prioridad</p>
+                            <span asp-validation-for="SortOrder" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Estado Activo -->
+                        <div class="flex items-center">
+                            <input asp-for="IsActive"
+                                   type="checkbox"
+                                   id="isActiveSwitch"
+                                   class="w-12 h-6 rounded-full appearance-none cursor-pointer bg-gray-300 checked:bg-mint-green-700 relative transition-colors duration-300 ease-in-out before:content-[''] before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full before:transition-transform before:duration-300 checked:before:translate-x-6"
+                                   checked />
+                            <label for="isActiveSwitch" class="ml-3 text-dark-chocolate font-semibold cursor-pointer select-none">
+                                <i class="fas fa-toggle-on text-mint-green-700 mr-1"></i>
+                                Categoría Activa
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="glass-effect rounded-2xl p-6 shadow-burgundy-red/30 space-y-3">
+                        <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-800 to-amber-900 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-amber-800 transition-all duration-200 shadow-md">
+                            <i class="fas fa-save"></i>
+                            Guardar Cambios
+                        </button>
+                        <a href="@Url.Action("Index", "Categorias")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+@section Scripts {
+
+    <script type="module" src="~/js/application/categorias/generic.js"></script>
+    <script type="module" src="~/js/application/categorias/create.js"></script>
+}

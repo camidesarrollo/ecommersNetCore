@@ -1,0 +1,177 @@
+/* ===================================
+   ESTILOS PERSONALIZADOS NAVBAR
+   =================================== */
+
+/* Animaciones para dropdowns */
+.fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Badge de notificaciones con animación pulse */
+#notification-badge {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Hover effects para botones del navbar */
+#menu-toggle-btn:hover,
+#notifications-btn:hover,
+#user-menu-btn:hover {
+    background-color: rgba(107, 78, 61, 0.5);
+}
+
+/* Transiciones suaves */
+#menu-toggle-btn,
+#notifications-btn,
+#user-menu-btn,
+.notification-item,
+#user-menu-dropdown a {
+    transition: all 0.3s ease;
+}
+
+/* Items de notificación */
+.notification-item {
+    border-bottom: 1px solid #e8dcc4;
+}
+
+.notification-item:hover {
+    background-color: #f5f1e8;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+/* Punto indicador de notificación */
+.notification-dot {
+    transition: background-color 0.3s ease;
+}
+
+/* Dropdowns */
+#notifications-dropdown,
+#user-menu-dropdown {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para input de búsqueda */
+#search-input-desktop,
+#search-input-mobile {
+    transition: all 0.3s ease;
+}
+
+#search-input-desktop:focus,
+#search-input-mobile:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #f59e0b;
+}
+
+/* Colores personalizados que podrían no estar en Tailwind */
+.text-burgundy-red {
+    color: #8b1538;
+}
+
+.text-olive-green {
+    color: #6b7c59;
+}
+
+.border-gray-light {
+    border-color: #d1d5db;
+}
+
+/* Sombra especial para el logo */
+.shadow-golden-yellow\/30 {
+    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+}
+
+/* Estilos responsive para el navbar */
+@media (max-width: 768px) {
+    #notifications-dropdown {
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+    }
+    
+    #user-menu-dropdown {
+        right: 0;
+        width: 14rem;
+    }
+}
+
+/* Prevenir scroll del body cuando el sidebar está abierto en móvil */
+body.sidebar-open {
+    overflow: hidden;
+}
+
+/* Mejoras de accesibilidad */
+button:focus-visible {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+}
+
+/* Animación suave para el icono del menú */
+#menu-icon-open,
+#menu-icon-close {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Hover personalizado para items del menú de usuario */
+#user-menu-dropdown a:hover {
+    background-color: #f5f1e8;
+    transform: translateX(2px);
+}
+
+/* Estilos para el separador */
+#user-menu-dropdown hr {
+    border-color: #e8dcc4;
+}
+
+/* Scrollbar personalizada para lista de notificaciones */
+#notifications-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#notifications-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#notifications-list::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 3px;
+}
+
+#notifications-list::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af;
+}
+
+/* Efecto activo para botones */
+#menu-toggle-btn:active,
+#notifications-btn:active,
+#user-menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* Estilos para el botón "Ver todas" */
+#view-all-notifications:hover {
+    text-decoration: underline;
+}

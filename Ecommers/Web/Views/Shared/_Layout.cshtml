@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @await Component.InvokeAsync("Configuracion")
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Recursos del Header -->
+    <link rel="stylesheet" href="~/css/components/headers.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/navbar.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="bg-yellow-100 min-h-screen">
+        @await Component.InvokeAsync("Header")
+        @await Component.InvokeAsync("Navbar")
+        @RenderBody()
+        @await Component.InvokeAsync("Footer")
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/application/site.js" asp-append-version="true"></script>
+
+    <!-- Scripts del Header -->
+    <script defer src="~/js/application/components/headers.js" asp-append-version="true"></script>
+    <script defer src="~/js/application/components/navbar.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@model Ecommers.Domain.Entities.ConfiguracionesD
+
+@{
+    var config = Model ?? new Ecommers.Domain.Entities.ConfiguracionesD
+            {
+                Id = 0,
+                MetaTitulo = "Mi Aplicación",
+                MetaDescripcion = "Descripción predeterminada",
+                MetaKeywords = "ecommerce, tienda",
+                Favicon = "/favicon.ico",
+                MetaViewport = "width=device-width, initial-scale=1"
+            };
+}
+
+<head>
+    <meta charset="utf-8" />
+    <title>@config.MetaTitulo</title>
+    <meta name="description" content="@config.MetaDescripcion" />
+    <meta name="keywords" content="@config.MetaKeywords" />
+    <meta name="author" content="@config.MetaAutor" />
+    <meta name="robots" content="@(config.MetaNoindex ? "noindex" : "index"), @(config.MetaNofollow ? "nofollow" : "follow")" />
+    <link rel="canonical" href="@config.MetaCanonical" />
+    <meta name="viewport" content="@config.MetaViewport" />
+    <link rel="icon" href="@config.Favicon" type="image/x-icon" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="@config.OgTitulo" />
+    <meta property="og:description" content="@config.OgDescripcion" />
+    <meta property="og:image" content="@config.OgImagen" />
+    <meta property="og:url" content="@config.OgUrl" />
+    <meta property="og:type" content="@config.OgTipo" />
+    <meta property="og:site_name" content="@config.OgSitename" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="@config.TwitterCard" />
+    <meta name="twitter:title" content="@config.TwitterTitulo" />
+    <meta name="twitter:description" content="@config.TwitterDescripcion" />
+    <meta name="twitter:image" content="@config.TwitterImagen" />
+    <meta name="twitter:site" content="@config.TwitterSite" />
+    <meta name="twitter:creator" content="@config.TwitterCreator" />
+</head>

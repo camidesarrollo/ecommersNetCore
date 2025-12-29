@@ -1,0 +1,464 @@
+﻿@model Ecommers.Domain.Entities.ConfiguracionesD
+
+@{
+    ViewData["Title"] = "Detalle Configuración";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+    var basePath = Context.Request.PathBase;
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}";
+}
+
+<!-- Header -->
+<div class="bg-gradient-to-r from-amber-800 to-amber-900 rounded-2xl p-8 mb-6 shadow-lg">
+    <div class="flex justify-between items-center flex-wrap gap-4">
+        <div class="text-white">
+            <h1 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                <i class="fas fa-info-circle"></i>
+                Detalle de Configuración
+            </h1>
+            <p class="opacity-90">Información completa de la configuración del sistema</p>
+        </div>
+        <div class="flex gap-3">
+            <a asp-action="Editar" asp-route-id="@Model.Id" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
+                <i class="fas fa-edit"></i>
+                Editar
+            </a>
+            <a asp-action="Index" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
+                <i class="fas fa-arrow-left"></i>
+                Volver
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Columna Principal -->
+    <div class="lg:col-span-2 space-y-6">
+
+        <!-- Información General -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-building text-amber-700"></i>
+                Información General
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Nombre de la Aplicación</label>
+                    <p class="text-gray-900 font-semibold">@Model.NombreAplicacion</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Nombre de la Empresa</label>
+                    <p class="text-gray-900 font-semibold">@(Model.NombreEmpresa ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Abreviación</label>
+                    <p class="text-gray-900 font-semibold">@(Model.AbreviacionEmpresa ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Slogan</label>
+                    <p class="text-gray-900">@(Model.Slogan ?? "No especificado")</p>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-sm font-medium text-gray-600">Descripción</label>
+                    <p class="text-gray-900">@(Model.Descripcion ?? "No especificado")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de Contacto -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-address-book text-amber-700"></i>
+                Información de Contacto
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Email de Contacto</label>
+                    <p class="text-gray-900">@(Model.EmailContacto ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Teléfono</label>
+                    <p class="text-gray-900">@(Model.TelefonoContacto ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">WhatsApp</label>
+                    <p class="text-gray-900">@(Model.Whatsapp ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Ciudad</label>
+                    <p class="text-gray-900">@(Model.Ciudad ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">País</label>
+                    <p class="text-gray-900">@(Model.Pais ?? "No especificado")</p>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-sm font-medium text-gray-600">Dirección</label>
+                    <p class="text-gray-900">@(Model.Direccion ?? "No especificado")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Redes Sociales -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-share-alt text-amber-700"></i>
+                Redes Sociales
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">
+                        <i class="fab fa-facebook text-blue-600"></i> Facebook
+                    </label>
+                    <p class="text-gray-900 truncate">@(Model.Facebook ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">
+                        <i class="fab fa-instagram text-pink-600"></i> Instagram
+                    </label>
+                    <p class="text-gray-900 truncate">@(Model.Instagram ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">
+                        <i class="fab fa-twitter text-blue-400"></i> Twitter
+                    </label>
+                    <p class="text-gray-900 truncate">@(Model.Twitter ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">
+                        <i class="fab fa-linkedin text-blue-700"></i> LinkedIn
+                    </label>
+                    <p class="text-gray-900 truncate">@(Model.Linkedin ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">
+                        <i class="fab fa-tiktok text-gray-800"></i> TikTok
+                    </label>
+                    <p class="text-gray-900 truncate">@(Model.Tiktok ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">
+                        <i class="fab fa-youtube text-red-600"></i> YouTube
+                    </label>
+                    <p class="text-gray-900 truncate">@(Model.Youtube ?? "No especificado")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuración Regional -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-globe text-amber-700"></i>
+                Configuración Regional
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Moneda</label>
+                    <p class="text-gray-900 font-semibold">@Model.Moneda</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Símbolo de Moneda</label>
+                    <p class="text-gray-900 font-semibold text-2xl">@Model.SimboloMoneda</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Idioma</label>
+                    <p class="text-gray-900 font-semibold">@Model.Idioma</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funcionalidades -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-toggle-on text-amber-700"></i>
+                Funcionalidades Activas
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center @(Model.ActivarCarrito ? "bg-green-100" : "bg-red-100")">
+                        <i class="fas @(Model.ActivarCarrito ? "fa-check text-green-600" : "fa-times text-red-600") text-xl"></i>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Carrito de Compras</label>
+                        <p class="text-gray-900 font-semibold">@(Model.ActivarCarrito ? "Activado" : "Desactivado")</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center @(Model.ActivarPagosOnline ? "bg-green-100" : "bg-red-100")">
+                        <i class="fas @(Model.ActivarPagosOnline ? "fa-check text-green-600" : "fa-times text-red-600") text-xl"></i>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Pagos en Línea</label>
+                        <p class="text-gray-900 font-semibold">@(Model.ActivarPagosOnline ? "Activado" : "Desactivado")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Básico -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-search text-amber-700"></i>
+                SEO - Metadatos Básicos
+            </h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Meta Título</label>
+                    <p class="text-gray-900">@(Model.MetaTitulo ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Meta Descripción</label>
+                    <p class="text-gray-900">@(Model.MetaDescripcion ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Palabras Clave</label>
+                    <p class="text-gray-900">@(Model.MetaKeywords ?? "No especificado")</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Autor</label>
+                        <p class="text-gray-900">@(Model.MetaAutor ?? "No especificado")</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Robots</label>
+                        <p class="text-gray-900">@(Model.MetaRobots ?? "No especificado")</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fas @(Model.MetaNoindex ? "fa-check-circle text-green-600" : "fa-times-circle text-red-600")"></i>
+                        <span class="text-sm text-gray-700">NoIndex: <strong>@(Model.MetaNoindex ? "Sí" : "No")</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas @(Model.MetaNofollow ? "fa-check-circle text-green-600" : "fa-times-circle text-red-600")"></i>
+                        <span class="text-sm text-gray-700">NoFollow: <strong>@(Model.MetaNofollow ? "Sí" : "No")</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Graph -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fab fa-facebook text-amber-700"></i>
+                Open Graph (Redes Sociales)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">OG Título</label>
+                    <p class="text-gray-900">@(Model.OgTitulo ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">OG Tipo</label>
+                    <p class="text-gray-900">@(Model.OgTipo ?? "No especificado")</p>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-sm font-medium text-gray-600">OG Descripción</label>
+                    <p class="text-gray-900">@(Model.OgDescripcion ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">OG URL</label>
+                    <p class="text-gray-900 truncate">@(Model.OgUrl ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">OG Sitio</label>
+                    <p class="text-gray-900">@(Model.OgSitename ?? "No especificado")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Twitter Cards -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fab fa-twitter text-amber-700"></i>
+                Twitter Cards
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Tipo de Card</label>
+                    <p class="text-gray-900">@(Model.TwitterCard ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Twitter Título</label>
+                    <p class="text-gray-900">@(Model.TwitterTitulo ?? "No especificado")</p>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-sm font-medium text-gray-600">Twitter Descripción</label>
+                    <p class="text-gray-900">@(Model.TwitterDescripcion ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Twitter Site</label>
+                    <p class="text-gray-900">@(Model.TwitterSite ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Twitter Creator</label>
+                    <p class="text-gray-900">@(Model.TwitterCreator ?? "No especificado")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schema & Sitemap -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                <i class="fas fa-sitemap text-amber-700"></i>
+                Schema & Sitemap
+            </h2>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Tipo de Schema</label>
+                        <p class="text-gray-900">@(Model.SchemaTipo ?? "No especificado")</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Prioridad en Sitemap</label>
+                        <p class="text-gray-900 font-semibold">@Model.PrioridadSitemap</p>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Datos de Schema</label>
+                    <p class="text-gray-900 text-sm break-all">@(Model.SchemaDatos ?? "No especificado")</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas @(Model.IncluirEnSitemap ? "fa-check-circle text-green-600" : "fa-times-circle text-red-600")"></i>
+                    <span class="text-sm text-gray-700">Incluir en Sitemap: <strong>@(Model.IncluirEnSitemap ? "Sí" : "No")</strong></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Columna Lateral -->
+    <div class="space-y-6">
+
+        <!-- Estado -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-info-circle text-amber-700"></i>
+                Estado
+            </h3>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">ID:</span>
+                    <span class="font-semibold text-gray-900">@Model.Id</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Estado:</span>
+                    @if (Model.IsActive)
+                    {
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            <i class="fas fa-check-circle"></i> Activo
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                            <i class="fas fa-times-circle"></i> Inactivo
+                        </span>
+                    }
+                </div>
+                <div class="pt-3 border-t">
+                    <p class="text-xs text-gray-500 mb-1">Creado:</p>
+                    <p class="text-sm font-medium text-gray-900">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+                </div>
+                @if (Model.UpdatedAt.HasValue)
+                {
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">Actualizado:</p>
+                        <p class="text-sm font-medium text-gray-900">@Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Imágenes -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-amber-700"></i>
+                Recursos Visuales
+            </h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600 mb-2 block">Logo</label>
+                    @if (!string.IsNullOrEmpty(Model.Logo))
+                    {
+                        <img src="@basePath/@Model.Logo" alt="Logo" class="w-full h-32 object-contain bg-gray-50 rounded-lg p-2">
+                    }
+                    else
+                    {
+                        <div class="w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <span class="text-gray-400">Sin logo</span>
+                        </div>
+                    }
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600 mb-2 block">Favicon</label>
+                    @if (!string.IsNullOrEmpty(Model.Favicon))
+                    {
+                        <img src="@basePath/@Model.Favicon" alt="Favicon" class="w-16 h-16 object-contain bg-gray-50 rounded-lg p-2">
+                    }
+                    else
+                    {
+                        <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <span class="text-gray-400 text-xs">Sin favicon</span>
+                        </div>
+                    }
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600 mb-2 block">Banner Principal</label>
+                    @if (!string.IsNullOrEmpty(Model.BannerPrincipal))
+                    {
+                        <img src="@basePath/@Model.BannerPrincipal" alt="Banner" class="w-full h-32 object-cover rounded-lg">
+                    }
+                    else
+                    {
+                        <div class="w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <span class="text-gray-400">Sin banner</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuración Técnica -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-cog text-amber-700"></i>
+                Configuración Técnica
+            </h3>
+            <div class="space-y-3 text-sm">
+                <div>
+                    <label class="text-xs font-medium text-gray-600">URL Slug</label>
+                    <p class="text-gray-900">@(Model.Slug ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-xs font-medium text-gray-600">Canonical</label>
+                    <p class="text-gray-900 truncate">@(Model.MetaCanonical ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-xs font-medium text-gray-600">Charset</label>
+                    <p class="text-gray-900">@(Model.MetaCharset ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-xs font-medium text-gray-600">Viewport</label>
+                    <p class="text-gray-900">@(Model.MetaViewport ?? "No especificado")</p>
+                </div>
+                <div>
+                    <label class="text-xs font-medium text-gray-600">Color del Navegador</label>
+                    <div class="flex items-center gap-2">
+                        @if (!string.IsNullOrEmpty(Model.ColorTemaNavegador))
+                        {
+                            <div class="w-6 h-6 rounded border" style="background-color: @Model?.ColorTemaNavegador"></div>
+                            <span class="text-gray-900">@Model?.ColorTemaNavegador</span>
+                        }
+                        else
+                        {
+                            <span class="text-gray-500">No especificado</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

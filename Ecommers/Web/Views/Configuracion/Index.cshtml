@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Ecommers.Domain.Entities.ConfiguracionesD>
+
+@{
+    ViewData["Title"] = "Configuraciones";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+
+    var basePath = Context.Request.PathBase;
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}";
+}
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="~/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/css/dataTables.css">
+}
+
+<!-- Header -->
+<div class="bg-gradient-to-r from-amber-800 to-amber-900 rounded-2xl p-8 mb-6 shadow-lg">
+    <div class="flex justify-between items-center flex-wrap gap-4">
+        <div class="text-white">
+            <h1 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                <i class="fas fa-cog"></i>
+                Configuraciones del Sistema
+            </h1>
+            <p class="opacity-90">Gestiona las configuraciones generales de la aplicación</p>
+        </div>
+        @* <a asp-action="Crear" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md hover:shadow-lg">
+            <i class="fas fa-plus"></i>
+            Nueva Configuración
+        </a> *@
+    </div>
+</div>
+
+<!-- Tabla -->
+<div class="bg-white rounded-2xl p-6 shadow-lg">
+    <table id="tableConfiguraciones" class="dataTable display responsive nowrap w-full">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre Empresa</th>
+                <th>Abreviación</th>
+                <th>Logo</th>
+                <th>Meta Autor</th>
+                <th>Estado</th>
+                <th>Fecha Creación</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var config in Model)
+            {
+                <tr>
+                    <td>@config.Id</td>
+                    <td>@config.NombreEmpresa</td>
+                    <td>@config.AbreviacionEmpresa</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(config.Logo))
+                        {
+                            <img src="@config.Logo" alt="Logo" class="max-w-[50px] max-h-[50px] object-contain">
+                        }
+                        else
+                        {
+                            <span class="text-gray-400">Sin logo</span>
+                        }
+                    </td>
+                    <td>@config.MetaAutor</td>
+                    <td>
+                        @if (config.IsActive)
+                        {
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <i class="fas fa-check-circle"></i>Activo
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                <i class="fas fa-times-circle"></i>Inactivo
+                            </span>
+                        }
+                    </td>
+                    <td>@config.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <div class="flex items-center justify-center gap-2">
+                            <a asp-action="Detalle" asp-route-id="@config.Id"
+                               class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors duration-200"
+                               title="Ver detalles">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a asp-action="Editar" asp-route-id="@config.Id"
+                               class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors duration-200"
+                               title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                          
+                            @* <form asp-action="Eliminar" asp-route-id="@config.Id" method="post" class="inline delete-form">
+                                @Html.AntiForgeryToken()
+                                <button type="button"
+                                        class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-200 delete-btn"
+                                        title="Eliminar"
+                                        data-nombre="@config.NombreEmpresa">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form> *@
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+@section Scripts {
+    <script type="module" src="/js/application/configuracion/index.js"></script>
+}

@@ -1,0 +1,485 @@
+﻿@model Ecommers.Domain.Entities.ConfiguracionesD
+
+@{
+    ViewData["Title"] = "Editar Configuración";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+    var basePath = Context.Request.PathBase;
+}
+
+<!-- Header -->
+<div class="bg-gradient-to-r from-amber-800 to-amber-900 rounded-2xl p-8 mb-6 shadow-lg">
+    <div class="flex justify-between items-center flex-wrap gap-4">
+        <div class="text-white">
+            <h1 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                <i class="fas fa-edit"></i>
+                Editar Configuración
+            </h1>
+            <p class="opacity-90">Modifica los ajustes generales del sistema</p>
+        </div>
+        <a asp-action="Index" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
+            <i class="fas fa-arrow-left"></i>
+            Volver
+        </a>
+    </div>
+</div>
+
+<form asp-action="Editar" method="post" enctype="multipart/form-data" id="formConfiguracion">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Columna Principal -->
+        <div class="lg:col-span-2 space-y-6">
+
+            <!-- Información General -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-building text-amber-700"></i>
+                    Información General
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="NombreAplicacion" class="block text-sm font-medium text-gray-700 mb-1">
+                            Nombre de la Aplicación <span class="text-red-500">*</span>
+                        </label>
+                        <input asp-for="NombreAplicacion" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        <span asp-validation-for="NombreAplicacion" class="text-red-500 text-xs"></span>
+                    </div>
+                    <div>
+                        <label asp-for="NombreEmpresa" class="block text-sm font-medium text-gray-700 mb-1">
+                            Nombre de la Empresa
+                        </label>
+                        <input asp-for="NombreEmpresa" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="AbreviacionEmpresa" class="block text-sm font-medium text-gray-700 mb-1">
+                            Abreviación
+                        </label>
+                        <input asp-for="AbreviacionEmpresa" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Slogan" class="block text-sm font-medium text-gray-700 mb-1">
+                            Slogan
+                        </label>
+                        <input asp-for="Slogan" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label asp-for="Descripcion" class="block text-sm font-medium text-gray-700 mb-1">
+                            Descripción
+                        </label>
+                        <textarea asp-for="Descripcion" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información de Contacto -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-address-book text-amber-700"></i>
+                    Información de Contacto
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="EmailContacto" class="block text-sm font-medium text-gray-700 mb-1">
+                            Email de Contacto
+                        </label>
+                        <input asp-for="EmailContacto" type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="TelefonoContacto" class="block text-sm font-medium text-gray-700 mb-1">
+                            Teléfono
+                        </label>
+                        <input asp-for="TelefonoContacto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Whatsapp" class="block text-sm font-medium text-gray-700 mb-1">
+                            WhatsApp
+                        </label>
+                        <input asp-for="Whatsapp" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Ciudad" class="block text-sm font-medium text-gray-700 mb-1">
+                            Ciudad
+                        </label>
+                        <input asp-for="Ciudad" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Pais" class="block text-sm font-medium text-gray-700 mb-1">
+                            País
+                        </label>
+                        <input asp-for="Pais" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label asp-for="Direccion" class="block text-sm font-medium text-gray-700 mb-1">
+                            Dirección
+                        </label>
+                        <textarea asp-for="Direccion" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Redes Sociales -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-share-alt text-amber-700"></i>
+                    Redes Sociales
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="Facebook" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fab fa-facebook text-blue-600"></i> Facebook
+                        </label>
+                        <input asp-for="Facebook" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Instagram" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fab fa-instagram text-pink-600"></i> Instagram
+                        </label>
+                        <input asp-for="Instagram" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Twitter" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fab fa-twitter text-blue-400"></i> Twitter
+                        </label>
+                        <input asp-for="Twitter" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Linkedin" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fab fa-linkedin text-blue-700"></i> LinkedIn
+                        </label>
+                        <input asp-for="Linkedin" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Tiktok" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fab fa-tiktok text-gray-800"></i> TikTok
+                        </label>
+                        <input asp-for="Tiktok" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="Youtube" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fab fa-youtube text-red-600"></i> YouTube
+                        </label>
+                        <input asp-for="Youtube" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuración Regional -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-globe text-amber-700"></i>
+                    Configuración Regional
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label asp-for="Moneda" class="block text-sm font-medium text-gray-700 mb-1">
+                            Moneda <span class="text-red-500">*</span>
+                        </label>
+                        <input asp-for="Moneda" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        <span asp-validation-for="Moneda" class="text-red-500 text-xs"></span>
+                    </div>
+                    <div>
+                        <label asp-for="SimboloMoneda" class="block text-sm font-medium text-gray-700 mb-1">
+                            Símbolo <span class="text-red-500">*</span>
+                        </label>
+                        <input asp-for="SimboloMoneda" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        <span asp-validation-for="SimboloMoneda" class="text-red-500 text-xs"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Idioma" class="block text-sm font-medium text-gray-700 mb-1">
+                            Idioma <span class="text-red-500">*</span>
+                        </label>
+                        <input asp-for="Idioma" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        <span asp-validation-for="Idioma" class="text-red-500 text-xs"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funcionalidades -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-toggle-on text-amber-700"></i>
+                    Funcionalidades
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg">
+                        <input asp-for="ActivarCarrito" type="checkbox" class="w-5 h-5 text-amber-600 border-gray-300 rounded focus:ring-amber-500" />
+                        <label asp-for="ActivarCarrito" class="font-medium text-gray-700 cursor-pointer">
+                            Activar Carrito de Compras
+                        </label>
+                    </div>
+                    <div class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg">
+                        <input asp-for="ActivarPagosOnline" type="checkbox" class="w-5 h-5 text-amber-600 border-gray-300 rounded focus:ring-amber-500" />
+                        <label asp-for="ActivarPagosOnline" class="font-medium text-gray-700 cursor-pointer">
+                            Activar Pagos en Línea
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Básico -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-search text-amber-700"></i>
+                    SEO - Metadatos Básicos
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label asp-for="MetaTitulo" class="block text-sm font-medium text-gray-700 mb-1">Meta Título</label>
+                        <input asp-for="MetaTitulo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="MetaDescripcion" class="block text-sm font-medium text-gray-700 mb-1">Meta Descripción</label>
+                        <textarea asp-for="MetaDescripcion" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
+                    </div>
+                    <div>
+                        <label asp-for="MetaKeywords" class="block text-sm font-medium text-gray-700 mb-1">Palabras Clave</label>
+                        <input asp-for="MetaKeywords" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="MetaAutor" class="block text-sm font-medium text-gray-700 mb-1">Autor</label>
+                            <input asp-for="MetaAutor" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        </div>
+                        <div>
+                            <label asp-for="MetaRobots" class="block text-sm font-medium text-gray-700 mb-1">Robots</label>
+                            <input asp-for="MetaRobots" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="flex items-center gap-2">
+                            <input asp-for="MetaNoindex" type="checkbox" class="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500" />
+                            <label asp-for="MetaNoindex" class="text-sm font-medium text-gray-700 cursor-pointer">NoIndex</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input asp-for="MetaNofollow" type="checkbox" class="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500" />
+                            <label asp-for="MetaNofollow" class="text-sm font-medium text-gray-700 cursor-pointer">NoFollow</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Graph -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fab fa-facebook text-amber-700"></i>
+                    Open Graph (Redes Sociales)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="OgTitulo" class="block text-sm font-medium text-gray-700 mb-1">OG Título</label>
+                        <input asp-for="OgTitulo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="OgTipo" class="block text-sm font-medium text-gray-700 mb-1">OG Tipo</label>
+                        <input asp-for="OgTipo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label asp-for="OgDescripcion" class="block text-sm font-medium text-gray-700 mb-1">OG Descripción</label>
+                        <textarea asp-for="OgDescripcion" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
+                    </div>
+                    <div>
+                        <label asp-for="OgUrl" class="block text-sm font-medium text-gray-700 mb-1">OG URL</label>
+                        <input asp-for="OgUrl" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="OgSitename" class="block text-sm font-medium text-gray-700 mb-1">OG Sitio</label>
+                        <input asp-for="OgSitename" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Twitter Cards -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fab fa-twitter text-amber-700"></i>
+                    Twitter Cards
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="TwitterCard" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Card</label>
+                        <input asp-for="TwitterCard" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="TwitterTitulo" class="block text-sm font-medium text-gray-700 mb-1">Twitter Título</label>
+                        <input asp-for="TwitterTitulo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label asp-for="TwitterDescripcion" class="block text-sm font-medium text-gray-700 mb-1">Twitter Descripción</label>
+                        <textarea asp-for="TwitterDescripcion" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
+                    </div>
+                    <div>
+                        <label asp-for="TwitterSite" class="block text-sm font-medium text-gray-700 mb-1">Twitter Site</label>
+                        <input asp-for="TwitterSite" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label asp-for="TwitterCreator" class="block text-sm font-medium text-gray-700 mb-1">Twitter Creator</label>
+                        <input asp-for="TwitterCreator" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schema & Sitemap -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+                    <i class="fas fa-sitemap text-amber-700"></i>
+                    Schema & Sitemap
+                </h2>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="SchemaTipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Schema</label>
+                            <input asp-for="SchemaTipo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        </div>
+                        <div>
+                            <label asp-for="PrioridadSitemap" class="block text-sm font-medium text-gray-700 mb-1">Prioridad en Sitemap</label>
+                            <input asp-for="PrioridadSitemap" type="number" min="0" max="10" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                        </div>
+                    </div>
+                    <div>
+                        <label asp-for="SchemaDatos" class="block text-sm font-medium text-gray-700 mb-1">Datos de Schema (JSON)</label>
+                        <textarea asp-for="SchemaDatos" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent font-mono text-sm"></textarea>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input asp-for="IncluirEnSitemap" type="checkbox" class="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500" />
+                        <label asp-for="IncluirEnSitemap" class="text-sm font-medium text-gray-700 cursor-pointer">Incluir en Sitemap</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Columna Lateral -->
+        <div class="space-y-6">
+
+            <!-- Botones de Acción -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg sticky top-6">
+                <div class="space-y-3">
+                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-800 to-amber-900 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-amber-800 transition-all duration-200 shadow-md">
+                        <i class="fas fa-save"></i>
+                        Guardar Cambios
+                    </button>
+                    <a asp-action="Detalle" asp-route-id="@Model.Id" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                        <i class="fas fa-eye"></i>
+                        Ver Detalle
+                    </a>
+                    <a asp-action="Index" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Imágenes -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-images text-amber-700"></i>
+                    Recursos Visuales
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+                        <input type="file" name="LogoFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                        <input type="hidden" name="Logo" value="@Model.Logo"/>
+
+                        @if (!string.IsNullOrEmpty(Model.Logo))
+                        {
+                            <img src="@Model.Logo" alt="Logo actual" class="mt-2 w-full h-32 object-contain bg-gray-50 rounded-lg p-2">
+                        }
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Favicon</label>
+                        <input type="file" name="FaviconFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                        <input type="hidden" name="Favicon" value="@Model.Favicon" />
+                        @if (!string.IsNullOrEmpty(Model.Favicon))
+                        {
+                            <img src="@Model.Favicon" alt="Favicon actual" class="mt-2 w-16 h-16 object-contain bg-gray-50 rounded-lg p-2">
+                        }
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Banner Principal</label>
+                        <input type="file" name="BannerFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                        <input type="hidden" name="BannerPrincipal" value="@Model.BannerPrincipal" />
+                        @if (!string.IsNullOrEmpty(Model.BannerPrincipal))
+                        {
+                            <img src="@Model.BannerPrincipal" alt="Banner actual" class="mt-2 w-full h-32 object-cover rounded-lg">
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuración Técnica -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-cog text-amber-700"></i>
+                    Configuración Técnica
+                </h3>
+                <div class="space-y-3">
+                    <div>
+                        <label asp-for="Slug" class="block text-sm font-medium text-gray-700 mb-1">URL Slug</label>
+                        <input asp-for="Slug" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" />
+                    </div>
+                    <div>
+                        <label asp-for="MetaCanonical" class="block text-sm font-medium text-gray-700 mb-1">Canonical URL</label>
+                        <input asp-for="MetaCanonical" type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" />
+                    </div>
+                    <div>
+                        <label asp-for="MetaCharset" class="block text-sm font-medium text-gray-700 mb-1">Charset</label>
+                        <input asp-for="MetaCharset" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" placeholder="UTF-8" />
+                    </div>
+                    <div>
+                        <label asp-for="MetaViewport" class="block text-sm font-medium text-gray-700 mb-1">Viewport</label>
+                        <input asp-for="MetaViewport" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" placeholder="width=device-width, initial-scale=1.0" />
+                    </div>
+                    <div>
+                        <label asp-for="ColorTemaNavegador" class="block text-sm font-medium text-gray-700 mb-1">Color Tema Navegador</label>
+                        <div class="flex gap-2">
+                            <input asp-for="ColorTemaNavegador" type="color" class="w-16 h-10 border border-gray-300 rounded cursor-pointer" />
+                            <input asp-for="ColorTemaNavegador" type="text" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" placeholder="#000000" />
+                        </div>
+                    </div>
+                    <div>
+                        <label asp-for="MetaLanguage" class="block text-sm font-medium text-gray-700 mb-1">Meta Language</label>
+                        <input asp-for="MetaLanguage" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" placeholder="es-ES" />
+                    </div>
+                    <div>
+                        <label asp-for="MetaRevisitAfter" class="block text-sm font-medium text-gray-700 mb-1">Revisit After</label>
+                        <input asp-for="MetaRevisitAfter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm" placeholder="7 days" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-info-circle text-amber-700"></i>
+                    Información
+                </h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">ID:</span>
+                        <span class="font-semibold text-gray-900">@Model.Id</span>
+                    </div>
+                    @if (Model.UltimaModificacion.HasValue)
+                    {
+                        <div class="pt-2 border-t">
+                            <p class="text-xs text-gray-500 mb-1">Última Modificación:</p>
+                            <p class="text-sm font-medium text-gray-900">@Model.UltimaModificacion.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+    <input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+</form>
+
+@section Scripts {
+
+    <script type="module" src="~/js/domain/utils/image-handler.js"></script>
+    <script type="module" src="~/js/application/configuracion/editar.js" defer></script>
+}
