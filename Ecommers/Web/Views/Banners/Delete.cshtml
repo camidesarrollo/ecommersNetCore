@@ -138,21 +138,17 @@
 
             <!-- Imagen -->
             <div class="space-y-6">
-                <div class="glass-effect rounded-2xl p-6 shadow-golden-yellow/30">
-                    <h5 class="text-xl font-semibold text-dark-chocolate mb-4 flex items-center gap-2">
-                        <i class="fas fa-image text-golden-yellow-600"></i>
-                        Imagen del Banner
-                    </h5>
+                <div class="relative h-64 bg-gray-200 flex items-center justify-center rounded-xl">
+                    <img src="@Model.Image" id="ImagePreview" class="absolute inset-0 w-full h-full object-cover" />
+                    <div class="absolute inset-0 bg-black/40"></div>
 
-                    @if (!string.IsNullOrEmpty(Model.Image))
-                    {
-                        <img src="@Model.Image" class="w-full rounded-xl shadow-md" />
-                        <p class="text-sm text-gray-500 mt-2">Alt: @Model.AltText</p>
-                    }
-                    else
-                    {
-                        <div class="text-gray-500 text-sm">Sin imagen asignada</div>
-                    }
+                    <div class="relative flex flex-col items-center justify-center h-full text-center text-white px-4 z-10">
+                        <p id="SubtituloPreview" class="uppercase tracking-widest text-xs sm:text-sm md:text-base">@Model.Subtitulo</p>
+                        <h1 id="TituloPreview" class="text-xl sm:text-3xl md:text-5xl font-extrabold mt-2">@Model.Titulo</h1>
+                        <span class="mt-4 inline-block bg-white text-black font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-md hover:bg-gray-200 transition">
+                            @Model.BotonTexto
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

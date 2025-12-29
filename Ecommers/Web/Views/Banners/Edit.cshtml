@@ -110,17 +110,20 @@
                     </div>
 
                     <!-- Vista previa -->
-                    <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
-                        <h5 class="text-xl font-semibold mb-4">
-                            <i class="fas fa-eye mr-2"></i>Vista Previa
+                    <div class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl block text-dark-chocolate font-semibold mb-2 mb-6 border-b pb-4 flex items-center">
+                            <i class="fas fa-eye text-olive-green-600 mr-2"></i>
+                            Vista Previa
                         </h5>
 
-                        <div class="relative h-64 bg-gray-900 flex items-center justify-center text-center text-white">
-                            <img src="@Model.Image" class="absolute inset-0 w-full h-full object-cover opacity-70" />
-                            <div class="relative z-10 space-y-2">
-                                <h2 class="text-2xl font-bold">@Model.Titulo</h2>
-                                <p>@Model.Subtitulo</p>
-                                <span class="inline-block mt-2 px-4 py-2 bg-amber-700 rounded">
+                        <div class="relative h-64 bg-gray-200 flex items-center justify-center rounded-xl">
+                            <img src="@Model.Image" id="ImagePreview" class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-black/40"></div>
+
+                            <div class="relative flex flex-col items-center justify-center h-full text-center text-white px-4 z-10">
+                                <p id="SubtituloPreview" class="uppercase tracking-widest text-xs sm:text-sm md:text-base">@Model.Subtitulo</p>
+                                <h1 id="TituloPreview" class="text-xl sm:text-3xl md:text-5xl font-extrabold mt-2">@Model.Titulo</h1>
+                                <span class="mt-4 inline-block bg-white text-black font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-md hover:bg-gray-200 transition">
                                     @Model.BotonTexto
                                 </span>
                             </div>
@@ -136,8 +139,6 @@
                         <h5 class="text-xl font-semibold mb-4">
                             <i class="fas fa-image mr-2"></i>Imagen
                         </h5>
-
-                        <img src="@Model.Image" class="w-full h-40 object-cover rounded mb-3" />
 
                         <input type="file"
                                asp-for="ImageFile"

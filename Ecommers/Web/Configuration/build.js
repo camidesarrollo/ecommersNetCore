@@ -91,6 +91,24 @@ if (fs.existsSync(sweetAlertCssSource)) {
     console.log("✅ CSS de SweetAlert2 copiado");
 }
 
+// Copiar CSS de Shepherd.js
+const shepherdCssSource = path.resolve(
+    nodeModulesDir,
+    "shepherd.js/dist/css/shepherd.css"
+);
+
+const shepherdCssDestination = path.resolve(
+    cssOutputDir,
+    "shepherd.css"
+);
+
+if (fs.existsSync(shepherdCssSource)) {
+    fs.copyFileSync(shepherdCssSource, shepherdCssDestination);
+    console.log("✅ CSS de Shepherd.js copiado");
+} else {
+    console.warn("⚠️ No se encontró CSS de Shepherd.js");
+}
+
 // ========================================
 // BUILD 1: Domain (sin jQuery)
 // ========================================
@@ -105,6 +123,7 @@ async function buildDomain() {
             path.resolve(__dirname, "../../wwwroot/js/domain/vendors_datatables.js"),
             path.resolve(__dirname, "../../wwwroot/js/domain/vendors_dayjs.js"),
             path.resolve(__dirname, "../../wwwroot/js/domain/vendors_sweetalert.ts"),
+            path.resolve(__dirname, "../../wwwroot/js/domain/vendors_shepherd.ts"), // 👈 NUEVO
         ],
         outdir: outputDir,
         bundle: true,

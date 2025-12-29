@@ -32,7 +32,7 @@ namespace Ecommers.Web.Filters
                     .ToList();
 
                 // Determinar si es una petición AJAX o normal
-                var isAjaxRequest = context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+                var isAjaxRequest = context.HttpContext.Request.Headers.XRequestedWith == "XMLHttpRequest";
 
                 if (isAjaxRequest)
                 {
@@ -46,7 +46,7 @@ namespace Ecommers.Web.Filters
                 else
                 {
                     // Para peticiones normales de formulario, retornar a la vista
-                    var controller = context.Controller as Controller;
+                    Controller? controller = context.Controller as Controller;
                     if (controller != null)
                     {
                         // Agregar los errores a TempData para mostrarlos en la vista

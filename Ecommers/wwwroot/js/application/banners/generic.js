@@ -25,7 +25,7 @@ export function setupLivePreview() {
     const tituloPreview = document.getElementById('TituloPreview');
     const subtituloPreview = document.getElementById('SubtituloPreview');
     const botonTextoPreview = document.getElementById('BotonTextoPreview');
-    const imagePreview = document.getElementById('ImageFilePreview');
+    const imagePreview = document.getElementById('ImagePreview');
     const statusIconPreview = document.getElementById('StatusIconPreview');
     const statusLabelPreview = document.getElementById('StatusLabelPreview');
 

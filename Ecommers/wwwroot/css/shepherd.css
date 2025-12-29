@@ -1,0 +1,433 @@
+﻿/* =========================
+   SHEPHERD.JS CUSTOM STYLES
+   Estilos personalizados para tours guiados
+========================= */
+
+/* Contenedor principal del tour */
+.shepherd-element {
+    z-index: 9999;
+    max-width: 400px;
+}
+
+/* Modal overlay oscuro */
+.shepherd-modal-overlay-container {
+    z-index: 9998;
+}
+
+    .shepherd-modal-overlay-container.shepherd-modal-is-visible {
+        opacity: 0.5;
+    }
+
+/* Contenedor del contenido */
+.shepherd-content {
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--color-beige) 0%, var(--color-white) 100%);
+    box-shadow: 0 20px 60px rgba(71, 94, 29, 0.3);
+    border: 2px solid var(--color-olive-green-300);
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Header del paso */
+.shepherd-header {
+    background: linear-gradient(135deg, var(--color-olive-green) 0%, var(--color-olive-green-600) 100%);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 3px solid var(--color-golden-yellow);
+    position: relative;
+}
+
+.shepherd-title {
+    color: var(--color-white);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    /* Icono personalizado en el título */
+    .shepherd-title::before {
+        content: "🌿";
+        font-size: 1.5rem;
+        animation: bounce 2s infinite;
+    }
+
+/* Botón de cerrar */
+.shepherd-cancel-icon {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-white);
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0;
+}
+
+    .shepherd-cancel-icon:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg) scale(1.1);
+    }
+
+/* Cuerpo del contenido */
+.shepherd-text {
+    padding: 1.5rem;
+    color: var(--color-dark-chocolate);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+    .shepherd-text p {
+        margin: 0 0 1rem 0;
+    }
+
+        .shepherd-text p:last-child {
+            margin-bottom: 0;
+        }
+
+    .shepherd-text strong {
+        color: var(--color-olive-green-700);
+        font-weight: 600;
+    }
+
+    .shepherd-text code {
+        background: var(--color-beige);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: var(--color-burgundy-red);
+        font-size: 0.9rem;
+    }
+
+/* Footer con botones */
+.shepherd-footer {
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to bottom, transparent, rgba(71, 94, 29, 0.05));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid var(--color-beige-dark);
+}
+
+/* Botones del tour */
+.shepherd-button {
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón Siguiente/Finalizar */
+.shepherd-button-primary {
+    background: linear-gradient(135deg, var(--color-olive-green) 0%, var(--color-olive-green-dark) 100%);
+    color: var(--color-white);
+}
+
+    .shepherd-button-primary:hover {
+        background: linear-gradient(135deg, var(--color-olive-green-dark) 0%, var(--color-nut-brown-dark) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(71, 94, 29, 0.3);
+    }
+
+/* Botón Atrás */
+.shepherd-button-secondary {
+    background: var(--color-beige);
+    color: var(--color-dark-chocolate);
+    border: 2px solid var(--color-olive-green-300);
+}
+
+    .shepherd-button-secondary:hover {
+        background: var(--color-beige-dark);
+        border-color: var(--color-olive-green-500);
+        transform: translateY(-2px);
+    }
+
+/* Botón Saltar */
+.shepherd-button.shepherd-button-skip {
+    background: transparent;
+    color: var(--color-gray-dark);
+    box-shadow: none;
+    text-decoration: underline;
+    padding: 0.5rem 1rem;
+}
+
+    .shepherd-button.shepherd-button-skip:hover {
+        color: var(--color-burgundy-red);
+        transform: none;
+    }
+
+/* Indicador de progreso */
+.shepherd-progress {
+    background: var(--color-beige-dark);
+    height: 6px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 1.5rem 1rem;
+}
+
+.shepherd-progress-bar {
+    background: linear-gradient(90deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%);
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .shepherd-progress-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Contador de pasos */
+.shepherd-step-count {
+    font-size: 0.85rem;
+    color: var(--color-gray-dark);
+    font-weight: 600;
+    background: var(--color-beige);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid var(--color-olive-green-200);
+}
+
+/* Flecha del tooltip */
+.shepherd-arrow {
+    display: none; /* Desactivamos la flecha por defecto */
+}
+
+/* Flecha personalizada */
+.shepherd-element[data-popper-placement^='top'] .shepherd-content::after,
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-content::after,
+.shepherd-element[data-popper-placement^='left'] .shepherd-content::after,
+.shepherd-element[data-popper-placement^='right'] .shepherd-content::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--color-beige);
+    border: 2px solid var(--color-olive-green-300);
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+.shepherd-element[data-popper-placement^='top'] .shepherd-content::after {
+    bottom: -11px;
+    left: 50%;
+    margin-left: -10px;
+    border-top: none;
+    border-left: none;
+}
+
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-content::after {
+    top: -11px;
+    left: 50%;
+    margin-left: -10px;
+    border-bottom: none;
+    border-right: none;
+}
+
+.shepherd-element[data-popper-placement^='left'] .shepherd-content::after {
+    right: -11px;
+    top: 50%;
+    margin-top: -10px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.shepherd-element[data-popper-placement^='right'] .shepherd-content::after {
+    left: -11px;
+    top: 50%;
+    margin-top: -10px;
+    border-right: none;
+    border-top: none;
+}
+
+/* Elemento destacado */
+.shepherd-target {
+    outline: 3px solid var(--color-golden-yellow) !important;
+    outline-offset: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 9999;
+}
+
+    /* Efecto de pulso en el elemento destacado */
+    .shepherd-target::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border: 3px solid var(--color-golden-yellow);
+        border-radius: 12px;
+        animation: pulse-ring 2s infinite;
+        pointer-events: none;
+    }
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.05);
+        opacity: 0;
+    }
+}
+
+/* Animación de entrada */
+.shepherd-element.shepherd-enabled {
+    animation: fadeInScale 0.4s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Lista dentro del contenido */
+.shepherd-text ul {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+}
+
+.shepherd-text li {
+    margin: 0.5rem 0;
+    position: relative;
+}
+
+    .shepherd-text li::marker {
+        color: var(--color-olive-green);
+        font-size: 1.2rem;
+    }
+
+/* Enlaces dentro del contenido */
+.shepherd-text a {
+    color: var(--color-olive-green-700);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+    .shepherd-text a:hover {
+        color: var(--color-burgundy-red);
+    }
+
+/* Variantes de tema */
+
+/* Tema de advertencia */
+.shepherd-element.shepherd-theme-warning .shepherd-header {
+    background: linear-gradient(135deg, var(--color-orange-warm) 0%, var(--color-orange-warm-dark) 100%);
+}
+
+.shepherd-element.shepherd-theme-warning .shepherd-content {
+    border-color: var(--color-orange-warm);
+}
+
+/* Tema de éxito */
+.shepherd-element.shepherd-theme-success .shepherd-header {
+    background: linear-gradient(135deg, var(--color-mint-green-dark) 0%, var(--color-olive-green) 100%);
+}
+
+.shepherd-element.shepherd-theme-success .shepherd-content {
+    border-color: var(--color-mint-green-dark);
+}
+
+/* Tema de error */
+.shepherd-element.shepherd-theme-error .shepherd-header {
+    background: linear-gradient(135deg, var(--color-burgundy-red) 0%, var(--color-burgundy-red-dark) 100%);
+}
+
+.shepherd-element.shepherd-theme-error .shepherd-content {
+    border-color: var(--color-burgundy-red);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .shepherd-element {
+        max-width: 90vw;
+    }
+
+    .shepherd-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .shepherd-text {
+        padding: 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .shepherd-footer {
+        padding: 0.75rem 1.25rem;
+        flex-wrap: wrap;
+    }
+
+    .shepherd-button {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilo para cuando el tour está activo */
+body.shepherd-active {
+    overflow: hidden;
+}
+
+/* Animación de salida */
+.shepherd-element.shepherd-theme-exit {
+    animation: fadeOutScale 0.3s ease-in forwards;
+}
+
+@keyframes fadeOutScale {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}

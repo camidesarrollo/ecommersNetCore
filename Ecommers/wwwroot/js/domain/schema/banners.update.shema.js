@@ -9,7 +9,7 @@ export const bannersUpdateSchema = z.object({
         .string()
         .min(1, "La sección es obligatoria.")
         .max(255, "La sección no puede superar los 255 caracteres."),
-    Imagen: z
+    Image: z
         .string()
         .min(1, "La imagen es obligatoria.")
         .max(255, "La imagen no puede superar los 255 caracteres."),
@@ -32,5 +32,11 @@ export const bannersUpdateSchema = z.object({
     BotonEnlace: z
         .string()
         .min(1, "El enlace del botón es obligatorio.")
-        .max(255, "El enlace del botón no puede superar los 255 caracteres.")
+        .max(255, "El enlace del botón no puede superar los 255 caracteres."),
+    SortOrder: z
+        .number()
+        .int("El orden debe ser un número entero.")
+        .nullable()
+        .optional(),
+    IsActive: z.boolean(),
 });
