@@ -37,9 +37,10 @@ namespace Ecommers.Web.ViewComponents
                     Title = "Gestión",
                     Items =
                     [
+                        new MenuItem { Name = "Banners", Path = "/Gestion/Banners", Badge = null },
+                        new MenuItem { Name = "Categorías", Path = "/Gestion/Categorias", Badge = null },
                         new MenuItem { Name = "Configuraciones", Path = "/Gestion/Configuraciones", Badge = null },
                         new MenuItem { Name = "Servicios", Path = "/Gestion/Servicios", Badge = null },
-                        new MenuItem { Name = "Categorías", Path = "/Gestion/Categorias", Badge = null },
                         new MenuItem { Name = "Inventario", Path = "/Dashboard/inventario", Badge = "3" },
                         new MenuItem { Name = "Reportes", Path = "/Dashboard/reportes", Badge = null }
                     ]

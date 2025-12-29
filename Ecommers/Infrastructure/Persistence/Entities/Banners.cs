@@ -23,6 +23,8 @@ public partial class Banners
 
     public bool IsActive { get; set; }
 
+    public int SortOrder { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }

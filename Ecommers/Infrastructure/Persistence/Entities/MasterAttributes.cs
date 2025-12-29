@@ -35,5 +35,5 @@ public partial class MasterAttributes
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ICollection<AttributeValues> AttributeValues { get; set; } = [];
+    public virtual ICollection<AttributeValues> AttributeValues { get; set; } = new List<AttributeValues>();
 }

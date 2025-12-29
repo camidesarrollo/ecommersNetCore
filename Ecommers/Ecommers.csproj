@@ -75,6 +75,7 @@
 		<Folder Include="Infrastructure\Repositories\" />
 		<Folder Include="Web\Middlewares\" />
 		<Folder Include="Document\" />
+		<Folder Include="Web\Views\Banners\" />
 		<Folder Include="wwwroot\js\application\banners\" />
 	</ItemGroup>
 	<ItemGroup>

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Infrastructure.Persistence;
 
-
 public class EcommersContext : IdentityDbContext<
        AspNetUsers,
        AspNetRoles,
@@ -26,13 +25,6 @@ public class EcommersContext : IdentityDbContext<
         : base(options)
     {
     }
-
-
-    public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-
-
-    public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-
     public virtual DbSet<AttributeValues> AttributeValues { get; set; }
 
     public virtual DbSet<Banners> Banners { get; set; }
@@ -422,5 +414,4 @@ public class EcommersContext : IdentityDbContext<
         });
 
     }
-
 }

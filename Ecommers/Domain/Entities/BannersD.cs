@@ -18,6 +18,8 @@ namespace Ecommers.Domain.Entities
 
         public string BotonEnlace { get; set; } = null!;
 
+        public int? SortOrder { get; set; }
+
         public bool? CanDelete { get; set; }
     }
 }

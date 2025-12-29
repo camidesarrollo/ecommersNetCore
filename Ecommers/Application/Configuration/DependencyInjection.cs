@@ -61,7 +61,7 @@ namespace Ecommers.Application.Configuration
             // Servicios
             services.AddScoped<IFileManagerService, FileManagerService>();
             services.AddScoped<IConfiguracionService, ConfiguracionService>();
-            ervices.AddScoped<IBannersService, BannersService>();
+            services.AddScoped<IBannersService, BannersService>();
             services.AddScoped<ICategoriasService, CategoriasService>();
             services.AddScoped<IServicioService,ServicioService>();
             services.AddScoped<IAuthService, AuthService>();
