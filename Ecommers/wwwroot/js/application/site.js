@@ -52,7 +52,7 @@ function getOrCreateValidationSpan(input) {
 
     span = document.createElement('span');
     span.className =
-        'text-burgundy-red-500 text-sm mt-1 block field-validation-error';
+        'text-red-700 text-sm mt-1 block field-validation-error';
     span.setAttribute('data-valmsg-for', name);
     span.setAttribute('data-valmsg-replace', 'true');
 

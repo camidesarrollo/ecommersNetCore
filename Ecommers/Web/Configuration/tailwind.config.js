@@ -9,5 +9,8 @@ module.exports = {
     theme: {
         extend: {},
     },
-    plugins: [],
+    //plugins: [],
+    plugins: [
+        require('../../wwwroot/js/application/plugins/tailwind-ecommerce-plugin.js'),
+    ],
 };

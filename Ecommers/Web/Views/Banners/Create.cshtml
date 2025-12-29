@@ -1,0 +1,217 @@
+@model Ecommers.Domain.Entities.BannersD
+
+@{
+    ViewData["Title"] = "Crear Banner";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-pattern min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Breadcrumb -->
+        <nav class="mb-6 slide-in" aria-label="breadcrumb">
+            <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
+                <li>
+                    <a href="@Url.Action("Index", "Home")" class="text-olive-green-600 hover:text-olive-green-700 flex items-center">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
+                <li>
+                    <a href="@Url.Action("Index", "Banners")" class="text-olive-green-600 hover:text-olive-green-700">
+                        Banners
+                    </a>
+                </li>
+                <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
+                <li class="text-dark-chocolate font-medium">Crear Banner</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="mb-6 slide-in delay-200">
+            <div class="glass-effect rounded-2xl p-6 shadow-olive-green/30">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
+                            <i class="fas fa-image text-olive-green-600 mr-3"></i>
+                            Nuevo Banner
+                        </h1>
+                        <p class="text-gray-600">Complete los campos para crear un banner promocional</p>
+                    </div>
+                    <a href="@Url.Action("Index", "Banners")"
+                       class="inline-flex items-center px-6 py-3 bg-gray-light rounded-lg block text-dark-chocolate font-semibold mb-2">
+                        <i class="fas fa-arrow-left mr-2"></i>Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="slide-in delay-400">
+            @Html.AntiForgeryToken()
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- IZQUIERDA -->
+                <div class="lg:col-span-2 space-y-6">
+
+                    <!-- Info -->
+                    <div class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl block text-dark-chocolate font-semibold mb-2 mb-6 border-b pb-4 flex items-center">
+                            <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                            Información del Banner
+                        </h5>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <div>
+                                <label asp-for="Seccion" class="block text-dark-chocolate font-semibold mb-2">
+                                    Sección <span class="text-red-700">*</span>
+                                </label>
+                                <input asp-for="Seccion" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" placeholder="Home, Ofertas..." required />
+                                <span asp-validation-for="Seccion" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <div>
+                                <label asp-for="Titulo" class="block text-dark-chocolate font-semibold mb-2">
+                                    Título <span class="text-red-700">*</span>
+                                </label>
+                                <input asp-for="Titulo" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" required />
+                                <span asp-validation-for="Titulo" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <div>
+                                <label asp-for="Subtitulo" class="block text-dark-chocolate font-semibold mb-2">
+                                    Subtítulo <span class="text-red-700">*</span>
+                                </label>
+                                <input asp-for="Subtitulo" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" required />
+                                <span asp-validation-for="Subtitulo" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <div>
+                                <label asp-for="AltText" class="block text-dark-chocolate font-semibold mb-2">
+                                    Texto Alternativo <span class="text-red-700">*</span>
+                                </label>
+                                <input asp-for="AltText" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" required />
+                                <span asp-validation-for="AltText" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <div>
+                                <label asp-for="BotonTexto" class="block text-dark-chocolate font-semibold mb-2">
+                                    Texto Botón <span class="text-red-700">*</span>
+                                </label>
+                                <input asp-for="BotonTexto" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" required />
+                                <span asp-validation-for="BotonTexto" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <div>
+                                <label asp-for="BotonEnlace" class="block text-dark-chocolate font-semibold mb-2">
+                                    Enlace Botón <span class="text-red-700">*</span>
+                                </label>
+                                <input asp-for="BotonEnlace" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" placeholder="https://..." required />
+                                <span asp-validation-for="BotonEnlace" class="text-red-700 text-sm"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- PREVIEW -->
+                    <div class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl block text-dark-chocolate font-semibold mb-2 mb-6 border-b pb-4 flex items-center">
+                            <i class="fas fa-eye text-olive-green-600 mr-2"></i>
+                            Vista Previa
+                        </h5>
+
+                        <div class="relative h-64 bg-gray-200 flex items-center justify-center rounded-xl">
+                            <img id="ImagePreview" class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-black/40"></div>
+
+                            <div class="relative flex flex-col items-center justify-center h-full text-center text-white px-4 z-10">
+                                <p id="SubtituloPreview" class="text-xl sm:text-3xl md:text-5xl font-extrabold mt-2">Subtítulo</p>
+                                <h1 id="TituloPreview" class="uppercase tracking-widest text-xs sm:text-sm md:text-base">Título</h1>
+                                <span class="mt-4 inline-block bg-white text-black font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-md hover:bg-gray-200 transition" >
+                                    Botón
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DERECHA -->
+                <div class="lg:col-span-1 space-y-6">
+
+                    <!-- IMAGEN -->
+                    <div class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl block text-dark-chocolate font-semibold mb-2 mb-6 border-b pb-4 flex items-center">
+                            <i class="fas fa-image mr-2"></i>Imagen
+                        </h5>
+                        <input type="file"
+                               asp-for="Image"
+                               name="ImageFile"
+                               id="imageInput"
+                               data-preview-target="#imagePreview"
+                               data-max-size="2"
+                               data-allowed-types="image/jpeg,image/png,image/webp"
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer"
+                               accept="image/*" />
+                        <input type="hidden" asp-for="Image" id="imageUrlHidden" />
+                        <span asp-validation-for="Image" class="text-red-700 text-sm mt-1 block"></span>
+                    </div>
+
+                    <!-- CONFIG -->
+                    <div class="glass-effect rounded-2xl p-6 shadow-mint-green/30">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-mint-green-500 flex items-center">
+                            <i class="fas fa-cog text-mint-green-700 mr-2"></i>
+                            Configuración
+                        </h5>
+                        <!-- Orden -->
+                        <div class="mb-4">
+                            <label asp-for="SortOrder" class="block text-dark-chocolate font-semibold mb-2">
+                                <i class="fas fa-sort-numeric-down text-mint-green-700 mr-1"></i>
+                                Orden de Visualización
+                            </label>
+                            <input asp-for="SortOrder"
+                                   type="number"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                   min="0"
+                                   placeholder="0" />
+                            <p class="text-gray-600 text-sm mt-1">Mayor número = mayor prioridad</p>
+                            <span asp-validation-for="SortOrder" class="text-red-700 text-sm mt-1 block"></span>
+                        </div>
+
+                        <!-- Estado Activo -->
+                        <div class="flex items-center">
+                            <input asp-for="IsActive"
+                                   type="checkbox"
+                                   id="isActiveSwitch"
+                                   class="w-12 h-6 rounded-full appearance-none cursor-pointer bg-gray-300 checked:bg-mint-green-700 relative transition-colors duration-300 ease-in-out before:content-[''] before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full before:transition-transform before:duration-300 checked:before:translate-x-6"
+                                   checked />
+                            <label for="isActiveSwitch" class="ml-3 text-dark-chocolate font-semibold cursor-pointer select-none">
+                                <i class="fas fa-toggle-on text-mint-green-700 mr-1"></i>
+                                Banners Activo
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- ACCIONES -->
+                    <div class="glass-effect rounded-2xl p-6 shadow-burgundy-red/30 space-y-3">
+                        <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-800 to-amber-900 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-amber-800 transition-all duration-200 shadow-md">
+                            <i class="fas fa-save"></i>
+                            Guardar Cambios
+                        </button>
+                        <a href="@Url.Action("Index", "Banners")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="module" src="~/js/application/banners/generic.js"></script>
+    <script type="module" src="~/js/application/banners/create.js"></script>
+}

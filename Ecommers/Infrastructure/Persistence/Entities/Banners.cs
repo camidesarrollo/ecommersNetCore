@@ -5,11 +5,11 @@ namespace Ecommers.Infrastructure.Persistence.Entities;
 
 public partial class Banners
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     public string Seccion { get; set; } = null!;
 
-    public string Imagen { get; set; } = null!;
+    public string Image { get; set; } = null!;
 
     public string AltText { get; set; } = null!;
 

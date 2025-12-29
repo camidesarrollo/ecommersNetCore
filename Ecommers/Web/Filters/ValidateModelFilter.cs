@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Ecommers.Web.Filters
 {
@@ -30,11 +31,65 @@ namespace Ecommers.Web.Filters
                     .Select(e => e.ErrorMessage)
                     .ToList();
 
-                context.Result = new BadRequestObjectResult(new
+                // Determinar si es una petición AJAX o normal
+                var isAjaxRequest = context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+                if (isAjaxRequest)
                 {
-                    Success = false,
-                    Message = string.Join("<br>", errores)
-                });
+                    // Para peticiones AJAX, retornar JSON
+                    context.Result = new BadRequestObjectResult(new
+                    {
+                        Success = false,
+                        Message = string.Join(" ", errores)
+                    });
+                }
+                else
+                {
+                    // Para peticiones normales de formulario, retornar a la vista
+                    var controller = context.Controller as Controller;
+                    if (controller != null)
+                    {
+                        // Agregar los errores a TempData para mostrarlos en la vista
+                        controller.TempData["ErrorMessage"] = string.Join(" ", errores);
+
+                        // Obtener el modelo del contexto de acción
+                        var model = context.ActionArguments.Values.FirstOrDefault();
+
+                        // Determinar la vista a retornar dinámicamente
+                        var controllerName = context.ActionDescriptor.RouteValues["controller"];
+                        var actionName = context.ActionDescriptor.RouteValues["action"];
+
+                        string? viewName = actionName switch
+                        {
+                            "Crear" => $"~/Web/Views/{controllerName}/Create.cshtml",
+                            "Editar" => $"~/Web/Views/{controllerName}/Edit.cshtml",
+                            "Eliminar" => $"~/Web/Views/{controllerName}/Delete.cshtml",
+                            _ => null
+                        };
+
+                        if (viewName != null && model != null)
+                        {
+                            context.Result = new ViewResult
+                            {
+                                ViewName = viewName,
+                                ViewData = new ViewDataDictionary(
+                                    controller.ViewData)
+                                {
+                                    Model = model
+                                }
+                            };
+                        }
+                        else
+                        {
+                            // Fallback: retornar BadRequest si no se puede determinar la vista
+                            context.Result = new BadRequestObjectResult(new
+                            {
+                                Success = false,
+                                Message = string.Join(" ", errores)
+                            });
+                        }
+                    }
+                }
             }
         }
 

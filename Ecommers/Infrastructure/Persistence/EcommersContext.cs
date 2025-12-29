@@ -90,7 +90,7 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.BotonTexto).HasMaxLength(255);
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
-            entity.Property(e => e.Imagen).HasMaxLength(255);
+            entity.Property(e => e.Image).HasMaxLength(255);
             entity.Property(e => e.Seccion).HasMaxLength(255);
             entity.Property(e => e.Subtitulo).HasMaxLength(255);
             entity.Property(e => e.Titulo).HasMaxLength(255);

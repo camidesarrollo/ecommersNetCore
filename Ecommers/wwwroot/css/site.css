@@ -28,7 +28,7 @@
     --color-orange-warm-dark: #CC7000;
     /* Neutrales */
     --color-gray-light: #E5E5E5;
-    /* Fondos de secci�n y tarjetas */
+    /* Fondos de Sección y tarjetas */
     --color-gray-light-dark: #D0D0D0;
     --color-gray-dark: #4B4B4B;
     /* Textos principales */
@@ -147,6 +147,12 @@
     --color-magenta-strong-800: oklch(45.0% 0.290 330.0);
     --color-magenta-strong-900: oklch(40.0% 0.270 330.0);
     --color-magenta-strong-1000: oklch(35.0% 0.250 330.0);
+
+    /* Ring base */
+    --ring-color: transparent;
+    --ring-offset-width: 0px;
+    --ring-offset-color: transparent;
+    --ring-width: 3px;
 }
 
 
@@ -255,6 +261,82 @@
 
 .bg-white {
     background-color: var(--color-white);
+}
+
+/* =========================
+   CLASES DE BORDES
+========================= */
+
+.border-olive-green-100 {
+  border-color: var(--color-olive-green-100);
+}
+
+.border-olive-green-200 {
+  border-color: var(--color-olive-green-200);
+}
+
+.border-olive-green-300 {
+  border-color: var(--color-olive-green-300);
+}
+
+.border-olive-green-400 {
+  border-color: var(--color-olive-green-400);
+}
+
+.border-olive-green-500 {
+  border-color: var(--color-olive-green-500);
+}
+
+.border-olive-green-600 {
+  border-color: var(--color-olive-green-600);
+}
+
+.border-olive-green-700 {
+  border-color: var(--color-olive-green-700);
+}
+
+.border-olive-green-800 {
+  border-color: var(--color-olive-green-800);
+}
+
+.border-olive-green-900 {
+  border-color: var(--color-olive-green-900);
+}
+
+.border-olive-green-1000 {
+  border-color: var(--color-olive-green-1000);
+}
+
+.ring-olive-green-100 { --ring-color: var(--color-olive-green-100); }
+.ring-olive-green-200 { --ring-color: var(--color-olive-green-200); }
+.ring-olive-green-300 { --ring-color: var(--color-olive-green-300); }
+.ring-olive-green-400 { --ring-color: var(--color-olive-green-400); }
+.ring-olive-green-500 { --ring-color: var(--color-olive-green-500); }
+.ring-olive-green-600 { --ring-color: var(--color-olive-green-600); }
+.ring-olive-green-700 { --ring-color: var(--color-olive-green-700); }
+.ring-olive-green-800 { --ring-color: var(--color-olive-green-800); }
+.ring-olive-green-900 { --ring-color: var(--color-olive-green-900); }
+.ring-olive-green-1000 { --ring-color: var(--color-olive-green-1000); }
+
+.ring {
+  box-shadow:
+    0 0 0 var(--ring-offset-width) var(--ring-offset-color),
+    0 0 0 calc(var(--ring-offset-width) + var(--ring-width)) var(--ring-color);
+}
+
+.ring-1 { --ring-width: 1px; }
+.ring-2 { --ring-width: 2px; }
+.ring-4 { --ring-width: 4px; }
+
+.ring-offset-1 { --ring-offset-width: 1px; }
+.ring-offset-2 { --ring-offset-width: 2px; }
+
+.ring-offset-white {
+  --ring-offset-color: white;
+}
+
+.ring-offset-gray {
+  --ring-offset-color: #e5e7eb;
 }
 
 /* =========================

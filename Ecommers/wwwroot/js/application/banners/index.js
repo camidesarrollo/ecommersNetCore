@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             title: "Título"
         },
         {
-            data: "imagen",
+            data: "image",
             title: "Imagen",
             orderable: false,
             searchable: false,

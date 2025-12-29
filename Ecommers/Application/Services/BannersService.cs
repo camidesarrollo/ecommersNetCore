@@ -39,7 +39,7 @@ namespace Ecommers.Application.Services
 
             if (!string.IsNullOrWhiteSpace(searchValue))
             {
-                query = IQueryableSearchExtensions.ApplySearchFilter(query, searchValue);
+                query = query.ApplySearchFilter(searchValue);
             }
 
             var totalCount = await repo.GetQuery().CountAsync();
@@ -54,7 +54,7 @@ namespace Ecommers.Application.Services
 
                 if (!string.IsNullOrWhiteSpace(sortBy))
                 {
-                    query = IQueryableSortingExtensions.ApplySorting(query, sortBy, asc);
+                    query = query.ApplySorting(sortBy, asc);
                 }
             }
 
@@ -70,6 +70,10 @@ namespace Ecommers.Application.Services
                 if (data.Count == 1)
                 {
                     item.CanDelete = false;
+                }
+                else
+                {
+                    item.CanDelete = true;
                 }
             }
 
@@ -125,7 +129,7 @@ namespace Ecommers.Application.Services
                 await repo.AddAsync(Banners);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría creada exitosamente");
+                return Result.Ok("Banners creada exitosamente");
             }
             catch (Exception ex)
             {
@@ -141,19 +145,19 @@ namespace Ecommers.Application.Services
             try
             {
                 var repo = _unitOfWork.Repository<BannersD, long>();
-                var categorias = await repo.GetByIdAsync(getByIdRequest.Id);
+                var banners = await repo.GetByIdAsync(getByIdRequest.Id);
 
-                if (categorias == null)
+                if (banners == null)
                 {
-                    return Result<BannersD>.Fail("Categoría no encontrada");
+                    return Result<BannersD>.Fail("Banners no encontrada");
                 }
 
 
-                return Result<BannersD>.Ok(categorias);
+                return Result<BannersD>.Ok(banners);
             }
             catch (Exception ex)
             {
-                return Result<BannersD>.Fail($"Error al obtener la categoría: {ex.Message}");
+                return Result<BannersD>.Fail($"Error al obtener los banners: {ex.Message}");
             }
         }
 
@@ -173,7 +177,7 @@ namespace Ecommers.Application.Services
                 await UpdateInternalAsync(request);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría editada exitosamente");
+                return Result.Ok("Banners editada exitosamente");
             }
             catch (Exception ex)
             {
@@ -181,69 +185,70 @@ namespace Ecommers.Application.Services
             }
         }
 
+
         // Método interno para actualizar sin Result
         private async Task UpdateInternalAsync(BannersUpdateRequest request)
         {
             var repo = _unitOfWork.Repository<BannersD, long>();
 
-            var categorias = await repo.GetQuery()
+            var banners = await repo.GetQuery()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id)
-                ?? throw new Exception("Categoría no encontrada");
+                ?? throw new Exception("Banners no encontrada");
 
-            _mapper.Map(request, categorias);
-            categorias.UpdatedAt = DateTime.UtcNow;
+            _mapper.Map(request, banners);
+            banners.UpdatedAt = DateTime.UtcNow;
 
-            repo.Update(categorias);
+            repo.Update(banners);
         }
 
         // -------------------------------------------------------------------
         // REORDENAR
         // -------------------------------------------------------------------
-        public async Task ReordenarAsync(long categoriaId, int nuevoOrden)
+        public async Task ReordenarAsync(long bannersId, int nuevoOrden)
         {
             var repo = _unitOfWork.Repository<BannersD, long>();
 
-            var categoriaActual = await repo.GetQuery()
-                .FirstOrDefaultAsync(x => x.Id == categoriaId);
+            var bannersActual = await repo.GetQuery()
+                .FirstOrDefaultAsync(x => x.Id == bannersId);
 
-            if (categoriaActual != null && categoriaActual.SortOrder != null)
+            if (bannersActual != null && bannersActual.SortOrder != null)
             {
-                int ordenActual = categoriaActual.SortOrder.Value;
+                int ordenActual = bannersActual.SortOrder;
 
                 if (ordenActual == nuevoOrden)
                     return;
 
                 if (nuevoOrden < ordenActual)
                 {
-                    var categoriasAfectadas = await repo.GetQuery()
+                    var bannersAfectadas = await repo.GetQuery()
                         .Where(x =>
                             x.SortOrder >= nuevoOrden &&
                             x.SortOrder < ordenActual &&
-                            x.Id != categoriaId)
+                            x.Id != bannersId)
                         .ToListAsync();
 
-                    foreach (var cat in categoriasAfectadas)
+                    foreach (var cat in bannersAfectadas)
                     {
                         cat.SortOrder += 1;
                     }
                 }
                 else
                 {
-                    var categoriasAfectadas = await repo.GetQuery()
+                    var bannersAfectadas = await repo.GetQuery()
                         .Where(x =>
                             x.SortOrder <= nuevoOrden &&
                             x.SortOrder > ordenActual &&
-                            x.Id != categoriaId)
+                            x.Id != bannersId)
                         .ToListAsync();
 
-                    foreach (var cat in categoriasAfectadas)
+                    foreach (var cat in bannersAfectadas)
                     {
                         cat.SortOrder -= 1;
                     }
                 }
 
-                categoriaActual.SortOrder = nuevoOrden;
+                bannersActual.SortOrder = nuevoOrden;
             }
         }
 
@@ -275,7 +280,7 @@ namespace Ecommers.Application.Services
                 repo.Remove(Banners);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría eliminada exitosamente");
+                return Result.Ok("Banners eliminada exitosamente");
             }
             catch (Exception ex)
             {
@@ -290,13 +295,13 @@ namespace Ecommers.Application.Services
         {
             var repo = _unitOfWork.Repository<BannersD, long>();
 
-            var categorias = await repo.GetQuery()
+            var banners = await repo.GetQuery()
                 .AsNoTracking()
                 .Where(x => x.IsActive)
                 .OrderBy(x => x.SortOrder)
                 .ToListAsync();
 
-            return categorias;
+            return banners;
         }
 
         // -------------------------------------------------------------------
@@ -306,14 +311,14 @@ namespace Ecommers.Application.Services
         {
             var repo = _unitOfWork.Repository<BannersD, long>();
 
-            var categorias = await repo.GetQuery()
+            var banners = await repo.GetQuery()
             .AsNoTracking()
             .Where(x => x.Titulo == name && x.Id != id)
             .OrderBy(x => x.SortOrder)
             .FirstOrDefaultAsync();
 
 
-            return categorias;
+            return banners;
         }
     }
 }

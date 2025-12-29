@@ -33,12 +33,13 @@ namespace Ecommers.Application.DTOs.Requests.Banners
         public required string BotonEnlace { get; set; }
 
         public string? Image { get; set; }
-        
-        [Required(ErrorMessage = "La imagen del banner es obligatoria.")]
         public IFormFile? ImageFile { get; set; }
 
         [Required(ErrorMessage = "El orden de visualización es obligatorio.")]
         public int? SortOrder { get; set; } = 0;
+
+        public bool IsActive { get; set; } = true;
+
 
     }
 }

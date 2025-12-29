@@ -1,7 +1,7 @@
-﻿using Ecommers.Application.Interfaces;
-using Ecommers.Application.DTOs.Requests;
+﻿using Ecommers.Application.DTOs.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Ecommers.Application.DTOs.Requests.Configuracion;
+using Ecommers.Application.Interfaces;
 
 namespace Ecommers.Web.ViewComponents
 {

@@ -3,15 +3,15 @@ using AutoMapper;
 using Ecommers.Application.Common.Query;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
-using Ecommers.Application.DTOs.Requests.Servicios;
 using Ecommers.Application.DTOs.Requests.Configuracion;
-using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
+using Ecommers.Application.Interfaces;
+using Ecommers.Application.DTOs.Requests.Servicios;
 
 namespace Ecommers.Application.Services
 {
@@ -39,7 +39,7 @@ namespace Ecommers.Application.Services
 
             if (!string.IsNullOrWhiteSpace(searchValue))
             {
-                query = IQueryableSearchExtensions.ApplySearchFilter(query, searchValue);
+                query = query.ApplySearchFilter(searchValue);
             }
 
             var totalCount = await repo.GetQuery().CountAsync();
@@ -54,7 +54,7 @@ namespace Ecommers.Application.Services
 
                 if (!string.IsNullOrWhiteSpace(sortBy))
                 {
-                    query = IQueryableSortingExtensions.ApplySorting(query, sortBy, asc);
+                    query = query.ApplySorting(sortBy, asc);
                 }
             }
 

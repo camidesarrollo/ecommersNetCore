@@ -181,7 +181,9 @@ namespace Ecommers.Infrastructure.Persistence.Repositories
 
         public void Update(TEntity entity)
         {
-            entity.SetUpdated();
+            try
+            {
+                entity.SetUpdated();
 
             var infraType = GetInfrastructureType();
             var infraEntity = _mapper.Map(entity, typeof(TEntity), infraType);
@@ -194,6 +196,16 @@ namespace Ecommers.Infrastructure.Persistence.Repositories
 
             var updateMethod = dbSet?.GetType().GetMethod("Update");
             updateMethod?.Invoke(dbSet, [infraEntity]);
+            }
+            catch (Exception ex)
+            {
+                var message =
+                    $"Error al ejecutar Update para tipo Dominio = '{typeof(TEntity).Name}' " +
+                    $"mapeado a Infraestructura = '{GetInfrastructureType().Name}'. " +
+                    $"Detalle del error: {ex.Message}";
+
+                throw new Exception(message, ex);
+            }
         }
 
         public void Remove(TEntity entity)

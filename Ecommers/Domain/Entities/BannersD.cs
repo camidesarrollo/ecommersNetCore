@@ -4,9 +4,11 @@ namespace Ecommers.Domain.Entities
 {
     public class BannersD : BaseEntity<long>
     {
+
         public string Seccion { get; set; } = null!;
 
-        public string Imagen { get; set; } = null!;
+        public IFormFile? ImageFile { get; set; }
+        public string Image { get; set; } = null!;
 
         public string AltText { get; set; } = null!;
 
@@ -18,7 +20,7 @@ namespace Ecommers.Domain.Entities
 
         public string BotonEnlace { get; set; } = null!;
 
-        public int? SortOrder { get; set; }
+        public int SortOrder { get; set; }
 
         public bool? CanDelete { get; set; }
     }

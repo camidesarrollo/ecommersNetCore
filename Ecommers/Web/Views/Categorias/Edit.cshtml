@@ -55,27 +55,27 @@
                         <div class="mb-6">
                             <label asp-for="Name" class="block text-dark-chocolate font-semibold mb-2">
                                 <i class="fas fa-tag text-olive-green-600 mr-1"></i>
-                                Nombre de la Categoría <span class="text-burgundy-red-500">*</span>
+                                Nombre de la Categoría <span class="text-red-700">*</span>
                             </label>
                             <input asp-for="Name"
-                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300"
                                    placeholder="Ej: Frutos Secos Premium"
                                    required />
-                            <span asp-validation-for="Name" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="Name" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
 
                         <!-- Slug -->
                         <div class="mb-6">
                             <label asp-for="Slug" class="block text-dark-chocolate font-semibold mb-2">
                                 <i class="fas fa-link text-olive-green-600 mr-1"></i>
-                                Slug URL <span class="text-burgundy-red-500">*</span>
+                                Slug URL <span class="text-red-700">*</span>
                             </label>
                             <div class="flex">
                                 <span class="inline-flex items-center px-4 bg-beige-500 border-2 border-r-0 border-olive-green-300 rounded-l-lg">
                                     <i class="fas fa-globe text-olive-green-600"></i>
                                 </span>
                                 <input asp-for="Slug"
-                                       class="flex-1 px-4 py-3 text-lg border-2 border-olive-green-300 rounded-r-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                       class="flex-1 px-4 py-3 text-lg border-2 border-olive-green-300 rounded-r-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300"
                                        placeholder="frutos-secos-premium"
                                        required />
                             </div>
@@ -83,7 +83,7 @@
                                 <i class="fas fa-info-circle mr-1"></i>
                                 URL amigable para la categoría (sin espacios, usar guiones)
                             </p>
-                            <span asp-validation-for="Slug" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="Slug" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
 
                         <!-- Descripción Corta -->
@@ -93,11 +93,11 @@
                                 Descripción Corta
                             </label>
                             <textarea asp-for="ShortDescription"
-                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 resize-none"
+                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300 resize-none"
                                       rows="2"
                                       maxlength="150"
                                       placeholder="Breve descripción de la categoría (máx. 150 caracteres)"></textarea>
-                            <span asp-validation-for="ShortDescription" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="ShortDescription" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
 
                         <!-- Descripción Completa -->
@@ -107,10 +107,10 @@
                                 Descripción Completa
                             </label>
                             <textarea asp-for="Description"
-                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 resize-none"
+                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300 resize-none"
                                       rows="4"
                                       placeholder="Descripción detallada de la categoría y sus productos"></textarea>
-                            <span asp-validation-for="Description" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="Description" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
                     </div>
                     <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
@@ -221,10 +221,10 @@
                                data-preview-target="#imagePreview"
                                data-max-size="2"
                                data-allowed-types="image/jpeg,image/png,image/webp"
-                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer"
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer"
                                accept="image/*" />
                         <input type="hidden" asp-for="Image" id="imageUrlHidden" />
-                        <span asp-validation-for="Image" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                        <span asp-validation-for="Image" class="text-red-700 text-sm mt-1 block"></span>
                     </div>
 
                     <!-- Configuración -->
@@ -246,7 +246,7 @@
 
                                 <!-- Botón selector -->
                                 <button type="button"
-                                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg flex items-center justify-between gap-3 focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 transition-all bg-white"
+                                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg flex items-center justify-between gap-3 focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 transition-all bg-white"
                                         id="gradientButton">
                                     <div class="flex items-center gap-3">
                                         <div id="gradientPreview" class="w-8 h-8 rounded-md bg-gray-200"></div>
@@ -291,7 +291,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span asp-validation-for="BgClass" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="BgClass" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
 
                         <!-- Categoría Padre -->
@@ -301,11 +301,11 @@
                                 Categoría Padre
                             </label>
                             <select asp-for="ParentId"
-                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300 bg-white">
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300 bg-white">
                                 <option value="">Sin categoría padre</option>
                             </select>
                             <p class="text-gray-600 text-sm mt-1">Dejar vacío para categoría principal</p>
-                            <span asp-validation-for="ParentId" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="ParentId" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
 
                         <!-- Orden -->
@@ -316,11 +316,11 @@
                             </label>
                             <input asp-for="SortOrder"
                                    type="number"
-                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-4 focus:ring-olive-green-500/20 outline-none transition-all duration-300"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 outline-none transition-all duration-300"
                                    min="0"
                                    placeholder="0" />
                             <p class="text-gray-600 text-sm mt-1">Mayor número = mayor prioridad</p>
-                            <span asp-validation-for="SortOrder" class="text-burgundy-red-500 text-sm mt-1 block"></span>
+                            <span asp-validation-for="SortOrder" class="text-red-700 text-sm mt-1 block"></span>
                         </div>
 
                         <!-- Estado Activo -->

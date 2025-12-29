@@ -39,7 +39,7 @@ namespace Ecommers.Application.Services
 
             if (!string.IsNullOrWhiteSpace(searchValue))
             {
-                query = IQueryableSearchExtensions.ApplySearchFilter(query, searchValue);
+                query = query.ApplySearchFilter(searchValue);
             }
 
             var totalCount = await repo.GetQuery().CountAsync();
@@ -54,7 +54,7 @@ namespace Ecommers.Application.Services
 
                 if (!string.IsNullOrWhiteSpace(sortBy))
                 {
-                    query = IQueryableSortingExtensions.ApplySorting(query, sortBy, asc);
+                    query = query.ApplySorting(sortBy, asc);
                 }
             }
 

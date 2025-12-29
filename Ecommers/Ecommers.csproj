@@ -82,6 +82,7 @@
 	  <None Include="wwwroot\css\input.css" />
 	  <None Include="wwwroot\css\site.css" />
 	  <None Include="wwwroot\favicon.ico" />
+	  <None Include="wwwroot\js\application\plugins\tailwind-ecommerce-plugin.js" />
 	  <None Include="wwwroot\js\application\site.js" />
 	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
 	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
