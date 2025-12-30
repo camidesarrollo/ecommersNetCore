@@ -44,8 +44,5 @@ export const bannersCreateSchema = z.object({
         .int("El orden debe ser un número entero.")
         .nullable()
         .optional(),
-
     IsActive: z.boolean(),
-
-
 });

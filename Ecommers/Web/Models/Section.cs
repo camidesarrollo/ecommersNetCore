@@ -2,7 +2,8 @@
 {
     public class Section
     {
-        public required string Title { get; set; }
-        public required List<MenuItem> Items { get; set; }
+        public string Title { get; set; }
+        public List<MenuItem> Items { get; set; } = [];
+        public bool IsOpen { get; set; }
     }
 }

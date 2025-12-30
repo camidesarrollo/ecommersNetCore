@@ -192,25 +192,36 @@ export function initBlurValidation({
             const field = input.name;
             if (!field) return;
 
-            // Ignorar tipos
             if (ignoreTypes.includes(input.type)) {
                 clearError(input);
                 return;
             }
 
-            // Si el campo no existe en el schema, ignorar
             if (!schema.shape[field]) return;
 
             let value = input.value;
 
-            // Convertir string vacío a null
+            // ✅ BOOLEAN
+            if (input.type === 'checkbox') {
+                value = input.checked;
+            }
+
+            // ✅ SELECT boolean
+            if (input.tagName === 'SELECT') {
+                if (value === 'true') value = true;
+                if (value === 'false') value = false;
+            }
+
+            // ✅ String vacío → null
             if (value === '') value = null;
 
             try {
                 await schema.shape[field].parseAsync(value);
                 clearError(input);
             } catch (err) {
-                const message = traducirMensaje(err?.errors?.[0]?.message || '');
+                const message = traducirMensaje(
+                    err?.errors?.[0]?.message || ''
+                );
                 showError(input, message);
             }
         });

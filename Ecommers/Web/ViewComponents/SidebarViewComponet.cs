@@ -13,48 +13,60 @@ namespace Ecommers.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            var currentPath =
+                ViewContext.HttpContext.Request.Path.Value?.ToLower() ?? "";
+
             var configuracionCacheRequest = new ConfiguracionCacheRequest
             {
                 LastClientUpdate = DateTime.UtcNow
             };
 
-            var configuracion = await _configService.GetCachedAsync(configuracionCacheRequest);
+            var configuracion =
+                await _configService.GetCachedAsync(configuracionCacheRequest);
 
-            // Menú principal
             var menuItems = new List<MenuItem>
             {
-                new() { Name = "Dashboard", Path = "/Dashboard/Index", Badge = null },
-                new() { Name = "Productos", Path = "/Dashboard/productos", Badge = null },
-                new() { Name = "Pedidos", Path = "/Dashboard/pedidos", Badge = "5" },
-                new() { Name = "Clientes", Path = "/Dashboard/clientes", Badge = null },
-                new() { Name = "Analíticas", Path = "/Dashboard/analiticas", Badge = null }
+                new() { Name = "Dashboard", Path = "/dashboard" },
+                new() { Name = "Productos", Path = "/dashboard/productos" },
+                new() { Name = "Pedidos", Path = "/dashboard/pedidos", Badge = "5" },
+                new() { Name = "Clientes", Path = "/dashboard/clientes" },
+                new() { Name = "Analíticas", Path = "/dashboard/analiticas" }
             };
 
-            // Secciones con subcategorías
             var sections = new List<Section>
             {
-                new() {
+                new()
+                {
                     Title = "Gestión",
                     Items =
                     [
-                        new MenuItem { Name = "Banners", Path = "/Gestion/Banners", Badge = null },
-                        new MenuItem { Name = "Categorías", Path = "/Gestion/Categorias", Badge = null },
-                        new MenuItem { Name = "Configuraciones", Path = "/Gestion/Configuraciones", Badge = null },
-                        new MenuItem { Name = "Servicios", Path = "/Gestion/Servicios", Badge = null },
-                        new MenuItem { Name = "Inventario", Path = "/Dashboard/inventario", Badge = "3" },
-                        new MenuItem { Name = "Reportes", Path = "/Dashboard/reportes", Badge = null }
+                        new MenuItem { Name = "Banners", Path = "/gestion/banners" },
+                        new MenuItem { Name = "Categorías", Path = "/gestion/categorias" },
+                        new MenuItem { Name = "Configuraciones", Path = "/gestion/configuraciones" },
+                        new MenuItem { Name = "Servicios", Path = "/gestion/servicios" },
+                        new MenuItem { Name = "Inventario", Path = "/dashboard/inventario", Badge = "3" },
+                        new MenuItem { Name = "Reportes", Path = "/dashboard/reportes" }
                     ]
                 },
-                new() {
+                new()
+                {
                     Title = "Configuración",
                     Items =
                     [
-                        new MenuItem { Name = "Ajustes", Path = "/Dashboard/ajustes", Badge = null }
+                        new MenuItem { Name = "Ajustes", Path = "/dashboard/ajustes" }
                     ]
                 }
             };
 
-            // Pasar datos a la vista
+            // Marcar activos
+            MarcarActivo(menuItems, currentPath);
+
+            foreach (var section in sections)
+            {
+                MarcarActivo(section.Items, currentPath);
+                section.IsOpen = section.Items.Any(i => i.IsActive);
+            }
+
             var model = new SidebarViewModel
             {
                 MenuItems = menuItems,
@@ -62,7 +74,20 @@ namespace Ecommers.Web.ViewComponents
                 Configuracion = configuracion ?? new Domain.Entities.ConfiguracionesD { Id = 0 }
             };
 
-            return View("~/Web/Views/Shared/Components/Sidebar/Default.cshtml", model);
+            return View(
+                "~/Web/Views/Shared/Components/Sidebar/Default.cshtml",
+                model
+            );
+        }
+
+        private static void MarcarActivo(IEnumerable<MenuItem> items, string currentPath)
+        {
+            foreach (var item in items)
+            {
+                item.IsActive =
+                    !string.IsNullOrWhiteSpace(item.Path) &&
+                    currentPath.StartsWith(item.Path.ToLower());
+            }
         }
     }
 }
