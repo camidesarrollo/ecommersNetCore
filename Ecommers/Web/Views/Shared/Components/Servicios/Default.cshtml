@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Ecommers.Domain.Entities.ServiciosD>
+
+@{
+    var servicios = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
+    if (!servicios.Any())
+    {
+        return;
+    }
+
+    // Parámetro configurable
+    var orientation = ViewData["Orientation"]?.ToString() ?? "horizontal";
+    bool isVertical = orientation == "vertical";
+
+    var sectionClass = isVertical
+        ? "space-y-4"
+        : "py-10 bg-gradient-to-tr from-amber-200 via-orange-100 to-yellow-50";
+
+    var containerClass = isVertical
+        ? ""
+        : "container mx-auto px-4 sm:px-6 lg:px-8";
+
+    var gridClass = isVertical
+        ? "space-y-4"
+        : "grid grid-cols-1 md:grid-cols-3 gap-6";
+
+    var cardClass = isVertical
+        ? "bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition"
+        : "bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition";
+}
+
+<section class="@sectionClass">
+    <div class="@containerClass">
+
+        @if (isVertical)
+        {
+            <h3 class="text-lg font-bold text-gray-800 mb-4">
+                Nuestros Servicios
+            </h3>
+        }
+
+        <div class="@gridClass">
+            @foreach (var item in servicios)
+            {
+                <div class="@cardClass">
+
+                    <div class="@(isVertical ? "flex items-start gap-3" : "flex justify-center mb-4")">
+                        <img src="@item.Image"
+                             alt="@item.Name"
+                             class="@(isVertical ? "w-12 h-12" : "w-10 h-10")" />
+
+                        @if (isVertical)
+                        {
+                            <div class="flex-1">
+                                <h5 class="font-bold text-sm mb-1">
+                                    @item.Name
+                                </h5>
+                                <p class="text-xs text-gray-600">
+                                    @item.Description
+                                </p>
+                            </div>
+                        }
+                    </div>
+
+                    @if (!isVertical)
+                    {
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">
+                                @item.Name
+                            </h4>
+                            <p class="text-sm">
+                                @item.Description
+                            </p>
+                        </div>
+                    }
+
+                </div>
+            }
+        </div>
+    </div>
+</section>

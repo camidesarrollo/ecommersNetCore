@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Ecommers.Domain.Entities.CategoriesD>
+
+@{
+    var categorias = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
+    bool usarSwiper = categorias.Count > 3;
+}
+
+@if (!categorias.Any())
+{
+    <!-- No hay categorías -->
+    return;
+}
+
+<section class="py-10 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">
+            Categorías
+        </h2>
+
+        @if (usarSwiper)
+        {
+            <link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
+            <link rel="stylesheet" href="~/css/swiper-custom.css" />
+            <script type="module" src="~/js/bundle/vendors_swiper.js"></script>
+
+            <swiper slides-per-view="2"
+                    space-between="16"
+                    breakpoints='{
+                            "320":  { "slidesPerView": 1 },
+                            "640":  { "slidesPerView": 2 },
+                            "768":  { "slidesPerView": 3 },
+                            "1024": { "slidesPerView": 3 },
+                            "1440": { "slidesPerView": 4 }
+                        }'
+                    class="pb-6">
+
+                @foreach (var cat in categorias)
+                {
+                    <swiper-slide>
+                        @await Html.PartialAsync(
+                        "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                                cat
+                                )
+            </swiper-slide>
+                        }
+
+            </swiper>
+        }
+        else
+        {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach (var cat in categorias)
+                {
+                    @await Html.PartialAsync(
+                    "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                        cat
+                        )
+                        }
+            </div>
+        }
+
+    </div>
+</section>

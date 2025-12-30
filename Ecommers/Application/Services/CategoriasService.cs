@@ -12,6 +12,7 @@ using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ecommers.Application.Services
 {
@@ -291,6 +292,12 @@ namespace Ecommers.Application.Services
                 .Where(x => x.IsActive)
                 .OrderBy(x => x.SortOrder)
                 .ToListAsync();
+
+            foreach (var item in categorias)
+            {
+                var cantidadProductosPorCategoria = ProductsQueries.GetCountByCategories(item.Id);
+                item.CantidadProductos = cantidadProductosPorCategoria;
+            }
 
             return categorias;
         }
