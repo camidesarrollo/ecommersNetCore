@@ -1,0 +1,59 @@
+﻿/* Personalización de botones de navegación */
+.swiper-button-prev,
+.swiper-button-next {
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+        background: rgba(255, 255, 255, 1);
+    }
+
+/* Personalización de paginación */
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background: rgba(255, 255, 255, 1);
+    width: 32px;
+    border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+
+        .swiper-button-prev:after,
+        .swiper-button-next:after {
+            font-size: 16px;
+        }
+}
+
+
+.swiper-button-next svg, .swiper-button-prev svg {
+    height: 50%;
+    object-fit: contain;
+    transform-origin: center;
+    width: 50%;
+    fill: currentColor;
+    pointer-events: none;
+}

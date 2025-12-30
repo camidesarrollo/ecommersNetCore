@@ -61,9 +61,9 @@
             </div>
         </div>
         <!-- FORM -->
-        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formBanners">
+        <form asp-action="Editar" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formBanners">
             @Html.AntiForgeryToken()
-
+            <input asp-for="Id" hidden />
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 <!-- IZQUIERDA -->

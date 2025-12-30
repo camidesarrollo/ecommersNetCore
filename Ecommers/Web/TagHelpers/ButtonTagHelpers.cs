@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Ecommers.Web.TagHelpers
 {
     [HtmlTargetElement("ui-button")]
-    public class UiButton : TagHelper
+    public class ButtonTagHelpers : TagHelper
     {
         public required UiButtonModel UiButtonModel { get; set; }
 

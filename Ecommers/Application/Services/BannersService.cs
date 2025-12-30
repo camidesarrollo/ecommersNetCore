@@ -320,5 +320,18 @@ namespace Ecommers.Application.Services
 
             return banners;
         }
+
+        public async Task<IEnumerable<BannersD?>> GetBySeccionAsync(string seccion, bool activo)
+        {
+            var repo = _unitOfWork.Repository<BannersD, long>();
+
+            var banners = await repo.GetQuery()
+            .AsNoTracking()
+            .Where(x => x.Seccion == seccion && x.IsActive == activo)
+            .OrderBy(x => x.SortOrder).ToListAsync();
+
+
+            return banners;
+        }
     }
 }

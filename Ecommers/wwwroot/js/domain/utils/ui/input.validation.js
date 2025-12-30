@@ -212,6 +212,17 @@ export function initBlurValidation({
                 if (value === 'false') value = false;
             }
 
+            if (input.type === 'number') {
+                if (value === '') {
+                    value = null;
+                } else {
+                    const parsed = Number(value);
+                    if (!Number.isNaN(parsed)) {
+                        value = parsed;
+                    }
+                }
+            }
+
             // ✅ String vacío → null
             if (value === '') value = null;
 

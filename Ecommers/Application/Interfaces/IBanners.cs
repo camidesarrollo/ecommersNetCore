@@ -28,5 +28,7 @@ namespace Ecommers.Application.Interfaces
         Task<IEnumerable<BannersD>> GetAllActiveAsync();
 
         Task<BannersD?> GetByTituloAsync(long id, string name);
+
+        Task<IEnumerable<BannersD?>> GetBySeccionAsync(string seccion, bool activo);
     }
 }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Ecommers.Domain.Entities.BannersD>
+
+@{
+    var banners = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
+    bool usarSwiper = banners.Count > 1;
+}
+
+@if (!banners.Any())
+{
+    <!-- No hay banners -->
+    return;
+}
+
+@if (usarSwiper)
+{
+    <link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="~/css/swiper-custom.css" />
+    <script type="module" src="~/js/bundle/vendors_swiper.js"></script>
+
+    <swiper slides-per-view="1"
+            loop="true"
+            navigation="true"
+            pagination="true"
+            class="relative w-full h-56 sm:h-64 md:h-80 lg:h-[28rem]">
+
+        @foreach (var banner in banners)
+        {
+            <swiper-slide>
+                @await Html.PartialAsync("~/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", banner)
+            </swiper-slide>
+        }
+
+    </swiper>
+}
+else
+{
+    @await Html.PartialAsync("~/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", banners.First())
+    ;
+}

@@ -1,3 +1,4 @@
+"use strict";
 /*import { z } from "zod";
 
 export const changePasswordSchema = z

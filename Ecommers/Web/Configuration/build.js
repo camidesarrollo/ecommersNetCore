@@ -109,6 +109,24 @@ if (fs.existsSync(shepherdCssSource)) {
     console.warn("⚠️ No se encontró CSS de Shepherd.js");
 }
 
+// Copiar CSS de Swiper
+const swiperCssSource = path.resolve(
+    nodeModulesDir,
+    "swiper/swiper-bundle.min.css"
+);
+
+const swiperCssDestination = path.resolve(
+    cssOutputDir,
+    "swiper-bundle.min.css"
+);
+
+if (fs.existsSync(swiperCssSource)) {
+    fs.copyFileSync(swiperCssSource, swiperCssDestination);
+    console.log("✅ CSS de Swiper copiado");
+} else {
+    console.warn("⚠️ No se encontró CSS de Swiper");
+}
+
 // ========================================
 // BUILD 1: Domain (sin jQuery)
 // ========================================
@@ -123,7 +141,8 @@ async function buildDomain() {
             path.resolve(__dirname, "../../wwwroot/js/domain/vendors_datatables.js"),
             path.resolve(__dirname, "../../wwwroot/js/domain/vendors_dayjs.js"),
             path.resolve(__dirname, "../../wwwroot/js/domain/vendors_sweetalert.ts"),
-            path.resolve(__dirname, "../../wwwroot/js/domain/vendors_shepherd.ts"), // 👈 NUEVO
+            path.resolve(__dirname, "../../wwwroot/js/domain/vendors_shepherd.ts"),
+            path.resolve(__dirname, "../../wwwroot/js/domain/vendors_swiper.ts"), 
         ],
         outdir: outputDir,
         bundle: true,

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Ecommers.Web.TagHelpers
 {
     [HtmlTargetElement("ui-input")]
-    public class UiInput : TagHelper
+    public class InputTagHelpers : TagHelper
     {
         public required UiInputModel UiInputModel { get; set; }
 

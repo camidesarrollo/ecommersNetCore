@@ -18,6 +18,7 @@ export function setupLivePreview() {
     const altTextInput = document.querySelector('[name="AltText"]');
 
     const imageInput = document.getElementById('imageInput');
+    const imageUrlHidden = document.getElementById('imageUrlHidden');
     const isActiveInput = document.getElementById('isActiveSwitch');
 
     // Preview elements
@@ -111,6 +112,9 @@ export function setupLivePreview() {
                 imagePreview.style.display = 'block';
             };
             reader.readAsDataURL(file);
+
+            imageUrlHidden.value = file.name;
+
         });
     }
 }

@@ -1,6 +1,12 @@
 ﻿const plugin = require('tailwindcss/plugin');
 
-module.exports = plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+module.exports = plugin(function ({ addBase, addComponents, addUtilities, addVariant, theme }) {
+    
+    // ==========================================
+    // AGREGAR VARIANTE CHECKED
+    // ==========================================
+    addVariant('checked', '&:checked');
+    
     // ==========================================
     // BASE STYLES (Variables CSS)
     // ==========================================
@@ -306,6 +312,56 @@ module.exports = plugin(function ({ addBase, addComponents, addUtilities, theme 
         '.delay-400': { animationDelay: '0.4s' },
         '.animate-delay-1000': { animationDelay: '1s' },
         '.animate-delay-2000': { animationDelay: '2s' },
+
+        /* ===============================
+             SWITCH / TOGGLE INPUT
+          =============================== */
+
+        '.appearance-none': { appearance: 'none' },
+
+        '.before\\:content-\\[\'\'\\]::before': {
+            content: "''",
+        },
+
+        '.before\\:absolute::before': {
+            position: 'absolute',
+        },
+
+        '.before\\:top-1::before': {
+            top: '0.25rem',
+        },
+
+        '.before\\:left-1::before': {
+            left: '0.25rem',
+        },
+
+        '.before\\:w-4::before': {
+            width: '1rem',
+        },
+
+        '.before\\:h-4::before': {
+            height: '1rem',
+        },
+
+        '.before\\:bg-white::before': {
+            backgroundColor: '#ffffff',
+        },
+
+        '.before\\:rounded-full::before': {
+            borderRadius: '9999px',
+        },
+
+        '.before\\:transition-transform::before': {
+            transitionProperty: 'transform',
+        },
+
+        '.before\\:duration-300::before': {
+            transitionDuration: '300ms',
+        },
+
+        '.checked\\:before\\:translate-x-6:checked::before': {
+            transform: 'translateX(1.5rem)',
+        },
     });
 
     // ==========================================
@@ -403,6 +459,7 @@ module.exports = plugin(function ({ addBase, addComponents, addUtilities, theme 
                 'mint-green': {
                     DEFAULT: '#98FF98',
                     dark: '#7DE67D',
+                    700: '#7DE67D', // ← AGREGADO para soportar mint-green-700
                 },
                 'dark-chocolate': '#3B2F2F',
                 'orange-warm': {

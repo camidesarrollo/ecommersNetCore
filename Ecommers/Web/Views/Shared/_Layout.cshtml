@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/css/components/headers.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/components/navbar.css" asp-append-version="true" />
 
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -28,6 +29,8 @@
     <!-- Scripts del Header -->
     <script defer src="~/js/application/components/headers.js" asp-append-version="true"></script>
     <script defer src="~/js/application/components/navbar.js" asp-append-version="true"></script>
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
