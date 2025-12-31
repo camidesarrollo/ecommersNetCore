@@ -1,7 +1,7 @@
 ﻿@model Ecommers.Domain.Entities.ServiciosD
 
 @{
-    ViewData["Title"] = "Crear servicio";
+    ViewData["Title"] = "Editar servicio";
     Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -27,7 +27,7 @@
                     <i class="fas fa-chevron-right text-sm"></i>
                 </li>
                 <li class="text-dark-chocolate font-medium" aria-current="page">
-                    Crear Servicio
+                    Editar Servicio
                 </li>
             </ol>
         </nav>
@@ -39,9 +39,9 @@
                     <div>
                         <h1 class="text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
                             <i class="fas fa-folder-plus text-olive-green-600 mr-3"></i>
-                            Nueva Servicio
+                            Editar Servicio
                         </h1>
-                        <p class="text-gray-600">Complete los campos para crear una nueva servicio entregado por la tienda</p>
+                        <p class="text-gray-600">Complete los campos para editar el servicio entregado por la tienda</p>
                     </div>
                     <a href="@Url.Action("Index", "Servicios")"
                        class="inline-flex items-center px-6 py-3 bg-gray-light hover:bg-gray-light-dark text-dark-chocolate font-semibold rounded-lg shadow-sm transition-all duration-300">
@@ -97,8 +97,7 @@
                         </h5>
                         <!-- Card de Preview -->
                         <div id="BgClassView" class="relative h-64 bg-gradient-to-br from-lime-yellow to-magenta-strong flex flex-col items-center justify-center p-6 transition-all duration-300">
-                        
-                         </div>
+                        </div>
 
                         <div class="bg-white rounded-xl overflow-hidden shadow-lg">
                             <!-- Footer Info (Opcional) -->
@@ -202,5 +201,5 @@
 @section Scripts {
 
     <script type="module" src="~/js/application/servicios/generic.js"></script>
-    <script type="module" src="~/js/application/servicios/create.js"></script>
+    <script type="module" src="~/js/application/servicios/edit.js"></script>
 }

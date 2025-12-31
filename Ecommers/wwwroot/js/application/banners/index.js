@@ -158,9 +158,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             action: CambiarEstado,
 
             confirmText: (() => {
-                const isActive = e.target.closest(".btn-toggle")?.dataset.isactive === "true";
+                const btn = e.target.closest(".btn-toggle");
+                const isActive = btn?.dataset.isactive === "true";
                 const textActivo = isActive ? "desactivar" : "activar";
-                const titulo = e.target.closest(".btn-toggle")?.dataset.titulo;
+                const titulo = btn?.dataset.titulo;
 
                 return {
                     title: `¿Deseas ${textActivo} el banner?`,
@@ -169,7 +170,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 };
             })(),
 
-            reloadTable: true
+            reloadTable: true,
+            dataTable: dt   // 👈 AQUÍ
         });
     });
+
 });

@@ -1,4 +1,5 @@
-﻿import { $ } from "/js/bundle/vendors_datatables.js";
+﻿import Swal from '/js/bundle/vendors_sweetalert.js';
+import { $ } from "/js/bundle/vendors_datatables.js";
 
 // =============================
 //  CONFIGURACIÓN GLOBAL
@@ -206,7 +207,8 @@ async function handleConfirmAction({
     confirmText,
     successTitle = "¡Éxito!",
     errorTitle = "Error",
-    reloadTable = false
+    reloadTable = false,
+    dataTable = null   // 👈 NUEVO
 }) {
     const btn = event.target.closest(selector);
     if (!btn) return;
@@ -241,8 +243,9 @@ async function handleConfirmAction({
                     response.message || "Operación completada correctamente"
                 );
 
-                if (reloadTable && window.dt) {
-                    dt.ajax.reload(null, false);
+                // ✅ RELOAD CORRECTO
+                if (reloadTable && dataTable) {
+                    dataTable.ajax.reload(null, false);
                 }
 
             } else {

@@ -1,6 +1,4 @@
-﻿/* js\application\categorias\index.js */
-/* js\application\categorias\index.js */
-import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
+﻿import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
 import { dayjs } from "../../bundle/vendors_dayjs.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
