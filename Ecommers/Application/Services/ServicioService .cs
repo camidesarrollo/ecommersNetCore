@@ -111,7 +111,7 @@ namespace Ecommers.Application.Services
                 await repo.AddAsync(categories);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría creada exitosamente");
+                return Result.Ok("Servicio creada exitosamente");
             }
             catch (Exception ex)
             {
@@ -127,15 +127,15 @@ namespace Ecommers.Application.Services
             try
             {
                 var repo = _unitOfWork.Repository<ServiciosD, long>();
-                var categorias = await repo.GetByIdAsync(getByIdRequest.Id);
+                var servicio = await repo.GetByIdAsync(getByIdRequest.Id);
 
-                if (categorias == null)
+                if (servicio == null)
                 {
-                    return Result<ServiciosD>.Fail("Categoría no encontrada");
+                    return Result<ServiciosD>.Fail("Servicio no encontrada");
                 }
 
 
-                return Result<ServiciosD>.Ok(categorias);
+                return Result<ServiciosD>.Ok(servicio);
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace Ecommers.Application.Services
                 await UpdateInternalAsync(request);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría editada exitosamente");
+                return Result.Ok("Servicio editada exitosamente");
             }
             catch (Exception ex)
             {
@@ -172,15 +172,15 @@ namespace Ecommers.Application.Services
         {
             var repo = _unitOfWork.Repository<ServiciosD, long>();
 
-            var categorias = await repo.GetQuery()
+            var servicio = await repo.GetQuery()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id)
-                ?? throw new Exception("Categoría no encontrada");
+                ?? throw new Exception("Servicio no encontrada");
 
-            _mapper.Map(request, categorias);
-            categorias.UpdatedAt = DateTime.UtcNow;
+            _mapper.Map(request, servicio);
+            servicio.UpdatedAt = DateTime.UtcNow;
 
-            repo.Update(categorias);
+            repo.Update(servicio);
         }
 
         // -------------------------------------------------------------------
@@ -202,28 +202,28 @@ namespace Ecommers.Application.Services
 
                 if (nuevoOrden < ordenActual)
                 {
-                    var categoriasAfectadas = await repo.GetQuery()
+                    var servicioAfectadas = await repo.GetQuery()
                         .Where(x =>
                             x.SortOrder >= nuevoOrden &&
                             x.SortOrder < ordenActual &&
                             x.Id != categoriaId)
                         .ToListAsync();
 
-                    foreach (var cat in categoriasAfectadas)
+                    foreach (var cat in servicioAfectadas)
                     {
                         cat.SortOrder += 1;
                     }
                 }
                 else
                 {
-                    var categoriasAfectadas = await repo.GetQuery()
+                    var servicioAfectadas = await repo.GetQuery()
                         .Where(x =>
                             x.SortOrder <= nuevoOrden &&
                             x.SortOrder > ordenActual &&
                             x.Id != categoriaId)
                         .ToListAsync();
 
-                    foreach (var cat in categoriasAfectadas)
+                    foreach (var cat in servicioAfectadas)
                     {
                         cat.SortOrder -= 1;
                     }
@@ -245,13 +245,13 @@ namespace Ecommers.Application.Services
                 var categories = await repo.GetByIdAsync(deleteRequest.Id);
                 if (categories == null)
                 {
-                    return Result.Fail("Categoría no encontrada");
+                    return Result.Fail("Servicio no encontrada");
                 }
 
                 repo.Remove(categories);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría eliminada exitosamente");
+                return Result.Ok("Servicio eliminada exitosamente");
             }
             catch (Exception ex)
             {
@@ -266,13 +266,13 @@ namespace Ecommers.Application.Services
         {
             var repo = _unitOfWork.Repository<ServiciosD, long>();
 
-            var categorias = await repo.GetQuery()
+            var servicio = await repo.GetQuery()
                 .AsNoTracking()
                 .Where(x => x.IsActive)
                 .OrderBy(x => x.SortOrder)
                 .ToListAsync();
 
-            return categorias;
+            return servicio;
         }
 
         // -------------------------------------------------------------------
@@ -282,14 +282,43 @@ namespace Ecommers.Application.Services
         {
             var repo = _unitOfWork.Repository<ServiciosD, long>();
 
-            var categorias = await repo.GetQuery()
+            var servicio = await repo.GetQuery()
             .AsNoTracking()
             .Where(x => x.Name == name && x.Id != id)
             .OrderBy(x => x.SortOrder)
             .FirstOrDefaultAsync();
 
             
-            return categorias;
+            return servicio;
+        }
+
+        public async Task<Result> ToggleEstadoAsync(long id)
+        {
+            var repo = _unitOfWork.Repository<ServiciosD, long>();
+
+            // ⚠️ NO AsNoTracking
+            var servicio = await repo.GetQuery()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (servicio == null)
+                return Result.Fail("Servicio no encontrado");
+
+            servicio.IsActive = !servicio.IsActive;
+            servicio.UpdatedAt = DateTime.UtcNow;
+            if (servicio.IsActive == false)
+            {
+                servicio.DeletedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                servicio.DeletedAt = null;
+            }
+
+            repo.Update(servicio);
+
+            await _unitOfWork.CompleteAsync();
+
+            return Result.Ok("Servicios editada exitosamente");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿/* js\application\categorias\index.js */
 /* js\application\categorias\index.js */
-import { initDataTable, guardarPaginaYSalir } from "../../domain/utils/datatable-generic.js";
+import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
 import { dayjs } from "../../bundle/vendors_dayjs.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -87,15 +87,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <i class="fas fa-edit"></i>
                 </a>
 
-                ${row.canDelete
-                        ? `
+                <button data-id="${id}" data-isActive="${row.isActive}" data-titulo="${row.titulo}"
+                        class="btn-toggle w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        title="Activar / Desactivar">
+                    <i class="fas fa-toggle-on"></i>
+                </button>
+
                 <a href="/Gestion/Servicios/Eliminar/${id}"
                    class="btn-navegacion inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
                    title="Eliminar">
                     <i class="fas fa-trash"></i>
-                </a>`
-                        : ""
-                    }
+                </a>
             </div>
         `;
             }
@@ -140,6 +142,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (btnNavegacion) {
             guardarPaginaYSalir(e, btnNavegacion);
         }
+    });
+
+    document.addEventListener("click", (e) => {
+        handleConfirmAction({
+            event: e,
+            selector: ".btn-toggle",
+
+            getData: (btn) => ({
+                id: btn.dataset.id
+            }),
+
+            action: CambiarEstado,
+
+            confirmText: (() => {
+                const isActive = e.target.closest(".btn-toggle")?.dataset.isactive === "true";
+                const textActivo = isActive ? "desactivar" : "activar";
+                const titulo = e.target.closest(".btn-toggle")?.dataset.titulo;
+
+                return {
+                    title: `¿Deseas ${textActivo} el banner?`,
+                    html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
+                    confirmButton: `Sí, ${textActivo}`
+                };
+            })(),
+
+            reloadTable: true
+        });
     });
 
 });

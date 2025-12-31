@@ -1,34 +1,34 @@
-const URL_BANNERS = {
-    GetByName: "/Gestion/Banners/GetByNameAsync",
-    CambiarEstado: "/Gestion/Banners/CambiarEstado",
+import { ajaxPost } from "../../domain/utils/api.helper.js";
+
+
+// ===============================
+// CONFIGURACIÓN DE ENDPOINTS
+// ===============================
+const BANNERS_API = {
+    GetByName: {
+        url: "/Gestion/Banners/GetByNameAsync",
+        errorMessage: "Error al obtener el banner"
+    },
+    CambiarEstado: {
+        url: "/Gestion/Banners/CambiarEstado",
+        errorMessage: "Error al cambiar el estado del banner"
+    }
 };
 
+// ===============================
+// FUNCIONES ESPECÍFICAS
+// ===============================
 function GetByName(data) {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: URL_BANNERS.GetByName,
-            type: 'POST',
-            data: data,
-            success: response => resolve(response),
-            error: xhr =>
-                reject(xhr.responseJSON?.message || "Error al obtener el banners")
-        });
-    });
+    return ajaxPost(BANNERS_API.GetByName, data);
 }
 
 function CambiarEstado(data) {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: URL_BANNERS.CambiarEstado,
-            type: 'POST',
-            data: data,
-            success: response => resolve(response),
-            error: xhr =>
-                reject(xhr.responseJSON?.message || "Error al cambiar el estado")
-        });
-    });
+    return ajaxPost(BANNERS_API.CambiarEstado, data);
 }
 
+// ===============================
+// EXPORTS
+// ===============================
 export {
     GetByName,
     CambiarEstado

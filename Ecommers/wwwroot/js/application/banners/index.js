@@ -1,8 +1,7 @@
 /* js/application/banners/index.js */
 import { CambiarEstado } from './bannersService.js';
-import { initDataTable, guardarPaginaYSalir } from "../../domain/utils/datatable-generic.js";
+import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
 import { dayjs } from "../../bundle/vendors_dayjs.js";
-import Swal from '../../bundle/vendors_sweetalert.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -147,67 +146,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ============================
     //   ACTIVAR / DESACTIVAR
     // ============================
-    document.addEventListener("click", async (e) => {
+    document.addEventListener("click", (e) => {
+        handleConfirmAction({
+            event: e,
+            selector: ".btn-toggle",
 
-        const btn = e.target.closest(".btn-toggle");
-        if (!btn) return;
+            getData: (btn) => ({
+                id: btn.dataset.id
+            }),
 
-        // dataset siempre es string
-        const isActive = btn.dataset.isactive === "true";
-        const textActivo = isActive ? "desactivar" : "activar";
-        const titulo =  btn.dataset.titulo
-        const confirm = await Swal.fire({
-            title: `¿Deseas ${textActivo} el banners?`,
-            html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: `Sí, ${textActivo}`,
-            cancelButtonText: "Cancelar"
+            action: CambiarEstado,
+
+            confirmText: (() => {
+                const isActive = e.target.closest(".btn-toggle")?.dataset.isactive === "true";
+                const textActivo = isActive ? "desactivar" : "activar";
+                const titulo = e.target.closest(".btn-toggle")?.dataset.titulo;
+
+                return {
+                    title: `¿Deseas ${textActivo} el banner?`,
+                    html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
+                    confirmButton: `Sí, ${textActivo}`
+                };
+            })(),
+
+            reloadTable: true
         });
-
-        if (!confirm.isConfirmed) return;
-
-        // Mostrar spinner
-        if (typeof showSpinner === "function") {
-            showSpinner("editing");
-        }
-
-        try {
-            const response = await CambiarEstado({ id: btn.dataset.id });
-            console.log(response);
-
-            setTimeout(() => {
-                hideSpinner();
-
-                if (response.success) {
-                    showResultModal(
-                        "success",
-                        "¡Éxito!",
-                        response.message || "Operación completada correctamente"
-                    );
-
-                    // Recargar tabla SOLO si fue exitoso
-                    dt.ajax.reload(null, false);
-
-                } else {
-                    showResultModal(
-                        "error",
-                        "Error",
-                        response.message || "Ocurrió un error en la operación"
-                    );
-                }
-            }, 800);
-
-        } catch (error) {
-            hideSpinner();
-            console.error(error);
-
-            showResultModal(
-                "error",
-                "Error",
-                "Ocurrió un error inesperado"
-            );
-        }
     });
-
 });

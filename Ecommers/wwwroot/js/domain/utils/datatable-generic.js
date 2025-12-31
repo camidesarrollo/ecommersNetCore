@@ -198,8 +198,75 @@ async function guardarPaginaYSalir(event, boton) {
     setTimeout(() => window.location.href = boton.href, 800);
 }
 
+async function handleConfirmAction({
+    event,
+    selector,
+    getData,
+    action,
+    confirmText,
+    successTitle = "¡Éxito!",
+    errorTitle = "Error",
+    reloadTable = false
+}) {
+    const btn = event.target.closest(selector);
+    if (!btn) return;
+
+    const data = getData(btn);
+
+    const confirm = await Swal.fire({
+        title: confirmText.title,
+        html: confirmText.html,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: confirmText.confirmButton,
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    if (typeof showSpinner === "function") {
+        showSpinner("editing");
+    }
+
+    try {
+        const response = await action(data);
+
+        setTimeout(() => {
+            hideSpinner();
+
+            if (response.success) {
+                showResultModal(
+                    "success",
+                    successTitle,
+                    response.message || "Operación completada correctamente"
+                );
+
+                if (reloadTable && window.dt) {
+                    dt.ajax.reload(null, false);
+                }
+
+            } else {
+                showResultModal(
+                    "error",
+                    errorTitle,
+                    response.message || "Ocurrió un error en la operación"
+                );
+            }
+        }, 600);
+
+    } catch (error) {
+        hideSpinner();
+        console.error(error);
+
+        showResultModal(
+            "error",
+            errorTitle,
+            "Ocurrió un error inesperado"
+        );
+    }
+}
 
 // =============================
 //   EXPORTS
 // =============================
-export { initDataTable, guardarPaginaYSalir, showLoader, hideLoader };
+export { initDataTable, guardarPaginaYSalir, showLoader, hideLoader, handleConfirmAction };

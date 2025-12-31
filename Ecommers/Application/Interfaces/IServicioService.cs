@@ -28,5 +28,7 @@ namespace Ecommers.Application.Interfaces
         Task<IEnumerable<ServiciosD>> GetAllActiveAsync();
 
         Task<ServiciosD?> GetByNameAsync(long id, string name);
+
+        Task<Result> ToggleEstadoAsync(long id);
     }
 }

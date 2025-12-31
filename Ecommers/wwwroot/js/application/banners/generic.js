@@ -1,5 +1,5 @@
 import Swal from '../../bundle/vendors_sweetalert.js';
-
+import { GetByName } from './bannersService.js';
 /* js\application\banners\generic.js */
 document.addEventListener('DOMContentLoaded', () => {
     setupLivePreview();
@@ -153,3 +153,28 @@ export function hideImagePreview(img) {
     img.src = '';
     img.style.display = 'none';
 }
+
+$('#Titulo').on('blur', function () {
+
+    const nombre = $(this).val().trim();
+    if (!nombre) return;
+
+    const id = parseInt($('#Id').val()) || 0;
+
+    GetByName({ id: id, name: nombre })
+        .then(response => {
+
+            if (response.result != null) {
+                $('#Titulo').val('').focus();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'banner duplicado',
+                    text: 'Ya existe una banner con ese nombre',
+                });
+            }
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});

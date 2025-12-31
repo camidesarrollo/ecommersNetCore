@@ -52,7 +52,7 @@ $('#Name').on('blur', function () {
     GetByName({ id: id, name: nombre })
         .then(response => {
 
-            if (response.message == 'Servicio obtenida correctamente.') {
+            if (response.result != null) {
                 $('#Name').val('').focus();
                 $("#Slug").val('').focus();
                 Swal.fire({
