@@ -31,7 +31,7 @@ initBlurValidation({
 // ==============================
 // 3. Validación total al hacer submit
 // ==============================
-fform.addEventListener("submit", async function (e) {
+form.addEventListener("submit", async function (e) {
     showSpinner('editing');
     e.preventDefault();
 

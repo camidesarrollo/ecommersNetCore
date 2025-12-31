@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 	  <Content Include="wwwroot\js\domain\schema\zod-generic.ts" />
+	  <Content Include="wwwroot\js\domain\utils\form-helpers.ts" />
 	  <Content Include="wwwroot\js\domain\vendors_sweetalert.ts" />
 	</ItemGroup>
 
