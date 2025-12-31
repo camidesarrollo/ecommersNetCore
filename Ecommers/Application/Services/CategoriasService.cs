@@ -11,6 +11,7 @@ using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -147,6 +148,8 @@ namespace Ecommers.Application.Services
                 }
 
                 categorias.CantidadProductos = ProductsQueries.GetCountByCategories(getByIdRequest.Id);
+
+                categorias.EsNuevo = categorias.CreatedAt >= DateTime.Now.AddDays(-30);
 
                 return Result<CategoriesD>.Ok(categorias);
             }
@@ -297,6 +300,7 @@ namespace Ecommers.Application.Services
             {
                 var cantidadProductosPorCategoria = ProductsQueries.GetCountByCategories(item.Id);
                 item.CantidadProductos = cantidadProductosPorCategoria;
+                item.EsNuevo = item.CreatedAt >= DateTime.Now.AddDays(-30);
             }
 
             return categorias;
@@ -323,5 +327,35 @@ namespace Ecommers.Application.Services
 
             return categorias;
         }
+
+        public async Task<Result> ToggleEstadoAsync(long id)
+        {
+            var repo = _unitOfWork.Repository<CategoriesD, long>();
+
+            // ⚠️ NO AsNoTracking
+            var categorias = await repo.GetQuery()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (categorias == null)
+                return Result.Fail("Categoría no encontrado");
+
+            categorias.IsActive = !categorias.IsActive;
+            categorias.UpdatedAt = DateTime.UtcNow;
+            if (categorias.IsActive == false)
+            {
+                categorias.DeletedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                categorias.DeletedAt = null;
+            }
+
+            repo.Update(categorias);
+
+            await _unitOfWork.CompleteAsync();
+
+            return Result.Ok("Categoría editada exitosamente");
+        }
+
     }
 }

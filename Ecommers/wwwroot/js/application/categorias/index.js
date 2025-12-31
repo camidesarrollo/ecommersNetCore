@@ -1,6 +1,7 @@
 ﻿/* js\application\categorias\index.js */
 /* js\application\categorias\index.js */
-import { initDataTable, guardarPaginaYSalir } from "../../domain/utils/datatable-generic.js";
+import { CambiarEstado } from './categoriaService.js';
+import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
 import { dayjs } from "../../bundle/vendors_dayjs.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -101,11 +102,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                    title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
-                <button data-id="${id}"
-                        class="btn-toggle w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        title="Activar / Desactivar">
-                    <i class="fas fa-toggle-on"></i>
-                </button>
+
+                    <button data-id="${id}" data-isActive="${row.isActive}" data-titulo="${row.name}"
+                            class="btn-toggle w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            title="Activar / Desactivar">
+                        <i class="fas fa-toggle-on"></i>
+                    </button>
 
                 ${row.canDelete
                         ? `
@@ -163,55 +165,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // ============================
-    //   EVENTO PARA ELIMINAR
+    //   ACTIVAR / DESACTIVAR
     // ============================
-    document.addEventListener("click", async function (e) {
-        const btnDelete = e.target.closest(".btn-delete");
-        if (!btnDelete) return;
+    document.addEventListener("click", (e) => {
+        handleConfirmAction({
+            event: e,
+            selector: ".btn-toggle",
 
-        const id = btnDelete.dataset.id;
-        const nombre = btnDelete.dataset.nombre;
+            getData: (btn) => ({
+                id: btn.dataset.id
+            }),
 
-        // Confirmación
-        const confirmar = confirm(`¿Está seguro de eliminar la categoría "${nombre}"?`);
-        if (!confirmar) return;
+            action: CambiarEstado,
 
-        try {
-            // Mostrar loader si existe
-            if (typeof showSpinner === 'function') {
-                showSpinner('deleting');
-            }
+            confirmText: (() => {
+                const btn = e.target.closest(".btn-toggle");
+                const isActive = btn?.dataset.isactive === "true";
+                const textActivo = isActive ? "desactivar" : "activar";
+                const titulo = btn?.dataset.titulo;
 
-            // Realizar petición DELETE
-            const response = await fetch(`/Categorias/Eliminar/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
-                }
-            });
+                return {
+                    title: `¿Deseas ${textActivo} el banner?`,
+                    html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
+                    confirmButton: `Sí, ${textActivo}`
+                };
+            })(),
 
-            if (response.ok) {
-                // Recargar tabla
-                dt.ajax.reload(null, false); // false = mantener página actual
-
-                // Mostrar mensaje de éxito si tienes sistema de notificaciones
-                alert('Categoría eliminada correctamente');
-            } else {
-                const error = await response.text();
-                console.error('Error al eliminar:', error);
-                alert('Error al eliminar la categoría');
-            }
-
-        } catch (error) {
-            console.error('Error en la petición:', error);
-            alert('Error al eliminar la categoría');
-        } finally {
-            // Ocultar loader
-            if (typeof hideSpinner === 'function') {
-                hideSpinner();
-            }
-        }
+            reloadTable: true,
+            dataTable: dt   // 👈 AQUÍ
+        });
     });
 });
 

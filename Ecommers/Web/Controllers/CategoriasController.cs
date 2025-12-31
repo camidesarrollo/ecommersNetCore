@@ -5,6 +5,7 @@ using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.Categorias;
 using Ecommers.Application.DTOs.Requests.Configuracion;
 using Ecommers.Application.Interfaces;
+using Ecommers.Application.Services;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Web.Filters;
@@ -237,6 +238,31 @@ namespace Ecommers.Web.Controllers
             }
         }
 
+        [HttpPost("CambiarEstado")]
+        [IgnoreAntiforgeryToken]
+        [SkipModelValidation]
+        public async Task<IActionResult> ToggleEstado(long id)
+        {
+            try
+            {
+                var result = await _categoriaService.ToggleEstadoAsync(id);
 
+                return Json(new
+                {
+                    success = result.Success,
+                    message = result.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cambiar estado del categoría");
+
+                return Json(new
+                {
+                    success = false,
+                    message = "Ocurrió un error inesperado"
+                });
+            }
+        }
     }
 }

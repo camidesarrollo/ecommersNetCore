@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "Editar Categoría";
     Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+
 }
+
+
+
 
 <div class="bg-pattern min-h-screen py-8 px-4">
     <div class="max-w-7xl mx-auto">
@@ -119,48 +123,29 @@
                             Vista Previa
                         </h5>
                         <!-- Card de Preview -->
-                        <div id="BgClassView"
-                             class="relative h-64 bg-gradient-to-br from-lime-yellow to-magenta-strong flex flex-col items-center justify-center p-6 transition-all duration-300">
-                            <!-- Badge "Nuevo" - Esquina superior derecha -->
-                            <div class="absolute top-3 right-3 bg-burgundy-red text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
-                                <i class="fas fa-star text-xs"></i>
-                                <span>Nuevo</span>
-                            </div>
-                            <!-- Cantidad de productos - Esquina superior izquierda (opcional) -->
-                            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md">
-                                <i class="fas fa-box mr-1"></i>
-                                <span id="ProductCountPreview">@Model.CantidadProductos</span> productos
-                            </div>
-                            <!-- Contenido Central -->
-                            <div class="flex flex-col items-center justify-center text-center space-y-4 z-10">
-                                <!-- Imagen -->
-                                <div class="relative group">
-                                    <img id="ImageFilePreview"
-                                         src="@Model.Image"
-                                         alt="Preview"
-                                         class="w-24 h-24 rounded-full object-cover shadow-2xl border-4 border-white/80 transition-transform duration-300 group-hover:scale-110" />
-                                    <div class="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                </div>
-
-                                <!-- Nombre -->
-                                <h3 id="NamePreview" class="text-2xl font-bold text-white drop-shadow-lg px-4">
-                                    @Model.Name
-                                </h3>
-
-                                <!-- Descripción Corta -->
-                                <p id="ShortDescriptionPreview" class="text-sm text-white/95 italic max-w-xs px-4 line-clamp-2">
-                                    @Model.ShortDescription
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        @await Html.PartialAsync(
+                        "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                                                Model
+                                                )
+                        <div class="mt-4 p-3  bg-white rounded-xl overflow-hidden shadow-lg">
                             <!-- Footer Info (Opcional) -->
                             <div class="bg-gray-50 px-6 py-3 border-t border-gray-200">
                                 <div class="flex items-center justify-between text-xs text-gray-600">
                                     <div class="flex items-center gap-1">
                                         <i class="fas fa-palette"></i>
-                                        <span id="BgClassLabelPreview">Sin gradiente</span>
+                                        <span id="BgClassLabelPreview">
+                                            @(string.IsNullOrEmpty(Model.BgClass)
+                                                                                        ? "Sin gradiente"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-lime-yellow to-magenta-strong"
+                                                                                        ? "Lima → Magenta"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-golden-yellow to-nut-brown"
+                                                                                        ? "Dorado → Marrón"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-mint-green"
+                                                                                        ? "Beige → Menta"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-golden-yellow"
+                                                                                        ? "Beige → Dorado"
+                                                                                        : "Gradiente personalizado")
+                                        </span>
                                     </div>
                                     <div class="flex items-center gap-1">
                                         <i class="fas fa-circle text-mint-green-700" id="StatusIconPreview"></i>
@@ -195,7 +180,7 @@
                         </h5>
 
                         <!-- Preview de Imagen -->
-                        <div class="mb-4">
+                        @* <div class="mb-4">
                             <div id="imagePreview"
                                  class="relative border-4 border-dashed border-golden-yellow-400 rounded-xl p-6 bg-beige-100 hover:border-golden-yellow-600 hover:bg-beige-200 transition-all duration-300 cursor-pointer overflow-hidden"
                                  style="min-height: 200px;">
@@ -212,7 +197,7 @@
                                     </div>
                                 }
                             </div>
-                        </div>
+                        </div> *@
 
                         <input type="file"
                                asp-for="Image"
@@ -242,16 +227,29 @@
                             </label>
                             <div class="relative w-full" id="gradientSelect">
                                 <!-- Input hidden para ASP.NET -->
-                                <input type="hidden" name="BgClass" id="BgClass">
-
+                                <input type="hidden" asp-for="BgClass" id="BgClass" />
                                 <!-- Botón selector -->
                                 <button type="button"
                                         class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg flex items-center justify-between gap-3 focus:border-olive-green-500 focus: focus:ring-olive-green-500/20 transition-all bg-white"
                                         id="gradientButton">
                                     <div class="flex items-center gap-3">
-                                        <div id="gradientPreview" class="w-8 h-8 rounded-md bg-gray-200"></div>
+                                        <div id="gradientPreview"
+                                             class="w-8 h-8 rounded-md @(string.IsNullOrEmpty(Model.BgClass) ? "bg-gray-200" : Model.BgClass)">
+                                        </div>
+
                                         <span id="gradientLabel" class="text-gray-500">
-                                            Seleccionar color…
+                                            
+                                            @(string.IsNullOrEmpty(Model.BgClass)
+                                                                                        ? "Seleccionar color…"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-lime-yellow to-magenta-strong"
+                                                                                        ? "Lima → Magenta"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-golden-yellow to-nut-brown"
+                                                                                        ? "Dorado → Marrón"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-mint-green"
+                                                                                        ? "Beige → Menta"
+                                                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-golden-yellow"
+                                                                                        ? "Beige → Dorado"
+                                                                                        : "Gradiente personalizado")
                                         </span>
                                     </div>
                                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"

@@ -113,21 +113,10 @@
                         Vista en el sitio
                     </h5>
 
-                    <div class="relative h-64 flex items-center justify-center rounded-xl @Model.BgClass">
-                        <div class="absolute top-3 right-3 bg-burgundy-red text-white text-xs px-3 py-1.5 rounded-full font-bold">Categoría</div>
-
-                        <div class="text-center space-y-3">
-                            @if (!string.IsNullOrEmpty(Model.Image))
-                            {
-                                <img src="@Model.Image" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg" />
-                            }
-                            <h3 class="text-2xl font-bold text-white drop-shadow">@Model.Name</h3>
-                            @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
-                            {
-                                <p class="text-white/90 italic max-w-xs">@Model.ShortDescription</p>
-                            }
-                        </div>
-                    </div>
+                    @await Html.PartialAsync(
+                    "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                                        Model
+                                        )
                 </div>
             </div>
 
@@ -157,7 +146,19 @@
 
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-md @Model.BgClass"></div>
-                        <span class="text-sm text-gray-700">@Model.BgClass</span>
+                        <span class="text-sm text-gray-700">
+                            @(string.IsNullOrEmpty(Model.BgClass)
+                                                        ? "Sin gradiente"
+                                                        : Model.BgClass == "bg-gradient-to-br from-lime-yellow to-magenta-strong"
+                                                        ? "Lima → Magenta"
+                                                        : Model.BgClass == "bg-gradient-to-br from-golden-yellow to-nut-brown"
+                                                        ? "Dorado → Marrón"
+                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-mint-green"
+                                                        ? "Beige → Menta"
+                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-golden-yellow"
+                                                        ? "Beige → Dorado"
+                                                        : "Gradiente personalizado")
+                        </span>
                     </div>
                 </div>
             </div>

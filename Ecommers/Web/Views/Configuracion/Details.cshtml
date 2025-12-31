@@ -37,7 +37,7 @@
 
         <!-- Información General -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-building text-amber-700"></i>
                 Información General
             </h2>
@@ -67,7 +67,7 @@
 
         <!-- Información de Contacto -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-address-book text-amber-700"></i>
                 Información de Contacto
             </h2>
@@ -101,7 +101,7 @@
 
         <!-- Redes Sociales -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-share-alt text-amber-700"></i>
                 Redes Sociales
             </h2>
@@ -147,7 +147,7 @@
 
         <!-- Configuración Regional -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-globe text-amber-700"></i>
                 Configuración Regional
             </h2>
@@ -169,7 +169,7 @@
 
         <!-- Funcionalidades -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-toggle-on text-amber-700"></i>
                 Funcionalidades Activas
             </h2>
@@ -197,7 +197,7 @@
 
         <!-- SEO Básico -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-search text-amber-700"></i>
                 SEO - Metadatos Básicos
             </h2>
@@ -239,7 +239,7 @@
 
         <!-- Open Graph -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fab fa-facebook text-amber-700"></i>
                 Open Graph (Redes Sociales)
             </h2>
@@ -269,7 +269,7 @@
 
         <!-- Twitter Cards -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fab fa-twitter text-amber-700"></i>
                 Twitter Cards
             </h2>
@@ -299,7 +299,7 @@
 
         <!-- Schema & Sitemap -->
         <div class="bg-white rounded-2xl p-6 shadow-lg">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b pb-3">
+            <h2 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                 <i class="fas fa-sitemap text-amber-700"></i>
                 Schema & Sitemap
             </h2>
@@ -381,7 +381,7 @@
                     <label class="text-sm font-medium text-gray-600 mb-2 block">Logo</label>
                     @if (!string.IsNullOrEmpty(Model.Logo))
                     {
-                        <img src="@basePath/@Model.Logo" alt="Logo" class="w-full h-32 object-contain bg-gray-50 rounded-lg p-2">
+                        <img src="@Model.Logo" alt="Logo" class="w-full h-32 object-contain bg-gray-50 rounded-lg p-2">
                     }
                     else
                     {
@@ -394,7 +394,7 @@
                     <label class="text-sm font-medium text-gray-600 mb-2 block">Favicon</label>
                     @if (!string.IsNullOrEmpty(Model.Favicon))
                     {
-                        <img src="@basePath/@Model.Favicon" alt="Favicon" class="w-16 h-16 object-contain bg-gray-50 rounded-lg p-2">
+                        <img src="@Model.Favicon" alt="Favicon" class="w-16 h-16 object-contain bg-gray-50 rounded-lg p-2">
                     }
                     else
                     {
@@ -407,7 +407,7 @@
                     <label class="text-sm font-medium text-gray-600 mb-2 block">Banner Principal</label>
                     @if (!string.IsNullOrEmpty(Model.BannerPrincipal))
                     {
-                        <img src="@basePath/@Model.BannerPrincipal" alt="Banner" class="w-full h-32 object-cover rounded-lg">
+                        <img src="@Model.BannerPrincipal" alt="Banner" class="w-full h-32 object-cover rounded-lg">
                     }
                     else
                     {

@@ -23,5 +23,7 @@ namespace Ecommers.Domain.Entities
         public int? CantidadProductos { get; set; }
 
         public bool ? CanDelete { get; set; }
+
+        public bool EsNuevo  { get; set; } 
     }
 }

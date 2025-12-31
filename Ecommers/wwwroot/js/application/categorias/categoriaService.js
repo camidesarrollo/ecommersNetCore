@@ -1,20 +1,35 @@
-﻿const URL_CATEGORIA = {
-    GetByName: "/Gestion/Categorias/GetByNameAsync",
+﻿import { ajaxPost } from "../../domain/utils/api.helper.js";
+
+
+// ===============================
+// CONFIGURACIÓN DE ENDPOINTS
+// ===============================
+const CATEGORIA_API = {
+    GetByName: {
+        url: "/Gestion/Categorias/GetByNameAsync",
+        errorMessage: "Error al obtener la categoría"
+    },
+    CambiarEstado: {
+        url: "/Gestion/Categorias/CambiarEstado",
+        errorMessage: "Error al cambiar el estado del categoría"
+    }
 };
 
+// ===============================
+// FUNCIONES ESPECÍFICAS
+// ===============================
 function GetByName(data) {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: URL_CATEGORIA.GetByName,
-            type: 'POST',
-            data: data,
-            success: response => resolve(response),
-            error: xhr =>
-                reject(xhr.responseJSON?.message || "Error al obtener la categoría")
-        });
-    });
+    return ajaxPost(CATEGORIA_API.GetByName, data);
 }
 
+function CambiarEstado(data) {
+    return ajaxPost(CATEGORIA_API.CambiarEstado, data);
+}
+
+// ===============================
+// EXPORTS
+// ===============================
 export {
-    GetByName
+    GetByName,
+    CambiarEstado
 };

@@ -42,121 +42,121 @@
         </div>
         </div>
 
-        <!-- Contenido -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <!-- Info principal -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
-                <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
-                    <i class="fas fa-info-circle text-olive-green-600 mr-2" ></i>
-                    Información
-                </h5>
+            <!-- Info principal -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                        Información
+                    </h5>
 
-                <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <dt class="text-sm text-gray-500">Nombre</dt>
-                        <dd class="font-semibold text-dark-chocolate">@Model.Name</dd>
-                    </div>
-                    <div>
-                        <dt class="text-sm text-gray-500">Slug</dt>
-                        <dd class="font-mono text-sm">@Model.Slug</dd>
-                    </div>
-                    <div>
-                        <dt class="text-sm text-gray-500">Orden</dt>
-                        <dd>@Model.SortOrder</dd>
-                    </div>
-                    <div>
-                        <dt class="text-sm text-gray-500">Estado</dt>
-                        <dd>
-                            @if (Model.IsActive)
-                            {
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
-                                    <i class="fas fa-circle"></i> Activa
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
-                                    <i class="fas fa-circle"></i> Inactiva
-                                </span>
-                            }
-                        </dd>
-                    </div>
-                </dl>
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <dt class="text-sm text-gray-500">Nombre</dt>
+                            <dd id="nombre" class="font-semibold text-dark-chocolate">@Model.Name</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Slug</dt>
+                            <dd class="font-mono text-sm">@Model.Slug</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Orden</dt>
+                            <dd>@Model.SortOrder</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Estado</dt>
+                            <dd>
+                                @if (Model.IsActive)
+                                {
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
+                                        <i class="fas fa-circle"></i> Activa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
+                                        <i class="fas fa-circle"></i> Inactiva
+                                    </span>
+                                }
+                            </dd>
+                        </div>
+                    </dl>
 
-                @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
-                {
-                    <div class="mt-6">
+                    @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+                    {
+                        <div class="mt-6">
                             <div class="text-sm text-gray-500 mb-1">Descripción corta</div>
-                        <p class="text-gray-700">@Model.ShortDescription</p>
-                    </div>
-                }
+                            <p class="text-gray-700">@Model.ShortDescription</p>
+                        </div>
+                    }
 
-                @if (!string.IsNullOrWhiteSpace(Model.Description))
-                {
-                    <div class="mt-4">
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <div class="mt-4">
                             <div class="text-sm text-gray-500 mb-1">Descripción completa</div>
-                        <p class="text-gray-700">@Model.Description</p>
-                    </div>
-                }
-            </div>
+                            <p class="text-gray-700">@Model.Description</p>
+                        </div>
+                    }
+                </div>
 
-            <!-- Preview visual -->
-            <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
-                <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
-                    <i class="fas fa-eye text-olive-green-600 mr-2"></i>
-                    Vista en el sitio
-                </h5>
+                <!-- Preview visual -->
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-eye text-olive-green-600 mr-2"></i>
+                        Vista en el sitio
+                    </h5>
 
-                <div class="relative h-64 flex items-center justify-center rounded-xl @Model.BgClass">
-                    <div class="absolute top-3 right-3 bg-burgundy-red text-white text-xs px-3 py-1.5 rounded-full font-bold">Categoría</div>
-
-                    <div class="text-center space-y-3">
-                        @if (!string.IsNullOrEmpty(Model.Image))
-                        {
-                            <img src="@Model.Image" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg" />
-                        }
-                        <h3 class="text-2xl font-bold text-white drop-shadow">@Model.Name</h3>
-                        @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
-                        {
-                            <p class="text-white/90 italic max-w-xs">@Model.ShortDescription</p>
-                        }
-                    </div>
+                    @await Html.PartialAsync(
+                    "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                                        Model
+                                        )
                 </div>
             </div>
-        </div>
 
-        <!-- Lateral -->
-        <div class="space-y-6">
-            <div class="glass-effect rounded-2xl p-6 shadow-golden-yellow/30">
-                <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
-                    <i class="fas fa-image text-olive-green-600 mr-2" ></i>
-                    Imagen
-                </h5>
+            <!-- Lateral -->
+            <div class="space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-golden-yellow/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-image text-olive-green-600 mr-2"></i>
+                        Imagen
+                    </h5>
 
-                @if (!string.IsNullOrEmpty(Model.Image))
-                {
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                                        {
                     <img src="@Model.Image" class="w-full rounded-xl shadow-md" />
-                }
-                else
-                {
-                    <div class="text-gray-500 text-sm">Sin imagen asignada</div>
-                }
-            </div>
+                                        }
+                                        else
+                    {
+                        <div class="text-gray-500 text-sm">Sin imagen asignada</div>
+                    }
+                </div>
 
-            <div class="glass-effect rounded-2xl p-6 shadow-mint-green/30">
-                <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
-                    <i class="fas fa-palette text-olive-green-600 mr-2"></i>
-                    Estilo
-                </h5>
+                <div class="glass-effect rounded-2xl p-6 shadow-mint-green/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-palette text-olive-green-600 mr-2"></i>
+                        Estilo
+                    </h5>
 
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-md @Model.BgClass"></div>
-                    <span class="text-sm text-gray-700">@Model.BgClass</span>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-md @Model.BgClass"></div>
+                        <span class="text-sm text-gray-700">
+                            @(string.IsNullOrEmpty(Model.BgClass)
+                                                        ? "Sin gradiente"
+                                                        : Model.BgClass == "bg-gradient-to-br from-lime-yellow to-magenta-strong"
+                                                        ? "Lima → Magenta"
+                                                        : Model.BgClass == "bg-gradient-to-br from-golden-yellow to-nut-brown"
+                                                        ? "Dorado → Marrón"
+                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-mint-green"
+                                                        ? "Beige → Menta"
+                                                        : Model.BgClass == "bg-gradient-to-br from-beige to-golden-yellow"
+                                                        ? "Beige → Dorado"
+                                                        : "Gradiente personalizado")
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 
