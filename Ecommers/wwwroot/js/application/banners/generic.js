@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* =====================================================
-   PREVIEW EN TIEMPO REAL ñ BANNERS
+   PREVIEW EN TIEMPO REAL  BANNERS
 ===================================================== */
 export function setupLivePreview() {
 
@@ -31,42 +31,42 @@ export function setupLivePreview() {
     const statusLabelPreview = document.getElementById('StatusLabelPreview');
 
     /* ======================
-       SECCI”N
+       SECCI√ìN
     ====================== */
     if (seccionInput && seccionPreview) {
         seccionInput.addEventListener('input', () => {
             seccionPreview.textContent =
-                seccionInput.value.trim() || 'SecciÛn del banner';
+                seccionInput.value.trim() || 'Secci√≥n del banner';
         });
     }
 
     /* ======================
-       TÕTULO
+       TITULO
     ====================== */
     if (tituloInput && tituloPreview) {
         tituloInput.addEventListener('input', () => {
             tituloPreview.textContent =
-                tituloInput.value.trim() || 'TÌtulo del banner';
+                tituloInput.value.trim() || 'T√≠tulo del banner';
         });
     }
 
     /* ======================
-       SUBTÕTULO
+       SUBT√çTULO
     ====================== */
     if (subtituloInput && subtituloPreview) {
         subtituloInput.addEventListener('input', () => {
             subtituloPreview.textContent =
-                subtituloInput.value.trim() || 'SubtÌtulo del banner';
+                subtituloInput.value.trim() || 'Subt√≠tulo del banner';
         });
     }
 
     /* ======================
-       BOT”N TEXTO
+       BOT√ìN TEXTO
     ====================== */
     if (botonTextoInput && botonTextoPreview) {
         botonTextoInput.addEventListener('input', () => {
             botonTextoPreview.textContent =
-                botonTextoInput.value.trim() || 'Ver m·s';
+                botonTextoInput.value.trim() || 'Ver m√°s';
         });
     }
 
@@ -129,7 +129,7 @@ export function validateImage(file, input) {
     if (!validTypes.includes(file.type)) {
         Swal.fire({
             icon: 'error',
-            title: 'Formato inv·lido',
+            title: 'Formato inv√°lido',
             text: 'La imagen debe ser JPG, PNG o WEBP',
         });
         input.value = '';

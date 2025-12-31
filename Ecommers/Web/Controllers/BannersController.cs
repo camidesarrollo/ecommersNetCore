@@ -243,54 +243,24 @@ namespace Ecommers.Web.Controllers
         {
             try
             {
-                var result = await _bannersService.GetByIdAsync(
-                    new GetByIdRequest<long> { Id = id });
-
-                if (result.Data == null)
-                {
-                    return Json(new
-                    {
-                        result = (object?)null,
-                        message = "No se encontró el banner solicitado."
-                    });
-                }
-
-                result.Data.IsActive = !result.Data.IsActive;
-
-                var update = new BannersUpdateRequest
-                {
-                    Id = result.Data.Id,
-                    Seccion = result.Data.Seccion,
-                    AltText = result.Data.AltText,
-                    Subtitulo = result.Data.Subtitulo,
-                    Titulo = result.Data.Titulo,
-                    BotonTexto = result.Data.BotonTexto,
-                    BotonEnlace = result.Data.BotonEnlace,
-                    Image = result.Data.Image,
-                    SortOrder = result.Data.SortOrder,
-                    IsActive = result.Data.IsActive
-                };
-
-                var resultUpdate = await _bannersService.UpdateAsync(update);
+                var result = await _bannersService.ToggleEstadoAsync(id);
 
                 return Json(new
                 {
-                    data = result.Data,
-                    success = resultUpdate.Success,
-                    message = resultUpdate.Message
+                    success = result.Success,
+                    message = result.Message
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Error al cambiar estado del banner");
+
                 return Json(new
                 {
-                    result = (object?)null,
-                    message = "Ocurrió un error inesperado al procesar la solicitud."
+                    success = false,
+                    message = "Ocurrió un error inesperado"
                 });
             }
         }
-
-
-
     }
 }

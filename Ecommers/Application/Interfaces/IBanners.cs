@@ -30,5 +30,8 @@ namespace Ecommers.Application.Interfaces
         Task<BannersD?> GetByTituloAsync(long id, string name);
 
         Task<IEnumerable<BannersD?>> GetBySeccionAsync(string seccion, bool activo);
+
+        Task<Result> ToggleEstadoAsync(long id);
+
     }
 }

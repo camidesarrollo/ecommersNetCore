@@ -334,5 +334,35 @@ namespace Ecommers.Application.Services
 
             return banners;
         }
+
+        public async Task<Result> ToggleEstadoAsync(long id)
+        {
+            var repo = _unitOfWork.Repository<BannersD, long>();
+
+            // ⚠️ NO AsNoTracking
+            var banner = await repo.GetQuery()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (banner == null)
+                return Result.Fail("Banner no encontrado");
+
+            banner.IsActive = !banner.IsActive;
+            banner.UpdatedAt = DateTime.UtcNow;
+            if(banner.IsActive == false)
+            {
+                banner.DeletedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                banner.DeletedAt = null;
+            }
+
+            repo.Update(banner);
+
+            await _unitOfWork.CompleteAsync();
+
+            return Result.Ok("Banners editada exitosamente");
+        }
+
     }
 }
