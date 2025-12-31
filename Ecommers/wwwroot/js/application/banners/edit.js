@@ -36,7 +36,7 @@ function initBannerUpdateTour() {
         id: 'welcome',
         title: '¡Bienvenido al Editor de Banners!',
         text: `
-            <p>👋 Te guiaremos paso a paso para crear un banner promocional atractivo.</p>
+            <p>👋 Te guiaremos paso a paso para editar un banner promocional atractivo.</p>
             <p>Aprenderás a:</p>
             <ul>
                 <li>📝 Completar los campos requeridos</li>

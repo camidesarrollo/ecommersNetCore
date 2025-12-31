@@ -1,5 +1,7 @@
 ﻿using System.Xml.Linq;
 using AutoMapper;
+using Azure;
+using Azure.Core;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.Banners;
@@ -177,7 +179,7 @@ namespace Ecommers.Web.Controllers
             catch (Exception ex)
             {
                 // Log del error
-                _logger.LogError(ex, "Error al obtener categorías para DataTables");
+                _logger.LogError(ex, "Error al obtener banners para DataTables");
 
                 // Retornar estructura válida incluso en error
                 return Json(new
@@ -221,7 +223,7 @@ namespace Ecommers.Web.Controllers
                 return Json(new
                 {
                     result = response,
-                    message = "Categoría obtenida correctamente."
+                    message = "Banners obtenida correctamente."
                 });
             }
             catch (Exception)
@@ -233,6 +235,61 @@ namespace Ecommers.Web.Controllers
                 });
             }
         }
+
+        [HttpPost("CambiarEstado")]
+        [IgnoreAntiforgeryToken]
+        [SkipModelValidation]
+        public async Task<IActionResult> ToggleEstado(long id)
+        {
+            try
+            {
+                var result = await _bannersService.GetByIdAsync(
+                    new GetByIdRequest<long> { Id = id });
+
+                if (result.Data == null)
+                {
+                    return Json(new
+                    {
+                        result = (object?)null,
+                        message = "No se encontró el banner solicitado."
+                    });
+                }
+
+                result.Data.IsActive = !result.Data.IsActive;
+
+                var update = new BannersUpdateRequest
+                {
+                    Id = result.Data.Id,
+                    Seccion = result.Data.Seccion,
+                    AltText = result.Data.AltText,
+                    Subtitulo = result.Data.Subtitulo,
+                    Titulo = result.Data.Titulo,
+                    BotonTexto = result.Data.BotonTexto,
+                    BotonEnlace = result.Data.BotonEnlace,
+                    Image = result.Data.Image,
+                    SortOrder = result.Data.SortOrder,
+                    IsActive = result.Data.IsActive
+                };
+
+                var resultUpdate = await _bannersService.UpdateAsync(update);
+
+                return Json(new
+                {
+                    data = result.Data,
+                    success = resultUpdate.Success,
+                    message = resultUpdate.Message
+                });
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    result = (object?)null,
+                    message = "Ocurrió un error inesperado al procesar la solicitud."
+                });
+            }
+        }
+
 
 
     }
