@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const titulo = btn?.dataset.titulo;
 
                 return {
-                    title: `¿Deseas ${textActivo} el banner?`,
+                    title: `¿Deseas ${textActivo} el categoría?`,
                     html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
                     confirmButton: `Sí, ${textActivo}`
                 };

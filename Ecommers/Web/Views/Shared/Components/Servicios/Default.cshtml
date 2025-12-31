@@ -1,6 +1,31 @@
 ﻿@model IEnumerable<Ecommers.Domain.Entities.ServiciosD>
-
 @{
+    var servicios = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
+    if (!servicios.Any())
+    {
+        return;
+    }
+}
+
+<section class="py-10 bg-gradient-to-tr from-amber-200 via-orange-100 to-yellow-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            Nuestros Servicios
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @foreach (var item in servicios)
+            {
+                @await Html.PartialAsync(
+                "~/Web/Views/Shared/Components/Servicios/_ServiciosItem.cshtml",
+                        item
+                        )
+            }
+        </div>
+    </div>
+</section>
+@* @{
     var servicios = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
     if (!servicios.Any())
     {
@@ -77,4 +102,4 @@
             }
         </div>
     </div>
-</section>
+</section> *@

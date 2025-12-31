@@ -1,5 +1,141 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Ecommers.Domain.Entities.ServiciosD
 @{
+    ViewData["Title"] = "Eliminar Servicios";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-pattern min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- Breadcrumb -->
+        <nav class="mb-6" aria-label="breadcrumb">
+            <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
+                <li>
+                    <a href="@Url.Action("Index", "Home")" class="text-olive-green-600 hover:text-olive-green-700">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                </li>
+                <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
+                <li>
+                    <a href="@Url.Action("Index", "Servicios")" class="text-olive-green-600 hover:text-olive-green-700">Servicioss</a>
+                </li>
+                <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
+                <li class="text-dark-chocolate font-medium">Detalle</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="glass-effect rounded-2xl p-6 shadow-olive-green/30 flex flex-col sm:flex-row justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-dark-chocolate flex items-center gap-3">
+                    <i class="fas fa-folder-open text-olive-green-600"></i>
+                    @Model.Name
+                </h1>
+            </div>
+            <div class="flex gap-2">
+                <form asp-action="Eliminar" method="post" enctype="multipart/form-data" id="formServicios" class="slide-in delay-400">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
+                        <i class="fas fa-edit mr-2"></i>Eliminar
+                    </button>
+                </form>
+                <a href="@Url.Action("Index", "Servicios")" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
+                    <i class="fas fa-arrow-left mr-2"></i>Volver
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+
+            <!-- Info principal -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                        Información
+                    </h5>
+
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <dt class="text-sm text-gray-500">Nombre</dt>
+                            <dd id="nombre" class="font-semibold text-dark-chocolate">@Model.Name</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Orden</dt>
+                            <dd>@Model.SortOrder</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500">Estado</dt>
+                            <dd>
+                                @if (Model.IsActive)
+                                {
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
+                                        <i class="fas fa-circle"></i> Activa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
+                                        <i class="fas fa-circle"></i> Inactiva
+                                    </span>
+                                }
+                            </dd>
+                        </div>
+                    </dl>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500 mb-1">Descripción completa</div>
+                            <p class="text-gray-700">@Model.Description</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Preview visual -->
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-eye text-olive-green-600 mr-2"></i>
+                        Vista en el sitio
+                    </h5>
+                    @await Html.PartialAsync(
+                    "~/Web/Views/Shared/Components/Servicios/_ServiciosItem.cshtml",
+                                        Model
+                                        )
+                </div>
+            </div>
+
+            <!-- Lateral -->
+            <div class="space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-golden-yellow/30">
+                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-image text-olive-green-600 mr-2"></i>
+                        Imagen
+                    </h5>
+
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                                        {
+                    <img src="@Model.Image" class="w-full rounded-xl shadow-md" />
+                                        }
+                                        else
+                    {
+                        <div class="text-gray-500 text-sm">Sin imagen asignada</div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+@section Scripts {
+
+
+    <script type="module" src="~/js/application/servicios/generic.js"></script>
+    <script type="module" src="~/js/application/servicios/delete.js"></script>
 }

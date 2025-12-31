@@ -28,7 +28,6 @@ namespace Ecommers.Application.DTOs.Requests.Categorias
         /// </summary>
         public string? Image { get; set; }
 
-        [Required(ErrorMessage = "La imagen de la categoría es obligatoria.")]
         public IFormFile? ImageFile { get; set; }
 
         /// <summary>
@@ -38,15 +37,9 @@ namespace Ecommers.Application.DTOs.Requests.Categorias
         [MaxLength(255, ErrorMessage = "La clase de fondo no puede superar los 255 caracteres.")]
         public string? BgClass { get; set; }
 
-        /// <summary>
-        /// Orden de visualización
-        /// </summary>
         [Required(ErrorMessage = "El orden de visualización es obligatorio.")]
         public int? SortOrder { get; set; } = 0;
 
-        /// <summary>
-        /// Estado activo
-        /// </summary>
         public bool IsActive { get; set; } = true;
 
         /// <summary>

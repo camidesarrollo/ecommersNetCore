@@ -96,10 +96,10 @@
                             Vista Previa
                         </h5>
                         <!-- Card de Preview -->
-                        <div id="BgClassView" class="relative h-64 bg-gradient-to-br from-lime-yellow to-magenta-strong flex flex-col items-center justify-center p-6 transition-all duration-300">
-                        
-                         </div>
-
+                        @await Html.PartialAsync(
+                        "~/Web/Views/Shared/Components/Servicios/_ServiciosItem.cshtml",
+                                                Model
+                                                )
                         <div class="bg-white rounded-xl overflow-hidden shadow-lg">
                             <!-- Footer Info (Opcional) -->
                             <div class="bg-gray-50 px-6 py-3 border-t border-gray-200">

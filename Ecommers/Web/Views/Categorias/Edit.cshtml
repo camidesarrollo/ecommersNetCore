@@ -43,7 +43,7 @@
         </div>
 
         <!-- FORM -->
-        <form asp-action="Editar" asp-controller="Categorias" method="post" enctype="multipart/form-data" id="formCategoria">
+            <form asp-action="Editar" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formCategoria">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Id" />
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

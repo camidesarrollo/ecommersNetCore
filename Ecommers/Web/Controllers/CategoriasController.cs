@@ -1,28 +1,26 @@
 ﻿using System.Xml.Linq;
 using AutoMapper;
+using Azure;
+using Azure.Core;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.Categorias;
-using Ecommers.Application.DTOs.Requests.Configuracion;
 using Ecommers.Application.Interfaces;
-using Ecommers.Application.Services;
 using Ecommers.Domain.Entities;
-using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Ecommers.Web.Controllers
 {
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class CategoriasController(
-        ICategoriasService categoriasService,
+        ICategoriasService categoriassService,
         IImageStorageService imageStorage,
         IMapper mapper,
         ILogger<CategoriasController> logger) : BaseController
     {
-        private readonly ICategoriasService _categoriaService = categoriasService;
+        private readonly ICategoriasService _categoriasService = categoriassService;
         private readonly IImageStorageService _imageStorage = imageStorage;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<CategoriasController> _logger = logger;
@@ -42,7 +40,7 @@ namespace Ecommers.Web.Controllers
         [HttpGet("Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
-            var result = await _categoriaService.GetByIdAsync(
+            var result = await _categoriasService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
             return HandleResultView(result, "~/Web/Views/Categorias/Details.cshtml");
@@ -54,8 +52,8 @@ namespace Ecommers.Web.Controllers
         [HttpGet("Crear")]
         public IActionResult Crear()
         {
-            CategoriesD categorias = new() { Id = 0 };
-            return View("~/Web/Views/Categorias/Create.cshtml", categorias);
+            CategoriesD categoriass = new() { Id = 0 };
+            return View("~/Web/Views/Categorias/Create.cshtml", categoriass);
         }
 
         // -------------------------------------------------------------------
@@ -72,7 +70,7 @@ namespace Ecommers.Web.Controllers
                 "Categorias"
             );
 
-            var result = await _categoriaService.CreateAsync(request);
+            var result = await _categoriasService.CreateAsync(request);
             return HandleResult(result, nameof(Index));
         }
 
@@ -82,7 +80,7 @@ namespace Ecommers.Web.Controllers
         [HttpGet("Editar/{id}")]
         public async Task<IActionResult> Editar(int id)
         {
-            var result = await _categoriaService.GetByIdAsync(
+            var result = await _categoriasService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
             return HandleResultView(result, "~/Web/Views/Categorias/Edit.cshtml");
@@ -103,7 +101,7 @@ namespace Ecommers.Web.Controllers
                 "Categorias"
             );
 
-            var result = await _categoriaService.UpdateAsync(request);
+            var result = await _categoriasService.UpdateAsync(request);
             return HandleResult(result, nameof(Index));
         }
 
@@ -113,7 +111,7 @@ namespace Ecommers.Web.Controllers
         [HttpGet("Eliminar/{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
-            var result = await _categoriaService.GetByIdAsync(
+            var result = await _categoriasService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
             return HandleResultView(result, "~/Web/Views/Categorias/Delete.cshtml");
@@ -126,7 +124,7 @@ namespace Ecommers.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Eliminar(long id, DeleteRequest request)
         {
-            var result = await _categoriaService.DeleteAsync(request);
+            var result = await _categoriasService.DeleteAsync(request);
             return HandleResult(result, nameof(Index));
         }
 
@@ -152,7 +150,7 @@ namespace Ecommers.Web.Controllers
                 );
 
                 // Obtener los datos
-                var result = await _categoriaService.GetCategoriesDataTable(User, request);
+                var result = await _categoriasService.GetCategoriesDataTable(User, request);
 
                 // Validar que result no sea null
                 if (result == null)
@@ -181,7 +179,7 @@ namespace Ecommers.Web.Controllers
             catch (Exception ex)
             {
                 // Log del error
-                _logger.LogError(ex, "Error al obtener categorías para DataTables");
+                _logger.LogError(ex, "Error al obtener categorias para DataTables");
 
                 // Retornar estructura válida incluso en error
                 return Json(new
@@ -207,25 +205,25 @@ namespace Ecommers.Web.Controllers
                     return Json(new
                     {
                         result = (object?)null,
-                        message = "El nombre de la categoría es obligatorio."
+                        message = "El nombre de el categorias es obligatorio."
                     });
                 }
 
-                var response = await _categoriaService.GetByNameAsync(id, name);
+                var response = await _categoriasService.GetByNameAsync(id, name);
 
                 if (response == null)
                 {
                     return Json(new
                     {
                         result = (object?)null,
-                        message = "No se encontró la categoría solicitada."
+                        message = "No se encontró el categorias solicitada."
                     });
                 }
 
                 return Json(new
                 {
                     result = response,
-                    message = "Categoría obtenida correctamente."
+                    message = "Categorias obtenida correctamente."
                 });
             }
             catch (Exception)
@@ -245,7 +243,7 @@ namespace Ecommers.Web.Controllers
         {
             try
             {
-                var result = await _categoriaService.ToggleEstadoAsync(id);
+                var result = await _categoriasService.ToggleEstadoAsync(id);
 
                 return Json(new
                 {
@@ -255,7 +253,7 @@ namespace Ecommers.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al cambiar estado del categoría");
+                _logger.LogError(ex, "Error al cambiar estado del banner");
 
                 return Json(new
                 {

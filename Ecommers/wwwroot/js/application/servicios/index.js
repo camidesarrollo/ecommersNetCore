@@ -1,6 +1,6 @@
-﻿import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
+﻿import { CambiarEstado } from './servicioService.js';
+import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
 import { dayjs } from "../../bundle/vendors_dayjs.js";
-
 document.addEventListener("DOMContentLoaded", async () => {
 
     // ============================
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <i class="fas fa-edit"></i>
                 </a>
 
-                <button data-id="${id}" data-isActive="${row.isActive}" data-titulo="${row.titulo}"
+                <button data-id="${id}" data-isActive="${row.isActive}" data-titulo="${row.name}"
                         class="btn-toggle w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
                         title="Activar / Desactivar">
                     <i class="fas fa-toggle-on"></i>
@@ -154,18 +154,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             action: CambiarEstado,
 
             confirmText: (() => {
-                const isActive = e.target.closest(".btn-toggle")?.dataset.isactive === "true";
+                const btn = e.target.closest(".btn-toggle");
+                const isActive = btn?.dataset.isactive === "true";
                 const textActivo = isActive ? "desactivar" : "activar";
-                const titulo = e.target.closest(".btn-toggle")?.dataset.titulo;
+                const titulo = btn?.dataset.titulo;
 
                 return {
-                    title: `¿Deseas ${textActivo} el banner?`,
+                    title: `¿Deseas ${textActivo} el servicio?`,
                     html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
                     confirmButton: `Sí, ${textActivo}`
                 };
             })(),
 
-            reloadTable: true
+            reloadTable: true,
+            dataTable: dt   // 👈 AQUÍ
         });
     });
 

@@ -11,7 +11,76 @@ document.addEventListener('DOMContentLoaded', () => {
    PREVIEW EN TIEMPO REAL
 ===================================================== */
 export function setupLivePreview() {
-    
+    const nameInput = document.querySelector('[name="Name"]');
+    const DescInput = document.querySelector('[name="Description"]');
+    const imageInput = document.getElementById('imageInput');
+    const isActiveInput = document.getElementById('isActiveSwitch');
+
+    const namePreview = document.getElementById('NamePreview');
+    const DescPreview = document.getElementById('DescriptionPreview');
+    const bgClassView = document.getElementById('BgClassView');
+    const imagePreview = document.getElementById('ImageFilePreview');
+    const bgClassLabelPreview = document.getElementById('BgClassLabelPreview');
+    const statusIconPreview = document.getElementById('StatusIconPreview');
+    const statusLabelPreview = document.getElementById('StatusLabelPreview');
+
+    // Nombre
+    if (nameInput && namePreview) {
+        nameInput.addEventListener('input', () => {
+            namePreview.textContent =
+                nameInput.value.trim() || 'Nombre de Categoría';
+        });
+    }
+
+    // Descripción corta
+    if (DescInput && DescPreview) {
+        DescInput.addEventListener('input', () => {
+            DescPreview.textContent =
+                DescInput.value.trim() || 'Descripción breve de la categoría';
+        });
+    }
+
+    // Estado Activo/Inactivo
+    if (isActiveInput && statusIconPreview && statusLabelPreview) {
+        const updateStatusPreview = () => {
+            if (isActiveInput.checked) {
+                statusIconPreview.className = 'fas fa-circle text-mint-green-700';
+                statusLabelPreview.textContent = 'Activa';
+            } else {
+                statusIconPreview.className = 'fas fa-circle text-gray-400';
+                statusLabelPreview.textContent = 'Inactiva';
+            }
+        };
+
+        // Actualizar al cargar y al cambiar
+        updateStatusPreview();
+        isActiveInput.addEventListener('change', updateStatusPreview);
+    }
+
+    // Imagen - No duplicar funcionalidad del image-handler.js
+    // Solo actualizar el preview específico si es necesario
+    if (imageInput && imagePreview) {
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+
+            if (!file) {
+                hideImagePreview(imagePreview);
+                return;
+            }
+
+            if (!validateImage(file, imageInput)) {
+                hideImagePreview(imagePreview);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 }
 
 /* =====================================================

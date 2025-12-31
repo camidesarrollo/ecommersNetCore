@@ -1,0 +1,20 @@
+﻿@model Ecommers.Domain.Entities.ServiciosD
+<div id="BgClassView" class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition">
+
+    <div class="flex justify-center mb-4">
+        <img id="ImageFilePreview"  src="@Model.Image"
+             alt="@Model.Name"
+             class="w-10 h-10" />
+
+    </div>
+
+    <div>
+        <h4 id="NamePreview"  class="text-xl font-bold mb-2">
+            @Model.Name
+        </h4>
+        <p id="DescriptionPreview" class="text-sm">
+            @Model.Description
+        </p>
+    </div>
+
+</div>

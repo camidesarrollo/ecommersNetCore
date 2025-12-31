@@ -20,18 +20,11 @@ namespace Ecommers.Application.DTOs.Requests.Servicios
         /// </summary>
         public string? Image { get; set; }
 
-        [Required(ErrorMessage = "La imagen de la categoría es obligatoria.")]
         public IFormFile? ImageFile { get; set; }
 
-        /// <summary>
-        /// Orden de visualización
-        /// </summary>
         [Required(ErrorMessage = "El orden de visualización es obligatorio.")]
         public int? SortOrder { get; set; } = 0;
 
-        /// <summary>
-        /// Estado activo
-        /// </summary>
         public bool IsActive { get; set; } = true;
     }
 }
