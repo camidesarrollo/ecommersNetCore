@@ -101,6 +101,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                    title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
+                <button data-id="${id}"
+                        class="btn-toggle w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        title="Activar / Desactivar">
+                    <i class="fas fa-toggle-on"></i>
+                </button>
 
                 ${row.canDelete
                         ? `

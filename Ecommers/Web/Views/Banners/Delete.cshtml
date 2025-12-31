@@ -74,6 +74,8 @@
                         <div>
                             <dt class="text-sm text-gray-500">Sección</dt>
                             <dd class="font-semibold text-dark-chocolate">@Model.Seccion</dd>
+                            <input hidden asp-for="Seccion" class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500  ring-olive-green-500  outline-none transition-all duration-300" placeholder="Home, Ofertas..." required />
+
                         </div>
 
                         <div>
@@ -159,6 +161,5 @@
 <input type="hidden" id="Estado" value="@TempData["estado"]" />
 
 @section Scripts {
-    <script type="module" src="~/js/application/banners/generic.js"></script>
     <script type="module" src="~/js/application/banners/delete.js"></script>
 }

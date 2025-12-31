@@ -7,7 +7,7 @@ namespace Ecommers.Web.ViewComponents
     {
         private readonly ICategoriasService _categoriasService = categoriasService;
 
-        public async Task<IViewComponentResult> InvokeAsync(string seccion, bool activo)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
 
             var categorias = await _categoriasService.GetAllActiveAsync();

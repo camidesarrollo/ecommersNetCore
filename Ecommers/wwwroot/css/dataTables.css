@@ -899,10 +899,14 @@ div.dt-container {
             box-shadow: none;
         }
         /* Botón hover */
-        div.dt-container .dt-paging .dt-paging-button:hover {
+        div.dt-container .dt-paging .dt-paging-button:hover,
+        div.dt-container .dt-paging .dt-paging-button:focus,
+        div.dt-container .dt-paging .dt-paging-button:active {
+            background: none !important;
+            background-image: none !important;
+            background-color: var(--color-nut-brown) !important;
             color: var(--color-white) !important;
-            border: 1px solid var(--color-nut-brown-dark);
-            background-color: var(--color-nut-brown);
+            border-color: var(--color-nut-brown-dark) !important;
         }
         /* Botón activo (click) */
         div.dt-container .dt-paging .dt-paging-button:active {

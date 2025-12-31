@@ -1,0 +1,162 @@
+﻿@model Ecommers.Domain.Entities.MasterAttributesD
+
+@{
+    ViewData["Title"] = "Eliminar Maestro de atributos";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="bg-pattern min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
+                <li>
+                    <a href="@Url.Action("Index", "Home")" class="text-olive-green-600">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                </li>
+                <li><i class="fas fa-chevron-right text-sm text-gray-400"></i></li>
+                <li>
+                    <a href="@Url.Action("Index", "MasterAttributes")" class="text-olive-green-600">
+                        Maestro de atributos
+                    </a>
+                </li>
+                <li><i class="fas fa-chevron-right text-sm text-gray-400"></i></li>
+                <li class="font-semibold text-dark-chocolate">Eliminar</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="glass-effect rounded-2xl p-6 flex flex-col lg:flex-row justify-between gap-6">
+            <div>
+                <h1 class="text-3xl font-bold text-dark-chocolate flex items-center gap-3">
+                    <i class="fas fa-trash-alt text-red-700"></i>
+                    Eliminar atributo
+                </h1>
+                <p class="text-gray-600 mt-1">
+                    Esta acción <strong>no se puede deshacer</strong>
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <form asp-action="Eliminar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 bg-red-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition shadow">
+                        <i class="fas fa-trash-alt"></i>
+                        Eliminar definitivamente
+                    </button>
+                </form>
+
+                <a href="@Url.Action("Index", "MasterAttributes")"
+                   class="inline-flex items-center gap-2 bg-gray-200 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-arrow-left"></i>
+                    Volver
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Información -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-effect rounded-2xl p-6">
+                    <h5 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-olive-green-600"></i>
+                        Información del atributo
+                    </h5>
+
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div>
+                            <dt class="text-sm text-gray-500">Nombre</dt>
+                            <dd class="font-semibold">@Model.Name</dd>
+                        </div>
+
+                        <div>
+                            <dt class="text-sm text-gray-500">Slug</dt>
+                            <dd class="font-semibold">@Model.Slug</dd>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <dt class="text-sm text-gray-500">Descripción</dt>
+                            <dd class="font-semibold">@Model.Description</dd>
+                        </div>
+
+                        <div>
+                            <dt class="text-sm text-gray-500">Categoría</dt>
+                            <dd class="font-semibold">@Model.Category</dd>
+                        </div>
+
+                        <div>
+                            <dt class="text-sm text-gray-500">Unidad</dt>
+                            <dd class="font-semibold">@Model.Unit</dd>
+                        </div>
+
+                        <div>
+                            <dt class="text-sm text-gray-500">Tipo de dato</dt>
+                            <dd class="font-semibold">@Model.DataType</dd>
+                        </div>
+
+                        <div>
+                            <dt class="text-sm text-gray-500">Tipo de input</dt>
+                            <dd class="font-semibold">@Model.InputType</dd>
+                        </div>
+
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Flags -->
+            <div class="space-y-6">
+                <div class="glass-effect rounded-2xl p-6">
+                    <h5 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-toggle-on text-olive-green-600"></i>
+                        Comportamiento
+                    </h5>
+
+                    <ul class="space-y-3 text-sm">
+
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-asterisk text-amber-700"></i>
+                            Obligatorio:
+                            <span class="font-semibold">@((Model.IsRequired) ? "Sí" : "No")</span>
+                        </li>
+
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-filter text-amber-700"></i>
+                            Filtrable:
+                            <span class="font-semibold">@((Model.IsFilterable) ? "Sí" : "No")</span>
+                        </li>
+
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-random text-amber-700"></i>
+                            Variante:
+                            <span class="font-semibold">@((Model.IsVariant) ? "Sí" : "No")</span>
+                        </li>
+
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-amber-700"></i>
+                            Activo:
+                            <span class="font-semibold">@((Model.IsActive) ? "Sí" : "No")</span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" value="@TempData["estado"]" />
+
+@section Scripts {
+    <script type="module" src="~/js/application/masterAttributes/generic.js"></script>
+    <script type="module" src="~/js/application/masterAttributes/delete.js"></script>
+}

@@ -64,6 +64,7 @@ namespace Ecommers.Application.Configuration
             services.AddScoped<IBannersService, BannersService>();
             services.AddScoped<ICategoriasService, CategoriasService>();
             services.AddScoped<IServicioService,ServicioService>();
+            services.AddScoped<IMasterAttributesService,MasterAttributesService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IImageStorageService, ImageStorageService>();
 

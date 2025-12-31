@@ -7,7 +7,7 @@ using Ecommers.Domain.Entities;
 
 namespace Ecommers.Application.Interfaces
 {
-    public interface IMasterAttributes
+    public interface IMasterAttributesService
     {
         Task<DataTableResponse<MasterAttributesD>> GetMasterAttributesDataTable(
          ClaimsPrincipal user,

@@ -9,14 +9,34 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Domain\Enums\**" />
+	  <Compile Remove="Domain\Exceptions\**" />
+	  <Compile Remove="Domain\Interfaces\**" />
+	  <Compile Remove="Infrastructure\Configurations\**" />
 	  <Compile Remove="Web\Configuration\node_modules\**" />
 	  <Compile Remove="Web\node_modules\**" />
+	  <Content Remove="Domain\Enums\**" />
+	  <Content Remove="Domain\Exceptions\**" />
+	  <Content Remove="Domain\Interfaces\**" />
+	  <Content Remove="Infrastructure\Configurations\**" />
 	  <Content Remove="Web\Configuration\node_modules\**" />
 	  <Content Remove="Web\node_modules\**" />
+	  <EmbeddedResource Remove="Domain\Enums\**" />
+	  <EmbeddedResource Remove="Domain\Exceptions\**" />
+	  <EmbeddedResource Remove="Domain\Interfaces\**" />
+	  <EmbeddedResource Remove="Infrastructure\Configurations\**" />
 	  <EmbeddedResource Remove="Web\Configuration\node_modules\**" />
 	  <EmbeddedResource Remove="Web\node_modules\**" />
+	  <None Remove="Domain\Enums\**" />
+	  <None Remove="Domain\Exceptions\**" />
+	  <None Remove="Domain\Interfaces\**" />
+	  <None Remove="Infrastructure\Configurations\**" />
 	  <None Remove="Web\Configuration\node_modules\**" />
 	  <None Remove="Web\node_modules\**" />
+	  <TypeScriptCompile Remove="Domain\Enums\**" />
+	  <TypeScriptCompile Remove="Domain\Exceptions\**" />
+	  <TypeScriptCompile Remove="Domain\Interfaces\**" />
+	  <TypeScriptCompile Remove="Infrastructure\Configurations\**" />
 	  <TypeScriptCompile Remove="Web\Configuration\node_modules\**" />
 	  <TypeScriptCompile Remove="Web\node_modules\**" />
 	</ItemGroup>
@@ -67,11 +87,6 @@
 
 	<!-- Carpetas del proyecto -->
 	<ItemGroup>
-		<Folder Include="Application\Validators\" />
-		<Folder Include="Domain\Enums\" />
-		<Folder Include="Domain\Interfaces\" />
-		<Folder Include="Domain\Exceptions\" />
-		<Folder Include="Infrastructure\Configurations\" />
 		<Folder Include="Infrastructure\Repositories\" />
 		<Folder Include="Web\Middlewares\" />
 		<Folder Include="Document\" />

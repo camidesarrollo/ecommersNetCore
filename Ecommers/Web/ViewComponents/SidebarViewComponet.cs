@@ -26,11 +26,11 @@ namespace Ecommers.Web.ViewComponents
 
             var menuItems = new List<MenuItem>
             {
-                new() { Name = "Dashboard", Path = "/dashboard" },
-                new() { Name = "Productos", Path = "/dashboard/productos" },
-                new() { Name = "Pedidos", Path = "/dashboard/pedidos", Badge = "5" },
-                new() { Name = "Clientes", Path = "/dashboard/clientes" },
-                new() { Name = "Analíticas", Path = "/dashboard/analiticas" }
+                new() { Name = "Dashboard", Path = "/Dashboard" },
+                new() { Name = "Productos", Path = "/Dashboard/productos" },
+                new() { Name = "Pedidos", Path = "/Dashboard/pedidos", Badge = "5" },
+                new() { Name = "Clientes", Path = "/Dashboard/clientes" },
+                new() { Name = "Analíticas", Path = "/Dashboard/analiticas" }
             };
 
             var sections = new List<Section>
@@ -40,12 +40,13 @@ namespace Ecommers.Web.ViewComponents
                     Title = "Gestión",
                     Items =
                     [
-                        new MenuItem { Name = "Banners", Path = "/gestion/banners" },
-                        new MenuItem { Name = "Categorías", Path = "/gestion/categorias" },
-                        new MenuItem { Name = "Configuraciones", Path = "/gestion/configuraciones" },
-                        new MenuItem { Name = "Servicios", Path = "/gestion/servicios" },
-                        new MenuItem { Name = "Inventario", Path = "/dashboard/inventario", Badge = "3" },
-                        new MenuItem { Name = "Reportes", Path = "/dashboard/reportes" }
+                        new MenuItem { Name = "Banners", Path = "/Gestion/Banners" },
+                        new MenuItem { Name = "Categorías", Path = "/Gestion/Categorias" },
+                        new MenuItem { Name = "Configuraciones", Path = "/Gestion/Configuraciones" },
+                        new MenuItem { Name = "Servicios", Path = "/Gestion/Servicios" },
+                        new MenuItem { Name = "MaestroAtributos", Path = "/Gestion/MasterAttributes"},
+                        new MenuItem { Name = "Inventario", Path = "/Dashboard/inventario", Badge = "3" },
+                        new MenuItem { Name = "Reportes", Path = "/Dashboard/reportes" }
                     ]
                 },
                 new()
@@ -53,7 +54,7 @@ namespace Ecommers.Web.ViewComponents
                     Title = "Configuración",
                     Items =
                     [
-                        new MenuItem { Name = "Ajustes", Path = "/dashboard/ajustes" }
+                        new MenuItem { Name = "Ajustes", Path = "/Dashboard/ajustes" }
                     ]
                 }
             };
@@ -86,7 +87,7 @@ namespace Ecommers.Web.ViewComponents
             {
                 item.IsActive =
                     !string.IsNullOrWhiteSpace(item.Path) &&
-                    currentPath.StartsWith(item.Path.ToLower());
+                    currentPath.StartsWith(item.Path, StringComparison.CurrentCultureIgnoreCase);
             }
         }
     }

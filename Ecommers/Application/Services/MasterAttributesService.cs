@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommers.Application.Services
 {
     public class MasterAttributesService(IUnitOfWork unitOfWork, IMapper mapper)
-            : IMasterAttributes
+            : IMasterAttributesService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
@@ -92,7 +92,7 @@ namespace Ecommers.Application.Services
                 await repo.AddAsync(categories);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría creada exitosamente");
+                return Result.Ok("Maestro de atributos creada exitosamente");
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace Ecommers.Application.Services
 
                 if (categorias == null)
                 {
-                    return Result<MasterAttributesD>.Fail("Categoría no encontrada");
+                    return Result<MasterAttributesD>.Fail("Maestro de atributos no encontrada");
                 }
 
                 categorias.CantidadProductos = ProductsQueries.GetCountByMasterAttributes(getByIdRequest.Id);
@@ -121,7 +121,7 @@ namespace Ecommers.Application.Services
             }
             catch (Exception ex)
             {
-                return Result<MasterAttributesD>.Fail($"Error al obtener la categoría: {ex.Message}");
+                return Result<MasterAttributesD>.Fail($"Error al obtener el Maestro de atributos: {ex.Message}");
             }
         }
 
@@ -135,7 +135,7 @@ namespace Ecommers.Application.Services
                 await UpdateInternalAsync(request);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría editada exitosamente");
+                return Result.Ok("Maestro de atributos editada exitosamente");
             }
             catch (Exception ex)
             {
@@ -151,7 +151,7 @@ namespace Ecommers.Application.Services
             var categorias = await repo.GetQuery()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id)
-                ?? throw new Exception("Categoría no encontrada");
+                ?? throw new Exception("Maestro de atributos no encontrada");
 
             _mapper.Map(request, categorias);
             categorias.UpdatedAt = DateTime.UtcNow;
@@ -170,7 +170,7 @@ namespace Ecommers.Application.Services
                 var categories = await repo.GetByIdAsync(deleteRequest.Id);
                 if (categories == null)
                 {
-                    return Result.Fail("Categoría no encontrada");
+                    return Result.Fail("Maestro de atributos no encontrada");
                 }
 
                 // Validar si no contiene productos asociados
@@ -178,13 +178,13 @@ namespace Ecommers.Application.Services
 
                 if (cantidad > 0)
                 {
-                    return Result.Fail("No es posible eliminar esta categoría debido a que contiene productos relacionados");
+                    return Result.Fail("No es posible eliminar esta Maestro de atributos debido a que contiene productos relacionados");
                 }
 
                 repo.Remove(categories);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Categoría eliminada exitosamente");
+                return Result.Ok("Maestro de atributos eliminada exitosamente");
             }
             catch (Exception ex)
             {
