@@ -62,8 +62,6 @@ appsettings.*.json
 !appsettings.json
 
 # ASP.NET Core
-Ecommers/wwwroot/lib/
-Ecommers/wwwroot/dist/
 Ecommers/wwwroot/node_modules/
 Ecommers/Web/Configuration/node_modules/
 
