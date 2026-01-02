@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecommers.Web.Controllers
 {
     [Route("Gestion/[controller]")]
-    public class ConfiguracionesController(IConfiguracionService configuracionService, IMapper mapper, IFileManagerService fileManager) : Controller
+    public class ConfiguracionesController(IConfiguracion configuracionService, IMapper mapper, IFileManager fileManager) : Controller
     {
-        private readonly IConfiguracionService _configuracionService = configuracionService;
-        private readonly IFileManagerService _fileManager = fileManager;
+        private readonly IConfiguracion _configuracionService = configuracionService;
+        private readonly IFileManager _fileManager = fileManager;
         private readonly IMapper _mapper = mapper;
 
         // -------------------------------------------------------------------

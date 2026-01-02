@@ -1,7 +1,4 @@
-﻿using System.Xml.Linq;
-using AutoMapper;
-using Azure;
-using Azure.Core;
+﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.Categorias;
@@ -15,13 +12,13 @@ namespace Ecommers.Web.Controllers
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class CategoriasController(
-        ICategoriasService categoriassService,
-        IImageStorageService imageStorage,
+        ICategorias categoriassService,
+        IImageStorage imageStorage,
         IMapper mapper,
         ILogger<CategoriasController> logger) : BaseController
     {
-        private readonly ICategoriasService _categoriasService = categoriassService;
-        private readonly IImageStorageService _imageStorage = imageStorage;
+        private readonly ICategorias _categoriasService = categoriassService;
+        private readonly IImageStorage _imageStorage = imageStorage;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<CategoriasController> _logger = logger;
 

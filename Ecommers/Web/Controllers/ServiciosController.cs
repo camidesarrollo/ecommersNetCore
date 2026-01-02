@@ -16,13 +16,13 @@ namespace Ecommers.Web.Controllers
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class ServiciosController(
-        IServicioService serviciosService,
-        IImageStorageService imageStorage,
+        IServicio serviciosService,
+        IImageStorage imageStorage,
         IMapper mapper,
         ILogger<ServiciosController> logger) : BaseController
     {
-        private readonly IServicioService _servicioService = serviciosService;
-        private readonly IImageStorageService _imageStorage = imageStorage;
+        private readonly IServicio _servicioService = serviciosService;
+        private readonly IImageStorage _imageStorage = imageStorage;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<ServiciosController> _logger = logger;
 

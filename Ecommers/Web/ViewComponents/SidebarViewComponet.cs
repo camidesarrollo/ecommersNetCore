@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Web.ViewComponents
 {
-    public class SidebarViewComponent(IConfiguracionService configService) : ViewComponent
+    public class SidebarViewComponent(IConfiguracion configService) : ViewComponent
     {
-        private readonly IConfiguracionService _configService = configService;
+        private readonly IConfiguracion _configService = configService;
 
         public async Task<IViewComponentResult> InvokeAsync()
         {

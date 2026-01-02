@@ -2,9 +2,9 @@
 
 namespace Ecommers.Infrastructure.Files
 {
-    public class ImageStorageService(IFileManagerService fileManager) : IImageStorageService
+    public class ImageStorageService(IFileManager fileManager) : IImageStorage
     {
-        private readonly IFileManagerService _fileManager = fileManager;
+        private readonly IFileManager _fileManager = fileManager;
 
         public async Task<string?> UpdateAsync(
             IFormFile? file,

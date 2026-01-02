@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Web.ViewComponents
 {
-    public class HeaderViewComponent(IConfiguracionService configService, UserManager<AspNetUsers> userManager) : ViewComponent
+    public class HeaderViewComponent(IConfiguracion configService, UserManager<AspNetUsers> userManager) : ViewComponent
     {
-        private readonly IConfiguracionService _configService = configService;
+        private readonly IConfiguracion _configService = configService;
         private readonly UserManager<AspNetUsers> _userManager = userManager;
 
         public async Task<IViewComponentResult> InvokeAsync()

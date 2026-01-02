@@ -1,11 +1,11 @@
-﻿using Ecommers.Web.Models.Auth;
+﻿using Ecommers.Application.DTOs.Requests.Auth;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ecommers.Application.Interfaces
 {
     public interface IAuthService
     {
-        Task<SignInResult> LoginAsync(LoginViewModel model);
+        Task<SignInResult> LoginAsync(LoginRequest model);
         //Task<IdentityResult> RegisterAsync(RegisterViewModel model);
         //Task LogoutAsync();
         //Task<string> GeneratePasswordResetTokenAsync(string email);

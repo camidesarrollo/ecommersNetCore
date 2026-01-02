@@ -1,5 +1,5 @@
-﻿using Ecommers.Infrastructure.Persistence.Entities;
-using Ecommers.Web.Models.Auth;
+﻿using Ecommers.Application.DTOs.Requests.Auth;
+using Ecommers.Infrastructure.Persistence.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,14 +26,14 @@ namespace Ecommers.Web.Controllers
 
             ViewBag.AppName = "NutriStore"; // O desde configuración
 
-            return View("~/Web/Views/Auth/Login.cshtml", new LoginViewModel { Email = "", Password = "" });
+            return View("~/Web/Views/Auth/Login.cshtml", new LoginRequest { Email = "", Password = "" });
         }
 
         // POST: Auth/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginRequest model)
         {
             ViewBag.AppName = "Tu Tienda";
 

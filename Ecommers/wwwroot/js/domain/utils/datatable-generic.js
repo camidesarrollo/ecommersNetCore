@@ -114,7 +114,7 @@ async function initDataTable(selector, opciones = {}) {
                 }
             },
             language: {
-                url: getLocationData().origin + '/lib/datatables/plug-ins/1.13.4/i18n/es-ES.json',
+                url: getLocationData().origin + '/lib/datatables/plug-ins/2.3.6/i18n/es-ES.json',
                 processing: '<div class="dt-loader-custom"><span>Procesando...</span><div class="dt-loader-dots"><div></div><div></div><div></div><div></div></div></div>'
             },
             columns: columnas,

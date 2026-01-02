@@ -258,4 +258,5 @@ document.addEventListener("keydown", (e: KeyboardEvent) => {
     }
 });
 
-console.log("🚀 Sistema de Spinners y Modales (TS) cargado correctamente");
+// En spinner.ts, añade al final:
+export type { SpinnerType };

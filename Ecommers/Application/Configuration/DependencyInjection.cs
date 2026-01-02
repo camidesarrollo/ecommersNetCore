@@ -59,14 +59,15 @@ namespace Ecommers.Application.Configuration
 
 
             // Servicios
-            services.AddScoped<IFileManagerService, FileManagerService>();
-            services.AddScoped<IConfiguracionService, ConfiguracionService>();
-            services.AddScoped<IBannersService, BannersService>();
-            services.AddScoped<ICategoriasService, CategoriasService>();
-            services.AddScoped<IServicioService,ServicioService>();
-            services.AddScoped<IMasterAttributesService,MasterAttributesService>();
+            services.AddScoped<IFileManager, FileManagerService>();
+            services.AddScoped<IConfiguracion, ConfiguracionService>();
+            services.AddScoped<IBanners, BannersService>();
+            services.AddScoped<ICategorias, CategoriasService>();
+            services.AddScoped<IServicio, ServicioService>();
+            services.AddScoped<IMasterAttributes,MasterAttributesService>();
+            services.AddScoped<IProducts, ProductsService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IImageStorageService, ImageStorageService>();
+            services.AddScoped<IImageStorage, ImageStorageService>();
 
             // Cache
             services.AddMemoryCache();

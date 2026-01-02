@@ -1,6 +1,6 @@
-﻿using Ecommers.Application.Interfaces;
+﻿using Ecommers.Application.DTOs.Requests.Auth;
+using Ecommers.Application.Interfaces;
 using Ecommers.Infrastructure.Persistence.Entities;
-using Ecommers.Web.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ecommers.Application.Services
@@ -14,7 +14,7 @@ namespace Ecommers.Application.Services
         private readonly SignInManager<AspNetUsers> _signInManager = signInManager;
         private readonly ILogger<AuthService> _logger = logger;
 
-        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        public async Task<SignInResult> LoginAsync(LoginRequest model)
         {
             try
             {

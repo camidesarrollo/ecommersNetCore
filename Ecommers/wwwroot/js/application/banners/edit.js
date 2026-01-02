@@ -10,7 +10,7 @@ import {
 } from "../../domain/utils/ui/input.validation.js";
 import {
     handleZodFormSubmit
-} from "../../domain/utils/form-helpers.js";
+} from "../../bundle/utils/form-helpers.js";
 import { ImagePreviewHandler } from "../../domain/utils/image-handler.js";
 import {
     setupLivePreview

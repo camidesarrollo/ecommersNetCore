@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -7,61 +8,6 @@
 		<UserSecretsId>268359da-4de5-4755-9c38-5f5f9620b1cf</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Domain\Enums\**" />
-	  <Compile Remove="Domain\Exceptions\**" />
-	  <Compile Remove="Domain\Interfaces\**" />
-	  <Compile Remove="Infrastructure\Configurations\**" />
-	  <Compile Remove="Web\Configuration\node_modules\**" />
-	  <Compile Remove="Web\node_modules\**" />
-	  <Content Remove="Domain\Enums\**" />
-	  <Content Remove="Domain\Exceptions\**" />
-	  <Content Remove="Domain\Interfaces\**" />
-	  <Content Remove="Infrastructure\Configurations\**" />
-	  <Content Remove="Web\Configuration\node_modules\**" />
-	  <Content Remove="Web\node_modules\**" />
-	  <EmbeddedResource Remove="Domain\Enums\**" />
-	  <EmbeddedResource Remove="Domain\Exceptions\**" />
-	  <EmbeddedResource Remove="Domain\Interfaces\**" />
-	  <EmbeddedResource Remove="Infrastructure\Configurations\**" />
-	  <EmbeddedResource Remove="Web\Configuration\node_modules\**" />
-	  <EmbeddedResource Remove="Web\node_modules\**" />
-	  <None Remove="Domain\Enums\**" />
-	  <None Remove="Domain\Exceptions\**" />
-	  <None Remove="Domain\Interfaces\**" />
-	  <None Remove="Infrastructure\Configurations\**" />
-	  <None Remove="Web\Configuration\node_modules\**" />
-	  <None Remove="Web\node_modules\**" />
-	  <TypeScriptCompile Remove="Domain\Enums\**" />
-	  <TypeScriptCompile Remove="Domain\Exceptions\**" />
-	  <TypeScriptCompile Remove="Domain\Interfaces\**" />
-	  <TypeScriptCompile Remove="Infrastructure\Configurations\**" />
-	  <TypeScriptCompile Remove="Web\Configuration\node_modules\**" />
-	  <TypeScriptCompile Remove="Web\node_modules\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Remove="wwwroot\js\domain\schema\changePassword.user.shema.ts" />
-	  <Content Remove="wwwroot\js\domain\schema\forgotPassword.user.shema.ts" />
-	  <Content Remove="wwwroot\js\domain\schema\login.user.shema.ts" />
-	  <Content Remove="wwwroot\js\domain\schema\register.user.shema.ts" />
-	  <Content Remove="wwwroot\js\domain\schema\resetPassword.user.shema.ts" />
-	  <Content Remove="wwwroot\js\domain\schema\updateProfile.user.shema.ts" />
-	  <Content Remove="wwwroot\js\domain\utils\vendors_dayjs.js" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <TypeScriptCompile Remove="wwwroot\js\domain\utils\zod-generic.ts" />
-	  <TypeScriptCompile Remove="wwwroot\js\domain\vendors_sweetalert.ts" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="wwwroot\js\domain\schema\zod-generic.ts" />
-	  <Content Include="wwwroot\js\domain\utils\form-helpers.ts" />
-	  <Content Include="wwwroot\js\domain\vendors_sweetalert.ts" />
-	</ItemGroup>
-
 
 	<!-- Dependencias NuGet -->
 	<ItemGroup>
@@ -78,102 +24,21 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.22" />
 		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
 		<PackageReference Include="Npm" Version="3.5.2" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 	</ItemGroup>
 
-	<!-- Carpetas del proyecto -->
-	<ItemGroup>
-		<Folder Include="Infrastructure\Repositories\" />
-		<Folder Include="Web\Middlewares\" />
-		<Folder Include="Document\" />
-		<Folder Include="Web\Views\Banners\" />
-		<Folder Include="wwwroot\js\application\banners\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Include="wwwroot\css\input.css" />
-	  <None Include="wwwroot\css\site.css" />
-	  <None Include="wwwroot\favicon.ico" />
-	  <None Include="wwwroot\js\application\plugins\tailwind-ecommerce-plugin.js" />
-	  <None Include="wwwroot\js\application\site.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css" />
-	  <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-	  <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-	  <None Include="wwwroot\lib\bootstrap\LICENSE" />
-	  <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
-	  <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
-	  <None Include="wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
-	  <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
-	  <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
-	  <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
-	  <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
-	  <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
-	  <None Include="wwwroot\lib\jquery\dist\jquery.js" />
-	  <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
-	  <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-	  <None Include="wwwroot\lib\jquery\LICENSE.txt" />
-	</ItemGroup>
-	<ItemGroup>
-	  <TypeScriptCompile Include="wwwroot\js\domain\schema\changePassword.user.shema.ts" />
-	  <TypeScriptCompile Include="wwwroot\js\domain\schema\forgotPassword.user.shema.ts" />
-	  <TypeScriptCompile Include="wwwroot\js\domain\schema\login.user.shema.ts" />
-	  <TypeScriptCompile Include="wwwroot\js\domain\schema\register.user.shema.ts" />
-	  <TypeScriptCompile Include="wwwroot\js\domain\schema\resetPassword.user.shema.ts" />
-	  <TypeScriptCompile Include="wwwroot\js\domain\schema\updateProfile.user.shema.ts" />
-	  <TypeScriptCompile Include="wwwroot\js\domain\vendors_dayjs.js" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<ItemGroup>
 		<None Update="..\.dockerignore" Link="Web\.dockerignore" />
 	</ItemGroup>
 
 	<!-- 🔥 Tailwind Build Automático -->
-	<Target Name="PreBuildNpm" BeforeTargets="Build">
+	<Target Name="PreBuildNpm" BeforeTargets="ResolveStaticWebAssets">
+
 		<Message Text="Ejecutando npm antes del build..." Importance="high" />
 
 		<!-- Verificar Node -->
@@ -183,11 +48,12 @@
 
 		<Error Condition="'$(NodeExitCode)' != '0'" Text="Node.js no está instalado. Es requerido para ejecutar el frontend." />
 
-		<!-- npm install -->
+		<!-- npm install (solo si no existe) -->
 		<Exec WorkingDirectory="Web/Configuration" Command="npm install" Condition="!Exists('Web/Configuration/node_modules')" />
 
 		<!-- npm build -->
 		<Exec WorkingDirectory="Web/Configuration" Command="npm run build" />
+
 	</Target>
 
 	<ProjectExtensions><VisualStudio><UserProperties tsconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

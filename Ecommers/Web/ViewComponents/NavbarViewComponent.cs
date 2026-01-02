@@ -6,9 +6,9 @@ using Ecommers.Web.Models.Shared.Components;
 using Microsoft.AspNetCore.Mvc;
 namespace Ecommers.Web.ViewComponents
 {
-    public class NavbarViewComponent(IConfiguracionService configService) : ViewComponent
+    public class NavbarViewComponent(IConfiguracion configService) : ViewComponent
     {
-        private readonly IConfiguracionService _configService = configService;
+        private readonly IConfiguracion _configService = configService;
 
         public async Task<IViewComponentResult> InvokeAsync()
         {

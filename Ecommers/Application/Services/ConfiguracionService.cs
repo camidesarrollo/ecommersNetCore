@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Ecommers.Application.Services
 {
     public class ConfiguracionService(IUnitOfWork unitOfWork, IMapper mapper, IMemoryCache cache)
-            : IConfiguracionService
+            : IConfiguracion
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;

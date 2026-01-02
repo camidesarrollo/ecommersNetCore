@@ -5,7 +5,7 @@ namespace Ecommers.Application.Services
 {
     public class FileManagerService(
         IWebHostEnvironment environment,
-        ILogger<FileManagerService> logger) : IFileManagerService
+        ILogger<FileManagerService> logger) : IFileManager
     {
         private readonly IWebHostEnvironment _environment = environment;
         private readonly ILogger<FileManagerService> _logger = logger;

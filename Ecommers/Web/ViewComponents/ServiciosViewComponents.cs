@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Web.ViewComponents
 {
-    public class ServiciosViewComponent(IServicioService serviciosService) : ViewComponent
+    public class ServiciosViewComponent(IServicio serviciosService) : ViewComponent
     {
-        private readonly IServicioService _serviciosService = serviciosService;
+        private readonly IServicio _serviciosService = serviciosService;
 
         public async Task<IViewComponentResult> InvokeAsync()
         {

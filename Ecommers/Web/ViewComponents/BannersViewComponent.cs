@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Web.ViewComponents
 {
-    public class BannersViewComponent(IBannersService bannersService) : ViewComponent
+    public class BannersViewComponent(IBanners bannersService) : ViewComponent
     {
-        private readonly IBannersService _bannersService = bannersService;
+        private readonly IBanners _bannersService = bannersService;
 
         public async Task<IViewComponentResult> InvokeAsync(string seccion, bool activo)
         {

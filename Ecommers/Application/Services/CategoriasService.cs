@@ -18,7 +18,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Ecommers.Application.Services
 {
     public class CategoriasService(IUnitOfWork unitOfWork, IMapper mapper)
-            : ICategoriasService
+            : ICategorias
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;

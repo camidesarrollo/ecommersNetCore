@@ -1,10 +1,15 @@
 ﻿import { castFormDataBySchema } from "../schema/zod-generic";
 import Swal from "sweetalert2";
-import { showSpinner, hideSpinner } from "../components/spinner"; // 👈 IMPORTANTE
+import { showSpinner, hideSpinner, type SpinnerType } from "../components/spinner";
 
-/**
- * @typedef {"creating"|"editing"|"deleting"|"uploading"|"processing"|"saving"|"loading"} SpinnerType
- */
+interface HandleZodFormSubmitParams {
+    form: HTMLFormElement;
+    schema: any;
+    castSchema: any;
+    spinnerAction?: SpinnerType;
+    onSuccess?: (validated: any) => void | Promise<void>;
+    onError?: (error: any) => void;
+}
 
 export function handleZodFormSubmit({
     form,
@@ -13,13 +18,13 @@ export function handleZodFormSubmit({
     spinnerAction = "creating",
     onSuccess,
     onError
-}) {
+}: HandleZodFormSubmitParams): void {
     if (!form || !schema || !castSchema) {
         console.error("Faltan parámetros obligatorios");
         return;
     }
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async (e: Event) => {
         e.preventDefault();
 
         // Limpiar errores previos
@@ -43,13 +48,13 @@ export function handleZodFormSubmit({
                 form.submit();
             }
 
-        } catch (err) {
+        } catch (err: any) {
             if (err?.errors) {
-                err.errors.forEach(error => {
+                err.errors.forEach((error: any) => {
                     const fieldName = error.path[0];
                     const input = form.querySelector(`[name="${fieldName}"]`);
                     if (input) {
-                        showError(input, error.message);
+                        showError(input as HTMLElement, error.message);
                     }
                 });
             }
@@ -62,4 +67,12 @@ export function handleZodFormSubmit({
             hideSpinner();
         }
     });
+}
+
+function showError(element: HTMLElement, message: string): void {
+    element.classList.add("is-invalid");
+    const feedback = element.nextElementSibling;
+    if (feedback && feedback.classList.contains("invalid-feedback")) {
+        feedback.textContent = message;
+    }
 }

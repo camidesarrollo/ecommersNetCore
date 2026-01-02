@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommers.Application.Services
 {
     public class BannersService(IUnitOfWork unitOfWork, IMapper mapper)
-            : IBannersService
+            : IBanners
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
@@ -213,7 +213,7 @@ namespace Ecommers.Application.Services
             var bannersActual = await repo.GetQuery()
                 .FirstOrDefaultAsync(x => x.Id == bannersId);
 
-            if (bannersActual != null && bannersActual.SortOrder != null)
+            if (bannersActual != null)
             {
                 int ordenActual = bannersActual.SortOrder;
 

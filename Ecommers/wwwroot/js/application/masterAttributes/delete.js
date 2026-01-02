@@ -1,4 +1,4 @@
-﻿import { handleConfirmFormSubmit } from "../../domain/utils/form-helpers.js";
+﻿import { handleConfirmFormSubmit } from "../../bundle/utils/form-helpers.js";
 
 const form = document.getElementById("formMasterAttributes");
 

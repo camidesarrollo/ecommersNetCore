@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommers.Application.Services
 {
     public class MasterAttributesService(IUnitOfWork unitOfWork, IMapper mapper)
-            : IMasterAttributesService
+            : IMasterAttributes
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;

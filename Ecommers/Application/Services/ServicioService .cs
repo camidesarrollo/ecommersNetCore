@@ -16,7 +16,7 @@ using Ecommers.Application.DTOs.Requests.Servicios;
 namespace Ecommers.Application.Services
 {
     public class ServicioService(IUnitOfWork unitOfWork, IMapper mapper)
-            : IServicioService
+            : IServicio
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;

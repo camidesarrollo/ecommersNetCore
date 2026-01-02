@@ -16,13 +16,13 @@ namespace Ecommers.Web.Controllers
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class MasterAttributesController(
-        IMasterAttributesService MasterAttributesService,
-        IImageStorageService imageStorage,
+        IMasterAttributes MasterAttributesService,
+        IImageStorage imageStorage,
         IMapper mapper,
         ILogger<MasterAttributesController> logger) : BaseController
     {
-        private readonly IMasterAttributesService _MasterAttributeservice = MasterAttributesService;
-        private readonly IImageStorageService _imageStorage = imageStorage;
+        private readonly IMasterAttributes _MasterAttributeservice = MasterAttributesService;
+        private readonly IImageStorage _imageStorage = imageStorage;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<MasterAttributesController> _logger = logger;
 

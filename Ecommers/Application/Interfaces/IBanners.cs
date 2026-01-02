@@ -9,7 +9,7 @@ using Ecommers.Infrastructure.Persistence.Entities;
 
 namespace Ecommers.Application.Interfaces
 {
-    public interface IBannersService
+    public interface IBanners
     {
         Task<DataTableResponse<BannersD>> GetBannersDataTable(
             ClaimsPrincipal user,

@@ -5,9 +5,9 @@ using Ecommers.Application.Interfaces;
 
 namespace Ecommers.Web.ViewComponents
 {
-    public class ConfiguracionViewComponent(IConfiguracionService configService) : ViewComponent
+    public class ConfiguracionViewComponent(IConfiguracion configService) : ViewComponent
     {
-        private readonly IConfiguracionService _configService = configService;
+        private readonly IConfiguracion _configService = configService;
 
         public async Task<IViewComponentResult> InvokeAsync()
         {

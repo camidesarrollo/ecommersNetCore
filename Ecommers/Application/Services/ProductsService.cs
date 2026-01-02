@@ -7,7 +7,7 @@ using Ecommers.Infrastructure.Queries;
 namespace Ecommers.Application.Services
 {
     public class ProductsService(IUnitOfWork unitOfWork, IMapper mapper)
-            : IProductsService
+            : IProducts
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;

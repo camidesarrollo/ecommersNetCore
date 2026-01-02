@@ -1,7 +1,4 @@
-﻿using System.Xml.Linq;
-using AutoMapper;
-using Azure;
-using Azure.Core;
+﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.Banners;
@@ -15,13 +12,13 @@ namespace Ecommers.Web.Controllers
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class BannersController(
-        IBannersService bannerssService,
-        IImageStorageService imageStorage,
+        IBanners bannerssService,
+        IImageStorage imageStorage,
         IMapper mapper,
         ILogger<BannersController> logger) : BaseController
     {
-        private readonly IBannersService _bannersService = bannerssService;
-        private readonly IImageStorageService _imageStorage = imageStorage;
+        private readonly IBanners _bannersService = bannerssService;
+        private readonly IImageStorage _imageStorage = imageStorage;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<BannersController> _logger = logger;
 

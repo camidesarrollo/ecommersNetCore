@@ -1,13 +1,13 @@
-import { handleConfirmFormSubmit } from "../../domain/utils/form-helpers.js";
+import { handleConfirmFormSubmit } from "../../bundle/utils/form-helpers.js";
 
 const form = document.getElementById("formBanners");
 
 handleConfirmFormSubmit({
     form,
-    title: "¿Eliminar el banners?",
-    html: `Estás a punto de eliminar <b>${$("#Seccion").val()}</b>.`,
+    title: "ï¿½Eliminar el banners?",
+    html: `Estï¿½s a punto de eliminar <b>${$("#Seccion").val()}</b>.`,
     icon: "warning",
-    confirmText: "Sí, eliminar",
+    confirmText: "Sï¿½, eliminar",
     cancelText: "Cancelar",
     spinnerAction: "deleting"
 });
