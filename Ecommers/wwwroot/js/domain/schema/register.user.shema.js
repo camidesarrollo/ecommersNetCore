@@ -1,4 +1,3 @@
-"use strict";
 /*import { z } from "zod";
 import { validateRut } from "../utils/validators.js";
 

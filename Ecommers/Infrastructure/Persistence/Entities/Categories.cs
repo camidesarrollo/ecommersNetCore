@@ -11,9 +11,9 @@ public partial class Categories
 
     public string Slug { get; set; } = null!;
 
-    public string? ShortDescription { get; set; }
+    public string ShortDescription { get; set; } = null!;
 
-    public string? Description { get; set; }
+    public string Description { get; set; } = null!;
 
     public string? Image { get; set; }
 

@@ -23,6 +23,7 @@ public class EcommersContext : IdentityDbContext<
         : base(options)
     {
     }
+
     public virtual DbSet<AttributeValues> AttributeValues { get; set; }
 
     public virtual DbSet<Banners> Banners { get; set; }
@@ -51,7 +52,7 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<Servicios> Servicios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
     }
@@ -59,7 +60,6 @@ public class EcommersContext : IdentityDbContext<
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         modelBuilder.Entity<AttributeValues>(entity =>
         {
             entity.HasIndex(e => e.AttributeId, "IX_AttributeValues_AttributeId");
@@ -76,7 +76,6 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasOne(d => d.Attribute).WithMany(p => p.AttributeValues)
                 .HasForeignKey(d => d.AttributeId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_AttributeValues_MasterAttributes");
         });
 
@@ -352,8 +351,6 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.IsFeatured).HasDefaultValue(false);
-            entity.Property(e => e.ManageStock).HasDefaultValue(false);
             entity.Property(e => e.SKU)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -365,7 +362,6 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductVariants)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_ProductVariants_Products");
         });
 
@@ -392,6 +388,7 @@ public class EcommersContext : IdentityDbContext<
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK_Products_Categories");
         });
+
         modelBuilder.Entity<Servicios>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Servicio__3214EC0734E09EB7");
@@ -408,6 +405,5 @@ public class EcommersContext : IdentityDbContext<
                 .IsUnicode(false);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
         });
-
     }
 }

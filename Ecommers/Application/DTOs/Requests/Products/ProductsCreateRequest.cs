@@ -1,4 +1,5 @@
-﻿using Ecommers.Application.DTOs.Requests.ProductVariants;
+﻿using System.ComponentModel.DataAnnotations;
+using Ecommers.Application.DTOs.Requests.ProductVariants;
 
 namespace Ecommers.Application.DTOs.Requests.Products
 {
@@ -8,9 +9,13 @@ namespace Ecommers.Application.DTOs.Requests.Products
 
         public string Slug { get; set; } = null!;
 
-        public string? Description { get; set; }
 
-        public string? ShortDescription { get; set; }
+        [Required(ErrorMessage = "La descripción completa es obligatoria.")]
+        public required string Description { get; set; }
+
+        [Required(ErrorMessage = "La descripción corta es obligatoria.")]
+        [MaxLength(150, ErrorMessage = "La descripción corta no puede superar los 150 caracteres.")]
+        public required string ShortDescription { get; set; }
 
         public bool IsActive { get; set; }
 

@@ -9,13 +9,13 @@ public partial class ProductVariants
 
     public string SKU { get; set; } = null!;
 
-    public long? StockQuantity { get; set; }
+    public long StockQuantity { get; set; }
 
-    public bool? ManageStock { get; set; }
+    public bool ManageStock { get; set; }
 
     public string StockStatus { get; set; } = null!;
 
-    public bool? IsFeatured { get; set; }
+    public bool IsFeatured { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -25,11 +25,11 @@ public partial class ProductVariants
 
     public DateTime? DeletedAt { get; set; }
 
-    public long? ProductId { get; set; }
+    public long ProductId { get; set; }
 
     public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
 
-    public virtual Products? Product { get; set; }
+    public virtual Products Product { get; set; } = null!;
 
     public virtual ICollection<ProductVariantAttributes> ProductVariantAttributes { get; set; } = new List<ProductVariantAttributes>();
 

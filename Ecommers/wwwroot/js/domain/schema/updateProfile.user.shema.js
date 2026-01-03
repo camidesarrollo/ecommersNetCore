@@ -1,4 +1,3 @@
-"use strict";
 /*import { z } from "zod"
 
 export const updateProfileSchema = z.object({

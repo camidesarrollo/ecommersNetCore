@@ -1,61 +1,69 @@
 ﻿import { z } from "zod";
 
 /**
- * Zod schema para CategoriesD
- * Nombres iguales a la entidad C# (PascalCase)
+ * Zod schema para CategoriaUpdateRequest
+ * Nombres iguales al DTO C# (PascalCase)
  */
 export const categoriesUpdateSchema = z.object({
-    Id: z.number().int(),               // BaseEntity<long>
- Name: z
-    .string()
-    .min(1, "El nombre de la categoría es obligatorio.")
-    .max(255, "El nombre de la categoría no puede superar los 255 caracteres."),
+    Id: z
+        .number({
+            required_error: "El identificador de la categoría es obligatorio.",
+            invalid_type_error: "El identificador de la categoría no es válido.",
+        })
+        .int("El identificador de la categoría debe ser un número entero."),
 
-  Slug: z
-    .string()
-    .min(1, "El slug de la categoría es obligatorio.")
-    .max(255, "El slug no puede superar los 255 caracteres."),
+    Name: z
+        .string({
+            required_error: "Debe ingresar el nombre de la categoría.",
+        })
+        .min(1, "Debe ingresar el nombre de la categoría.")
+        .max(255, "El nombre no puede superar los 255 caracteres."),
 
-  ShortDescription: z
-    .string()
-    .max(500, "La descripción corta no puede superar los 500 caracteres.")
-    .nullable()
-    .optional(),
+    Slug: z
+        .string({
+            required_error: "Debe ingresar el slug de la categoría.",
+        })
+        .min(1, "Debe ingresar el slug de la categoría.")
+        .max(255, "El slug no puede superar los 255 caracteres."),
 
-  Description: z
-    .string()
-    .nullable()
-    .optional(),
+    ShortDescription: z
+        .string()
+        .min(1, "Debe ingresar una descripción corta.")
+        .max(150, "La descripción corta no puede superar los 150 caracteres."),
 
-  Image: z
-    .string()
-    .max(255, "La imagen no puede superar los 255 caracteres.")
-    .nullable()
-    .optional(),
+    Description: z
+        .string()
+        .min(1, "Debe ingresar la descripción completa de la categoría."),
 
-  BgClass: z
-    .string()
-    .max(100, "La clase de fondo no puede superar los 100 caracteres.")
-    .nullable()
-    .optional(),
+    Image: z
+        .string()
+        .max(255, "La ruta de la imagen no puede superar los 255 caracteres.")
+        .nullable()
+        .optional(),
 
-  SortOrder: z
-    .number()
-    .int("El orden debe ser un número entero.")
-    .nullable()
-    .optional(),
+    BgClass: z
+        .string()
+        .min(1, "Debe seleccionar un color o gradiente de fondo.")
+        .max(255, "La clase de fondo no puede superar los 255 caracteres.")
+        .nullable()
+        .optional(),
 
-  IsActive: z.boolean(),
+    SortOrder: z
+        .number({
+            invalid_type_error: "El orden de visualización debe ser un número.",
+        })
+        .int("El orden de visualización debe ser un número entero.")
+        .min(0, "El orden de visualización debe ser mayor o igual a 0."),
 
-  ParentId: z
-    .number()
-    .int("La categoría padre debe ser un número entero.")
-    .nullable()
-    .optional(),
+    IsActive: z.boolean({
+        required_error: "Debe indicar si la categoría está activa.",
+    }),
 
-  CantidadProductos: z
-    .number()
-    .int("La cantidad de productos debe ser un número entero.")
-    .nullable()
-    .optional(),
+    ParentId: z
+        .number({
+            invalid_type_error: "La categoría padre no es válida.",
+        })
+        .int("La categoría padre debe ser un número entero.")
+        .nullable()
+        .optional(),
 });

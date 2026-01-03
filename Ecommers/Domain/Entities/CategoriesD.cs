@@ -8,15 +8,15 @@ namespace Ecommers.Domain.Entities
 
         public string Slug { get; set; } = null!;
 
-        public string? ShortDescription { get; set; }
+        public string ShortDescription { get; set; } = null!;
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
 
         public string? Image { get; set; }
 
         public string? BgClass { get; set; }
 
-        public int? SortOrder { get; set; }
+        public int SortOrder { get; set; }
 
         public long? ParentId { get; set; }
 

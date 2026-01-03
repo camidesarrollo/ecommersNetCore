@@ -1,6 +1,8 @@
-﻿namespace Ecommers.Domain.Entities
+﻿using Ecommers.Domain.Common;
+
+namespace Ecommers.Domain.Entities
 {
-    public class ProductsD
+    public class ProductsD : BaseEntity<long>
     {
         public string Name { get; set; } = null!;
 
@@ -10,7 +12,6 @@
 
         public string? ShortDescription { get; set; }
 
-        public bool IsActive { get; set; }
 
         public bool IsFeatured { get; set; }
 

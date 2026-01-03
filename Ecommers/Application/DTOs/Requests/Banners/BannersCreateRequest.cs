@@ -34,7 +34,7 @@ namespace Ecommers.Application.DTOs.Requests.Banners
         public IFormFile? ImageFile { get; set; }
 
         [Required(ErrorMessage = "El orden de visualización es obligatorio.")]
-        public int? SortOrder { get; set; } = 0;
+        public int SortOrder { get; set; } = 0;
 
         public bool IsActive { get; set; } = true;
 

@@ -202,7 +202,7 @@ namespace Ecommers.Application.Services
             var categorias = await repo.GetQuery()
                 .AsNoTracking()
                 .Where(x => x.IsActive)
-                .OrderBy(x => x.Name)
+                .OrderBy(x => x.InputType)
                 .ToListAsync();
 
             return categorias;

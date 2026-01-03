@@ -91,32 +91,29 @@ namespace Ecommers.Application.Services
             {
                 var repo = _unitOfWork.Repository<CategoriesD, long>();
 
-                // Reordenar si es necesario
-                if (request.SortOrder != null)
-                {
-                    var findCategorias = CategoriesQueries.GetByOrden(request.SortOrder.Value);
+                //// Reordenar si es necesario
+                //var findCategorias = CategoriesQueries.GetByOrden(request.SortOrder);
 
-                    if (findCategorias != null)
-                    {
-                        var ordenDisponible = CategoriesQueries.FindLastOrden();
-                        findCategorias.SortOrder = ordenDisponible;
+                //if (findCategorias != null)
+                //{
+                //    var ordenDisponible = CategoriesQueries.FindLastOrden();
+                //    findCategorias.SortOrder = ordenDisponible;
 
-                        var update = new CategoriaUpdateRequest
-                        {
-                            Id = findCategorias.Id,
-                            Name = findCategorias.Name,
-                            Slug = findCategorias.Slug,
-                            Description = findCategorias.Description,
-                            ShortDescription = findCategorias.ShortDescription,
-                            BgClass = findCategorias.BgClass,
-                            Image = findCategorias.Image,
-                            SortOrder = findCategorias.SortOrder,
-                            ParentId = findCategorias.ParentId
-                        };
+                //    var update = new CategoriaUpdateRequest
+                //    {
+                //        Id = findCategorias.Id,
+                //        Name = findCategorias.Name,
+                //        Slug = findCategorias.Slug,
+                //        Description = findCategorias.Description,
+                //        ShortDescription = findCategorias.ShortDescription,
+                //        BgClass = findCategorias.BgClass,
+                //        Image = findCategorias.Image,
+                //        SortOrder = findCategorias.SortOrder,
+                //        ParentId = findCategorias.ParentId
+                //    };
 
-                        await UpdateInternalAsync(update);
-                    }
-                }
+                //    await UpdateInternalAsync(update);
+                //}
 
                 var categories = _mapper.Map<CategoriesD>(request);
                 categories.UpdatedAt = DateTime.UtcNow;
@@ -167,10 +164,7 @@ namespace Ecommers.Application.Services
             try
             {
                 // Reordenar si es necesario
-                if (request.SortOrder != null)
-                {
-                    await ReordenarAsync(request.Id, request.SortOrder.Value);
-                }
+                //await ReordenarAsync(request.Id, request.SortOrder);
 
                 await UpdateInternalAsync(request);
                 await _unitOfWork.CompleteAsync();
@@ -209,9 +203,9 @@ namespace Ecommers.Application.Services
             var categoriaActual = await repo.GetQuery()
                 .FirstOrDefaultAsync(x => x.Id == categoriaId);
 
-            if (categoriaActual != null && categoriaActual.SortOrder != null)
+            if (categoriaActual != null)
             {
-                int ordenActual = categoriaActual.SortOrder.Value;
+                int ordenActual = categoriaActual.SortOrder;
 
                 if (ordenActual == nuevoOrden)
                     return;

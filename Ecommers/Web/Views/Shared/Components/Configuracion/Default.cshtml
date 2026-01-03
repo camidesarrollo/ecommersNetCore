@@ -2,40 +2,89 @@
 
 @{
     var config = Model ?? new Ecommers.Domain.Entities.ConfiguracionesD
-            {
-                Id = 0,
-                MetaTitulo = "Mi Aplicación",
-                MetaDescripcion = "Descripción predeterminada",
-                MetaKeywords = "ecommerce, tienda",
-                Favicon = "/favicon.ico",
-                MetaViewport = "width=device-width, initial-scale=1"
-            };
+    {
+        Id = 0,
+        MetaTitulo = "Mi Aplicación",
+        MetaDescripcion = "Descripción predeterminada",
+        MetaKeywords = "ecommerce, tienda",
+        MetaAutor = "Mi Empresa",
+        MetaCharset = "UTF-8",
+        MetaLanguage = "es",
+        MetaViewport = "width=device-width, initial-scale=1.0",
+        MetaCanonical = "",
+        MetaRobots = "index, follow",
+        MetaRevisitAfter = "7 days",
+        Favicon = "/favicon.ico"
+    };
 }
 
 <head>
-    <meta charset="utf-8" />
+    <!-- =========================
+         META BÁSICOS
+    ========================= -->
+    <meta charset="@config.MetaCharset" />
+    <meta http-equiv="Content-Language" content="@config.MetaLanguage" />
+
     <title>@config.MetaTitulo</title>
+
     <meta name="description" content="@config.MetaDescripcion" />
     <meta name="keywords" content="@config.MetaKeywords" />
     <meta name="author" content="@config.MetaAutor" />
-    <meta name="robots" content="@(config.MetaNoindex ? "noindex" : "index"), @(config.MetaNofollow ? "nofollow" : "follow")" />
-    <link rel="canonical" href="@config.MetaCanonical" />
+
     <meta name="viewport" content="@config.MetaViewport" />
+    <meta name="revisit-after" content="@config.MetaRevisitAfter" />
+
+    <!-- =========================
+         ROBOTS
+    ========================= -->
+    <meta name="robots"
+          content="@(config.MetaNoindex ? "noindex" : "index"), @(config.MetaNofollow ? "nofollow" : "follow")" />
+
+    @if (!string.IsNullOrWhiteSpace(config.MetaCanonical))
+    {
+        <link rel="canonical" href="@config.MetaCanonical" />
+    }
+
+    <!-- =========================
+         FAVICON
+    ========================= -->
     <link rel="icon" href="@config.Favicon" type="image/x-icon" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="@config.OgTitulo" />
-    <meta property="og:description" content="@config.OgDescripcion" />
+    <!-- =========================
+         OPEN GRAPH (Facebook / WhatsApp)
+    ========================= -->
+    <meta property="og:title" content="@(!string.IsNullOrEmpty(config.OgTitulo) ? config.OgTitulo : config.MetaTitulo)" />
+    <meta property="og:description" content="@(!string.IsNullOrEmpty(config.OgDescripcion) ? config.OgDescripcion : config.MetaDescripcion)" />
     <meta property="og:image" content="@config.OgImagen" />
     <meta property="og:url" content="@config.OgUrl" />
-    <meta property="og:type" content="@config.OgTipo" />
+    <meta property="og:type" content="@(!string.IsNullOrEmpty(config.OgTipo) ? config.OgTipo : "website")" />
     <meta property="og:site_name" content="@config.OgSitename" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="@config.TwitterCard" />
-    <meta name="twitter:title" content="@config.TwitterTitulo" />
-    <meta name="twitter:description" content="@config.TwitterDescripcion" />
+    <!-- =========================
+         TWITTER / X
+    ========================= -->
+    <meta name="twitter:card" content="@(!string.IsNullOrEmpty(config.TwitterCard) ? config.TwitterCard : "summary_large_image")" />
+    <meta name="twitter:title" content="@(!string.IsNullOrEmpty(config.TwitterTitulo) ? config.TwitterTitulo : config.MetaTitulo)" />
+    <meta name="twitter:description" content="@(!string.IsNullOrEmpty(config.TwitterDescripcion) ? config.TwitterDescripcion : config.MetaDescripcion)" />
     <meta name="twitter:image" content="@config.TwitterImagen" />
-    <meta name="twitter:site" content="@config.TwitterSite" />
-    <meta name="twitter:creator" content="@config.TwitterCreator" />
+
+    @if (!string.IsNullOrWhiteSpace(config.TwitterSite))
+    {
+        <meta name="twitter:site" content="@config.TwitterSite" />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(config.TwitterCreator))
+    {
+        <meta name="twitter:creator" content="@config.TwitterCreator" />
+    }
+
+    <!-- =========================
+         SCHEMA.ORG (JSON-LD)
+    ========================= -->
+    @if (!string.IsNullOrWhiteSpace(config.SchemaDatos))
+    {
+        <script type="application/ld+json">
+            @Html.Raw(config.SchemaDatos)
+        </script>
+    }
 </head>

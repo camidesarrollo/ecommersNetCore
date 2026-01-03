@@ -87,7 +87,7 @@ export function setupLivePreview() {
    HELPERS
 ===================================================== */
 export function validateImage(file, input) {
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg', 'image/gif'];
     const maxSize = 2 * 1024 * 1024; // 2MB
 
     if (!validTypes.includes(file.type)) {

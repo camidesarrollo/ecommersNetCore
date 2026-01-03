@@ -15,7 +15,7 @@ public partial class AttributeValues
 
     public int? ValueInt { get; set; }
 
-    public bool? ValueBoolean { get; set; }
+    public bool ValueBoolean { get; set; }
 
     public DateOnly? ValueDate { get; set; }
 
@@ -27,9 +27,9 @@ public partial class AttributeValues
 
     public DateTime? DeletedAt { get; set; }
 
-    public long? AttributeId { get; set; }
+    public long AttributeId { get; set; }
 
-    public virtual MasterAttributes? Attribute { get; set; }
+    public virtual MasterAttributes Attribute { get; set; } = null!;
 
     public virtual ICollection<ProductVariantAttributes> ProductVariantAttributes { get; set; } = new List<ProductVariantAttributes>();
 }

@@ -96,31 +96,28 @@ namespace Ecommers.Application.Services
                 var repo = _unitOfWork.Repository<BannersD, long>();
 
                 // Reordenar si es necesario
-                if (request.SortOrder != null)
+                var findBanners = BannersQueries.GetByOrden(request.SortOrder);
+
+                if (findBanners != null)
                 {
-                    var findBanners = BannersQueries.GetByOrden(request.SortOrder.Value);
+                    var ordenDisponible = BannersQueries.FindLastOrden();
+                    findBanners.SortOrder = ordenDisponible;
 
-                    if (findBanners != null)
+                    var update = new BannersUpdateRequest
                     {
-                        var ordenDisponible = BannersQueries.FindLastOrden();
-                        findBanners.SortOrder = ordenDisponible;
+                        Id = findBanners.Id,
+                        Seccion = findBanners.Seccion,
+                        AltText = findBanners.AltText,
+                        BotonEnlace = findBanners.BotonEnlace,
+                        BotonTexto = findBanners.BotonTexto,
+                        Subtitulo = findBanners.Subtitulo,
+                        Titulo = findBanners.Subtitulo,
+                        Image = findBanners.Titulo,
 
-                        var update = new BannersUpdateRequest
-                        {
-                            Id = findBanners.Id,
-                            Seccion = findBanners.Seccion,
-                            AltText = findBanners.AltText,
-                            BotonEnlace = findBanners.BotonEnlace,
-                            BotonTexto = findBanners.BotonTexto,
-                            Subtitulo = findBanners.Subtitulo,
-                            Titulo = findBanners.Subtitulo,
-                            Image = findBanners.Titulo,
-                       
-                            SortOrder = findBanners.SortOrder,
-                        };
+                        SortOrder = findBanners.SortOrder,
+                    };
 
-                        await UpdateInternalAsync(update);
-                    }
+                    await UpdateInternalAsync(update);
                 }
 
                 var Banners = _mapper.Map<BannersD>(request);
