@@ -9,6 +9,16 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <TypeScriptCompile Remove="wwwroot\js\domain\vendors_datatables.ts" />
+	  <TypeScriptCompile Remove="wwwroot\js\domain\vendors_dayjs.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="wwwroot\js\domain\vendors_datatables.ts" />
+	  <Content Include="wwwroot\js\domain\vendors_dayjs.ts" />
+	</ItemGroup>
+
 	<!-- Dependencias NuGet -->
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="15.1.0" />

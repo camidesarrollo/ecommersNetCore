@@ -1,6 +1,5 @@
-﻿import Swal from '/js/bundle/vendors_sweetalert.js';
-import { $ } from "/js/bundle/vendors_datatables.js";
-
+﻿import Swal from '../../bundle/vendors_sweetalert.js';
+import { $ } from "../../bundle/vendors_datatables.js";
 // =============================
 //  CONFIGURACIÓN GLOBAL
 // =============================

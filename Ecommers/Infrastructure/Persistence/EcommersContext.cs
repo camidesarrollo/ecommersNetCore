@@ -53,7 +53,7 @@ public class EcommersContext : IdentityDbContext<
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
+        optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -373,8 +373,6 @@ public class EcommersContext : IdentityDbContext<
         {
             entity.HasIndex(e => e.CategoryId, "IX_Products_CategoryId");
 
-            entity.HasIndex(e => new { e.IsActive, e.IsFeatured }, "IX_Products_IsActive_IsFeatured");
-
             entity.HasIndex(e => e.Slug, "UQ__Products__BC7B5FB65F71F323").IsUnique();
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
@@ -394,7 +392,6 @@ public class EcommersContext : IdentityDbContext<
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK_Products_Categories");
         });
-
         modelBuilder.Entity<Servicios>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Servicio__3214EC0734E09EB7");

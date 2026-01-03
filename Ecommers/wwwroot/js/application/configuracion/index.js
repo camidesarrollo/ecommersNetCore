@@ -1,5 +1,4 @@
-﻿import { $ } from "/js/bundle/vendors_datatables.js";
-
+﻿import { $ } from "js/domain/vendors_datatables.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 

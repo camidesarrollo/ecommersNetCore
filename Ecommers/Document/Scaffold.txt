@@ -2,3 +2,7 @@ Scaffold-DbContext ` "Server=DESKTOP-FVE26L4\MSSQLSERVER01;Database=Ecommers;Tru
 Scaffold-DbContext ` "Server=DESKTOP-FVE26L4\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;" ` -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -UseDatabaseNames -NoPluralize -force
 
 Scaffold-DbContext ` "Server=DESKTOP-FVE26L4\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;" ` Microsoft.EntityFrameworkCore.SqlServer ` -Context EcommersContext ` -OutputDir Infrastructure/Persistence/Entities ` -ContextDir Infrastructure/Persistence ` -Namespace Ecommers.Infrastructure.Persistence.Entities ` -ContextNamespace Ecommers.Infrastructure.Persistence ` -DataAnnotations ` -Force
+
+Scaffold-DbContext ` "Server=DESKTOP-FVE26L4\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;" ` Microsoft.EntityFrameworkCore.SqlServer ` -Context EcommersContext ` -OutputDir Infrastructure/Persistence/Entities ` -ContextDir Infrastructure/Persistence ` -Namespace Ecommers.Infrastructure.Persistence.Entities ` -ContextNamespace Ecommers.Infrastructure.Persistence ` -UseDatabaseNames ` -NoPluralize ` -Force
+
+Scaffold-DbContext Name=MNBAContext -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -UseDatabaseNames -NoPluralize -force

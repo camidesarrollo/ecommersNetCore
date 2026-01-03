@@ -1,5 +1,5 @@
-import { initDataTable, guardarPaginaYSalir } from "../../domain/utils/datatable-generic.js";
-import { dayjs } from "../../bundle/vendors_dayjs.js";
+import { initDataTable, guardarPaginaYSalir } from "../../application/utils/datatable-generic.js";
+import dayjs from "../../bundle/vendors_dayjs.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 

@@ -20,7 +20,7 @@
     },
     "include": [
         "wwwroot/js/**/*.ts"
-, "wwwroot/js/domain/utils/vendors_dayjs.js", "wwwroot/js/domain/vendors_zod.js"    ],
+        , "wwwroot/js/domain/utils/vendors_dayjs.js", "wwwroot/js/domain/vendors_zod.js", "wwwroot/js/domain/vendors_dayjs.ts"    ],
     "exclude": [
         "Web/Configuration/node_modules",
         "wwwroot/js/bundle"

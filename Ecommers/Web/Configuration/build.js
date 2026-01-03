@@ -12,156 +12,201 @@ const nodeModulesDir = path.resolve(__dirname, "./node_modules");
 const cssOutputDir = path.resolve(__dirname, "../../wwwroot/css");
 
 // ========================================
+// LIMPIAR DIRECTORIO DE SALIDA
+// ========================================
+if (fs.existsSync(outputDir)) {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+}
+fs.mkdirSync(outputDir, { recursive: true });
+
+// ========================================
 // FUNCIÓN PARA COPIAR CSS
 // ========================================
 function copyCssFile(source, destination, libraryName) {
-    if (fs.existsSync(source)) {
-        try {
-            fs.copyFileSync(source, destination);
-            console.log(`✅ CSS de ${libraryName} copiado`);
-            return true;
-        } catch (error) {
-            console.error(`⚠️ Error al copiar ${libraryName}:`, error.message);
-            return false;
-        }
-    } else {
+    if (!fs.existsSync(source)) {
         console.warn(`⚠️ No se encontró CSS de ${libraryName}`);
-        return false;
+        return;
     }
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.copyFileSync(source, destination);
+    console.log(`✅ CSS de ${libraryName} copiado`);
 }
 
 // ========================================
-// VERIFICACIÓN Y CREACIÓN DE DIRECTORIOS
+// BUSCAR ARCHIVOS TYPESCRIPT
 // ========================================
-console.log("📂 Verificando directorios:");
-console.log("   Domain:", baseDirDomain, "- Existe:", fs.existsSync(baseDirDomain));
-
-// Crear directorios de salida si no existen
-[outputDir, cssOutputDir].forEach(dir => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-        console.log(`✅ Directorio creado: ${dir}`);
-    }
-});
-
-// ========================================
-// BUSCAR ARCHIVOS A PROCESAR
-// ========================================
-// Convertir rutas para glob (normalizar separadores)
 const normalizedBasePath = baseDirDomain.replace(/\\/g, "/");
+const entryPoints = glob.sync(`${normalizedBasePath}/**/*.ts`);
 
-// Buscar archivos .ts y .js recursivamente
-const tsFiles = glob.sync(`${normalizedBasePath}/**/*.ts`);
+console.log("\n📦 Archivos TypeScript encontrados:", entryPoints.length);
 
-// Combinar todos los archivos
-const allInputFiles = [...tsFiles];
-
-console.log(`\n📦 Archivos encontrados:`);
-console.log(`   TypeScript: ${tsFiles.length}`);
-console.log(`   Total: ${allInputFiles.length}`);
-
-if (allInputFiles.length === 0) {
-    console.error("\n❌ No se encontraron archivos en domain");
-    console.log("💡 Verifica que existan archivos .ts o .js en:", baseDirDomain);
+if (entryPoints.length === 0) {
+    console.error("❌ No se encontraron archivos .ts en domain");
     process.exit(1);
 }
 
-// Mostrar algunos archivos encontrados (para debug)
-console.log("\n📄 Primeros archivos detectados:");
-allInputFiles.slice(0, 5).forEach(file => {
-    console.log(`   - ${path.basename(file)}`);
-});
-if (allInputFiles.length > 5) {
-    console.log(`   ... y ${allInputFiles.length - 5} más`);
-}
-
 // ========================================
-// COPIAR ARCHIVOS CSS DE DEPENDENCIAS
+// COPIAR CSS DE DEPENDENCIAS
 // ========================================
-console.log("\n📋 Copiando archivos CSS:");
+console.log("\n📋 Copiando CSS de dependencias...");
 
-const cssFiles = [
+[
     {
-        source: path.resolve(nodeModulesDir, "notyf/notyf.min.css"),
-        dest: path.resolve(cssOutputDir, "notyf.min.css"),
+        src: "notyf/notyf.min.css",
+        dest: "notyf.min.css",
         name: "Notyf"
     },
     {
-        source: path.resolve(nodeModulesDir, "datatables.net-dt/css/dataTables.dataTables.min.css"),
-        dest: path.resolve(cssOutputDir, "dataTables.dataTables.min.css"),
+        src: "datatables.net-dt/css/dataTables.dataTables.min.css",
+        dest: "dataTables.dataTables.min.css",
         name: "DataTables"
     },
     {
-        source: path.resolve(nodeModulesDir, "datatables.net-responsive-dt/css/responsive.dataTables.min.css"),
-        dest: path.resolve(cssOutputDir, "responsive.dataTables.min.css"),
+        src: "datatables.net-responsive-dt/css/responsive.dataTables.min.css",
+        dest: "responsive.dataTables.min.css",
         name: "DataTables Responsive"
     },
     {
-        source: path.resolve(nodeModulesDir, "sweetalert2/dist/sweetalert2.min.css"),
-        dest: path.resolve(cssOutputDir, "sweetalert2.min.css"),
+        src: "sweetalert2/dist/sweetalert2.min.css",
+        dest: "sweetalert2.min.css",
         name: "SweetAlert2"
     },
     {
-        source: path.resolve(nodeModulesDir, "shepherd.js/dist/css/shepherd.css"),
-        dest: path.resolve(cssOutputDir, "shepherd.css"),
+        src: "shepherd.js/dist/css/shepherd.css",
+        dest: "shepherd.css",
         name: "Shepherd.js"
     },
     {
-        source: path.resolve(nodeModulesDir, "swiper/swiper-bundle.min.css"),
-        dest: path.resolve(cssOutputDir, "swiper-bundle.min.css"),
+        src: "swiper/swiper-bundle.min.css",
+        dest: "swiper-bundle.min.css",
         name: "Swiper"
     }
-];
-
-cssFiles.forEach(({ source, dest, name }) => {
-    copyCssFile(source, dest, name);
+].forEach(lib => {
+    copyCssFile(
+        path.resolve(nodeModulesDir, lib.src),
+        path.resolve(cssOutputDir, lib.dest),
+        lib.name
+    );
 });
 
 // ========================================
-// BUILD: COMPILAR ARCHIVOS
+// HELPER: RESOLVER MÓDULOS
 // ========================================
-async function buildDomain() {
-    console.log("\n🔨 Compilando archivos Domain...");
+function resolveNodeModule(moduleName) {
+    const modulePath = path.resolve(nodeModulesDir, moduleName);
 
-    try {
-        await esbuild.build({
-            entryPoints: allInputFiles,
-            outdir: outputDir,
-            bundle: true,
-            format: "esm",
-            minify: true,
-            sourcemap: true,
-            target: ["es2020"],
-            outExtension: { ".js": ".js" },
-            nodePaths: [nodeModulesDir],
-            absWorkingDir: path.resolve(__dirname),
-            // Mantener estructura de carpetas (opcional)
-            outbase: baseDirDomain,
-            // Configuración adicional para resolver módulos
-            resolveExtensions: [".ts", ".js", ".tsx", ".jsx"],
-        });
-
-        console.log("✅ Domain compilado exitosamente");
-        console.log(`📍 Archivos de salida en: ${outputDir}`);
-
-        // Listar archivos generados
-        const outputFiles = fs.readdirSync(outputDir);
-        console.log(`📦 Archivos generados: ${outputFiles.length}`);
-
-    } catch (error) {
-        throw error;
+    // Si no existe el directorio del módulo, retornar null
+    if (!fs.existsSync(modulePath)) {
+        return null;
     }
+
+    // Verificar si es un archivo directo
+    const stat = fs.statSync(modulePath);
+    if (stat.isFile()) {
+        return modulePath;
+    }
+
+    // Si es un directorio, buscar package.json
+    const packageJsonPath = path.join(modulePath, "package.json");
+    if (fs.existsSync(packageJsonPath)) {
+        try {
+            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+
+            // Intentar con diferentes campos de entrada
+            const entryPoints = [
+                packageJson.module,
+                packageJson.main,
+                packageJson.browser,
+                "index.js",
+                "index.ts"
+            ];
+
+            for (const entry of entryPoints) {
+                if (!entry) continue;
+
+                const entryPath = path.join(modulePath, entry);
+                if (fs.existsSync(entryPath)) {
+                    return entryPath;
+                }
+            }
+        } catch (err) {
+            console.warn(`⚠️ Error leyendo package.json de ${moduleName}`);
+        }
+    }
+
+    // Intentar archivos por defecto
+    const defaultFiles = ["index.js", "index.ts", "dist/index.js"];
+    for (const file of defaultFiles) {
+        const fullPath = path.join(modulePath, file);
+        if (fs.existsSync(fullPath)) {
+            return fullPath;
+        }
+    }
+
+    return null;
 }
 
 // ========================================
-// EJECUTAR BUILD
+// BUILD DOMAIN
+// ========================================
+async function buildDomain() {
+    console.log("\n🔨 Compilando Domain...");
+
+    await esbuild.build({
+        entryPoints,
+        outdir: outputDir,
+        bundle: true,
+        format: "esm",
+        target: ["es2020"],
+        minify: true,
+        sourcemap: true,
+        outbase: baseDirDomain,
+        platform: "browser",
+        resolveExtensions: [".ts", ".js", ".mjs"],
+        loader: {
+            ".ts": "ts"
+        },
+        absWorkingDir: path.resolve(__dirname),
+        logLevel: "info",
+        plugins: [
+            {
+                name: "resolve-node-modules",
+                setup(build) {
+                    // Resolver imports desde node_modules
+                    build.onResolve({ filter: /^[^.]/ }, args => {
+                        // Solo procesar imports que no sean relativos
+                        if (args.path.startsWith('.') || args.path.startsWith('/')) {
+                            return null;
+                        }
+
+                        // Resolver el módulo
+                        const resolved = resolveNodeModule(args.path);
+
+                        if (resolved) {
+                            return { path: resolved };
+                        }
+
+                        // Si no se resolvió, dejar que esbuild lo maneje
+                        return null;
+                    });
+                }
+            }
+        ]
+    });
+
+    console.log("\n✅ Compilación finalizada");
+    console.log("📍 Output:", outputDir);
+}
+
+// ========================================
+// EJECUTAR
 // ========================================
 (async () => {
     try {
         await buildDomain();
-        console.log("\n🎉 ¡Compilación completada con éxito!");
+        console.log("\n🎉 Build completado correctamente");
     } catch (err) {
-        console.error("\n❌ Error al compilar:");
+        console.error("\n❌ Error en el build");
         console.error(err);
         process.exit(1);
     }

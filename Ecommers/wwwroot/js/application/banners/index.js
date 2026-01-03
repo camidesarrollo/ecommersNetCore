@@ -1,7 +1,7 @@
 /* js/application/banners/index.js */
 import { CambiarEstado } from './bannersService.js';
-import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../domain/utils/datatable-generic.js";
-import { dayjs } from "../../bundle/vendors_dayjs.js";
+import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../application/utils/datatable-generic.js";
+import dayjs from "../../bundle/vendors_dayjs.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 

@@ -17,8 +17,6 @@ public partial class Products
 
     public bool IsActive { get; set; }
 
-    public bool IsFeatured { get; set; }
-
     public long CategoryId { get; set; }
 
     public DateTime CreatedAt { get; set; }

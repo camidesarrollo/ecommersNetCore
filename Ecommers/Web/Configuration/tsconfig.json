@@ -23,7 +23,7 @@
     },
     "include": [
         "../../wwwroot/js/**/*.ts",
-        "../../wwwroot/js/domain/vendors_dayjs.js",
+        "../../wwwroot/js/domain/vendors_dayjs.ts",
         "../../wwwroot/js/domain/vendors_zod.js"
     ],
     "exclude": [

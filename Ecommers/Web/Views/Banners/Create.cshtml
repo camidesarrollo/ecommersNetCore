@@ -53,7 +53,7 @@
                         
                         <!-- Botón volver -->
                         <a href="@Url.Action("Index", "Banners")"
-                           class="inline-flex items-center px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all" id="volver-button">
+                           class="inline-flex items-center px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all">
                             <i class="fas fa-arrow-left mr-2"></i>Volver
                         </a>
                     </div>
@@ -201,7 +201,7 @@
                             <i class="fas fa-save"></i>
                             Guardar Cambios
                         </button>
-                        <a href="@Url.Action("Index", "Banners")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                        <a id="volver-button" href="@Url.Action("Index", "Banners")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
                             <i class="fas fa-times"></i>
                             Cancelar
                         </a>
