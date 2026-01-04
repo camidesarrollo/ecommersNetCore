@@ -7,6 +7,8 @@ public partial class AttributeValues
 {
     public long Id { get; set; }
 
+    public long AttributeId { get; set; }
+
     public string? ValueString { get; set; }
 
     public string? ValueText { get; set; }
@@ -19,6 +21,8 @@ public partial class AttributeValues
 
     public DateOnly? ValueDate { get; set; }
 
+    public int DisplayOrder { get; set; }
+
     public bool IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -27,9 +31,9 @@ public partial class AttributeValues
 
     public DateTime? DeletedAt { get; set; }
 
-    public long AttributeId { get; set; }
-
     public virtual MasterAttributes Attribute { get; set; } = null!;
 
     public virtual ICollection<ProductAttributes> ProductAttributes { get; set; } = new List<ProductAttributes>();
+
+    public virtual ICollection<VariantAttributes> VariantAttributes { get; set; } = new List<VariantAttributes>();
 }

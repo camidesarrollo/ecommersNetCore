@@ -2,9 +2,9 @@
 
 namespace Ecommers.Domain.Entities
 {
-    public class ProductImagesD : BaseEntity<long>
+    public class ProductVariantImagesD : BaseEntity<long>
     {
-        public long ProductId { get; set; }
+        public long VariantId { get; set; }
 
         public string Url { get; set; } = null!;
 
@@ -13,5 +13,6 @@ namespace Ecommers.Domain.Entities
         public bool IsPrimary { get; set; }
 
         public int Order { get; set; }
+
     }
 }

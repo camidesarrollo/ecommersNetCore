@@ -23,7 +23,7 @@ public partial class MasterAttributes
 
     public bool IsFilterable { get; set; }
 
-    public bool IsVariant { get; set; }
+    public string AppliesTo { get; set; } = null!;
 
     public string? Category { get; set; }
 
@@ -36,4 +36,8 @@ public partial class MasterAttributes
     public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<AttributeValues> AttributeValues { get; set; } = new List<AttributeValues>();
+
+    public virtual ICollection<ProductAttributes> ProductAttributes { get; set; } = new List<ProductAttributes>();
+
+    public virtual ICollection<VariantAttributes> VariantAttributes { get; set; } = new List<VariantAttributes>();
 }

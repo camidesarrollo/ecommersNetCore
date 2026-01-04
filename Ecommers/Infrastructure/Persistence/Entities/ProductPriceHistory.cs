@@ -7,11 +7,11 @@ public partial class ProductPriceHistory
 {
     public long Id { get; set; }
 
-    public long ProductId { get; set; }
+    public long VariantId { get; set; }
 
     public decimal Price { get; set; }
 
-    public decimal? SalePrice { get; set; }
+    public decimal? CompareAtPrice { get; set; }
 
     public DateTime StartDate { get; set; }
 
@@ -27,5 +27,5 @@ public partial class ProductPriceHistory
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Products Product { get; set; } = null!;
+    public virtual ProductVariants Variant { get; set; } = null!;
 }

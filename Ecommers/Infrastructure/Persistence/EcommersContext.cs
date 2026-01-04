@@ -46,11 +46,25 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<ProductPriceHistory> ProductPriceHistory { get; set; }
 
+    public virtual DbSet<ProductVariantImages> ProductVariantImages { get; set; }
+
+    public virtual DbSet<ProductVariants> ProductVariants { get; set; }
+
     public virtual DbSet<Products> Products { get; set; }
 
     public virtual DbSet<Servicios> Servicios { get; set; }
 
-    
+    public virtual DbSet<VariantAttributes> VariantAttributes { get; set; }
+
+    public virtual DbSet<vw_ProductAttributes> vw_ProductAttributes { get; set; }
+
+    public virtual DbSet<vw_ProductFullDetails> vw_ProductFullDetails { get; set; }
+
+    public virtual DbSet<vw_ProductsWithVariants> vw_ProductsWithVariants { get; set; }
+
+    public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; }
+
+ 
           protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -59,11 +73,14 @@ public class EcommersContext : IdentityDbContext<
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<AttributeValues>(entity =>
         {
             entity.HasIndex(e => e.AttributeId, "IX_AttributeValues_AttributeId");
 
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
@@ -197,12 +214,18 @@ public class EcommersContext : IdentityDbContext<
 
         modelBuilder.Entity<MasterAttributes>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__MasterAt__3214EC074CA9A3E6");
+            entity.HasIndex(e => e.Slug, "UQ_MasterAttributes_Slug").IsUnique();
 
+            entity.Property(e => e.AppliesTo)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasDefaultValue("product");
             entity.Property(e => e.Category)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DataType)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -230,7 +253,7 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasIndex(e => e.OrderId, "IX_OrderItems_OrderId");
 
-            entity.HasIndex(e => e.ProductId, "IX_OrderItems_ProductId");
+            entity.HasIndex(e => e.VariantId, "IX_OrderItems_VariantId");
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -238,15 +261,14 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems).HasForeignKey(d => d.OrderId);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.Variant).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.VariantId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrderItems_Variants_VariantId");
         });
 
         modelBuilder.Entity<Orders>(entity =>
@@ -277,9 +299,7 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.Subtotal).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TaxAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
@@ -289,29 +309,44 @@ public class EcommersContext : IdentityDbContext<
 
         modelBuilder.Entity<ProductAttributes>(entity =>
         {
+            entity.HasIndex(e => e.AttributeId, "IX_ProductAttributes_AttributeId");
+
             entity.HasIndex(e => e.ProductId, "IX_ProductAttributes_ProductId");
 
-            entity.HasIndex(e => e.ValueId, "IX_ProductAttributes_ValueId");
-
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CustomValue).HasMaxLength(500);
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Attribute).WithMany(p => p.ProductAttributes)
+                .HasForeignKey(d => d.AttributeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductAttributes_MasterAttributes");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductAttributes)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductAttributes_Variant");
+                .HasConstraintName("FK_ProductAttributes_Products");
 
             entity.HasOne(d => d.Value).WithMany(p => p.ProductAttributes)
                 .HasForeignKey(d => d.ValueId)
-                .HasConstraintName("FK_ProductAttributes_Value");
+                .HasConstraintName("FK_ProductAttributes_AttributeValues");
         });
 
         modelBuilder.Entity<ProductImages>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductImages_ProductId");
 
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.AltText)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.Url)
                 .HasMaxLength(255)
@@ -319,53 +354,106 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductImages_Variant");
+                .HasConstraintName("FK_ProductImages_Products");
         });
 
         modelBuilder.Entity<ProductPriceHistory>(entity =>
         {
-            entity.HasIndex(e => e.ProductId, "IX_ProductPriceHistory_ProductId");
+            entity.HasIndex(e => e.VariantId, "IX_ProductPriceHistory_VariantId");
 
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CompareAtPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Reason)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.SalePrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductPriceHistory)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductPriceHistory_Variant");
+            entity.HasOne(d => d.Variant).WithMany(p => p.ProductPriceHistory)
+                .HasForeignKey(d => d.VariantId)
+                .HasConstraintName("FK_ProductPriceHistory_Variants");
         });
 
-        modelBuilder.Entity<Products>(entity =>
+        modelBuilder.Entity<ProductVariantImages>(entity =>
         {
-            entity.HasIndex(e => e.CategoryId, "IX_Products_CategoryId");
+            entity.HasIndex(e => e.VariantId, "IX_ProductVariantImages_VariantId");
 
-            entity.HasIndex(e => e.Slug, "UQ__Products__BC7B5FB65F71F323").IsUnique();
-
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.AltText)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Url)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Variant).WithMany(p => p.ProductVariantImages)
+                .HasForeignKey(d => d.VariantId)
+                .HasConstraintName("FK_ProductVariantImages_Variants");
+        });
+
+        modelBuilder.Entity<ProductVariants>(entity =>
+        {
+            entity.HasIndex(e => e.ProductId, "IX_ProductVariants_ProductId");
+
+            entity.HasIndex(e => e.SKU, "UQ_ProductVariants_SKU").IsUnique();
+
+            entity.Property(e => e.CompareAtPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CostPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ManageStock).HasDefaultValue(true);
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.SKU)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.ShortDescription).HasColumnType("text");
-            entity.Property(e => e.Slug)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.StockStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasDefaultValue("in_stock");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductVariants)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK_ProductVariants_Products");
+        });
+
+        modelBuilder.Entity<Products>(entity =>
+        {
+            entity.HasIndex(e => e.CategoryId, "IX_Products_CategoryId");
+
+            entity.HasIndex(e => e.Slug, "UQ_Products_Slug").IsUnique();
+
+            entity.Property(e => e.BasePrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ShortDescription).HasColumnType("text");
+            entity.Property(e => e.Slug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -388,6 +476,150 @@ public class EcommersContext : IdentityDbContext<
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<VariantAttributes>(entity =>
+        {
+            entity.HasIndex(e => e.AttributeId, "IX_VariantAttributes_AttributeId");
+
+            entity.HasIndex(e => e.VariantId, "IX_VariantAttributes_VariantId");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CustomValue).HasMaxLength(500);
+            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Attribute).WithMany(p => p.VariantAttributes)
+                .HasForeignKey(d => d.AttributeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VariantAttributes_MasterAttributes");
+
+            entity.HasOne(d => d.Value).WithMany(p => p.VariantAttributes)
+                .HasForeignKey(d => d.ValueId)
+                .HasConstraintName("FK_VariantAttributes_AttributeValues");
+
+            entity.HasOne(d => d.Variant).WithMany(p => p.VariantAttributes)
+                .HasForeignKey(d => d.VariantId)
+                .HasConstraintName("FK_VariantAttributes_Variants");
+        });
+
+        modelBuilder.Entity<vw_ProductAttributes>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_ProductAttributes");
+
+            entity.Property(e => e.AppliesTo)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.AttributeName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.AttributeSlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.AttributeValue).HasMaxLength(500);
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Unit)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<vw_ProductFullDetails>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_ProductFullDetails");
+
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CompareAtPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.MainImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ShortDescription).HasColumnType("text");
+            entity.Property(e => e.Slug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.VariantImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<vw_ProductsWithVariants>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_ProductsWithVariants");
+
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CompareAtPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductSlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ShortDescription).HasColumnType("text");
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<vw_VariantAttributes>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_VariantAttributes");
+
+            entity.Property(e => e.AttributeName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.AttributeSlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.AttributeValue).HasMaxLength(500);
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Unit)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
         });
     }
 }

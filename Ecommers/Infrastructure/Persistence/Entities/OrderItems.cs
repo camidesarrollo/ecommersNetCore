@@ -9,7 +9,7 @@ public partial class OrderItems
 
     public long OrderId { get; set; }
 
-    public long ProductId { get; set; }
+    public long VariantId { get; set; }
 
     public int Quantity { get; set; }
 
@@ -29,5 +29,5 @@ public partial class OrderItems
 
     public virtual Orders Order { get; set; } = null!;
 
-    public virtual Products Product { get; set; } = null!;
+    public virtual ProductVariants Variant { get; set; } = null!;
 }

@@ -12,14 +12,8 @@ namespace Ecommers.Domain.Entities
 
         public string ShortDescription { get; set; } = null!;
 
-        public string SKU { get; set; } = null!;
-
-        public long StockQuantity { get; set; }
-
-        public bool ManageStock { get; set; }
-
-        public string StockStatus { get; set; } = null!;
-
         public long CategoryId { get; set; }
+
+        public decimal? BasePrice { get; set; }
     }
 }

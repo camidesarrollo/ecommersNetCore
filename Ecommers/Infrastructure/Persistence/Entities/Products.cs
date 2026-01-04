@@ -15,17 +15,11 @@ public partial class Products
 
     public string ShortDescription { get; set; } = null!;
 
-    public string SKU { get; set; } = null!;
+    public long CategoryId { get; set; }
 
-    public long StockQuantity { get; set; }
-
-    public bool ManageStock { get; set; }
-
-    public string StockStatus { get; set; } = null!;
+    public decimal? BasePrice { get; set; }
 
     public bool IsActive { get; set; }
-
-    public long CategoryId { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -35,11 +29,9 @@ public partial class Products
 
     public virtual Categories Category { get; set; } = null!;
 
-    public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
-
     public virtual ICollection<ProductAttributes> ProductAttributes { get; set; } = new List<ProductAttributes>();
 
     public virtual ICollection<ProductImages> ProductImages { get; set; } = new List<ProductImages>();
 
-    public virtual ICollection<ProductPriceHistory> ProductPriceHistory { get; set; } = new List<ProductPriceHistory>();
+    public virtual ICollection<ProductVariants> ProductVariants { get; set; } = new List<ProductVariants>();
 }
