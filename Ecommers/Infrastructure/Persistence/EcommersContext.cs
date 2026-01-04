@@ -40,19 +40,17 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<Orders> Orders { get; set; }
 
-    public virtual DbSet<ProductVariantAttributes> ProductVariantAttributes { get; set; }
+    public virtual DbSet<ProductAttributes> ProductAttributes { get; set; }
 
-    public virtual DbSet<ProductVariantImages> ProductVariantImages { get; set; }
+    public virtual DbSet<ProductImages> ProductImages { get; set; }
 
-    public virtual DbSet<ProductVariantPriceHistory> ProductVariantPriceHistory { get; set; }
-
-    public virtual DbSet<ProductVariants> ProductVariants { get; set; }
+    public virtual DbSet<ProductPriceHistory> ProductPriceHistory { get; set; }
 
     public virtual DbSet<Products> Products { get; set; }
 
     public virtual DbSet<Servicios> Servicios { get; set; }
 
-       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+          protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
     }
@@ -231,7 +229,7 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasIndex(e => e.OrderId, "IX_OrderItems_OrderId");
 
-            entity.HasIndex(e => e.ProductVariantsId, "IX_OrderItems_ProductVariantsId");
+            entity.HasIndex(e => e.ProductId, "IX_OrderItems_ProductId");
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -245,10 +243,9 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems).HasForeignKey(d => d.OrderId);
 
-            entity.HasOne(d => d.ProductVariants).WithMany(p => p.OrderItems)
-                .HasForeignKey(d => d.ProductVariantsId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderItems_Products_ProductId");
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Orders>(entity =>
@@ -289,28 +286,28 @@ public class EcommersContext : IdentityDbContext<
                 .HasConstraintName("FK_Orders_Users_UserId");
         });
 
-        modelBuilder.Entity<ProductVariantAttributes>(entity =>
+        modelBuilder.Entity<ProductAttributes>(entity =>
         {
-            entity.HasIndex(e => e.ValueId, "IX_ProductVariantAttributes_ValueId");
+            entity.HasIndex(e => e.ValueId, "IX_ProductAttributes_ValueId");
 
-            entity.HasIndex(e => e.VariantId, "IX_ProductVariantAttributes_VariantId");
+            entity.HasIndex(e => e.VariantId, "IX_ProductAttributes_VariantId");
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Value).WithMany(p => p.ProductVariantAttributes)
+            entity.HasOne(d => d.Value).WithMany(p => p.ProductAttributes)
                 .HasForeignKey(d => d.ValueId)
-                .HasConstraintName("FK_ProductVariantAttributes_Value");
+                .HasConstraintName("FK_ProductAttributes_Value");
 
-            entity.HasOne(d => d.Variant).WithMany(p => p.ProductVariantAttributes)
+            entity.HasOne(d => d.Variant).WithMany(p => p.ProductAttributes)
                 .HasForeignKey(d => d.VariantId)
-                .HasConstraintName("FK_ProductVariantAttributes_Variant");
+                .HasConstraintName("FK_ProductAttributes_Variant");
         });
 
-        modelBuilder.Entity<ProductVariantImages>(entity =>
+        modelBuilder.Entity<ProductImages>(entity =>
         {
-            entity.HasIndex(e => e.VariantId, "IX_ProductVariantImages_VariantId");
+            entity.HasIndex(e => e.VariantId, "IX_ProductImages_VariantId");
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
@@ -319,14 +316,14 @@ public class EcommersContext : IdentityDbContext<
                 .HasMaxLength(255)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Variant).WithMany(p => p.ProductVariantImages)
+            entity.HasOne(d => d.Variant).WithMany(p => p.ProductImages)
                 .HasForeignKey(d => d.VariantId)
-                .HasConstraintName("FK_ProductVariantImages_Variant");
+                .HasConstraintName("FK_ProductImages_Variant");
         });
 
-        modelBuilder.Entity<ProductVariantPriceHistory>(entity =>
+        modelBuilder.Entity<ProductPriceHistory>(entity =>
         {
-            entity.HasIndex(e => e.ProductVariantId, "IX_ProductVariantPriceHistory_ProductVariantId");
+            entity.HasIndex(e => e.ProductId, "IX_ProductPriceHistory_ProductId");
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
@@ -339,30 +336,9 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
-            entity.HasOne(d => d.ProductVariant).WithMany(p => p.ProductVariantPriceHistory)
-                .HasForeignKey(d => d.ProductVariantId)
-                .HasConstraintName("FK_ProductVariantPriceHistory_Variant");
-        });
-
-        modelBuilder.Entity<ProductVariants>(entity =>
-        {
-            entity.HasIndex(e => e.ProductId, "IX_ProductVariants_ProductId");
-
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.SKU)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.StockStatus)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasDefaultValue("in_stock");
-            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductVariants)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductPriceHistory)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_ProductVariants_Products");
+                .HasConstraintName("FK_ProductPriceHistory_Variant");
         });
 
         modelBuilder.Entity<Products>(entity =>
@@ -378,10 +354,17 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.SKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.ShortDescription).HasColumnType("text");
             entity.Property(e => e.Slug)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("in_stock");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)

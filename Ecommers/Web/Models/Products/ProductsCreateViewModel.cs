@@ -6,8 +6,6 @@ namespace Ecommers.Web.Models.Products
     {
         public ProductsD Products { get; set; } = null!;
 
-        public ProductVariantsD ProductVariants { get; set; } = null!;
-
         public IEnumerable<CategoriesD> Categories { get; set; } = [];
 
         public IEnumerable<MasterAttributesD> MasterAttributes { get; set; } = [];

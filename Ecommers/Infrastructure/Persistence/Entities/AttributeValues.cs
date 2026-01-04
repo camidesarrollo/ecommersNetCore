@@ -31,5 +31,5 @@ public partial class AttributeValues
 
     public virtual MasterAttributes Attribute { get; set; } = null!;
 
-    public virtual ICollection<ProductVariantAttributes> ProductVariantAttributes { get; set; } = new List<ProductVariantAttributes>();
+    public virtual ICollection<ProductAttributes> ProductAttributes { get; set; } = new List<ProductAttributes>();
 }

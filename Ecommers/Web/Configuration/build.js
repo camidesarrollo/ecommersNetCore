@@ -80,6 +80,11 @@ console.log("\n📋 Copiando CSS de dependencias...");
         src: "swiper/swiper-bundle.min.css",
         dest: "swiper-bundle.min.css",
         name: "Swiper"
+    },
+    {
+        src: "select2/dist/css/select2.min.css", 
+        dest: "select2.min.css",
+        name: "Select2"
     }
 ].forEach(lib => {
     copyCssFile(
@@ -88,6 +93,7 @@ console.log("\n📋 Copiando CSS de dependencias...");
         lib.name
     );
 });
+
 
 // ========================================
 // HELPER: RESOLVER MÓDULOS

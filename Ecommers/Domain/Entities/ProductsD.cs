@@ -8,12 +8,17 @@ namespace Ecommers.Domain.Entities
 
         public string Slug { get; set; } = null!;
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
 
-        public string? ShortDescription { get; set; }
+        public string ShortDescription { get; set; } = null!;
 
+        public string SKU { get; set; } = null!;
 
-        public bool IsFeatured { get; set; }
+        public long StockQuantity { get; set; }
+
+        public bool ManageStock { get; set; }
+
+        public string StockStatus { get; set; } = null!;
 
         public long CategoryId { get; set; }
     }

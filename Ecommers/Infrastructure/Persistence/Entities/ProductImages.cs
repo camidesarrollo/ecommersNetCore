@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommers.Infrastructure.Persistence.Entities;
 
-public partial class ProductVariantImages
+public partial class ProductImages
 {
     public long Id { get; set; }
 
@@ -23,5 +23,5 @@ public partial class ProductVariantImages
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ProductVariants Variant { get; set; } = null!;
+    public virtual Products Variant { get; set; } = null!;
 }

@@ -199,13 +199,14 @@ namespace Ecommers.Application.Services
         {
             var repo = _unitOfWork.Repository<MasterAttributesD, long>();
 
-            var categorias = await repo.GetQuery()
+            var atributos = await repo.GetQuery()
                 .AsNoTracking()
                 .Where(x => x.IsActive)
                 .OrderBy(x => x.InputType)
+                .ThenBy(x => x.IsRequired)
                 .ToListAsync();
 
-            return categorias;
+            return atributos;
         }
 
         // -------------------------------------------------------------------

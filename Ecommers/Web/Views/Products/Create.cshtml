@@ -8,6 +8,7 @@
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/shepherd.css">
+    <link rel="stylesheet" href="~/css/select2.min.css">
 }
 
 <div class="bg-pattern min-h-screen py-8 px-4">
@@ -174,17 +175,18 @@
                                        value="@attr.Id" />
 
                                 <div>
-                                    <label class="font-semibold">
-                                        @attr.Name
-                                        @if (attr.IsRequired)
-                                        {
-                                            <span class="text-red-700">*</span>
-                                        }
-                                    </label>
+                                 
 
                                     @switch (attr.InputType)
                                     {
                                         case "text":
+                                            <label class="font-semibold">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
                                             <input type="text"
                                                    name="Attributes[@i].Value"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" placeholder="@attr.Description"
@@ -192,6 +194,13 @@
                                             break;
 
                                         case "number":
+                                            <label class="font-semibold">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
                                             <input type="number"
                                                    name="Attributes[@i].Value"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" placeholder="@attr.Description"
@@ -199,19 +208,29 @@
                                             break;
 
                                         case "checkbox":
-                                            <input type="hidden"
-                                                   name="Attributes[@i].Value"
-                                                   value="false" />
-                                            <input type="checkbox"
-                                                   name="Attributes[@i].Value"
-                                                   value="true"
-                                                   class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                                            <p class="text-sm text-gray-500">@attr.Description</p>
+                                            <label class="flex items-center gap-3 cursor-pointer">
+                                                <input type="checkbox"
+                                                       name="Attributes[@i].Value"
+                                                       value="true"
+                                                       class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
                                             break;
 
                                         case "select":
-                                            <select name="Attributes[@i].Value"
-                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                            <label class="font-semibold">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
+                                            <select name="Attributes[@i].Value[]" data-tags="true"
+                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
                                             </select>
@@ -222,6 +241,7 @@
                                 </div>
                             }
                         </div>
+                    </div>
                 </section>
 
                 <!-- SIDEBAR -->
@@ -236,21 +256,21 @@
                         <div class="space-y-4">
 
                             <div>
-                                <label asp-for="ProductVariants.SKU" class="block font-semibold mb-2">
+                                <label asp-for="Products.SKU" class="block font-semibold mb-2">
                                     SKU <span class="text-red-700">*</span>
                                 </label>
                                 <input type="text"
-                                       asp-for="ProductVariants.SKU"
+                                       asp-for="Products.SKU"
                                        required
                                        class="w-full px-4 py-3 border-2 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
                             </div>
 
                             <div>
-                                <label asp-for="ProductVariants.StockQuantity" class="block font-semibold mb-2">
+                                <label asp-for="Products.StockQuantity" class="block font-semibold mb-2">
                                     Stock disponible <span class="text-red-700">*</span>
                                 </label>
                                 <input type="number"
-                                       asp-for="ProductVariants.StockQuantity"
+                                       asp-for="Products.StockQuantity"
                                        required
                                        min="0"
                                        class="w-full px-4 py-3 border-2 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
@@ -266,17 +286,10 @@
                         </h5>
 
                         <label class="flex items-center gap-3 cursor-pointer">
-                            <input asp-for="ProductVariants.IsActive"
+                            <input asp-for="Products.IsActive"
                                    type="checkbox"
                                    class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
                             Producto activo
-                        </label>
-
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input asp-for="ProductVariants.IsFeatured"
-                                   type="checkbox"
-                                   class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                            Producto destacado
                         </label>
                     </div>
 

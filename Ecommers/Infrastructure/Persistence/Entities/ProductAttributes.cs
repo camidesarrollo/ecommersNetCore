@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommers.Infrastructure.Persistence.Entities;
 
-public partial class ProductVariantAttributes
+public partial class ProductAttributes
 {
     public long Id { get; set; }
 
@@ -21,5 +21,5 @@ public partial class ProductVariantAttributes
 
     public virtual AttributeValues Value { get; set; } = null!;
 
-    public virtual ProductVariants Variant { get; set; } = null!;
+    public virtual Products Variant { get; set; } = null!;
 }

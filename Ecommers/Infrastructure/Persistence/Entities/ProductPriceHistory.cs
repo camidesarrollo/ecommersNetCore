@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Ecommers.Infrastructure.Persistence.Entities;
 
-public partial class ProductVariantPriceHistory
+public partial class ProductPriceHistory
 {
     public long Id { get; set; }
 
-    public long ProductVariantId { get; set; }
+    public long ProductId { get; set; }
 
     public decimal Price { get; set; }
 
@@ -27,5 +27,5 @@ public partial class ProductVariantPriceHistory
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ProductVariants ProductVariant { get; set; } = null!;
+    public virtual Products Product { get; set; } = null!;
 }

@@ -18,12 +18,9 @@ namespace Ecommers.Infrastructure.Queries
             using var db = new EcommersContext();
 
             var count = db.Products
-                .Count(p =>
-                    p.ProductVariants.Any(v =>
-                        v.ProductVariantAttributes.Any(a =>
+                .Count(p => p.ProductAttributes.Any(a =>
                             a.Value.AttributeId == id
                         )
-                    )
                 );
 
             return count;
