@@ -126,6 +126,20 @@ $(document).ready(() => {
                 console.log("Opción removida:", e.params.data.text);
             });
 
+            $(".select2.select2-container.select2-container--default").each(function () {
+                $(this).addClass(
+                    "w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg " +
+                    "focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                );
+            });
+
+            $(".select2-selection.select2-selection--single").each(function () {
+                $(this).attr("style", "border: none !important");
+            });
+            $(".select2-container--default .select2-selection--single .select2-selection__arrow b").each(function () {
+                $(this).attr("style", "top: 100% !important");
+            });
+            
         } catch (error) {
             console.error('Error al inicializar Select2:', error);
         }

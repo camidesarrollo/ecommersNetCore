@@ -7,7 +7,7 @@ public partial class ProductAttributes
 {
     public long Id { get; set; }
 
-    public long VariantId { get; set; }
+    public long ProductId { get; set; }
 
     public long ValueId { get; set; }
 
@@ -19,7 +19,7 @@ public partial class ProductAttributes
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual AttributeValues Value { get; set; } = null!;
+    public virtual Products Product { get; set; } = null!;
 
-    public virtual Products Variant { get; set; } = null!;
+    public virtual AttributeValues Value { get; set; } = null!;
 }

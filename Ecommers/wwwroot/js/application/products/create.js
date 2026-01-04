@@ -1,11 +1,16 @@
 ﻿import Shepherd from "../../bundle/vendors_shepherd.js";
+import { productsCreateSchema } from "../../bundle/schema/products.create.shema.js";
+import {
+    handleZodFormSubmit
+} from "../../bundle/utils/form-helpers.js";
 import {
     initBlurValidation,
 } from "../../domain/utils/ui/input.validation.js";
 
-/* =====================================================
-   CONFIGURACIÓN DEL TOUR
-===================================================== */
+import {
+    setupSlugAutoGeneration,
+} from "./generic.js";
+
 /* =====================================================
    CONFIGURACIÓN DEL TOUR - CREAR PRODUCTO
 ===================================================== */
@@ -337,6 +342,8 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     window.productCreateTour = tour;
+
+    setupSlugAutoGeneration();
 });
 
 /* =====================================================

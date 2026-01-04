@@ -50,6 +50,7 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<Servicios> Servicios { get; set; }
 
+    
           protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -288,26 +289,26 @@ public class EcommersContext : IdentityDbContext<
 
         modelBuilder.Entity<ProductAttributes>(entity =>
         {
-            entity.HasIndex(e => e.ValueId, "IX_ProductAttributes_ValueId");
+            entity.HasIndex(e => e.ProductId, "IX_ProductAttributes_ProductId");
 
-            entity.HasIndex(e => e.VariantId, "IX_ProductAttributes_VariantId");
+            entity.HasIndex(e => e.ValueId, "IX_ProductAttributes_ValueId");
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductAttributes)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK_ProductAttributes_Variant");
+
             entity.HasOne(d => d.Value).WithMany(p => p.ProductAttributes)
                 .HasForeignKey(d => d.ValueId)
                 .HasConstraintName("FK_ProductAttributes_Value");
-
-            entity.HasOne(d => d.Variant).WithMany(p => p.ProductAttributes)
-                .HasForeignKey(d => d.VariantId)
-                .HasConstraintName("FK_ProductAttributes_Variant");
         });
 
         modelBuilder.Entity<ProductImages>(entity =>
         {
-            entity.HasIndex(e => e.VariantId, "IX_ProductImages_VariantId");
+            entity.HasIndex(e => e.ProductId, "IX_ProductImages_ProductId");
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
@@ -316,8 +317,8 @@ public class EcommersContext : IdentityDbContext<
                 .HasMaxLength(255)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Variant).WithMany(p => p.ProductImages)
-                .HasForeignKey(d => d.VariantId)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
+                .HasForeignKey(d => d.ProductId)
                 .HasConstraintName("FK_ProductImages_Variant");
         });
 

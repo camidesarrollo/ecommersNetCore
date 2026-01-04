@@ -7,7 +7,7 @@ public partial class ProductImages
 {
     public long Id { get; set; }
 
-    public long VariantId { get; set; }
+    public long ProductId { get; set; }
 
     public string Url { get; set; } = null!;
 
@@ -23,5 +23,5 @@ public partial class ProductImages
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Products Variant { get; set; } = null!;
+    public virtual Products Product { get; set; } = null!;
 }
