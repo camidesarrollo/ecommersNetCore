@@ -4,34 +4,23 @@
 // ===============================
 // CONFIGURACIÓN DE ENDPOINTS
 // ===============================
-const URL_SERVICIOS = {
-    GetByName: {
-        url: "/Configuracion/Servicios/GetByNameAsync",
-        errorMessage: "Error al obtener el servicio"
-    },
+const PRODUCTOS_API = {
     CambiarEstado: {
-        url: "/Configuracion/Servicios/CambiarEstado",
-        errorMessage: "Error al cambiar el estado del servicio"
+        url: "/Gestion/Categorias/CambiarEstado",
+        errorMessage: "Error al cambiar el estado del categoría"
     }
 };
 
 // ===============================
 // FUNCIONES ESPECÍFICAS
 // ===============================
-function GetByName(data) {
-    return ajaxPost(URL_SERVICIOS.GetByName, data);
-}
-
 function CambiarEstado(data) {
-    return ajaxPost(URL_SERVICIOS.CambiarEstado, data);
+    return ajaxPost(PRODUCTOS_API.CambiarEstado, data);
 }
 
 // ===============================
 // EXPORTS
 // ===============================
 export {
-    GetByName,
     CambiarEstado
 };
-
-

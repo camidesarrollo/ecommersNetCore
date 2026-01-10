@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Web.Controllers
 {
-    [Route("Gestion/[controller]")]
+    [Route("Configuracion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class BannersController(
         IBanners bannerssService,
@@ -32,7 +32,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Banners/Detalle/{id}
+        // GET: /Configuracion/Banners/Detalle/{id}
         // -------------------------------------------------------------------
         [HttpGet("Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
@@ -44,7 +44,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Banners/Crear
+        // GET: /Configuracion/Banners/Crear
         // -------------------------------------------------------------------
         [HttpGet("Crear")]
         public IActionResult Crear()
@@ -54,7 +54,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Banners/Crear
+        // POST: /Configuracion/Banners/Crear
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
@@ -72,7 +72,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Banners/Editar/{id}
+        // GET: /Configuracion/Banners/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
         public async Task<IActionResult> Editar(int id)
@@ -84,7 +84,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Banners/Editar
+        // POST: /Configuracion/Banners/Editar
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
@@ -103,7 +103,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Banners/Eliminar/{id}
+        // GET: /Configuracion/Banners/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
         public async Task<IActionResult> Eliminar(int id)
@@ -115,7 +115,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Banners/Eliminar
+        // POST: /Configuracion/Banners/Eliminar
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]

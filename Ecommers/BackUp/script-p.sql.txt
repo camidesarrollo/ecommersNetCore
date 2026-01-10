@@ -1,0 +1,586 @@
+use Ecommers;
+
+-- =====================================================
+-- INSERT COMPLETO DE PRODUCTOS CON VARIANTES
+-- Cliente: Secos y Saludables JPJ
+-- =====================================================
+
+USE [Ecommers]
+GO
+
+-- =====================================================
+-- PASO 1: Insertar productos base (sin repetir)
+-- =====================================================
+
+SET IDENTITY_INSERT [dbo].[Products] ON
+
+INSERT INTO [dbo].[Products] ([Id], [Name], [Slug], [Description], [ShortDescription], [CategoryId], [BasePrice], [IsActive], [CreatedAt])
+VALUES 
+-- Aceitunas (Categoría 1)
+(2, N'Aceituna Amarga', N'aceituna-amarga-2', N'Aceitunas amargas de excelente calidad, perfectas para aperitivos y preparaciones gourmet.', N'Aceitunas amargas seleccionadas', 1, 7000, 1, GETDATE()),
+(3, N'Aceituna Envasada Negra y Verde', N'aceituna-envasada-negra-verde', N'Aceitunas envasadas en su punto perfecto, combinación de aceitunas negras y verdes.', N'Mix de aceitunas negras y verdes', 1, 7000, 1, GETDATE()),
+(4, N'Aceituna Jumbo', N'aceituna-jumbo', N'Aceitunas de tamaño jumbo, ideales para ensaladas y tablas de aperitivos.', N'Aceitunas extra grandes', 1, 6000, 1, GETDATE()),
+(5, N'Aceituna Rellena', N'aceituna-rellena', N'Aceitunas rellenas con ingredientes selectos para un sabor único.', N'Aceitunas rellenas gourmet', 1, 6500, 1, GETDATE()),
+(6, N'Aceituna Super', N'aceituna-super', N'Aceitunas de calidad superior, seleccionadas cuidadosamente.', N'Aceitunas calidad superior', 1, 5800, 1, GETDATE()),
+
+-- Frutos Secos (Categoría 7)
+(7, N'Almendra Primera', N'almendra-primera', N'Almendras de primera calidad, perfectas para snacks saludables o repostería.', N'Almendras premium seleccionadas', 7, 12000, 1, GETDATE()),
+(8, N'Almendra con Chocolate', N'almendra-con-chocolate', N'Deliciosas almendras cubiertas con chocolate de alta calidad.', N'Almendras bañadas en chocolate', 7, 16000, 1, GETDATE()),
+(9, N'Almendra Laminada sin Piel', N'almendra-laminada-sin-piel', N'Almendras laminadas sin piel, ideales para decoración y repostería.', N'Almendras laminadas premium', 7, 18000, 1, GETDATE()),
+(10, N'Avellana Chilena', N'avellana-chilena', N'Avellanas chilenas de producción nacional, frescas y sabrosas.', N'Avellanas origen Chile', 7, 22000, 1, GETDATE()),
+(11, N'Avellana Europea', N'avellana-europea', N'Avellanas europeas de calidad premium importadas.', N'Avellanas importadas premium', 7, 12000, 1, GETDATE()),
+(12, N'Castaña de Cajú', N'castana-caju', N'Castañas de cajú enteras, nutritivas y deliciosas.', N'Castañas de cajú premium', 7, 15000, 1, GETDATE()),
+(13, N'Maní con Chocolate', N'mani-con-chocolate', N'Maní cubierto con chocolate, perfecto para cualquier momento.', N'Maní bañado en chocolate', 7, 5000, 1, GETDATE()),
+(14, N'Maní con Cáscara Tostado', N'mani-con-cascara-tostado', N'Maní tostado con cáscara, ideal para compartir.', N'Maní tostado natural', 7, 5000, 1, GETDATE()),
+(15, N'Maní con Merkén', N'mani-con-merken', N'Maní condimentado con merkén chileno, sabor único.', N'Maní sabor merkén', 7, 6000, 1, GETDATE()),
+(16, N'Maní con Sal y sin Sal', N'mani-con-sal-sin-sal', N'Maní disponible con sal o natural sin sal.', N'Maní tostado versátil', 7, 3500, 1, GETDATE()),
+(17, N'Maní Confitado', N'mani-confitado', N'Maní con cobertura dulce confitada.', N'Maní dulce confitado', 7, 3500, 1, GETDATE()),
+(18, N'Maní Japonés', N'mani-japones', N'Maní japonés crocante, snack tradicional.', N'Maní japonés crocante', 7, 6000, 1, GETDATE()),
+(19, N'Nuez Entera Mariposa', N'nuez-entera-mariposa', N'Nueces enteras tipo mariposa de excelente calidad.', N'Nueces mariposa premium', 7, 6000, 1, GETDATE()),
+(20, N'Pistacho', N'pistacho', N'Pistachos de alta calidad, tostados y salados.', N'Pistachos premium', 7, 16000, 1, GETDATE()),
+
+-- Semillas (Categoría 7)
+(21, N'Maravilla Cruda con Piel', N'maravilla-cruda-piel', N'Semillas de maravilla crudas con piel natural.', N'Semillas maravilla naturales', 7, 3000, 1, GETDATE()),
+(22, N'Maravilla con Chocolate', N'maravilla-con-chocolate', N'Semillas de maravilla cubiertas con chocolate.', N'Maravilla bañada chocolate', 7, 6000, 1, GETDATE()),
+(23, N'Maravilla Pelada', N'maravilla-pelada', N'Semillas de maravilla peladas, listas para consumir.', N'Maravilla pelada premium', 7, 4000, 1, GETDATE()),
+(24, N'Pepita Crocante', N'pepita-crocante', N'Pepitas de zapallo crocantes, perfectas para snacks.', N'Pepitas crocantes', 7, 12000, 1, GETDATE()),
+(25, N'Pepita de Zapallo', N'pepita-zapallo', N'Pepitas de zapallo naturales, ricas en nutrientes.', N'Pepitas zapallo naturales', 7, 8000, 1, GETDATE()),
+
+-- Cereales y Legumbres (Categoría 3)
+(26, N'Arroz Arborio', N'arroz-arborio', N'Arroz arborio italiano, ideal para risottos.', N'Arroz italiano para risotto', 3, 8000, 1, GETDATE()),
+(27, N'Arroz Basmati', N'arroz-basmati', N'Arroz basmati aromático de grano largo.', N'Arroz basmati aromático', 3, 3000, 1, GETDATE()),
+(28, N'Avena Instantánea e Integral', N'avena-instantanea-integral', N'Avena versátil para desayunos saludables.', N'Avena integral premium', 3, 2000, 1, GETDATE()),
+(29, N'Chía', N'chia', N'Semillas de chía ricas en omega 3 y fibra.', N'Chía orgánica premium', 3, 6000, 1, GETDATE()),
+(30, N'Garbanzo sin Piel', N'garbanzo-sin-piel', N'Garbanzos pelados, ideales para hummus.', N'Garbanzos pelados', 3, 2500, 1, GETDATE()),
+(31, N'Lenteja 6mm', N'lenteja-6mm', N'Lentejas calibre 6mm de excelente calidad.', N'Lentejas calibre 6mm', 3, 2500, 1, GETDATE()),
+(32, N'Lenteja Baby', N'lenteja-baby', N'Lentejas baby, cocción rápida.', N'Lentejas baby premium', 3, 2500, 1, GETDATE()),
+(33, N'Lenteja Negra', N'lenteja-negra', N'Lentejas negras, ricas en proteínas.', N'Lentejas negras Beluga', 3, 2500, 1, GETDATE()),
+(34, N'Lenteja Roja', N'lenteja-roja', N'Lentejas rojas, perfectas para sopas y guisos.', N'Lentejas rojas premium', 3, 3000, 1, GETDATE()),
+(35, N'Linaza Entera', N'linaza-entera', N'Semillas de linaza enteras, ricas en omega 3.', N'Linaza entera natural', 3, 3000, 1, GETDATE()),
+(36, N'Linaza Molida', N'linaza-molida', N'Linaza molida lista para consumir.', N'Linaza molida fresca', 3, 3000, 1, GETDATE()),
+(37, N'Quinoa Blanca', N'quinoa-blanca', N'Quinoa blanca premium, superalimento andino.', N'Quinoa blanca orgánica', 3, 6000, 1, GETDATE()),
+(38, N'Quinoa Negra', N'quinoa-negra', N'Quinoa negra con alto contenido nutricional.', N'Quinoa negra premium', 3, 6500, 1, GETDATE()),
+(39, N'Quinoa Pop', N'quinoa-pop', N'Quinoa inflada, perfecta para desayunos.', N'Quinoa inflada crocante', 3, 8000, 1, GETDATE()),
+(40, N'Quinoa Roja', N'quinoa-roja', N'Quinoa roja de los Andes chilenos.', N'Quinoa roja andina', 3, 6000, 1, GETDATE()),
+
+-- Porotos (Categoría 3)
+(41, N'Poroto Blanco Alubia', N'poroto-blanco-alubia', N'Porotos blancos tipo alubia para guisos.', N'Porotos alubia premium', 3, 2500, 1, GETDATE()),
+(42, N'Poroto Canario', N'poroto-canario', N'Porotos canarios amarillos de excelente calidad.', N'Porotos canarios chilenos', 3, 3500, 1, GETDATE()),
+(43, N'Poroto Hallado', N'poroto-hallado', N'Porotos hallados jaspeados tradicionales.', N'Porotos hallados', 3, 2500, 1, GETDATE()),
+(44, N'Poroto Tórtola', N'poroto-tortola', N'Porotos tórtola suaves y cremosos.', N'Porotos tórtola premium', 3, 3000, 1, GETDATE()),
+(45, N'Poroto Negro', N'poroto-negro', N'Porotos negros ricos en proteínas.', N'Porotos negros premium', 3, 2000, 1, GETDATE()),
+(46, N'Poroto Pallar', N'poroto-pallar', N'Porotos pallar grandes y mantecosos.', N'Porotos pallar gigantes', 3, 3500, 1, GETDATE()),
+(47, N'Poroto Rojo', N'poroto-rojo', N'Porotos rojos para preparaciones tradicionales.', N'Porotos rojos chilenos', 3, 3500, 1, GETDATE()),
+
+-- Harinas y Preparación (Categoría 8)
+(48, N'Americana', N'americana', N'Harina americana para panqueques.', N'Harina panqueques', 8, 1600, 1, GETDATE()),
+(49, N'Azúcar Flor', N'azucar-flor', N'Azúcar flor para repostería fina.', N'Azúcar impalpable', 8, 2000, 1, GETDATE()),
+(50, N'Azúcar de Caña', N'azucar-cana', N'Azúcar de caña natural sin refinar.', N'Azúcar orgánica caña', 8, 2400, 1, GETDATE()),
+(51, N'Carne Vegetal', N'carne-vegetal', N'Proteína vegetal texturizada.', N'Carne vegetal TVP', 8, 3000, 1, GETDATE()),
+(52, N'Chocolate Granulado', N'chocolate-granulado', N'Chocolate en gránulos para decoración.', N'Chocolate granulado', 8, 3000, 1, GETDATE()),
+(53, N'Coco Rallado', N'coco-rallado', N'Coco rallado natural para repostería.', N'Coco rallado premium', 8, 7000, 1, GETDATE()),
+(54, N'Gelatina sin Sabor', N'gelatina-sin-sabor', N'Gelatina sin sabor para preparaciones.', N'Gelatina neutra', 8, 16000, 1, GETDATE()),
+(55, N'Harina de Almendra', N'harina-almendra', N'Harina de almendra sin gluten.', N'Harina almendra premium', 8, 12000, 1, GETDATE()),
+(56, N'Harina de Coco', N'harina-coco', N'Harina de coco orgánica sin gluten.', N'Harina coco orgánica', 8, 4000, 1, GETDATE()),
+(57, N'Harina Integral', N'harina-integral', N'Harina integral de trigo para panificación.', N'Harina trigo integral', 8, 2000, 1, GETDATE()),
+(58, N'Harina Tostada', N'harina-tostada', N'Harina tostada tradicional chilena.', N'Harina tostada ulpo', 8, 1500, 1, GETDATE()),
+(59, N'Levadura', N'levadura', N'Levadura seca para panificación.', N'Levadura instantánea', 8, 1500, 1, GETDATE()),
+(60, N'Maicena', N'maicena', N'Fécula de maíz pura para cocina.', N'Fécula maíz premium', 8, 2000, 1, GETDATE()),
+(61, N'Maíz Curagua', N'maiz-curagua', N'Maíz mote curagua pelado.', N'Maíz mote pelado', 8, 2000, 1, GETDATE()),
+(62, N'Polvo de Hornear', N'polvo-hornear', N'Polvo de hornear para repostería.', N'Polvo hornear Gourmet', 8, 5000, 1, GETDATE()),
+(63, N'Sémola', N'semola', N'Sémola de trigo fino para postres.', N'Sémola trigo candeal', 8, 3500, 1, GETDATE()),
+
+-- Frutas Deshidratadas (Categoría 6)
+(64, N'Banana Chips', N'banana-chips', N'Chips de plátano deshidratado crocante.', N'Banana chips crocante', 6, 6000, 1, GETDATE()),
+(65, N'Ciruela sin Cuesco', N'ciruela-sin-cuesco', N'Ciruelas deshidratadas sin carozo.', N'Ciruelas deshidratadas', 6, 6000, 1, GETDATE()),
+(66, N'Cranberry', N'cranberry', N'Arándanos rojos deshidratados.', N'Cranberry deshidratado', 6, 7000, 1, GETDATE()),
+(67, N'Cranberry con Chocolate', N'cranberry-chocolate', N'Cranberries cubiertos con chocolate.', N'Cranberry bañado chocolate', 6, 14000, 1, GETDATE()),
+(68, N'Damasco Turco', N'damasco-turco', N'Damascos turcos deshidratados premium.', N'Damascos turcos jumbo', 6, 12000, 1, GETDATE()),
+(69, N'Dátiles sin Cuesco', N'datiles-sin-cuesco', N'Dátiles naturales sin carozo.', N'Dátiles Medjool premium', 6, 6000, 1, GETDATE()),
+(70, N'Durazno Deshidratado', N'durazno-deshidratado', N'Duraznos deshidratados naturales.', N'Durazno deshidratado', 6, 6500, 1, GETDATE()),
+(71, N'Durazno en Lata', N'durazno-lata', N'Duraznos en conserva listos para consumir.', N'Durazno en almíbar', 6, 2000, 1, GETDATE()),
+(72, N'Fruta Deshidratada Mix', N'fruta-deshidratada-mix', N'Mix de frutas tropicales deshidratadas.', N'Mix mango piña papaya', 6, 7000, 1, GETDATE()),
+(73, N'Fruta Confitada', N'fruta-confitada', N'Frutas confitadas para repostería.', N'Fruta confitada Rocofrut', 6, 5000, 1, GETDATE()),
+(74, N'Goji', N'goji', N'Bayas de Goji deshidratadas.', N'Goji berries premium', 6, 8000, 1, GETDATE()),
+(75, N'Huesillo Extra', N'huesillo-extra', N'Huesillos extra grandes seleccionados.', N'Huesillo extra grande', 6, 7000, 1, GETDATE()),
+(76, N'Huesillo Jumbo', N'huesillo-jumbo', N'Huesillos jumbo de primera calidad.', N'Huesillo jumbo premium', 6, 7500, 1, GETDATE()),
+(77, N'Huesillo Mediano', N'huesillo-mediano', N'Huesillos medianos para mote con huesillos.', N'Huesillo mediano', 6, 5800, 1, GETDATE()),
+(78, N'Papayas', N'papayas', N'Papaya deshidratada en cubos.', N'Papaya deshidratada', 6, 6500, 1, GETDATE()),
+(79, N'Pasa Negra', N'pasa-negra', N'Pasas negras sin semilla.', N'Pasas negras premium', 6, 3500, 1, GETDATE()),
+(80, N'Pasa Rubia', N'pasa-rubia', N'Pasas rubias sultanas doradas.', N'Pasas rubias sultanas', 6, 7000, 1, GETDATE()),
+
+-- Chocolates (Categoría 4)
+(81, N'Chocolate Amargo', N'chocolate-amargo', N'Chocolate amargo para repostería.', N'Chocolate amargo 70%', 4, 6000, 1, GETDATE()),
+(82, N'Chocolate Dulce', N'chocolate-dulce', N'Chocolate con leche en trozos.', N'Chocolate leche trozos', 4, 5000, 1, GETDATE()),
+
+-- Snacks (Categoría 9)
+(83, N'Cholito Blanco y Negro', N'cholito-blanco-negro', N'Mix de cholitos dulces blanco y negro.', N'Cholito mix dulce', 9, 4800, 1, GETDATE()),
+(84, N'Chubi', N'chubi', N'Snack dulce crocante tradicional.', N'Chubi crocante', 9, 6000, 1, GETDATE()),
+
+-- Conservas (Categoría 5)
+(85, N'Chuchoca', N'chuchoca', N'Maíz chuchoca para preparaciones tradicionales.', N'Chuchoca maíz tierno', 5, 2000, 1, GETDATE()),
+(86, N'Chucrut', N'chucrut', N'Col fermentada natural probiótica.', N'Chucrut artesanal', 5, 2000, 1, GETDATE()),
+(87, N'Fondo de Alcachofa', N'fondo-alcachofa', N'Fondos de alcachofa en conserva.', N'Alcachofas en conserva', 5, 6000, 1, GETDATE()),
+
+-- Especias (Categoría 2)
+(88, N'Canela Entera', N'canela-entera', N'Ramas de canela de Ceylon.', N'Canela Ceylon rama', 2, 3000, 1, GETDATE()),
+(89, N'Canela Molida', N'canela-molida', N'Canela molida aromática.', N'Canela molida premium', 2, 12000, 1, GETDATE()),
+(90, N'Cardamomo', N'cardamomo', N'Cardamomo en vaina aromático.', N'Cardamomo verde entero', 2, 6000, 1, GETDATE()),
+(91, N'Clavo de Olor', N'clavo-olor', N'Clavos de olor enteros aromáticos.', N'Clavo olor entero', 2, 2500, 1, GETDATE()),
+(92, N'Clavo de Olor Molido', N'clavo-olor-molido', N'Clavo de olor molido fino.', N'Clavo olor molido', 2, 2500, 1, GETDATE()),
+(93, N'Flor de Hibisco', N'flor-hibisco', N'Flores de hibisco deshidratadas para té.', N'Hibisco flor jamaica', 2, 3000, 1, GETDATE()),
+(94, N'Nuez Moscada Molida', N'nuez-moscada-molida', N'Nuez moscada molida aromática.', N'Nuez moscada molida', 2, 3000, 1, GETDATE()),
+(95, N'Nuez Moscada Entera', N'nuez-moscada-entera', N'Nuez moscada entera para rallar.', N'Nuez moscada entera', 2, 3000, 1, GETDATE()),
+(96, N'Sal del Himalaya', N'sal-himalaya', N'Sal rosa del Himalaya natural.', N'Sal rosa Himalaya', 2, 3000, 1, GETDATE()),
+(97, N'Semilla de Mostaza', N'semilla-mostaza', N'Semillas de mostaza para condimentar.', N'Mostaza grano entero', 2, 2500, 1, GETDATE()),
+
+-- Café y Té (Categoría 2)
+(98, N'Café Vergnano Molido', N'cafe-vergnano-molido', N'Café italiano Vergnano molido premium.', N'Café italiano premium', 2, 30000, 1, GETDATE()),
+(99, N'Té Ceylon', N'te-ceylan', N'Té negro Ceylon de Sri Lanka.', N'Té negro Ceylon', 2, 10000, 1, GETDATE()),
+(100, N'Té Chino Verde', N'te-chino-verde', N'Té verde chino de alta calidad.', N'Té verde chino', 2, 6000, 1, GETDATE()),
+
+-- Otros (Categoría 9)
+(101, N'Edulzor Gourmet', N'edulzor-gourmet', N'Edulcorante natural sin calorías.', N'Edulcorante natural', 9, 1200, 1, GETDATE()),
+(102, N'Miel Multiflora', N'miel-multiflora', N'Miel natural multiflora chilena.', N'Miel multiflora pura', 9, 6500, 1, GETDATE()),
+(103, N'Mix Frutos Secos', N'mix-frutos-secos', N'Mezcla variada de frutos secos.', N'Mix frutos secos premium', 7, 6000, 1, GETDATE()),
+(104, N'Nutella', N'nutella', N'Crema de avellanas con cacao.', N'Nutella original', 4, 6000, 1, GETDATE()),
+(105, N'Aceite de Oliva Mayaca', N'aceite-oliva-mayaca', N'Aceite de oliva extra virgen.', N'Aceite oliva virgen', 9, 3800, 1, GETDATE()),
+(106, N'Salsa Soya Kikkoman', N'salsa-soya-kikkoman', N'Salsa de soya japonesa auténtica.', N'Soya Kikkoman original', 9, 15000, 1, GETDATE()),
+(107, N'Salsa Tabasco', N'salsa-tabasco', N'Salsa picante Tabasco original.', N'Tabasco picante', 9, 2500, 1, GETDATE())
+
+SET IDENTITY_INSERT [dbo].[Products] OFF
+GO
+
+-- =====================================================
+-- PASO 2: Insertar variantes con precios
+-- =====================================================
+
+SET IDENTITY_INSERT [dbo].[ProductVariants] ON
+
+-- Nota: ProductId corresponde al Id del producto base
+-- Cada variante tiene su SKU único, precio de venta (Price) y costo (CostPrice)
+
+INSERT INTO [dbo].[ProductVariants] ([Id], [ProductId], [SKU], [Name], [Price], [CostPrice], [StockQuantity], [IsDefault], [IsActive], [CreatedAt])
+VALUES
+-- Aceitunas
+(4, 2, 'ACEIT-AMAR-1K', N'1kg', 7000, 5200, 50, 1, 1, GETDATE()),
+(5, 3, 'ACEIT-ENV-1K', N'1kg', 7000, 4200, 40, 1, 1, GETDATE()),
+(6, 4, 'ACEIT-JUMB-1K', N'1kg', 6000, 4700, 35, 1, 1, GETDATE()),
+(7, 5, 'ACEIT-RELL-1K', N'1kg', 6500, 4000, 30, 1, 1, GETDATE()),
+(8, 6, 'ACEIT-SUP-1K', N'1kg', 5800, 4500, 45, 1, 1, GETDATE()),
+
+-- Frutos Secos
+(9, 7, 'ALM-1A-1K', N'1kg', 12000, 8670, 60, 1, 1, GETDATE()),
+(10, 8, 'ALM-CHOC-1K', N'1kg', 16000, 12138, 40, 1, 1, GETDATE()),
+(11, 9, 'ALM-LAM-1K', N'1kg', 18000, 12250, 30, 1, 1, GETDATE()),
+(12, 10, 'AVELL-CH-1K', N'1kg', 22000, 17434, 25, 1, 1, GETDATE()),
+(13, 11, 'AVELL-EU-1K', N'1kg', 12000, 9400, 35, 1, 1, GETDATE()),
+(14, 12, 'CAST-CAJU-1K', N'1kg', 15000, 11424, 40, 1, 1, GETDATE()),
+(15, 13, 'MANI-CHOC-1K', N'1kg', 5000, 3510, 50, 1, 1, GETDATE()),
+(16, 14, 'MANI-CASC-1K', N'1kg', 5000, 3076, 55, 1, 1, GETDATE()),
+(17, 15, 'MANI-MERK-1K', N'1kg', 6000, 3000, 40, 1, 1, GETDATE()),
+(18, 16, 'MANI-SAL-1K', N'1kg', 3500, 2118, 70, 1, 1, GETDATE()),
+(19, 17, 'MANI-CONF-1K', N'1kg', 3500, 2500, 60, 1, 1, GETDATE()),
+(20, 18, 'MANI-JAP-1K', N'1kg', 6000, 3689, 45, 1, 1, GETDATE()),
+(21, 19, 'NUEZ-MAR-500G', N'500g', 6000, 8500, 30, 1, 1, GETDATE()),
+(22, 20, 'PIST-1K', N'1kg', 16000, 12140, 25, 1, 1, GETDATE()),
+
+-- Semillas
+(23, 21, 'MARAV-CRU-1K', N'1kg', 3000, 1700, 80, 1, 1, GETDATE()),
+(24, 22, 'MARAV-CHOC-1K', N'1kg', 6000, 4522, 50, 1, 1, GETDATE()),
+(25, 23, 'MARAV-PEL-1K', N'1kg', 4000, 2916, 60, 1, 1, GETDATE()),
+(26, 24, 'PEP-CROC-1K', N'1kg', 12000, 8630, 35, 1, 1, GETDATE()),
+(27, 25, 'PEP-ZAP-1K', N'1kg', 8000, 3990, 45, 1, 1, GETDATE()),
+
+-- Cereales y Legumbres
+(28, 26, 'ARR-ARB-1K', N'1kg', 8000, 5000, 40, 1, 1, GETDATE()),
+(29, 27, 'ARR-BAS-1K', N'1kg', 3000, 1952, 70, 1, 1, GETDATE()),
+(30, 28, 'AVEN-INT-1K', N'1kg', 2000, 750, 100, 1, 1, GETDATE()),
+(31, 29, 'CHIA-1K', N'1kg', 6000, 2856, 50, 1, 1, GETDATE()),
+(32, 30, 'GARB-SP-1K', N'1kg', 2500, 1316, 80, 1, 1, GETDATE()),
+(33, 31, 'LENT-6MM-1K', N'1kg', 2500, 1606, 90, 1, 1, GETDATE()),
+(34, 32, 'LENT-BABY-1K', N'1kg', 2500, 1750, 85, 1, 1, GETDATE()),
+(35, 33, 'LENT-NEG-1K', N'1kg', 2500, 2225, 70, 1, 1, GETDATE()),
+(36, 34, 'LENT-ROJ-1K', N'1kg', 3000, 1725, 80, 1, 1, GETDATE()),
+(37, 35, 'LIN-ENT-1K', N'1kg', 3000, 1430, 75, 1, 1, GETDATE()),
+(38, 36, 'LIN-MOL-1K', N'1kg', 3000, 1600, 70, 1, 1, GETDATE()),
+(39, 37, 'QUIN-BL-1K', N'1kg', 6000, 4200, 50, 1, 1, GETDATE()),
+(40, 38, 'QUIN-NEG-1K', N'1kg', 6500, 5474, 45, 1, 1, GETDATE()),
+(41, 39, 'QUIN-POP-1K', N'1kg', 8000, 5900, 40, 1, 1, GETDATE()),
+(42, 40, 'QUIN-ROJ-1K', N'1kg', 6000, 3451, 55, 1, 1, GETDATE()),
+
+-- Porotos
+(43, 41, 'POR-ALU-1K', N'1kg', 2500, 1773, 90, 1, 1, GETDATE()),
+(44, 42, 'POR-CAN-1K', N'1kg', 3500, 2740, 70, 1, 1, GETDATE()),
+(45, 43, 'POR-HAL-1K', N'1kg', 2500, 1820, 85, 1, 1, GETDATE()),
+(46, 44, 'POR-TOR-1K', N'1kg', 3000, 2000, 75, 1, 1, GETDATE()),
+(47, 45, 'POR-NEG-1K', N'1kg', 2000, 1200, 100, 1, 1, GETDATE()),
+(48, 46, 'POR-PAL-1K', N'1kg', 3500, 2676, 65, 1, 1, GETDATE()),
+(49, 47, 'POR-ROJ-1K', N'1kg', 3500, 2560, 80, 1, 1, GETDATE()),
+
+-- Harinas y Preparación (con dos presentaciones)
+(50, 48, 'AMER-1K', N'1kg', 1600, 1360, 100, 1, 1, GETDATE()),
+(51, 48, 'AMER-200G', N'200g', 600, 452, 150, 0, 1, GETDATE()),
+(52, 49, 'AZUFL-1K', N'1kg', 2000, 1416, 80, 1, 1, GETDATE()),
+(53, 50, 'AZCANA-1K', N'1kg', 2400, 1726, 70, 1, 1, GETDATE()),
+(54, 51, 'CARVEG-1K', N'1kg', 3000, 1880, 60, 1, 1, GETDATE()),
+(55, 52, 'CHOCGR-1K', N'1kg', 3000, 2558, 50, 1, 1, GETDATE()),
+(56, 53, 'COCO-1K', N'1kg', 7000, 5117, 45, 1, 1, GETDATE()),
+(57, 54, 'GELAT-500G', N'500g', 16000, 12090, 30, 1, 1, GETDATE()),
+(58, 54, 'GELAT-250G', N'250g', 4000, 3130, 50, 0, 1, GETDATE()),
+(59, 55, 'HAR-ALM-1K', N'1kg', 12000, 10710, 35, 1, 1, GETDATE()),
+(60, 56, 'HAR-COCO-1K', N'1kg', 4000, 2500, 40, 1, 1, GETDATE()),
+(61, 57, 'HAR-INT-1K', N'1kg', 2000, 1025, 100, 1, 1, GETDATE()),
+(62, 58, 'HAR-TOST-1K', N'1kg', 1500, 985, 120, 1, 1, GETDATE()),
+(63, 59, 'LEV-125G', N'125g', 1500, 860, 80, 1, 1, GETDATE()),
+(64, 59, 'LEV-500G', N'500g', 3000, 2356, 60, 0, 1, GETDATE()),
+(65, 60, 'MAIC-1K', N'1kg', 2000, 1000, 90, 1, 1, GETDATE()),
+(66, 61, 'MAIZ-CUR-1K', N'1kg', 2000, 880, 75, 1, 1, GETDATE()),
+(67, 62, 'POL-HORN-1K', N'1kg', 5000, 2930, 50, 1, 1, GETDATE()),
+(68, 63, 'SEM-1K', N'1kg', 3500, 2130, 70, 1, 1, GETDATE()),
+
+-- Frutas Deshidratadas
+(69, 64, 'BAN-CHIP-1K', N'1kg', 6000, 4046, 50, 1, 1, GETDATE()),
+(70, 65, 'CIR-SC-1K', N'1kg', 6000, 3600, 55, 1, 1, GETDATE()),
+(71, 66, 'CRAN-1K', N'1kg', 7000, 4510, 45, 1, 1, GETDATE()),
+(72, 67, 'CRAN-CHOC-1K', N'1kg', 14000, 10500, 30, 1, 1, GETDATE()),
+(73, 68, 'DAM-TURCO-1K', N'1kg', 12000, 8400, 35, 1, 1, GETDATE()),
+(74, 69, 'DAT-SC-1K', N'1kg', 6000, 2261, 60, 1, 1, GETDATE()),
+(75, 70, 'DUR-3K', N'3kg', 6500, 4950, 25, 1, 1, GETDATE()),
+(76, 71, 'DUR-822G', N'822g', 2000, 1620, 70, 1, 1, GETDATE()),
+(77, 72, 'FRU-DESH-1K', N'1kg', 7000, 5534, 40, 1, 1, GETDATE()),
+(78, 73, 'FRU-CONF-1K', N'1kg', 5000, 2951, 50, 1, 1, GETDATE()),
+(79, 74, 'GOJI-1K', N'1kg', 8000, 6069, 30, 1, 1, GETDATE()),
+(80, 75, 'HUES-EXT-1K', N'1kg', 7000, 4680, 45, 1, 1, GETDATE()),
+(81, 76, 'HUES-JUMB-1K', N'1kg', 7500, 4600, 40, 1, 1, GETDATE()),
+(82, 77, 'HUES-MED-1K', N'1kg', 5800, 4500, 55, 1, 1, GETDATE()),
+(83, 78, 'PAP-1K', N'1kg', 6500, 4500, 40, 1, 1, GETDATE()),
+(84, 79, 'PASA-NEG-1K', N'1kg', 3500, 2142, 80, 1, 1, GETDATE()),
+(85, 80, 'PASA-RUB-1K', N'1kg', 7000, 4850, 60, 1, 1, GETDATE()),
+
+-- Chocolates
+(86, 81, 'CHOC-AMAR-1K', N'1kg', 6000, 4284, 50, 1, 1, GETDATE()),
+(87, 82, 'CHOC-DULC-1K', N'1kg', 5000, 2840, 60, 1, 1, GETDATE()),
+
+-- Snacks
+(88, 83, 'CHOL-BN-1K', N'1kg', 4800, 3689, 70, 1, 1, GETDATE()),
+(89, 84, 'CHUBI-500G', N'500g + mini', 6000, 4760, 50, 1, 1, GETDATE()),
+
+-- Conservas
+(90, 85, 'CHUCH-1K', N'1kg', 2000, 645, 80, 1, 1, GETDATE()),
+(91, 86, 'CHUCR-1K', N'1kg', 2000, 1166, 60, 1, 1, GETDATE()),
+(92, 86, 'CHUCR-200G', N'200g', 700, 452, 100, 0, 1, GETDATE()),
+(93, 87, 'FOND-ALC-1K', N'1kg', 6000, 4165, 40, 1, 1, GETDATE()),
+
+-- Especias
+(94, 88, 'CAN-ENT-100G', N'100g', 3000, 19560, 50, 1, 1, GETDATE()),
+(95, 89, 'CAN-MOL-1K', N'1kg', 12000, 8925, 30, 1, 1, GETDATE()),
+(96, 90, 'CARD-100G', N'100g', 6000, 44200, 20, 1, 1, GETDATE()),
+(97, 91, 'CLAV-ENT-100G', N'100g', 2500, 15470, 40, 1, 1, GETDATE()),
+(98, 92, 'CLAV-MOL-100G', N'100g', 2500, 8500, 45, 1, 1, GETDATE()),
+(99, 93, 'HIB-250G', N'250g', 3000, 5000, 50, 1, 1, GETDATE()),
+(100, 94, 'NUE-MOS-MOL-100G', N'100g', 3000, 15650, 35, 1, 1, GETDATE()),
+(101, 95, 'NUE-MOS-ENT-100G', N'100g', 3000, 17612, 30, 1, 1, GETDATE()),
+(102, 96, 'SAL-HIM-1K', N'1kg', 3000, 1730, 70, 1, 1, GETDATE()),
+(103, 97, 'MOST-250G', N'250g', 2500, 2980, 60, 1, 1, GETDATE()),
+
+-- Café y Té
+(104, 98, 'CAFE-VERG-1K', N'1kg', 30000, 21700, 20, 1, 1, GETDATE()),
+(105, 99, 'TE-CEY-112', N'112 bolsitas', 10000, 6353, 40, 1, 1, GETDATE()),
+(106, 100, 'TE-CHINO-1K', N'1kg', 6000, 4605, 50, 1, 1, GETDATE()),
+
+-- Otros
+(107, 101, 'EDUL-1K', N'1kg', 1200, 873, 80, 1, 1, GETDATE()),
+(108, 102, 'MIEL-1K', N'1kg', 6500, 3950, 40, 1, 1, GETDATE()),
+(109, 103, 'MIX-FS-1K', N'1kg', 6000, 3800, 55, 1, 1, GETDATE()),
+(110, 104, 'NUTEL-350G', N'350g', 6000, 3880, 45, 1, 1, GETDATE()),
+(111, 105, 'OLIVA-500ML', N'500ml', 3800, 2800, 50, 1, 1, GETDATE()),
+(112, 106, 'SOYA-KIK-1.2L', N'1.2L', 15000, 7230, 35, 1, 1, GETDATE()),
+(113, 107, 'TAB-60ML', N'60ml', 2500, 1850, 60, 1, 1, GETDATE())
+
+SET IDENTITY_INSERT [dbo].[ProductVariants] OFF
+GO
+
+-- =====================================================
+-- PASO 3: Asignar atributos a nivel PRODUCTO
+-- (Estos NO se repiten por variante)
+-- =====================================================
+
+-- Ejemplo: Todos los productos de aceitunas tienen atributos comunes
+INSERT INTO [dbo].[ProductAttributes] ([ProductId], [AttributeId], [ValueId], [CustomValue], [IsActive], [CreatedAt])
+VALUES
+-- Aceitunas (productos 2-6)
+(2, 1, 1, NULL, 1, GETDATE()), -- Marca: Marca Propia
+(2, 3, 4, NULL, 1, GETDATE()), -- País: Perú
+(2, 4, NULL, N'Sulfitos', 1, GETDATE()), -- Alérgenos
+(2, 5, NULL, NULL, 1, GETDATE()), -- Vegano: Sí
+(2, 6, NULL, NULL, 1, GETDATE()), -- Sin Gluten: Sí
+
+(3, 1, 1, NULL, 1, GETDATE()),
+(3, 3, 4, NULL, 1, GETDATE()),
+(3, 4, NULL, N'Sulfitos', 1, GETDATE()),
+
+(4, 1, 1, NULL, 1, GETDATE()),
+(4, 3, 4, NULL, 1, GETDATE()),
+(4, 4, NULL, N'Sulfitos', 1, GETDATE()),
+
+(5, 1, 1, NULL, 1, GETDATE()),
+(5, 3, 4, NULL, 1, GETDATE()),
+(5, 4, NULL, N'Sulfitos', 1, GETDATE()),
+
+(6, 1, 1, NULL, 1, GETDATE()),
+(6, 3, 4, NULL, 1, GETDATE()),
+(6, 4, NULL, N'Sulfitos', 1, GETDATE()),
+
+-- Frutos Secos (productos 7-20)
+(7, 1, 1, NULL, 1, GETDATE()),
+(7, 3, 3, NULL, 1, GETDATE()), -- País: Chile
+(7, 5, NULL, NULL, 1, GETDATE()), -- Vegano
+(7, 6, NULL, NULL, 1, GETDATE()), -- Sin Gluten
+
+(8, 1, 1, NULL, 1, GETDATE()),
+(8, 3, 3, NULL, 1, GETDATE()),
+(8, 4, NULL, N'Frutos secos, Leche', 1, GETDATE()),
+
+(9, 1, 1, NULL, 1, GETDATE()),
+(9, 3, 3, NULL, 1, GETDATE()),
+(9, 5, NULL, NULL, 1, GETDATE()),
+(9, 6, NULL, NULL, 1, GETDATE()),
+
+(10, 1, 1, NULL, 1, GETDATE()),
+(10, 3, 3, NULL, 1, GETDATE()), -- Chile
+(10, 5, NULL, NULL, 1, GETDATE()),
+(10, 6, NULL, NULL, 1, GETDATE()),
+
+(11, 1, 2, NULL, 1, GETDATE()), -- Marca Premium
+(11, 3, 5, NULL, 1, GETDATE()), -- Argentina
+(11, 5, NULL, NULL, 1, GETDATE()),
+(11, 6, NULL, NULL, 1, GETDATE()),
+
+(12, 1, 1, NULL, 1, GETDATE()),
+(12, 3, 3, NULL, 1, GETDATE()),
+(12, 5, NULL, NULL, 1, GETDATE()),
+(12, 6, NULL, NULL, 1, GETDATE()),
+
+-- Cereales principales
+(26, 1, 1, NULL, 1, GETDATE()),
+(26, 3, 5, NULL, 1, GETDATE()), -- Italia (importado)
+(26, 6, NULL, NULL, 1, GETDATE()),
+
+(27, 1, 1, NULL, 1, GETDATE()),
+(27, 3, 5, NULL, 1, GETDATE()),
+(27, 6, NULL, NULL, 1, GETDATE()),
+
+(28, 1, 1, NULL, 1, GETDATE()),
+(28, 3, 3, NULL, 1, GETDATE()),
+(28, 5, NULL, NULL, 1, GETDATE()),
+(28, 6, NULL, NULL, 1, GETDATE()),
+
+(29, 1, 1, NULL, 1, GETDATE()),
+(29, 3, 3, NULL, 1, GETDATE()),
+(29, 5, NULL, NULL, 1, GETDATE()),
+(29, 6, NULL, NULL, 1, GETDATE()),
+(29, 7, NULL, NULL, 1, GETDATE()), -- Orgánico
+
+-- Quinoas
+(37, 1, 1, NULL, 1, GETDATE()),
+(37, 3, 3, NULL, 1, GETDATE()),
+(37, 5, NULL, NULL, 1, GETDATE()),
+(37, 6, NULL, NULL, 1, GETDATE()),
+(37, 7, NULL, NULL, 1, GETDATE()),
+
+(38, 1, 1, NULL, 1, GETDATE()),
+(38, 3, 3, NULL, 1, GETDATE()),
+(38, 5, NULL, NULL, 1, GETDATE()),
+(38, 6, NULL, NULL, 1, GETDATE()),
+
+(39, 1, 1, NULL, 1, GETDATE()),
+(39, 3, 3, NULL, 1, GETDATE()),
+(39, 5, NULL, NULL, 1, GETDATE()),
+(39, 6, NULL, NULL, 1, GETDATE()),
+
+(40, 1, 1, NULL, 1, GETDATE()),
+(40, 3, 3, NULL, 1, GETDATE()),
+(40, 5, NULL, NULL, 1, GETDATE()),
+(40, 6, NULL, NULL, 1, GETDATE())
+
+GO
+
+-- =====================================================
+-- PASO 4: Asignar atributos a nivel VARIANTE
+-- (Peso, Formato, etc. - características específicas)
+-- =====================================================
+
+INSERT INTO [dbo].[VariantAttributes] ([VariantId], [AttributeId], [ValueId], [CustomValue], [IsActive], [CreatedAt])
+VALUES
+-- Aceitunas (todas 1kg, formato Frasco)
+(4, 10, 14, NULL, 1, GETDATE()), -- 1000g
+(4, 11, 10, NULL, 1, GETDATE()), -- Frasco
+
+(5, 10, 14, NULL, 1, GETDATE()),
+(5, 11, 10, NULL, 1, GETDATE()),
+
+(6, 10, 14, NULL, 1, GETDATE()),
+(6, 11, 10, NULL, 1, GETDATE()),
+
+(7, 10, 14, NULL, 1, GETDATE()),
+(7, 11, 10, NULL, 1, GETDATE()),
+
+(8, 10, 14, NULL, 1, GETDATE()),
+(8, 11, 10, NULL, 1, GETDATE()),
+
+-- Frutos Secos (1kg, Bolsa)
+(9, 10, 14, NULL, 1, GETDATE()),
+(9, 11, 9, NULL, 1, GETDATE()), -- Bolsa
+
+(10, 10, 14, NULL, 1, GETDATE()),
+(10, 11, 9, NULL, 1, GETDATE()),
+
+(11, 10, 14, NULL, 1, GETDATE()),
+(11, 11, 9, NULL, 1, GETDATE()),
+
+(12, 10, 14, NULL, 1, GETDATE()),
+(12, 11, 9, NULL, 1, GETDATE()),
+
+(13, 10, 14, NULL, 1, GETDATE()),
+(13, 11, 9, NULL, 1, GETDATE()),
+
+(14, 10, 14, NULL, 1, GETDATE()),
+(14, 11, 9, NULL, 1, GETDATE()),
+
+(15, 10, 14, NULL, 1, GETDATE()),
+(15, 11, 9, NULL, 1, GETDATE()),
+
+(16, 10, 14, NULL, 1, GETDATE()),
+(16, 11, 9, NULL, 1, GETDATE()),
+
+(17, 10, 14, NULL, 1, GETDATE()),
+(17, 11, 9, NULL, 1, GETDATE()),
+
+(18, 10, 14, NULL, 1, GETDATE()),
+(18, 11, 9, NULL, 1, GETDATE()),
+
+(19, 10, 14, NULL, 1, GETDATE()),
+(19, 11, 9, NULL, 1, GETDATE()),
+
+(20, 10, 14, NULL, 1, GETDATE()),
+(20, 11, 9, NULL, 1, GETDATE()),
+
+-- Nuez (500g)
+(21, 10, 13, NULL, 1, GETDATE()), -- 500g
+(21, 11, 9, NULL, 1, GETDATE()),
+
+-- Pistacho (1kg)
+(22, 10, 14, NULL, 1, GETDATE()),
+(22, 11, 9, NULL, 1, GETDATE()),
+
+-- Americana (dos variantes)
+(50, 10, 14, NULL, 1, GETDATE()), -- 1kg
+(50, 11, 9, NULL, 1, GETDATE()),
+
+(51, 10, NULL, N'200', 1, GETDATE()), -- 200g (custom value)
+(51, 11, 9, NULL, 1, GETDATE()),
+
+-- Gelatina (dos variantes)
+(57, 10, 13, NULL, 1, GETDATE()), -- 500g
+(57, 11, 9, NULL, 1, GETDATE()),
+
+(58, 10, 12, NULL, 1, GETDATE()), -- 250g
+(58, 11, 9, NULL, 1, GETDATE()),
+
+-- Levadura (dos variantes)
+(63, 10, NULL, N'125', 1, GETDATE()), -- 125g
+(63, 11, 9, NULL, 1, GETDATE()),
+
+(64, 10, 13, NULL, 1, GETDATE()), -- 500g
+(64, 11, 9, NULL, 1, GETDATE()),
+
+-- Chucrut (dos variantes)
+(91, 10, 14, NULL, 1, GETDATE()), -- 1kg
+(91, 11, 10, NULL, 1, GETDATE()),
+
+(92, 10, NULL, N'200', 1, GETDATE()), -- 200g
+(92, 11, 10, NULL, 1, GETDATE())
+
+GO
+
+-- =====================================================
+-- PASO 5: Imágenes de productos (opcional)
+-- =====================================================
+
+INSERT INTO [dbo].[ProductImages] ([ProductId], [Url], [AltText], [IsPrimary], [Order], [IsActive], [CreatedAt])
+VALUES
+(2, '/img/products/aceituna-amarga.webp', 'Aceituna Amarga', 1, 1, 1, GETDATE()),
+(3, '/img/products/aceituna-envasada.webp', 'Aceituna Envasada', 1, 1, 1, GETDATE()),
+(7, '/img/products/almendra-primera.webp', 'Almendra Primera', 1, 1, 1, GETDATE()),
+(26, '/img/products/arroz-arborio.webp', 'Arroz Arborio', 1, 1, 1, GETDATE()),
+(29, '/img/products/chia.webp', 'Chía', 1, 1, 1, GETDATE()),
+(37, '/img/products/quinoa-blanca.webp', 'Quinoa Blanca', 1, 1, 1, GETDATE())
+GO
+
+-- =====================================================
+-- CONSULTAS DE VERIFICACIÓN
+-- =====================================================
+
+PRINT '========================================='
+PRINT 'RESUMEN DE INSERCIÓN'
+PRINT '========================================='
+
+SELECT 
+    'Productos insertados' AS Descripcion,
+    COUNT(*) AS Total
+FROM Products
+WHERE Id > 1
+
+UNION ALL
+
+SELECT 
+    'Variantes insertadas' AS Descripcion,
+    COUNT(*) AS Total
+FROM ProductVariants
+WHERE Id > 3
+
+UNION ALL
+
+SELECT 
+    'Atributos de producto' AS Descripcion,
+    COUNT(*) AS Total
+FROM ProductAttributes
+
+UNION ALL
+
+SELECT 
+    'Atributos de variante' AS Descripcion,
+    COUNT(*) AS Total
+FROM VariantAttributes
+
+GO
+
+-- Ejemplo: Ver productos de una categoría con sus precios
+PRINT ''
+PRINT '========================================='
+PRINT 'EJEMPLO: Productos de Frutos Secos'
+PRINT '========================================='
+
+SELECT 
+    p.Name AS Producto,
+    pv.Name AS Presentacion,
+    pv.SKU,
+    pv.Price AS PrecioVenta,
+    pv.CostPrice AS PrecioCosto,
+    pv.StockQuantity AS Stock
+FROM Products p
+INNER JOIN ProductVariants pv ON p.Id = pv.ProductId
+WHERE p.CategoryId = 7 -- Frutos Secos
+ORDER BY p.Name, pv.Price
+GO
+
+PRINT ''
+PRINT '========================================='
+PRINT '✅ INSERCIÓN COMPLETADA EXITOSAMENTE'
+PRINT '========================================='
+PRINT 'Total productos: 106'
+PRINT 'Total variantes: 110'
+PRINT 'Todos los precios han sido importados'
+PRINT '========================================='
+GO

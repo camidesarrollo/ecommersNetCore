@@ -1,5 +1,5 @@
 const URL_BANNERS = {
-    GetByName: "/Gestion/Banners/GetByNameAsync",
+    GetByName: "/Configuracion/Banners/GetByNameAsync",
 };
 
 function GetByName(data) {

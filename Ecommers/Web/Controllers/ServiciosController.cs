@@ -13,7 +13,7 @@ using Ecommers.Application.DTOs.Requests.Servicios;
 
 namespace Ecommers.Web.Controllers
 {
-    [Route("Gestion/[controller]")]
+    [Route("Configuracion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class ServiciosController(
         IServicio serviciosService,
@@ -36,7 +36,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Servicios/Detalle/{id}
+        // GET: /Configuracion/Servicios/Detalle/{id}
         // -------------------------------------------------------------------
         [HttpGet("Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
@@ -48,7 +48,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Servicios/Crear
+        // GET: /Configuracion/Servicios/Crear
         // -------------------------------------------------------------------
         [HttpGet("Crear")]
         public IActionResult Crear()
@@ -58,7 +58,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Servicios/Crear
+        // POST: /Configuracion/Servicios/Crear
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
@@ -76,7 +76,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Servicios/Editar/{id}
+        // GET: /Configuracion/Servicios/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
         public async Task<IActionResult> Editar(int id)
@@ -88,7 +88,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Servicios/Editar
+        // POST: /Configuracion/Servicios/Editar
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
@@ -107,7 +107,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Servicios/Eliminar/{id}
+        // GET: /Configuracion/Servicios/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
         public async Task<IActionResult> Eliminar(int id)
@@ -119,7 +119,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Servicios/Eliminar
+        // POST: /Configuracion/Servicios/Eliminar
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]

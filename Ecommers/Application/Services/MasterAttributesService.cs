@@ -7,17 +7,18 @@ using Ecommers.Application.DTOs.Requests.MasterAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
+using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
-    public class MasterAttributesService(IUnitOfWork unitOfWork, IMapper mapper)
+    public class MasterAttributesService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context)
             : IMasterAttributes
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
-
+        private readonly EcommersContext _context = context;
         // -------------------------------------------------------------------
         // GET MAESTRO DE ATRIBUTOS POR DATATABLES
         // -------------------------------------------------------------------
@@ -63,7 +64,7 @@ namespace Ecommers.Application.Services
 
             foreach (var item in data)
             {
-                var cantidadProductosPorMasterAttributes = ProductsQueries.GetCountByMasterAttributes(item.Id);
+                var cantidadProductosPorMasterAttributes = ProductsQueries.GetCountByMasterAttributes(_context,     item.Id);
                 item.CantidadProductos = cantidadProductosPorMasterAttributes;
                 item.CanDelete = cantidadProductosPorMasterAttributes == 0;
             }
@@ -115,7 +116,7 @@ namespace Ecommers.Application.Services
                     return Result<MasterAttributesD>.Fail("Maestro de atributos no encontrada");
                 }
 
-                categorias.CantidadProductos = ProductsQueries.GetCountByMasterAttributes(getByIdRequest.Id);
+                categorias.CantidadProductos = ProductsQueries.GetCountByMasterAttributes(_context, getByIdRequest.Id);
 
                 return Result<MasterAttributesD>.Ok(categorias);
             }
@@ -174,7 +175,7 @@ namespace Ecommers.Application.Services
                 }
 
                 // Validar si no contiene productos asociados
-                var cantidad = ProductsQueries.GetCountByMasterAttributes(deleteRequest.Id);
+                var cantidad = ProductsQueries.GetCountByMasterAttributes(_context, deleteRequest.Id);
 
                 if (cantidad > 0)
                 {
@@ -224,7 +225,7 @@ namespace Ecommers.Application.Services
 
             if (categorias != null)
             {
-                categorias.CantidadProductos = ProductsQueries.GetCountByMasterAttributes(categorias.Id);
+                categorias.CantidadProductos = ProductsQueries.GetCountByMasterAttributes(_context, categorias.Id);
 
             }
 

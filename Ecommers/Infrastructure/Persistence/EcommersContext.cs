@@ -60,12 +60,14 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<vw_ProductFullDetails> vw_ProductFullDetails { get; set; }
 
+    public virtual DbSet<vw_Products> vw_Products { get; set; }
+
     public virtual DbSet<vw_ProductsWithVariants> vw_ProductsWithVariants { get; set; }
 
-    public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; }
+    public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; } 
 
  
-          protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
     }
@@ -73,7 +75,6 @@ public class EcommersContext : IdentityDbContext<
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         modelBuilder.Entity<AttributeValues>(entity =>
         {
             entity.HasIndex(e => e.AttributeId, "IX_AttributeValues_AttributeId");
@@ -313,6 +314,8 @@ public class EcommersContext : IdentityDbContext<
 
             entity.HasIndex(e => e.ProductId, "IX_ProductAttributes_ProductId");
 
+            entity.HasIndex(e => new { e.ProductId, e.AttributeId, e.IsActive }, "IX_ProductAttributes_ProductId_AttributeId_IsActive");
+
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -338,6 +341,8 @@ public class EcommersContext : IdentityDbContext<
         modelBuilder.Entity<ProductImages>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductImages_ProductId");
+
+            entity.HasIndex(e => new { e.ProductId, e.IsPrimary, e.IsActive }, "IX_ProductImages_ProductId_IsPrimary_IsActive");
 
             entity.Property(e => e.AltText)
                 .HasMaxLength(255)
@@ -405,6 +410,8 @@ public class EcommersContext : IdentityDbContext<
         modelBuilder.Entity<ProductVariants>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductVariants_ProductId");
+
+            entity.HasIndex(e => new { e.ProductId, e.IsActive }, "IX_ProductVariants_ProductId_IsActive");
 
             entity.HasIndex(e => e.SKU, "UQ_ProductVariants_SKU").IsUnique();
 
@@ -564,6 +571,49 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.VariantName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<vw_Products>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Products");
+
+            entity.Property(e => e.BasePrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Brand).HasMaxLength(500);
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CategorySlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CountryOfOrigin).HasMaxLength(500);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAtFormatted).HasMaxLength(4000);
+            entity.Property(e => e.DefaultSKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.MainImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.MaxVariantPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.MinVariantPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ShortDescription).HasColumnType("text");
+            entity.Property(e => e.Slug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(8)
+                .IsUnicode(false);
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAtFormatted).HasMaxLength(4000);
         });
 
         modelBuilder.Entity<vw_ProductsWithVariants>(entity =>

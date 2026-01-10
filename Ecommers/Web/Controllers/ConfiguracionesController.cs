@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Web.Controllers
 {
-    [Route("Gestion/[controller]")]
+    [Route("Configuracion/[controller]")]
     public class ConfiguracionesController(IConfiguracion configuracionService, IMapper mapper, IFileManager fileManager) : Controller
     {
         private readonly IConfiguracion _configuracionService = configuracionService;
@@ -16,7 +16,7 @@ namespace Ecommers.Web.Controllers
         private readonly IMapper _mapper = mapper;
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Configuraciones
+        // GET: /Configuracion/Configuraciones
         // Vista principal con listado
         // -------------------------------------------------------------------
         [HttpGet("")]
@@ -35,7 +35,7 @@ namespace Ecommers.Web.Controllers
 
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Configuraciones/Editar/{id}
+        // GET: /Configuracion/Configuraciones/Editar/{id}
         // Vista formulario de edición
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
@@ -59,7 +59,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // POST: /Gestion/Configuraciones/Editar/{id}
+        // POST: /Configuracion/Configuraciones/Editar/{id}
         // Procesar edición
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
@@ -142,7 +142,7 @@ namespace Ecommers.Web.Controllers
         }
 
         // -------------------------------------------------------------------
-        // GET: /Gestion/Configuraciones/Detalle/{id}
+        // GET: /Configuracion/Configuraciones/Detalle/{id}
         // Vista de detalles (solo lectura)
         // -------------------------------------------------------------------
         [HttpGet("Detalle/{id}")]

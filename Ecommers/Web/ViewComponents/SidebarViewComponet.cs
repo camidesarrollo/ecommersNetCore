@@ -27,7 +27,7 @@ namespace Ecommers.Web.ViewComponents
             var menuItems = new List<MenuItem>
             {
                 new() { Name = "Dashboard", Path = "/Dashboard" },
-                new() { Name = "Productos", Path = "/Dashboard/productos" },
+
                 new() { Name = "Pedidos", Path = "/Dashboard/pedidos", Badge = "5" },
                 new() { Name = "Clientes", Path = "/Dashboard/clientes" },
                 new() { Name = "Analíticas", Path = "/Dashboard/analiticas" }
@@ -40,13 +40,11 @@ namespace Ecommers.Web.ViewComponents
                     Title = "Gestión",
                     Items =
                     [
-                        new MenuItem { Name = "Banners", Path = "/Gestion/Banners" },
+                        new() { Name = "Productos", Path = "/Gestion/Products" },
                         new MenuItem { Name = "Categorías", Path = "/Gestion/Categorias" },
-                        new MenuItem { Name = "Configuraciones", Path = "/Gestion/Configuraciones" },
-                        new MenuItem { Name = "Servicios", Path = "/Gestion/Servicios" },
                         new MenuItem { Name = "MaestroAtributos", Path = "/Gestion/MasterAttributes"},
-                        new MenuItem { Name = "Inventario", Path = "/Dashboard/inventario", Badge = "3" },
-                        new MenuItem { Name = "Reportes", Path = "/Dashboard/reportes" }
+                        new MenuItem { Name = "Inventario", Path = "/Gestion/inventario", Badge = "3" },
+                        new MenuItem { Name = "Reportes", Path = "/Gestion/reportes" }
                     ]
                 },
                 new()
@@ -54,6 +52,9 @@ namespace Ecommers.Web.ViewComponents
                     Title = "Configuración",
                     Items =
                     [
+                        new MenuItem { Name = "Configuraciones", Path = "/Configuracion/Configuraciones" },
+                        new MenuItem { Name = "Banners", Path = "/Configuracion/Banners" },
+                        new MenuItem { Name = "Servicios", Path = "/Configuracion/Servicios" },
                         new MenuItem { Name = "Ajustes", Path = "/Dashboard/ajustes" }
                     ]
                 }

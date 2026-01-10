@@ -2,21 +2,21 @@ import { ajaxPost } from "../../domain/utils/api.helper.js";
 
 
 // ===============================
-// CONFIGURACIÓN DE ENDPOINTS
+// CONFIGURACIï¿½N DE ENDPOINTS
 // ===============================
 const BANNERS_API = {
     GetByName: {
-        url: "/Gestion/Banners/GetByNameAsync",
+        url: "/Configuracion/Banners/GetByNameAsync",
         errorMessage: "Error al obtener el banner"
     },
     CambiarEstado: {
-        url: "/Gestion/Banners/CambiarEstado",
+        url: "/Configuracion/Banners/CambiarEstado",
         errorMessage: "Error al cambiar el estado del banner"
     }
 };
 
 // ===============================
-// FUNCIONES ESPECÍFICAS
+// FUNCIONES ESPECï¿½FICAS
 // ===============================
 function GetByName(data) {
     return ajaxPost(BANNERS_API.GetByName, data);

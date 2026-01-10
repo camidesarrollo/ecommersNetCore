@@ -198,29 +198,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-    // ============================
-    //   ELIMINAR CATEGORÍA (MODAL)
-    // ============================
-//    document.addEventListener("click", async function (e) {
-//        if (e.target.closest(".delete-btn")) {
-//            const btn = e.target.closest(".delete-btn");
-//            const id = btn.dataset.id;
-//            const nombre = btn.dataset.nombre;
-
-//            const confirm = await Swal.fire({
-//                title: "¿Eliminar categoría?",
-//                html: `Estás a punto de eliminar <b>${nombre}</b>.`,
-//                icon: "warning",
-//                showCancelButton: true,
-//                confirmButtonText: "Sí, eliminar",
-//                cancelButtonText: "Cancelar"
-//            });
-
-//            if (confirm.isConfirmed) {
-//                await fetch(`/Categorias/Eliminar/${id}`, { method: "POST" });
-//                dt.ajax.reload(null, false); // recargar sin perder la página
-//            }
-//        }
-//    });
-
 

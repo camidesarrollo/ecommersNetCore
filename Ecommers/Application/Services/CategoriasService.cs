@@ -17,11 +17,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ecommers.Application.Services
 {
-    public class CategoriasService(IUnitOfWork unitOfWork, IMapper mapper)
+    public class CategoriasService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context)
             : ICategorias
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
+        private readonly EcommersContext _context = context;
 
         // -------------------------------------------------------------------
         // GET CATEGORIAS POR DATATABLES
@@ -68,7 +69,7 @@ namespace Ecommers.Application.Services
 
             foreach (var item in data)
             {
-                var cantidadProductosPorCategoria = ProductsQueries.GetCountByCategories(item.Id);
+                var cantidadProductosPorCategoria = ProductsQueries.GetCountByCategories(_context, item.Id);
                 item.CantidadProductos = cantidadProductosPorCategoria;
                 item.CanDelete = cantidadProductosPorCategoria == 0;
             }
@@ -92,28 +93,28 @@ namespace Ecommers.Application.Services
                 var repo = _unitOfWork.Repository<CategoriesD, long>();
 
                 //// Reordenar si es necesario
-                //var findCategorias = CategoriesQueries.GetByOrden(request.SortOrder);
+                var findCategorias = CategoriesQueries.GetByOrden(request.SortOrder);
 
-                //if (findCategorias != null)
-                //{
-                //    var ordenDisponible = CategoriesQueries.FindLastOrden();
-                //    findCategorias.SortOrder = ordenDisponible;
+                if (findCategorias != null)
+                {
+                    var ordenDisponible = CategoriesQueries.FindLastOrden();
+                    findCategorias.SortOrder = ordenDisponible;
 
-                //    var update = new CategoriaUpdateRequest
-                //    {
-                //        Id = findCategorias.Id,
-                //        Name = findCategorias.Name,
-                //        Slug = findCategorias.Slug,
-                //        Description = findCategorias.Description,
-                //        ShortDescription = findCategorias.ShortDescription,
-                //        BgClass = findCategorias.BgClass,
-                //        Image = findCategorias.Image,
-                //        SortOrder = findCategorias.SortOrder,
-                //        ParentId = findCategorias.ParentId
-                //    };
+                    var update = new CategoriaUpdateRequest
+                    {
+                        Id = findCategorias.Id,
+                        Name = findCategorias.Name,
+                        Slug = findCategorias.Slug,
+                        Description = findCategorias.Description,
+                        ShortDescription = findCategorias.ShortDescription,
+                        BgClass = findCategorias.BgClass,
+                        Image = findCategorias.Image,
+                        SortOrder = findCategorias.SortOrder,
+                        ParentId = findCategorias.ParentId
+                    };
 
-                //    await UpdateInternalAsync(update);
-                //}
+                    await UpdateInternalAsync(update);
+                }
 
                 var categories = _mapper.Map<CategoriesD>(request);
                 categories.UpdatedAt = DateTime.UtcNow;
@@ -144,7 +145,7 @@ namespace Ecommers.Application.Services
                     return Result<CategoriesD>.Fail("Categoría no encontrada");
                 }
 
-                categorias.CantidadProductos = ProductsQueries.GetCountByCategories(getByIdRequest.Id);
+                categorias.CantidadProductos = ProductsQueries.GetCountByCategories(_context,getByIdRequest.Id);
 
                 categorias.EsNuevo = categorias.CreatedAt >= DateTime.Now.AddDays(-30);
 
@@ -259,7 +260,7 @@ namespace Ecommers.Application.Services
                 }
 
                 // Validar si no contiene productos asociados
-                var cantidad = ProductsQueries.GetCountByCategories(deleteRequest.Id);
+                var cantidad = ProductsQueries.GetCountByCategories(_context,deleteRequest.Id);
 
                 if (cantidad > 0)
                 {
@@ -292,7 +293,7 @@ namespace Ecommers.Application.Services
 
             foreach (var item in categorias)
             {
-                var cantidadProductosPorCategoria = ProductsQueries.GetCountByCategories(item.Id);
+                var cantidadProductosPorCategoria = ProductsQueries.GetCountByCategories(_context, item.Id);
                 item.CantidadProductos = cantidadProductosPorCategoria;
                 item.EsNuevo = item.CreatedAt >= DateTime.Now.AddDays(-30);
             }
@@ -315,7 +316,7 @@ namespace Ecommers.Application.Services
 
             if (categorias != null)
             {
-                categorias.CantidadProductos = ProductsQueries.GetCountByCategories(categorias.Id);
+                categorias.CantidadProductos = ProductsQueries.GetCountByCategories(_context, categorias.Id);
 
             }
 

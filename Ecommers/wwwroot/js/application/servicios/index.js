@@ -73,13 +73,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             render: function (id, type, row) {
                 return `
             <div class="flex items-center justify-center gap-2">
-                <a href="/Gestion/servicios/Detalle/${id}"
+                <a href="/Configuracion/Servicios/Detalle/${id}"
                    class="btn-navegacion inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
                    title="Ver detalles">
                     <i class="fas fa-eye"></i>
                 </a>
 
-                <a href="/Gestion/Servicios/Editar/${id}"
+                <a href="/Configuracion/Servicios/Editar/${id}"
                    class="btn-navegacion inline-flex items-center justify-center w-9 h-9 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors"
                    title="Editar">
                     <i class="fas fa-edit"></i>
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <i class="fas fa-toggle-on"></i>
                 </button>
 
-                <a href="/Gestion/Servicios/Eliminar/${id}"
+                <a href="/Configuracion/Servicios/Eliminar/${id}"
                    class="btn-navegacion inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
                    title="Eliminar">
                     <i class="fas fa-trash"></i>
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     //   CARGAR DATATABLE GENÉRICO
     // ============================
     const dt = await initDataTable("#tabla-dinamica", {
-        ajaxUrl: "/Gestion/Servicios/ObtenerServiciosDataTable",
+        ajaxUrl: "/Configuracion/Servicios/ObtenerServiciosDataTable",
         ajaxData: {},
         columnas: columnas,
         buttons: [],
