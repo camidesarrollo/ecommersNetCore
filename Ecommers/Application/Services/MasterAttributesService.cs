@@ -162,7 +162,7 @@ namespace Ecommers.Application.Services
         // -------------------------------------------------------------------
         // DELETE
         // -------------------------------------------------------------------
-        public async Task<Result> DeleteAsync(DeleteRequest deleteRequest)
+        public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
             try
             {

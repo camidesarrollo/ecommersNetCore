@@ -3,7 +3,7 @@ using Ecommers.Infrastructure.Persistence.Entities;
 
 namespace Ecommers.Infrastructure.Queries
 {
-    public class ProductAttributesQueries
+    public class ProductAttributesQueries : CommonQueries<ProductAttributes>
     {
         public static List<ProductAttributes> GetProductAttributesByProduct(EcommersContext context, long ProductId)
         {

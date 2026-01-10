@@ -202,11 +202,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <i class="fas ${row.isActive ? 'fa-toggle-on' : 'fa-toggle-off'}"></i>
                         </button>
 
-                        <a href="/Gestion/Products/Eliminar/${productId}"
-                           class="btn-navegacion inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
-                           title="Eliminar">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                         ${row.hasSales == 0
+                        ? `
+                            <a href="/Gestion/Products/Eliminar/${productId}"
+                               class="btn-navegacion inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+                               title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </a>`
+                                    : ""
+                                }
                     </div>
                 `;
             }

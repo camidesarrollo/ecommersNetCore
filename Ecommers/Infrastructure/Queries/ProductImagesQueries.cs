@@ -3,7 +3,7 @@ using Ecommers.Infrastructure.Persistence.Entities;
 
 namespace Ecommers.Infrastructure.Queries
 {
-    public class ProductImagesQueries
+    public class ProductImagesQueries : CommonQueries<ProductImages>
     {
         public static List<ProductImages> GetProductImagesByProduct(EcommersContext context, long ProductId)
         {

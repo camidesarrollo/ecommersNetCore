@@ -66,6 +66,12 @@ namespace Ecommers.Application.Configuration
             services.AddScoped<IServicio, ServicioService>();
             services.AddScoped<IMasterAttributes,MasterAttributesService>();
             services.AddScoped<IProducts, ProductsService>();
+            services.AddScoped<IProductAttributes, ProductAttributesService>();
+            services.AddScoped<IProductImages, ProductImagesService>();
+            services.AddScoped<IProductPriceHistory, ProductPriceHistoryService>();
+            services.AddScoped<IProductVariantImages, ProductVariantImagesService>();
+            services.AddScoped<IProductVariants, ProductVariantsService>();
+            services.AddScoped<IVariantAttributes, VariantAttributesService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IImageStorage, ImageStorageService>();
 

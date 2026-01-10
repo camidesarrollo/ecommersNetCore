@@ -44,7 +44,7 @@ namespace Ecommers.Infrastructure.Queries
         public static List<TEntity> GetAll()
         {
             using var db = new EcommersContext();
-            return db.Set<TEntity>().ToList();
+            return [.. db.Set<TEntity>()];
         }
 
         public static TEntity? FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
@@ -56,7 +56,7 @@ namespace Ecommers.Infrastructure.Queries
         public static List<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
             using var db = new EcommersContext();
-            return db.Set<TEntity>().Where(predicate).ToList();
+            return [.. db.Set<TEntity>().Where(predicate)];
         }
     }
 }

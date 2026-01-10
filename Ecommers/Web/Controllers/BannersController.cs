@@ -119,7 +119,7 @@ namespace Ecommers.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(long id, DeleteRequest request)
+        public async Task<IActionResult> Eliminar(long id, DeleteRequest<long>  request)
         {
             var result = await _bannersService.DeleteAsync(request);
             return HandleResult(result, nameof(Index));

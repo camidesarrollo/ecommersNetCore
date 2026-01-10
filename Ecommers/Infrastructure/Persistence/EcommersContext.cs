@@ -64,9 +64,8 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<vw_ProductsWithVariants> vw_ProductsWithVariants { get; set; }
 
-    public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; } 
+    public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; }
 
- 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -75,6 +74,7 @@ public class EcommersContext : IdentityDbContext<
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<AttributeValues>(entity =>
         {
             entity.HasIndex(e => e.AttributeId, "IX_AttributeValues_AttributeId");

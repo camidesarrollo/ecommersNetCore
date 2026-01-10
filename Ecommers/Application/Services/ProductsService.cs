@@ -112,5 +112,52 @@ namespace Ecommers.Application.Services
                 return Result<Products>.Fail($"Error al obtener los productos: {ex.Message}");
             }
         }
+
+        public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductsD, long>();
+
+                var products = await repo.GetByIdAsync(deleteRequest.Id);
+                if (products == null)
+                {
+                    return Result.Fail("Producto no encontrado");
+                }
+
+                // Validar si no contiene productos asociados
+                var ProductVariants = ProductVariantsQueries.GetProductVariantsByProduct(_context, deleteRequest.Id);
+
+                if (ProductVariants.Count > 0)
+                {
+                    return Result.Fail("No es posible eliminar este producto debido a que contiene variantes relacionados");
+                }
+
+                var ProductAttributes = ProductAttributesQueries.GetProductAttributesByProduct(_context, deleteRequest.Id);
+
+                if (ProductAttributes.Count > 0)
+                {
+                    return Result.Fail("No es posible eliminar este producto debido a que contiene atributos  relacionados");
+                }
+
+                var ProductImages = ProductImagesQueries.GetProductImagesByProduct(_context, deleteRequest.Id);
+
+                if (ProductImages.Count > 0)
+                {
+                    return Result.Fail("No es posible eliminar este producto debido a que contiene imagenes relacionados");
+                }
+
+
+                repo.Remove(products);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("Producto eliminado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
+        }
+
     }
 }

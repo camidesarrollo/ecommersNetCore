@@ -1,0 +1,58 @@
+﻿using AutoMapper;
+using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.Interfaces;
+using Ecommers.Domain.Common;
+using Ecommers.Domain.Entities;
+using Ecommers.Infrastructure.Persistence;
+using Ecommers.Infrastructure.Queries;
+
+namespace Ecommers.Application.Services
+{
+    public class ProductVariantImagesService(IUnitOfWork unitOfWork, IMapper mapper, IImageStorage imageStorage, EcommersContext context)
+            : IProductVariantImages
+    {
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IMapper _mapper = mapper;
+
+        private readonly IImageStorage _imageStorage = imageStorage;
+
+        private readonly EcommersContext _context = context;
+
+        public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductVariantImagesD, long>();
+                var entity = await repo.GetByIdAsync(deleteRequest.Id);
+                
+                if (entity == null)
+                {
+                    return Result.Fail("La imagen de variante no fue encontrada");
+                }
+
+                // ✅ ELIMINAR ARCHIVO FÍSICO
+                if (!string.IsNullOrWhiteSpace(entity.Url))
+                {
+                    try
+                    {
+                        await _imageStorage.DeleteAsync(entity.Url);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"No se pudo eliminar el archivo físico: {ex.Message}");
+                    }
+                }
+
+                // Eliminar registro de BD
+                repo.Remove(entity);
+                await _unitOfWork.CompleteAsync();
+                
+                return Result.Ok("La imagen de variante fue eliminada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"Error al eliminar la imagen de variante: {ex.Message}");
+            }
+        }
+    }
+}

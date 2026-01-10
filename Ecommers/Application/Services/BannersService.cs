@@ -15,11 +15,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
-    public class BannersService(IUnitOfWork unitOfWork, IMapper mapper)
+    public class BannersService(IUnitOfWork unitOfWork, IMapper mapper, IImageStorage imageStorage)
             : IBanners
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
+        private readonly IImageStorage _imageStorage = imageStorage;
 
         // -------------------------------------------------------------------
         // GET CATEGORIAS POR DATATABLES
@@ -253,7 +254,7 @@ namespace Ecommers.Application.Services
         // -------------------------------------------------------------------
         // DELETE
         // -------------------------------------------------------------------
-        public async Task<Result> DeleteAsync(DeleteRequest deleteRequest)
+        public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
             try
             {
@@ -267,12 +268,24 @@ namespace Ecommers.Application.Services
 
                 var query = repo.GetQuery();
 
-
                 var data = await query.ToListAsync();
 
                 if (data.Count == 1)
                 {
                     return Result.Fail("No es posible eliminar ya que debe existir siempre al menos un elemento");
+                }
+
+                // ✅ ELIMINAR ARCHIVO FÍSICO
+                if (!string.IsNullOrWhiteSpace(Banners.Image))
+                {
+                    try
+                    {
+                        await _imageStorage.DeleteAsync(Banners.Image);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"No se pudo eliminar el archivo físico: {ex.Message}");
+                    }
                 }
 
                 repo.Remove(Banners);

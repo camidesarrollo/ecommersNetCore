@@ -63,7 +63,7 @@ namespace Ecommers.Application.Services
         // -------------------------------------------------------------------
         // DELETE
         // -------------------------------------------------------------------
-        public async Task<bool> DeleteAsync(DeleteRequest deleteRequest)
+        public async Task<bool> DeleteAsync(DeleteRequest<int> deleteRequest)
         {
             var repo = _unitOfWork.Repository<ConfiguracionesD, int>();
 

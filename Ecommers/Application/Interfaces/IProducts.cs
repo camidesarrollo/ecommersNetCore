@@ -17,5 +17,7 @@ namespace Ecommers.Application.Interfaces
     DataTableRequest<vw_Products> request);
 
         Result<Products> GetById(GetByIdRequest<long> getByIdRequest);
+
+        Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest);
     }
 }

@@ -17,12 +17,14 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ecommers.Application.Services
 {
-    public class CategoriasService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context)
+    public class CategoriasService(IUnitOfWork unitOfWork, IMapper mapper,IImageStorage imageStorage, EcommersContext context)
             : ICategorias
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
         private readonly EcommersContext _context = context;
+
+        private readonly IImageStorage _imageStorage = imageStorage;
 
         // -------------------------------------------------------------------
         // GET CATEGORIAS POR DATATABLES
@@ -247,7 +249,7 @@ namespace Ecommers.Application.Services
         // -------------------------------------------------------------------
         // DELETE
         // -------------------------------------------------------------------
-        public async Task<Result> DeleteAsync(DeleteRequest deleteRequest)
+        public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
             try
             {
@@ -265,6 +267,19 @@ namespace Ecommers.Application.Services
                 if (cantidad > 0)
                 {
                     return Result.Fail("No es posible eliminar esta categoría debido a que contiene productos relacionados");
+                }
+
+                // ✅ ELIMINAR ARCHIVO FÍSICO
+                if (!string.IsNullOrWhiteSpace(categories.Image))
+                {
+                    try
+                    {
+                        await _imageStorage.DeleteAsync(categories.Image);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"No se pudo eliminar el archivo físico: {ex.Message}");
+                    }
                 }
 
                 repo.Remove(categories);

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Infrastructure.Queries
 {
-    public class ProductsQueries
+    public class ProductsQueries : CommonQueries<Products>
     {
         public static int GetCountByCategories(EcommersContext context, long Id)
         {

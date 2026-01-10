@@ -3,7 +3,7 @@ using Ecommers.Infrastructure.Persistence.Entities;
 
 namespace Ecommers.Infrastructure.Queries
 {
-    public class CategoriesQueries : CommonQueries<Categories>
+    public class ServicioQueries : CommonQueries<Servicios>
     {
       
     }

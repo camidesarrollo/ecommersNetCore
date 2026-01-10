@@ -53,6 +53,8 @@ public partial class vw_Products
 
     public string? DefaultSKU { get; set; }
 
+    public int HasSales { get; set; }
+
     public string Status { get; set; } = null!;
 
     public string? CreatedAtFormatted { get; set; }

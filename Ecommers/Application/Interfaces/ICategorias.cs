@@ -23,7 +23,7 @@ namespace Ecommers.Application.Interfaces
 
         Task ReordenarAsync(long categoriaId, int nuevoOrden);
 
-        Task<Result> DeleteAsync(DeleteRequest deleteRequest);
+        Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest);
 
         Task<IEnumerable<CategoriesD>> GetAllActiveAsync();
 

@@ -2,9 +2,9 @@
 
 namespace Ecommers.Application.DTOs.Common
 {
-    public class DeleteRequest
+    public class DeleteRequest<TId>
     {
         [Required(ErrorMessage = "El Id es obligatorio.")]
-        public int Id { get; set; }
+        public required TId Id { get; set; }
     }
 }

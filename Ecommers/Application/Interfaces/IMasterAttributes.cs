@@ -19,7 +19,7 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> UpdateAsync(MasterAttributesUpdateRequest request);
 
-        Task<Result> DeleteAsync(DeleteRequest deleteRequest);
+        Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest);
 
         Task<IEnumerable<MasterAttributesD>> GetAllActiveAsync();
 

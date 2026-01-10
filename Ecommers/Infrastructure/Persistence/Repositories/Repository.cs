@@ -315,5 +315,29 @@ namespace Ecommers.Infrastructure.Persistence.Repositories
                 return base.VisitMember(node);
             }
         }
+
+        public IQueryable<TEntity> GetQueryable()
+        {
+            var infraType = GetInfrastructureType();
+            var propName = GetDbSetPropertyName(infraType);
+
+            // Obtener propiedad del DbSet (ej: "Configuraciones")
+            var dbSetProperty = _context.GetType().GetProperty(propName)
+                ?? throw new InvalidOperationException($"No DbSet found for {infraType.Name}");
+
+            var dbSet = dbSetProperty.GetValue(_context)
+                ?? throw new InvalidOperationException($"DbSet {propName} is null");
+
+            // dbSet es DbSet<InfraType>
+            var queryableInfra = dbSet as IQueryable
+                ?? throw new InvalidOperationException($"DbSet {propName} is not IQueryable");
+
+            // ✅ Transformar IQueryable<Infra> → IQueryable<Domain>
+            // usando AutoMapper.ProjectTo()
+            var projectedQueryable = _mapper
+                .ProjectTo<TEntity>(queryableInfra);
+
+            return projectedQueryable;
+        }
     }
 }

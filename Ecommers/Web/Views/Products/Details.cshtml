@@ -99,10 +99,14 @@
                                 @foreach (var attr in MasterAttributes)
                                 {
                                     var values = Model.Products.ProductAttributes
-                                        .Where(x => x.Attribute.Id == attr.Id && x.Value != null)
-                                        .Select(x => x.Value!.GetDisplayValue())
-                                        .Where(x => !string.IsNullOrEmpty(x))
-                                        .ToList();
+                                    .Where(x =>
+                                    x.Attribute != null &&
+                                    x.Attribute.Id == attr.Id &&
+                                    x.Value != null
+                                    )
+                                    .Select(x => x.Value!.GetDisplayValue())
+                                    .Where(x => !string.IsNullOrEmpty(x))
+                                    .ToList();
 
                                     @if (values.Any())
                                     {
@@ -364,5 +368,6 @@
                 </div>
             }
         </div>
+    
     </div>
 </div>
