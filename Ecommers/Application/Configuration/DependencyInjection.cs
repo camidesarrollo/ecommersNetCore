@@ -3,6 +3,7 @@ using AutoMapper;
 using Ecommers.Application.Common.Mappings;
 using Ecommers.Application.Interfaces;
 using Ecommers.Application.Services;
+using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Files;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
@@ -50,6 +51,13 @@ namespace Ecommers.Application.Configuration
             services.AddAutoMapper(cfg => cfg.AddProfile<CategoriaProfile>());
             services.AddAutoMapper(cfg => cfg.AddProfile<ServicioProfile>());
             services.AddAutoMapper(cfg => cfg.AddProfile<MasterAttributesProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<ProductAttributesProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<ProductImagesProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<ProductPriceHistoryProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<ProductsProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<ProductVariantImagesProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<ProductVariantsProfile>());
+            services.AddAutoMapper(cfg => cfg.AddProfile<VariantAttributesProfile>());
 
             // Repositorios
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));

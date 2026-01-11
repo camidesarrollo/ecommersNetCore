@@ -121,28 +121,32 @@ namespace Ecommers.Web.Controllers
         {
             try
             {
-                var resultProducto = _Productservice.GetById(new GetByIdRequest<long> { Id = id });
+                var resultProducto = _Productservice.GetById(
+                    new GetByIdRequest<long> { Id = id }
+                );
 
                 if (resultProducto.Data == null)
                 {
-                    TempData["Error"] = "Producto no encontrado";
+                    TempData["mensaje"] = "Producto no encontrado";
+                    TempData["estado"] = "Error";
                     return RedirectToAction(nameof(Index));
                 }
 
-                // ✅ 1. VALIDAR SI TIENE VENTAS (usando la vista vw_Products)
-                
-                if (resultProducto.Data.ProductVariants.Any(x => x.OrderItems.Count > 0) == true)
+                // ✅ 1. VALIDAR SI TIENE VENTAS
+                if (resultProducto.Data.ProductVariants
+                    .Any(v => v.OrderItems.Any()))
                 {
-                    TempData["Error"] = "No se puede eliminar el producto porque tiene ventas asociadas";
+                    TempData["mensaje"] = "No se puede eliminar el producto porque tiene ventas asociadas";
+                    TempData["estado"] = "Error";
                     return RedirectToAction(nameof(Index));
                 }
 
-                // ✅ 2. ELIMINAR EN ORDEN CORRECTO (de hijos a padres)
+                // ✅ 2. ELIMINAR EN ORDEN CORRECTO (HIJOS → PADRE)
 
-                // 2.1 Eliminar VariantAttributes (nivel más bajo)
-                foreach (var productVariant in resultProducto.Data.ProductVariants)
+                foreach (var productVariant in resultProducto.Data.ProductVariants.ToList())
                 {
-                    foreach (var variantAttribute in productVariant.VariantAttributes)
+                    // 2.1 VariantAttributes
+                    foreach (var variantAttribute in productVariant.VariantAttributes.ToList())
                     {
                         var deleteResult = await _VariantAttributesService.DeleteAsync(
                             new DeleteRequest<long> { Id = variantAttribute.Id }
@@ -150,13 +154,14 @@ namespace Ecommers.Web.Controllers
 
                         if (!deleteResult.Success)
                         {
-                            TempData["Error"] = deleteResult.Message;
+                            TempData["mensaje"] = deleteResult.Message;
+                            TempData["estado"] = "Error";
                             return RedirectToAction(nameof(Index));
                         }
                     }
 
-                    // 2.2 Eliminar ProductPriceHistory
-                    foreach (var priceHistory in productVariant.ProductPriceHistory)
+                    // 2.2 ProductPriceHistory
+                    foreach (var priceHistory in productVariant.ProductPriceHistory.ToList())
                     {
                         var deleteResult = await _ProductPriceHistoryService.DeleteAsync(
                             new DeleteRequest<long> { Id = priceHistory.Id }
@@ -164,13 +169,14 @@ namespace Ecommers.Web.Controllers
 
                         if (!deleteResult.Success)
                         {
-                            TempData["Error"] = deleteResult.Message;
+                            TempData["mensaje"] = deleteResult.Message;
+                            TempData["estado"] = "Error";
                             return RedirectToAction(nameof(Index));
                         }
                     }
 
-                    // 2.3 Eliminar ProductVariantImages
-                    foreach (var variantImage in productVariant.ProductVariantImages)
+                    // 2.3 ProductVariantImages
+                    foreach (var variantImage in productVariant.ProductVariantImages.ToList())
                     {
                         var deleteResult = await _ProductVariantImagesService.DeleteAsync(
                             new DeleteRequest<long> { Id = variantImage.Id }
@@ -178,25 +184,27 @@ namespace Ecommers.Web.Controllers
 
                         if (!deleteResult.Success)
                         {
-                            TempData["Error"] = deleteResult.Message;
+                            TempData["mensaje"] = deleteResult.Message;
+                            TempData["estado"] = "Error";
                             return RedirectToAction(nameof(Index));
                         }
                     }
 
-                    // 2.4 Eliminar ProductVariants
+                    // 2.4 ProductVariant
                     var deleteVariantResult = await _ProductVariantsService.DeleteAsync(
                         new DeleteRequest<long> { Id = productVariant.Id }
                     );
 
                     if (!deleteVariantResult.Success)
                     {
-                        TempData["Error"] = deleteVariantResult.Message;
+                        TempData["mensaje"] = deleteVariantResult.Message;
+                        TempData["estado"] = "Error";
                         return RedirectToAction(nameof(Index));
                     }
                 }
 
-                // 2.5 Eliminar ProductAttributes (nivel producto)
-                foreach (var productAttribute in resultProducto.Data.ProductAttributes)
+                // 2.5 ProductAttributes
+                foreach (var productAttribute in resultProducto.Data.ProductAttributes.ToList())
                 {
                     var deleteResult = await _ProductAttributesService.DeleteAsync(
                         new DeleteRequest<long> { Id = productAttribute.Id }
@@ -204,13 +212,14 @@ namespace Ecommers.Web.Controllers
 
                     if (!deleteResult.Success)
                     {
-                        TempData["Error"] = deleteResult.Message;
+                        TempData["mensaje"] = deleteResult.Message;
+                        TempData["estado"] = "Error";
                         return RedirectToAction(nameof(Index));
                     }
                 }
 
-                // 2.6 Eliminar ProductImages
-                foreach (var productImage in resultProducto.Data.ProductImages)
+                // 2.6 ProductImages
+                foreach (var productImage in resultProducto.Data.ProductImages.ToList())
                 {
                     var deleteResult = await _ProductImagesService.DeleteAsync(
                         new DeleteRequest<long> { Id = productImage.Id }
@@ -218,28 +227,33 @@ namespace Ecommers.Web.Controllers
 
                     if (!deleteResult.Success)
                     {
-                        TempData["Error"] = deleteResult.Message;
+                        TempData["mensaje"] = deleteResult.Message;
+                        TempData["estado"] = "Error";
                         return RedirectToAction(nameof(Index));
                     }
                 }
 
-                // ✅ 3. FINALMENTE ELIMINAR EL PRODUCTO
+                // ✅ 3. ELIMINAR PRODUCTO
                 var finalResult = await _Productservice.DeleteAsync(request);
 
                 if (finalResult.Success)
                 {
-                    TempData["Success"] = "Producto eliminado exitosamente";
+                    TempData["mensaje"] = "Producto eliminado exitosamente";
+                    TempData["estado"] = "Exito";
                 }
                 else
                 {
-                    TempData["Error"] = finalResult.Message;
+                    TempData["mensaje"] = finalResult.Message;
+                    TempData["estado"] = "Error";
                 }
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                TempData["Error"] = $"Error al eliminar el producto: {ex.Message}";
+
+                TempData["estado"] = "Error";
+                TempData["mensaje"] = $"Error al eliminar el producto: {ex.Message}";
                 return RedirectToAction(nameof(Index));
             }
         }

@@ -14,7 +14,7 @@ function initializeImageManager() {
     const btnAddImage = document.getElementById('btnAddImage');
 
     if (!btnAddImage) {
-        console.error('Botón de agregar imagen no encontrado');
+        //console.error('Botón de agregar imagen no encontrado');
         return;
     }
 

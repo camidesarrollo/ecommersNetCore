@@ -34,7 +34,7 @@
                 </h1>
             </div>
             <div class="flex gap-2">
-                <form asp-action="Eliminar" method="post" enctype="multipart/form-data" id="formCategoria" class="slide-in delay-400">
+                <form asp-action="Eliminar" method="post" enctype="multipart/form-data" id="formProducto" class="slide-in delay-400">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="@Model.Products.Id" />
                     <button type="submit" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
@@ -382,6 +382,6 @@
 @section Scripts {
 
 
-    <script type="module" src="~/js/application/categorias/generic.js"></script>
-    <script type="module" src="~/js/application/categorias/delete.js"></script>
+    <script type="module" src="~/js/application/products/generic.js"></script>
+    <script type="module" src="~/js/application/products/delete.js"></script>
 }
