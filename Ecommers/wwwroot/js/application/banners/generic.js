@@ -1,4 +1,4 @@
-import Swal from '../../bundle/vendors_sweetalert.js';
+import Swal from '../../bundle/notifications/vendors_sweetalert.js';
 import { GetByName } from './bannersService.js';
 /* js\application\banners\generic.js */
 document.addEventListener('DOMContentLoaded', () => {

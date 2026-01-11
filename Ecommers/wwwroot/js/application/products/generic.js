@@ -2,14 +2,28 @@
 import $, { onNewOptionCreated, addOption, getOptions }
     from '../utils/select2-init.js';  // <-- ruta relativa desde generic.js
 
-// Contador para índices únicos de imágenes
-let imageIndex = 0;
+import { ObtenerProductVariantView } from './products.api.js';
 
-// Inicializar al cargar el documento
+// Importar sistema de notificaciones Notyf
+import { showSuccess, showError, showWarning, showInfo } from '../../bundle/notifications/notyf.config.js'
+
+// ===============================
+// CONTADORES GLOBALES
+// ===============================
+let imageIndex = 0;
+let variantIndex = 0;
+
+// ===============================
+// INICIALIZACIÓN
+// ===============================
 document.addEventListener('DOMContentLoaded', function () {
     initializeImageManager();
+    initVariants();
 });
 
+/* =====================================================
+   GESTIÓN DE IMÁGENES
+===================================================== */
 function initializeImageManager() {
     const btnAddImage = document.getElementById('btnAddImage');
 
@@ -25,11 +39,10 @@ function initializeImageManager() {
     });
 
     // Agregar una imagen por defecto al cargar
-    if($("#imagesContainer .border-olive-green-300").length == 0){
+    if ($("#imagesContainer .border-olive-green-300").length == 0) {
         addImageInput(true);
         updateNoImagesMessage();
     }
-
 }
 
 function addImageInput(isPrimary = false) {
@@ -131,7 +144,7 @@ window.previewImage = function (input, index) {
         // Validar tamaño (5MB)
         const maxSize = 5 * 1024 * 1024;
         if (file.size > maxSize) {
-            alert('El archivo es demasiado grande. El tamaño máximo es 5MB.');
+            showError('El archivo es demasiado grande. El tamaño máximo es 5MB.');
             input.value = '';
             return;
         }
@@ -139,7 +152,7 @@ window.previewImage = function (input, index) {
         // Validar tipo
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
         if (!allowedTypes.includes(file.type)) {
-            alert('Tipo de archivo no permitido. Solo se aceptan JPG, PNG y WebP.');
+            showError('Tipo de archivo no permitido. Solo se aceptan JPG, PNG y WebP.');
             input.value = '';
             return;
         }
@@ -173,6 +186,8 @@ window.removeImageInput = function (index) {
                 updatePrimaryImage(firstIndex);
             }
         }
+
+        showSuccess('Imagen eliminada correctamente');
     }
 }
 
@@ -200,6 +215,203 @@ window.updateNoImagesMessage = function () {
     }
 }
 
+/* =====================================================
+   GESTIÓN DE VARIANTES
+===================================================== */
+function initVariants() {
+    // Si hay variantes existentes, ajustar el índice
+    const existingVariants = document.querySelectorAll('.variant-item');
+    if (existingVariants.length > 0) {
+        variantIndex = existingVariants.length;
+    }
+}
+
+async function addVariant() {
+    try {
+        const response = await ObtenerProductVariantView({ index: variantIndex });
+
+        if (response.success) {
+            const container = document.getElementById('variantsContainer');
+
+            // Verificar si hay mensaje de "no hay variantes" y eliminarlo
+            const emptyMessage = container.querySelector('.text-center.py-12');
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+
+            // Crear un elemento temporal para insertar el HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = response.data.trim();
+
+            // Agregar al contenedor
+            container.appendChild(tempDiv.firstElementChild);
+
+            // Incrementar el índice
+            variantIndex++;
+
+            // Scroll suave hacia la nueva variante
+            tempDiv.firstElementChild.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+            });
+
+            // Actualizar números de variantes
+            updateVariantNumbers();
+
+            // Mostrar mensaje de éxito
+            showSuccess('Variante agregada correctamente');
+        } else {
+            showError('Error al agregar la variante');
+        }
+    } catch (error) {
+        console.error('Error al agregar variante:', error);
+        showError('Error al agregar la variante');
+    }
+}
+
+function removeVariant(index) {
+    const container = document.getElementById('variantsContainer');
+    const variants = container.querySelectorAll('.variant-item');
+
+    // No permitir eliminar si solo hay una variante
+    if (variants.length <= 1) {
+        showWarning('Debe existir al menos una variante');
+        return;
+    }
+
+    // Confirmar eliminación
+    if (confirm('¿Está seguro de eliminar esta variante?')) {
+        const variantElement = container.querySelector(`[data-variant-index="${index}"]`);
+
+        if (variantElement) {
+            // Animación de salida
+            variantElement.style.opacity = '0';
+            variantElement.style.transform = 'scale(0.95)';
+            variantElement.style.transition = 'all 0.3s ease';
+
+            setTimeout(() => {
+                variantElement.remove();
+                updateVariantNumbers();
+                showSuccess('Variante eliminada correctamente');
+            }, 300);
+        }
+    }
+}
+
+function updateVariantNumbers() {
+    const variants = document.querySelectorAll('.variant-item');
+    variants.forEach((variant, index) => {
+        const numberSpan = variant.querySelector('.variant-number');
+        if (numberSpan) {
+            numberSpan.textContent = index + 1;
+        }
+    });
+}
+
+function addVariantImage(variantIndex) {
+    const container = document.getElementById(`variantImages_${variantIndex}`);
+
+    if (!container) {
+        showError('Contenedor de imágenes no encontrado');
+        return;
+    }
+
+    const imageCount = container.querySelectorAll('.variant-image-item').length;
+
+    const imageHtml = `
+        <div class="variant-image-item border border-gray-200 rounded-lg p-3 bg-gray-50">
+            <div class="flex items-center gap-3">
+                <div class="flex-1">
+                    <input type="file" 
+                           name="ProductVariants[${variantIndex}].Images[${imageCount}].File"
+                           accept="image/*"
+                           class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-olive-green-100 file:text-olive-green-700 hover:file:bg-olive-green-200"
+                           onchange="previewVariantImage(this, ${variantIndex}, ${imageCount})" />
+                </div>
+                <button type="button" 
+                        onclick="removeVariantImage(this)"
+                        class="text-red-500 hover:text-red-700 transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mt-3 flex items-center gap-4 text-sm">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" 
+                           name="ProductVariants[${variantIndex}].Images[${imageCount}].IsPrimary"
+                           class="w-4 h-4 text-olive-green-600 border-gray-300 rounded" />
+                    <span><i class="fas fa-star text-amber-500"></i> Principal</span>
+                </label>
+                
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" 
+                           name="ProductVariants[${variantIndex}].Images[${imageCount}].IsActive"
+                           class="w-4 h-4 text-olive-green-600 border-gray-300 rounded"
+                           checked />
+                    <span><i class="fas fa-eye text-green-600"></i> Visible</span>
+                </label>
+            </div>
+            
+            <div id="preview_${variantIndex}_${imageCount}" class="mt-3 hidden">
+                <img src="" class="w-full rounded-lg shadow-sm max-h-48 object-cover" alt="Preview" />
+            </div>
+            
+            <input type="hidden" name="ProductVariants[${variantIndex}].Images[${imageCount}].Order" value="${imageCount}" />
+        </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', imageHtml);
+    showSuccess('Imagen agregada a la variante');
+}
+
+function removeVariantImage(button) {
+    const imageItem = button.closest('.variant-image-item');
+    if (imageItem) {
+        imageItem.style.opacity = '0';
+        imageItem.style.transform = 'scale(0.95)';
+        imageItem.style.transition = 'all 0.3s ease';
+
+        setTimeout(() => {
+            imageItem.remove();
+            showSuccess('Imagen de variante eliminada');
+        }, 300);
+    }
+}
+
+function previewVariantImage(input, variantIndex, imageIndex) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+
+        // Validar tamaño (5MB)
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+            showError('El archivo es demasiado grande. Máximo 5MB.');
+            input.value = '';
+            return;
+        }
+
+        // Validar tipo
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+        if (!allowedTypes.includes(file.type)) {
+            showError('Formato no permitido. Use JPG, PNG o WebP.');
+            input.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewContainer = document.getElementById(`preview_${variantIndex}_${imageIndex}`);
+            const img = previewContainer?.querySelector('img');
+
+            if (img && previewContainer) {
+                img.src = e.target.result;
+                previewContainer.classList.remove('hidden');
+            }
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
 
 /* =====================================================
    SLUG AUTOMÁTICO
@@ -233,3 +445,12 @@ export function generateSlug(text) {
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-');
 }
+
+/* =====================================================
+   EXPONER FUNCIONES GLOBALMENTE
+===================================================== */
+window.addVariant = addVariant;
+window.removeVariant = removeVariant;
+window.addVariantImage = addVariantImage;
+window.removeVariantImage = removeVariantImage;
+window.previewVariantImage = previewVariantImage;

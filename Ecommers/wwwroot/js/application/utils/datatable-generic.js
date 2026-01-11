@@ -1,4 +1,4 @@
-﻿import Swal from '../../bundle/vendors_sweetalert.js';
+﻿import Swal from '../../bundle/notifications/vendors_sweetalert.js';
 import { $ } from "../../bundle/vendors_datatables.js";
 // =============================
 //  CONFIGURACIÓN GLOBAL

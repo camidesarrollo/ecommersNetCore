@@ -1,5 +1,5 @@
 ﻿import { GetByName } from './categoriaService.js';
-import Swal from '../../bundle/vendors_sweetalert.js';
+import Swal from '../../bundle/notifications/vendors_sweetalert.js';
 
 /* js\application\categorias\generic.js */
 document.addEventListener('DOMContentLoaded', () => {
