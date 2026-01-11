@@ -6,9 +6,13 @@
 // ===============================
 const PRODUCTOS_API = {
     CambiarEstado: {
-        url: "/Gestion/Categorias/CambiarEstado",
-        errorMessage: "Error al cambiar el estado del categoría"
-    }
+        url: "/Gestion/Products/CambiarEstado",
+        errorMessage: "Error al cambiar el estado del producto"
+    },
+    ObtenerProductVariantView: {
+        url: "/Gestion/Products/ObtenerProductVariantView",
+        errorMessage: "Error al obtener la variante de productos"
+    },
 };
 
 // ===============================
@@ -18,9 +22,15 @@ function CambiarEstado(data) {
     return ajaxPost(PRODUCTOS_API.CambiarEstado, data);
 }
 
+function ObtenerProductVariantView(data) {
+    return ajaxPost(PRODUCTOS_API.ObtenerProductVariantView, data);
+}
+
+
 // ===============================
 // EXPORTS
 // ===============================
 export {
-    CambiarEstado
+    CambiarEstado,
+    ObtenerProductVariantView
 };

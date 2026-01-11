@@ -25,8 +25,11 @@ function initializeImageManager() {
     });
 
     // Agregar una imagen por defecto al cargar
-    addImageInput(true);
-    updateNoImagesMessage();
+    if($("#imagesContainer .border-olive-green-300").length == 0){
+        addImageInput(true);
+        updateNoImagesMessage();
+    }
+
 }
 
 function addImageInput(isPrimary = false) {

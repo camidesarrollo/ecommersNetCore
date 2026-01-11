@@ -1,5 +1,613 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Ecommers.Domain.Extensions
+@using Ecommers.Infrastructure.Persistence.Entities
+@model Ecommers.Web.Models.Products.ProductsEditViewModel
+
 @{
+    var MasterAttributes = Model.MasterAttributes.ToList();
+    var ImagenesProducto = Model.Products.ProductImages.ToList();
+    var variantesProducto = Model.Products.ProductVariants.ToList();
+
+    ViewData["Title"] = "Editar Producto";
+    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shepherd.css">
+    <link rel="stylesheet" href="~/css/select2.min.css">
+}
+
+<div class="bg-pattern min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Breadcrumb -->
+        <nav class="mb-6 slide-in" aria-label="breadcrumb">
+            <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
+                <li>
+                    <a href="@Url.Action("Index", "Home")" class="text-olive-green-600 hover:text-olive-green-700">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                </li>
+                <li><i class="fas fa-chevron-right text-sm text-olive-green-500"></i></li>
+                <li>
+                    <a href="@Url.Action("Index", "Products")" class="text-olive-green-600 hover:text-olive-green-700">
+                        Productos
+                    </a>
+                </li>
+                <li><i class="fas fa-chevron-right text-sm text-olive-green-500"></i></li>
+                <li class="text-dark-chocolate font-medium">Editar Producto</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="mb-6 slide-in delay-200">
+            <div class="glass-effect rounded-2xl p-6 shadow-olive-green/30">
+                <div class="flex justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
+                            <i class="fas fa-image text-olive-green-600 mr-3"></i>
+                            Editar Producto
+                        </h1>
+                        <p class="text-gray-600">Complete los campos para editar el producto</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <!-- Botón de ayuda en header -->
+                        <button id="help-tour-button"
+                                type="button"
+                                class="help-button-header"
+                                title="Iniciar tour guiado">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Ayuda</span>
+                        </button>
+
+                        <!-- Botón volver -->
+                        <a href="@Url.Action("Index", "Products")"
+                           class="inline-flex items-center px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all" id="volver-button">
+                            <i class="fas fa-arrow-left mr-2"></i>Volver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <form asp-action="Editar" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formCategoria">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="@Model.Products.Id" />
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Columna Principal (2/3) -->
+                <div class="lg:col-span-2 space-y-6">
+
+                    <!-- Sección Información -->
+                    <section class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                            <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                            Información
+                        </h5>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Nombre -->
+                            <div>
+                                <label asp-for="Products.Name" class="block font-semibold mb-2">
+                                    Nombre <span class="text-red-700">*</span>
+                                </label>
+                                <input type="text"
+                                       asp-for="Products.Name"
+                                       required
+                                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                <span asp-validation-for="Products.Name" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <!-- Slug -->
+                            <div>
+                                <label asp-for="Products.Slug" class="block font-semibold mb-2">
+                                    Slug URL <span class="text-red-700">*</span>
+                                </label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 bg-beige-500 border-2 border-r-0 border-olive-green-300 rounded-l-lg">
+                                        <i class="fas fa-globe text-olive-green-600"></i>
+                                    </span>
+                                    <input type="text"
+                                           asp-for="Products.Slug"
+                                           required
+                                           disabled
+                                           class="flex-1 px-4 py-3 text-lg border-2 border-olive-green-300 rounded-r-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">
+                                    URL amigable (sin espacios, usar guiones)
+                                </p>
+                                <span asp-validation-for="Products.Slug" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div>
+                                <label asp-for="Products.CategoryId" class="block font-semibold mb-2">
+                                    Categoría <span class="text-red-700">*</span>
+                                </label>
+                                <select asp-for="Products.CategoryId"
+                                        asp-items="@(new SelectList(Model.Categories, "Id", "Name"))"
+                                        required
+                                        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition">
+                                </select>
+                            </div>
+
+                            <!-- Precio Base -->
+                            <div>
+                                <label asp-for="Products.BasePrice" class="block font-semibold mb-2">
+                                    Precio de base <span class="text-red-700">*</span>
+                                </label>
+                                <input type="number"
+                                       asp-for="Products.BasePrice"
+                                       step="0.01"
+                                       min="0"
+                                       required
+                                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                <span asp-validation-for="Products.BasePrice" class="text-red-700 text-sm"></span>
+                            </div>
+
+                            <!-- Descripción corta -->
+                            <div class="md:col-span-2">
+                                <label asp-for="Products.ShortDescription" class="block font-semibold mb-2">
+                                    Descripción corta
+                                </label>
+                                <textarea asp-for="Products.ShortDescription"
+                                          rows="2"
+                                          maxlength="150"
+                                          class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
+                            </div>
+
+                            <!-- Descripción completa -->
+                            <div class="md:col-span-2">
+                                <label asp-for="Products.Description" class="block font-semibold mb-2">
+                                    Descripción completa
+                                </label>
+                                <textarea asp-for="Products.Description"
+                                          rows="4"
+                                          class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Sección Imágenes -->
+                    <section class="glass-effect rounded-2xl p-6">
+                        <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-olive-green-300">
+                            <h5 class="text-xl font-semibold text-dark-chocolate flex items-center">
+                                <i class="fas fa-images text-olive-green-600 mr-2"></i>
+                                Imágenes del producto
+                            </h5>
+                            <button type="button"
+                                    id="btnAddImage"
+                                    class="inline-flex items-center gap-2 bg-gradient-to-r from-olive-green-600 to-olive-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-olive-green-700 hover:to-olive-green-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <i class="fas fa-plus"></i>
+                                Agregar Imagen
+                            </button>
+                        </div>
+
+                        <div id="imagesContainer" class="space-y-4">
+                            @for (int i = 0; i < Model.Products.ProductImages.Count; i++)
+                            {
+                                var image = ImagenesProducto[i];
+                                <div class="border-2 border-olive-green-300 rounded-lg p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md" data-image-index="@i">
+                                    <input type="hidden" name="ProductImages[@i].Id" value="@image.Id" />
+
+                                    <div class="flex items-start gap-4">
+                                        <!-- Preview de la imagen -->
+                                        <div class="flex-shrink-0">
+                                            <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
+                                                @if (!string.IsNullOrWhiteSpace(image.Url))
+                                                {
+                                                    <img id="preview_@i" src="@image.Url"
+                                                         alt="@image.AltText"
+                                                         class="w-full h-full object-cover" />
+                                                    <i id="icon_@i" class="fas fa-image text-4xl text-gray-400 hidden"></i>
+                                                }
+                                                else
+                                                {
+                                                    <img id="preview_@i" src="" alt="Preview" class="w-full h-full object-cover hidden">
+                                                    <i id="icon_@i" class="fas fa-image text-4xl text-gray-400"></i>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Controles de la imagen -->
+                                        <div class="flex-1 space-y-4">
+                                            <!-- Input de archivo -->
+                                            <div>
+                                                <label class="block font-semibold mb-2">
+                                                    Archivo de imagen <span class="text-red-700">*</span>
+                                                </label>
+                                                <input type="file"
+                                                       name="ProductImages[@i].ImageFile"
+                                                       accept="image/*"
+                                                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer" />
+                                                <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    Formatos: JPG, PNG, WebP
+                                                </p>
+                                            </div>
+
+                                            <!-- Orden y Principal -->
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block font-semibold mb-2 text-sm">
+                                                        Orden <span class="text-red-700">*</span>
+                                                    </label>
+                                                    <input type="number"
+                                                           name="ProductImages[@i].Order"
+                                                           value="@image.Order"
+                                                           min="0"
+                                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition" />
+                                                </div>
+
+                                                <div class="flex items-end">
+                                                    <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-olive-green-50 transition-colors">
+                                                        <input type="radio"
+                                                               name="PrimaryImageIndex"
+                                                               value="@i"
+                                                               @(image.IsPrimary ? "checked" : "")
+                                                               onchange="updatePrimaryImage(@i)"
+                                                               class="w-5 h-5 text-olive-green-600 focus:ring-olive-green-500 cursor-pointer" />
+                                                        <span class="text-sm font-semibold text-dark-chocolate">Imagen principal</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- Hidden para IsPrimary -->
+                                            <input type="hidden" name="ProductImages[@i].IsPrimary" id="isPrimary_@i" value="@(image.IsPrimary ? "true" : "false")">
+                                        </div>
+
+                                        <!-- Botón eliminar -->
+                                        <button type="button"
+                                                onclick="removeImageInput(@i)"
+                                                class="flex-shrink-0 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 p-3 rounded-lg"
+                                                title="Eliminar imagen">
+                                            <i class="fas fa-trash-alt text-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div id="noImagesMessage" class="text-center py-12 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 hidden">
+                            <i class="fas fa-image text-5xl mb-4 text-gray-400"></i>
+                            <p class="text-lg font-medium mb-1">No hay imágenes agregadas</p>
+                            <p class="text-sm">Haz clic en "Agregar Imagen" para comenzar</p>
+                        </div>
+                    </section>
+
+                    <!-- Sección Características -->
+                    <section class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                            <i class="fas fa-sliders-h text-olive-green-600 mr-2"></i>
+                            Características
+                        </h5>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @for (int i = 0; i < MasterAttributes.Count; i++)
+                            {
+                                var attr = MasterAttributes[i];
+                                <input type="hidden" name="Attributes[@i].MasterAttributeId" value="@attr.Id" />
+
+                                var productValues = Model.Products.ProductAttributes
+                                .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
+                                .Select(x => x.Value)
+                                .Where(v => v != null)
+                                .ToList();
+
+                                var singleValue = productValues.FirstOrDefault()?.GetDisplayValue();
+                                var multiValues = productValues
+                                .Select(v => v!.GetDisplayValue())
+                                .Where(v => !string.IsNullOrEmpty(v))
+                                .ToList();
+
+                                bool isChecked = singleValue?.ToLower() == "true";
+
+                                <div>
+                                    @switch (attr.InputType)
+                                    {
+                                        case "text":
+                                            <label class="block font-semibold mb-2">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
+                                            <input type="text"
+                                                   name="Attributes[@i].Value"
+                                                   value="@singleValue"
+                                                   placeholder="@attr.Description"
+                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                   @(attr.IsRequired ? "required" : "") />
+                                            break;
+
+                                        case "number":
+                                            <label class="block font-semibold mb-2">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
+                                            <input type="number"
+                                                   name="Attributes[@i].Value"
+                                                   value="@singleValue"
+                                                   placeholder="@attr.Description"
+                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                   @(attr.IsRequired ? "required" : "") />
+                                            break;
+
+                                        case "checkbox":
+                                            if (attr.Name == "Nuevo")
+                                            {
+                                                <label class="flex items-center gap-3 cursor-pointer">
+                                                    <input type="checkbox"
+                                                           value="true"
+                                                           checked
+                                                           disabled
+                                                           class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
+                                                    <input type="hidden" name="Attributes[@i].Value" value="true" />
+                                                    @attr.Name
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="flex items-center gap-3 cursor-pointer">
+                                                    <input type="hidden" name="Attributes[@i].Value" value="false" />
+                                                    <input type="checkbox"
+                                                           name="Attributes[@i].Value"
+                                                           value="true"
+                                                           @(isChecked ? "checked" : "")
+                                                           class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
+                                                    @attr.Name
+                                                    @if (attr.IsRequired)
+                                                    {
+                                                        <span class="text-red-700">*</span>
+                                                    }
+                                                </label>
+                                            }
+                                            break;
+
+                                        case "select":
+                                            <label class="block font-semibold mb-2">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
+                                            <select name="Attributes[@i].Value"
+                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                    data-selected="@singleValue"
+                                                    @(attr.IsRequired ? "required" : "")>
+                                                <option value="">Seleccione</option>
+                                                @foreach (var itemA in Model.AtrributeValue.Where(x => x.AttributeId == attr.Id).ToList())
+                                                {
+                                                    <option value="@itemA.Id">@AttributeValuesExtensions.GetDisplaysValue(itemA)</option>
+                                                }
+                                            </select>
+                                            break;
+
+                                        case "multiselect":
+                                            <label class="block font-semibold mb-2">
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
+                                            <select name="Attributes[@i].Value[]"
+                                                    multiple
+                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                    data-selected="@string.Join(",", multiValues)"
+                                                    @(attr.IsRequired ? "required" : "")>
+                                                <option value="">Seleccione</option>
+                                            </select>
+                                            break;
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Columna Lateral (1/3) -->
+                <aside class="lg:col-span-1 space-y-6">
+                    <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                        <!-- Encabezado con botón de agregar -->
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-olive-green-300">
+                            <h5 class="text-xl font-semibold text-dark-chocolate flex items-center">
+                                <i class="fas fa-layer-group text-olive-green-600 mr-2"></i>
+                                Variantes del producto
+                            </h5>
+                            <button type="button"
+                                    onclick="addVariant()"
+                                    class="px-4 py-2 rounded-lg bg-olive-green-500 text-white font-semibold hover:bg-olive-green-600 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2">
+                                <i class="fas fa-plus"></i>
+                                <span class="hidden sm:inline">Agregar</span>
+                            </button>
+                        </div>
+
+                        <!-- Contenedor de variantes -->
+                        <div id="variantsContainer" class="space-y-6">
+                            @if (Model.Products.ProductVariants != null && Model.Products.ProductVariants.Any())
+                            {
+                                @for (int i = 0; i < Model.Products.ProductVariants.Count; i++)
+                                {
+                                    var variant = variantesProducto[i];
+                                    <div class="variant-item border-2 border-olive-green-200 rounded-xl p-4 bg-white" data-variant-index="@i">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <h6 class="text-lg font-bold text-dark-chocolate flex items-center gap-2">
+                                                @if (variant.IsDefault)
+                                                {
+                                                    <i class="fas fa-star text-amber-500"></i>
+                                                }
+                                                <i class="fas fa-cube text-olive-green-600"></i>
+                                                <span>Variante #<span class="variant-number">@(i + 1)</span></span>
+                                            </h6>
+                                            <button type="button"
+                                                    onclick="removeVariant(@i)"
+                                                    class="text-red-500 hover:text-red-700 transition">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="space-y-4">
+                                            <!-- Nombre -->
+                                            <div>
+                                                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                                                    Nombre de la variante
+                                                    <span class="text-red-500">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="ProductVariants[@i].Name"
+                                                       value="@variant.Name"
+                                                       class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                                                       placeholder="Ej: Talla M - Color Rojo"
+                                                       required />
+                                            </div>
+
+                                            <!-- SKU -->
+                                            <div>
+                                                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                                                    SKU
+                                                    <span class="text-red-500">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="ProductVariants[@i].SKU"
+                                                       value="@variant.SKU"
+                                                       class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500 font-mono"
+                                                       placeholder="Ej: PROD-001-M-RED"
+                                                       required />
+                                            </div>
+
+                                            <!-- Grid de precios -->
+                                            <div class="grid grid-cols-1 gap-3">
+                                                <!-- Precio Costo -->
+                                                <div>
+                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                                                        Precio Costo
+                                                        <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <div class="relative">
+                                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                                        <input type="number"
+                                                               name="ProductVariants[@i].CostPrice"
+                                                               value="@variant.CostPrice"
+                                                               class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                                                               step="0.01"
+                                                               min="0"
+                                                               required />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Precio -->
+                                                <div>
+                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                                                        Precio
+                                                        <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <div class="relative">
+                                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                                        <input type="number"
+                                                               name="ProductVariants[@i].Price"
+                                                               value="@variant.Price"
+                                                               class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                                                               step="0.01"
+                                                               min="0"
+                                                               required />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Precio de comparación -->
+                                                <div>
+                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                                                        Precio de comparación
+                                                    </label>
+                                                    <div class="relative">
+                                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                                        <input type="number"
+                                                               name="ProductVariants[@i].CompareAtPrice"
+                                                               value="@variant.CompareAtPrice"
+                                                               class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                                                               step="0.01"
+                                                               min="0" />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Stock -->
+                                                <div>
+                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                                                        Stock
+                                                        <span class="text-red-500">*</span>
+                                                    </label>
+                                                    <input type="number"
+                                                           name="ProductVariants[@i].StockQuantity"
+                                                           value="@variant.StockQuantity"
+                                                           class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                                                           min="0"
+                                                           required />
+                                                </div>
+                                            </div>
+
+                                            <!-- Checkboxes -->
+                                            <div class="flex flex-col gap-2 pt-2">
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox"
+                                                           name="ProductVariants[@i].IsDefault"
+                                                           @(variant.IsDefault ? "checked" : "")
+                                                           class="w-4 h-4 text-olive-green-600 border-gray-300 rounded focus:ring-olive-green-500" />
+                                                    <span class="text-sm text-dark-chocolate">
+                                                        <i class="fas fa-star text-amber-500"></i>
+                                                        Variante predeterminada
+                                                    </span>
+                                                </label>
+
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox"
+                                                           name="ProductVariants[@i].IsActive"
+                                                           @(variant.IsActive ? "checked" : "")
+                                                           class="w-4 h-4 text-olive-green-600 border-gray-300 rounded focus:ring-olive-green-500" />
+                                                    <span class="text-sm text-dark-chocolate">
+                                                        <i class="fas fa-toggle-on text-green-600"></i>
+                                                        Activa
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Hidden inputs -->
+                                        <input type="hidden" name="ProductVariants[@i].Id" value="@variant.Id" />
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <!-- Mensaje cuando no hay variantes -->
+                                <div class="text-center py-12 border-2 border-dashed border-olive-green-300 rounded-xl bg-olive-green-50">
+                                    <i class="fas fa-layer-group text-olive-green-400 text-4xl mb-4"></i>
+                                    <p class="text-dark-chocolate font-semibold mb-2">No hay variantes</p>
+                                    <p class="text-sm text-gray-600 mb-4">Comienza agregando la primera variante de tu producto</p>
+                                    <button type="button"
+                                            onclick="addVariant()"
+                                            class="px-6 py-3 rounded-lg bg-olive-green-500 text-white font-semibold hover:bg-olive-green-600 transition-all">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        Agregar primera variante
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </form>
+    </div>
+</div>
+
+<input type="hidden" id="Mensaje" name="Mensaje" value="@TempData["mensaje"]" />
+<input type="hidden" id="Estado" name="Estado" value="@TempData["estado"]" />
+
+@section Scripts {
+    <script type="module" src="~/js/application/products/generic.js"></script>
+    <script type="module" src="~/js/application/products/edit.js"></script>
 }

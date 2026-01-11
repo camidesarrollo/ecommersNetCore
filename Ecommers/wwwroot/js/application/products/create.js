@@ -35,24 +35,16 @@ function initProductCreateTour() {
         text: `
             <p>Te guiaremos paso a paso para crear un producto correctamente.</p>
             <ul>
-                <li>📝 Información básica del producto</li>
-                <li>🏷️ Categoría y descripciones</li>
-                <li>⚙️ Atributos dinámicos</li>
+                <li>📝 Información básica</li>
+                <li>🖼️ Imágenes</li>
+                <li>⚙️ Atributos</li>
                 <li>📦 Stock y estado</li>
             </ul>
             <p><strong>Duración:</strong> 3–5 minutos</p>
         `,
         buttons: [
-            {
-                text: 'Saltar',
-                classes: 'shepherd-button-skip',
-                action: tour.cancel
-            },
-            {
-                text: 'Comenzar',
-                classes: 'shepherd-button-primary',
-                action: tour.next
-            }
+            { text: 'Saltar', classes: 'shepherd-button-secondary', action: tour.cancel },
+            { text: 'Comenzar', classes: 'shepherd-button-primary', action: tour.next }
         ]
     });
 
@@ -63,8 +55,8 @@ function initProductCreateTour() {
         id: 'breadcrumb',
         title: 'Navegación',
         text: `
-            <p>Este breadcrumb indica dónde estás en el sistema.</p>
-            <p>Puedes volver a <strong>Productos</strong> o al <strong>Inicio</strong> en cualquier momento.</p>
+            <p>Este breadcrumb muestra dónde estás.</p>
+            <p>Puedes volver a <strong>Productos</strong> o al <strong>Inicio</strong>.</p>
         `,
         attachTo: {
             element: 'nav[aria-label="breadcrumb"]',
@@ -74,7 +66,7 @@ function initProductCreateTour() {
     });
 
     /* =========================================
-       PASO 3: Nombre del producto
+       PASO 3: Nombre
     ========================================= */
     tour.addStep({
         id: 'product-name',
@@ -83,9 +75,8 @@ function initProductCreateTour() {
             <p>Nombre visible para los clientes.</p>
             <ul>
                 <li>✔ Claro y descriptivo</li>
-                <li>✔ Máx. 255 caracteres</li>
+                <li>✔ Obligatorio</li>
             </ul>
-            <p><strong>Ejemplo:</strong> Mix de Frutos Secos Premium</p>
         `,
         attachTo: {
             element: 'input[name="Products.Name"]',
@@ -101,13 +92,9 @@ function initProductCreateTour() {
         id: 'product-slug',
         title: 'Slug URL',
         text: `
-            <p>Se usa en la URL del producto.</p>
-            <ul>
-                <li>🔗 Solo minúsculas</li>
-                <li>🔗 Sin espacios</li>
-                <li>🔗 Usa guiones</li>
-            </ul>
-            <p><strong>Ejemplo:</strong> mix-frutos-secos-premium</p>
+            <p>Se genera automáticamente desde el nombre.</p>
+            <p>No es editable manualmente.</p>
+            <p><strong>Ejemplo:</strong> mix-frutos-secos</p>
         `,
         attachTo: {
             element: 'input[name="Products.Slug"]',
@@ -124,7 +111,6 @@ function initProductCreateTour() {
         title: 'Categoría',
         text: `
             <p>Define dónde se agrupa el producto.</p>
-            <p>Esto ayuda a la navegación y al SEO.</p>
             <p class="text-red-600"><strong>Campo obligatorio</strong></p>
         `,
         attachTo: {
@@ -142,10 +128,7 @@ function initProductCreateTour() {
         title: 'Descripción corta',
         text: `
             <p>Resumen breve del producto.</p>
-            <ul>
-                <li>✔ Máx. 150 caracteres</li>
-                <li>✔ Ideal para listados</li>
-            </ul>
+            <p>Máx. 150 caracteres.</p>
         `,
         attachTo: {
             element: 'textarea[name="Products.ShortDescription"]',
@@ -161,11 +144,11 @@ function initProductCreateTour() {
         id: 'description',
         title: 'Descripción completa',
         text: `
-            <p>Describe el producto en detalle.</p>
+            <p>Detalle completo del producto.</p>
             <ul>
-                <li>📝 Beneficios</li>
-                <li>📝 Ingredientes</li>
-                <li>📝 Uso o conservación</li>
+                <li>Beneficios</li>
+                <li>Uso</li>
+                <li>Ingredientes</li>
             </ul>
         `,
         attachTo: {
@@ -176,37 +159,46 @@ function initProductCreateTour() {
     });
 
     /* =========================================
-       PASO 8: Atributos dinámicos
+       PASO 8: Imágenes
+    ========================================= */
+    tour.addStep({
+        id: 'images',
+        title: 'Imágenes del producto',
+        text: `
+            <p>Agrega una o más imágenes.</p>
+            <p>Se recomienda buena resolución.</p>
+        `,
+        attachTo: {
+            element: '#btnAddImage',
+            on: 'left'
+        },
+        buttons: navigationButtons(tour)
+    });
+
+    /* =========================================
+       PASO 9: Atributos
     ========================================= */
     tour.addStep({
         id: 'attributes',
         title: 'Atributos del producto',
         text: `
-            <p>Estos atributos cambian según la categoría.</p>
-            <ul>
-                <li>📏 Peso</li>
-                <li>🌱 Origen</li>
-                <li>⚖️ Formato</li>
-            </ul>
-            <p>Algunos pueden ser obligatorios.</p>
+            <p>Estos campos cambian según la categoría.</p>
+            <p>Algunos son obligatorios.</p>
         `,
         attachTo: {
-            element: '.glass-effect h5:contains("Atributos")',
+            element: '.fa-sliders-h',
             on: 'top'
         },
         buttons: navigationButtons(tour)
     });
 
     /* =========================================
-       PASO 9: SKU
+       PASO 10: SKU
     ========================================= */
     tour.addStep({
         id: 'sku',
         title: 'SKU',
-        text: `
-            <p>Identificador único del producto.</p>
-            <p><strong>Recomendado:</strong> Código interno o proveedor</p>
-        `,
+        text: `<p>Código único del producto.</p>`,
         attachTo: {
             element: 'input[name="ProductVariants.SKU"]',
             on: 'left'
@@ -215,15 +207,12 @@ function initProductCreateTour() {
     });
 
     /* =========================================
-       PASO 10: Stock
+       PASO 11: Stock
     ========================================= */
     tour.addStep({
         id: 'stock',
         title: 'Stock disponible',
-        text: `
-            <p>Cantidad disponible para la venta.</p>
-            <p>Debe ser mayor o igual a 0.</p>
-        `,
+        text: `<p>Cantidad disponible para la venta.</p>`,
         attachTo: {
             element: 'input[name="ProductVariants.StockQuantity"]',
             on: 'left'
@@ -232,79 +221,59 @@ function initProductCreateTour() {
     });
 
     /* =========================================
-       PASO 11: Estado activo
+       PASO 12: Estado
     ========================================= */
     tour.addStep({
         id: 'active',
         title: 'Producto activo',
         text: `
             <p>Define si el producto será visible.</p>
-            <ul>
-                <li>✅ Activo → Visible</li>
-                <li>❌ Inactivo → Oculto</li>
-            </ul>
         `,
         attachTo: {
-            element: 'input[name="ProductVariants.IsActive"]',
+            element: 'input[name="Products.IsActive"]',
             on: 'left'
         },
         buttons: navigationButtons(tour)
     });
 
     /* =========================================
-       PASO 12: Guardar
+       PASO 13: Guardar
     ========================================= */
     tour.addStep({
         id: 'submit',
         title: '💾 Guardar producto',
         text: `
-            <p>Cuando todo esté listo:</p>
-            <ul>
-                <li>✔ Valida los datos</li>
-                <li>✔ Crea el producto</li>
-            </ul>
+            <p>Cuando todo esté listo, guarda el producto.</p>
         `,
         attachTo: {
             element: 'button[type="submit"]',
             on: 'top'
         },
-        classes: 'shepherd-theme-success',
         buttons: navigationButtons(tour)
     });
 
     /* =========================================
-       PASO FINAL
+       FINAL
     ========================================= */
     tour.addStep({
         id: 'complete',
-        title: '🎉 ¡Producto listo!',
+        title: '🎉 ¡Listo!',
         text: `
-            <p>Ya sabes cómo crear productos correctamente.</p>
-            <p>Tip final:</p>
+            <p>Ya sabes cómo crear productos.</p>
             <ul>
-                <li>🖼️ Usa buenas imágenes</li>
+                <li>🖼️ Buenas imágenes</li>
                 <li>📄 Descripciones claras</li>
-                <li>📦 Stock actualizado</li>
+                <li>📦 Stock correcto</li>
             </ul>
         `,
-        classes: 'shepherd-theme-success',
         buttons: [
-            {
-                text: 'Repetir',
-                classes: 'shepherd-button-secondary',
-                action: tour.start
-            },
-            {
-                text: 'Finalizar',
-                classes: 'shepherd-button-primary',
-                action: tour.complete
-            }
+            { text: 'Repetir', classes: 'shepherd-button-secondary', action: tour.start },
+            { text: 'Finalizar', classes: 'shepherd-button-primary', action: tour.complete }
         ]
     });
 
     return tour;
 }
-
 /* =====================================================
    BOTONES REUTILIZABLES
 ===================================================== */

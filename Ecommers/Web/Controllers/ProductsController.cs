@@ -24,6 +24,7 @@ namespace Ecommers.Web.Controllers
         IVariantAttributes VariantAttributesService,
         IProductVariantImages ProductVariantImagesService,
         IMasterAttributes MasterAttributesService,
+        IAttributeValues AtrributeValueService,
         ICategorias CategoriasService,
         IImageStorage imageStorage,
         IMapper mapper,
@@ -36,7 +37,7 @@ namespace Ecommers.Web.Controllers
         private readonly IProductVariants _ProductVariantsService = ProductVariantsService;
         private readonly IVariantAttributes _VariantAttributesService = VariantAttributesService;
         private readonly IProductVariantImages _ProductVariantImagesService = ProductVariantImagesService;
-        
+        private readonly IAttributeValues _AtrributeValueService = AtrributeValueService;
         private readonly IMasterAttributes _MasterAttributeService = MasterAttributesService;
         private readonly ICategorias _CategoriasService = CategoriasService;
         private readonly IImageStorage _imageStorage = imageStorage;
@@ -88,6 +89,28 @@ namespace Ecommers.Web.Controllers
                 Categories = Categorias
             };  
             return View("~/Web/Views/Products/Create.cshtml", ProductViewModel);
+        }
+
+        // -------------------------------------------------------------------
+        // GET: /Gestion/Categorias/Editar/{id}
+        // -------------------------------------------------------------------
+        [HttpGet("Editar/{id}")]
+        public async Task<IActionResult> Editar(int id)
+        {
+            var result = _Productservice.GetById(
+                new GetByIdRequest<long> { Id = id });
+
+            var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
+            var Categorias = await _CategoriasService.GetAllActiveAsync();
+            var ValoresAtributo = await _AtrributeValueService.GetAllActiveAsync();
+            var ProductViewModel = new ProductsEditViewModel
+            {
+                Products = result.Data ?? new Products(),
+                MasterAttributes = MaestroAtributes,
+                Categories = Categorias,
+                AtrributeValue = ValoresAtributo
+            };
+            return View("~/Web/Views/Products/Edit.cshtml", ProductViewModel);
         }
 
         // -------------------------------------------------------------------
@@ -321,6 +344,20 @@ namespace Ecommers.Web.Controllers
                     error = "Error al procesar la solicitud"
                 });
             }
+        }
+
+        [HttpPost("ObtenerProductVariantView")]
+        [IgnoreAntiforgeryToken]
+        [SkipModelValidation]
+        public IActionResult ObtenerProductVariantView(int index)
+        {
+            var model = new ProductVariantViewModel
+            {
+                Index = index,
+                IsActive = true
+            };
+
+            return PartialView("~/Web/Views/Products/_ProductVariants", model);
         }
     }
 }

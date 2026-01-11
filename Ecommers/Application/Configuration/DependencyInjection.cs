@@ -58,7 +58,7 @@ namespace Ecommers.Application.Configuration
             services.AddAutoMapper(cfg => cfg.AddProfile<ProductVariantImagesProfile>());
             services.AddAutoMapper(cfg => cfg.AddProfile<ProductVariantsProfile>());
             services.AddAutoMapper(cfg => cfg.AddProfile<VariantAttributesProfile>());
-
+            services.AddAutoMapper(cfg => cfg.AddProfile<AttributeValuesProfile>());
             // Repositorios
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -82,7 +82,7 @@ namespace Ecommers.Application.Configuration
             services.AddScoped<IVariantAttributes, VariantAttributesService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IImageStorage, ImageStorageService>();
-
+            services.AddScoped<IAttributeValues, AttributeValuesService>();
             // Cache
             services.AddMemoryCache();
 

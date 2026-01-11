@@ -1,5 +1,7 @@
 import Swal from "sweetalert2";
 import { showSpinner, hideSpinner } from "../components/spinner";
+import { castFormDataBySchema } from "../schema/zod-generic";
+import { ZodError } from "zod";
 /**
  * Maneja el envío de un formulario con confirmación SweetAlert2
  * Ideal para acciones destructivas como eliminación
@@ -65,6 +67,59 @@ export function handleDeleteForm({ form, itemName, itemType = "elemento", onConf
         cancelText: "Cancelar",
         spinnerAction: "deleting",
         onConfirm
+    });
+}
+export function handleZodFormSubmit({ form, schema, castSchema, spinnerAction = "creating", onSuccess, onError }) {
+    if (!form || !schema || !castSchema) {
+        console.error("❌ Faltan parámetros obligatorios en handleZodFormSubmit");
+        return;
+    }
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // 🔹 Limpiar errores previos
+        form.querySelectorAll(".is-invalid").forEach(el => {
+            el.classList.remove("is-invalid");
+        });
+        showSpinner(spinnerAction);
+        try {
+            const formData = new FormData(form);
+            const data = castFormDataBySchema(formData, castSchema);
+            const validated = await schema.parseAsync(data);
+            console.log("✅ Datos validados:", validated);
+            if (typeof onSuccess === "function") {
+                await onSuccess(validated);
+            }
+            else {
+                form.submit();
+            }
+        }
+        catch (err) {
+            // 🔴 Errores de Zod
+            if (err instanceof ZodError) {
+                console.log(err);
+                // err.errors.forEach(error => {
+                //     const fieldName = error.path[0];
+                //     if (!fieldName) return;
+                //     const input = form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+                //         `[name="${fieldName}"]`
+                //     );
+                //     if (input) {
+                //         showError(input, error.message);
+                //     }
+                // });
+                // console.warn("❌ Errores de validación Zod:", err.errors);
+            }
+            else {
+                console.error("❌ Error inesperado:", err);
+            }
+            if (typeof onError === "function") {
+                onError(err);
+            }
+        }
+        finally {
+            hideSpinner();
+        }
     });
 }
 // =====================================================
