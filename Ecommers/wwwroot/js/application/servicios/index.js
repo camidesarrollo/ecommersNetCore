@@ -1,4 +1,4 @@
-﻿import { CambiarEstado } from './servicioService.js';
+﻿import { CambiarEstado } from './servicio.api.js';
 import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../application/utils/datatable-generic.js";
 import dayjs from "../../bundle/vendors_dayjs.js";
 document.addEventListener("DOMContentLoaded", async () => {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.Interfaces;
@@ -9,26 +10,31 @@ using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Persistence.Repositories;
 using Ecommers.Web.Filters;
 using Ecommers.Web.Models.Products;
+using Ecommers.Web.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace Ecommers.Web.Controllers
 {
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class ProductsController(
-        IProducts ProductsService,
-        IProductImages ProductImagesService,
-        IProductAttributes ProductAttributesService,
-        IProductPriceHistory ProductPriceHistoryService,
-        IProductVariants ProductVariantsService,
-        IVariantAttributes VariantAttributesService,
-        IProductVariantImages ProductVariantImagesService,
-        IMasterAttributes MasterAttributesService,
-        IAttributeValues AtrributeValueService,
-        ICategorias CategoriasService,
-        IImageStorage imageStorage,
-        IMapper mapper,
-        ILogger<ProductsController> logger) : BaseController
+            ICompositeViewEngine viewEngine, // 👈 AQUI
+            IProducts ProductsService,
+            IProductImages ProductImagesService,
+            IProductAttributes ProductAttributesService,
+            IProductPriceHistory ProductPriceHistoryService,
+            IProductVariants ProductVariantsService,
+            IVariantAttributes VariantAttributesService,
+            IProductVariantImages ProductVariantImagesService,
+            IMasterAttributes MasterAttributesService,
+            IAttributeValues AtrributeValueService,
+            ICategorias CategoriasService,
+            IImageStorage imageStorage,
+            IMapper mapper,
+            ILogger<ProductsController> logger
+        ) : BaseController(viewEngine) // 👈 AQUI
+
     {
         private readonly IProducts _Productservice = ProductsService;
         private readonly IProductImages _ProductImagesService = ProductImagesService;
@@ -86,8 +92,9 @@ namespace Ecommers.Web.Controllers
             var ProductViewModel = new ProductsCreateViewModel
             {
                 MasterAttributes = MaestroAtributes,
-                Categories = Categorias
-            };  
+                Categories = Categorias,
+                Products = new Products()
+            };
             return View("~/Web/Views/Products/Create.cshtml", ProductViewModel);
         }
 
@@ -103,12 +110,20 @@ namespace Ecommers.Web.Controllers
             var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
             var Categorias = await _CategoriasService.GetAllActiveAsync();
             var ValoresAtributo = await _AtrributeValueService.GetAllActiveAsync();
+            var ImagenProducto = await _ProductImagesService.GetImagesByProductoAsync(
+                new GetByIdRequest<long> { Id = id });
+
+            var ImagenProductoVariante = await _ProductVariantImagesService.GetImagesByProductoAsync(
+                new GetByIdRequest<long> { Id = id });
+
             var ProductViewModel = new ProductsEditViewModel
             {
-                Products = result.Data ?? new Products(),
+                Products = result?.Data ?? new Products(),
                 MasterAttributes = MaestroAtributes,
                 Categories = Categorias,
-                AtrributeValue = ValoresAtributo
+                AtrributeValue = ValoresAtributo,
+                ProductImage = ImagenProducto,
+                ProductVariantImages = ImagenProductoVariante
             };
             return View("~/Web/Views/Products/Edit.cshtml", ProductViewModel);
         }
@@ -157,7 +172,7 @@ namespace Ecommers.Web.Controllers
 
                 // ✅ 1. VALIDAR SI TIENE VENTAS
                 if (resultProducto.Data.ProductVariants
-                    .Any(v => v.OrderItems.Any()))
+                    .Any(v => v.OrderItems.Count != 0))
                 {
                     TempData["mensaje"] = "No se puede eliminar el producto porque tiene ventas asociadas";
                     TempData["estado"] = "Error";
@@ -346,18 +361,71 @@ namespace Ecommers.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene la vista parcial de una variante de producto
+        /// </summary>
         [HttpPost("ObtenerProductVariantView")]
         [IgnoreAntiforgeryToken]
-        [SkipModelValidation]
-        public IActionResult ObtenerProductVariantView(int index)
+        [SkipModelValidation] // Excluir de la validación automática del filtro
+        public async Task<IActionResult> ObtenerProductVariantViewAsync(VariantRequestModel request)
         {
-            var model = new ProductVariantViewModel
+            try
             {
-                Index = index,
-                IsActive = true
-            };
+                // Validar el índice
+                if (request == null || request.Index < 0)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Índice de variante inválido"
+                    });
+                }
 
-            return PartialView("~/Web/Views/Products/_ProductVariants", model);
+
+                var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
+
+
+                // Crear el modelo para la vista parcial
+                var model = new PartialProductVariantViewModel
+                {
+                    Index = request.Index,
+                    ProductVariant = new ProductVariants(),
+                    MasterAttributes = MaestroAtributes,
+                    ProductVariantImages =[]
+                };
+
+                // Renderizar la vista parcial a string
+                var html = RenderPartialViewToString("~/Web/Views/Products/_Partial/_ProductVariants.cshtml", model);
+
+                // Verificar que el HTML no esté vacío
+                if (string.IsNullOrWhiteSpace(html))
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Error al renderizar la vista parcial"
+                    });
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    data = html,
+                    index = request.Index
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log el error (usar tu sistema de logging)
+                Console.WriteLine($"Error en ObtenerProductVariantView: {ex.Message}");
+
+                return Json(new
+                {
+                    success = false,
+                    message = "Error al obtener la vista de variante",
+                    error = ex.Message
+                });
+            }
         }
     }
 }

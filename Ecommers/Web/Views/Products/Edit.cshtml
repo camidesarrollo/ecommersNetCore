@@ -1,5 +1,9 @@
-﻿@using Ecommers.Domain.Extensions
+﻿@using Ecommers.Domain.Entities
+@using Ecommers.Domain.Extensions
 @using Ecommers.Infrastructure.Persistence.Entities
+@using System.Globalization
+@using Ecommers.Web.Models.Products
+@using Ecommers.Web.Models.Shared.TagHelpers
 @model Ecommers.Web.Models.Products.ProductsEditViewModel
 
 @{
@@ -17,7 +21,7 @@
 }
 
 <div class="bg-pattern min-h-screen py-8 px-4">
-    <div class="max-w-7xl mx-auto">
+    <div class="mx-auto space-y-6">
 
         <!-- Breadcrumb -->
         <nav class="mb-6 slide-in" aria-label="breadcrumb">
@@ -183,96 +187,12 @@
                             </button>
                         </div>
 
-                        <div id="imagesContainer" class="space-y-4">
-                            @for (int i = 0; i < Model.Products.ProductImages.Count; i++)
-                            {
-                                var image = ImagenesProducto[i];
-                                <div class="border-2 border-olive-green-300 rounded-lg p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md" data-image-index="@i">
-                                    <input type="hidden" name="ProductImages[@i].Id" value="@image.Id" />
-
-                                    <div class="flex items-start gap-4">
-                                        <!-- Preview de la imagen -->
-                                        <div class="flex-shrink-0">
-                                            <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
-                                                @if (!string.IsNullOrWhiteSpace(image.Url))
-                                                {
-                                                    <img id="preview_@i" src="@image.Url"
-                                                         alt="@image.AltText"
-                                                         class="w-full h-full object-cover" />
-                                                    <i id="icon_@i" class="fas fa-image text-4xl text-gray-400 hidden"></i>
-                                                }
-                                                else
-                                                {
-                                                    <img id="preview_@i" src="" alt="Preview" class="w-full h-full object-cover hidden">
-                                                    <i id="icon_@i" class="fas fa-image text-4xl text-gray-400"></i>
-                                                }
-                                            </div>
-                                        </div>
-
-                                        <!-- Controles de la imagen -->
-                                        <div class="flex-1 space-y-4">
-                                            <!-- Input de archivo -->
-                                            <div>
-                                                <label class="block font-semibold mb-2">
-                                                    Archivo de imagen <span class="text-red-700">*</span>
-                                                </label>
-                                                <input type="file"
-                                                       name="ProductImages[@i].ImageFile"
-                                                       accept="image/*"
-                                                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer" />
-                                                <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                                                    <i class="fas fa-info-circle"></i>
-                                                    Formatos: JPG, PNG, WebP
-                                                </p>
-                                            </div>
-
-                                            <!-- Orden y Principal -->
-                                            <div class="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label class="block font-semibold mb-2 text-sm">
-                                                        Orden <span class="text-red-700">*</span>
-                                                    </label>
-                                                    <input type="number"
-                                                           name="ProductImages[@i].Order"
-                                                           value="@image.Order"
-                                                           min="0"
-                                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition" />
-                                                </div>
-
-                                                <div class="flex items-end">
-                                                    <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-olive-green-50 transition-colors">
-                                                        <input type="radio"
-                                                               name="PrimaryImageIndex"
-                                                               value="@i"
-                                                               @(image.IsPrimary ? "checked" : "")
-                                                               onchange="updatePrimaryImage(@i)"
-                                                               class="w-5 h-5 text-olive-green-600 focus:ring-olive-green-500 cursor-pointer" />
-                                                        <span class="text-sm font-semibold text-dark-chocolate">Imagen principal</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <!-- Hidden para IsPrimary -->
-                                            <input type="hidden" name="ProductImages[@i].IsPrimary" id="isPrimary_@i" value="@(image.IsPrimary ? "true" : "false")">
-                                        </div>
-
-                                        <!-- Botón eliminar -->
-                                        <button type="button"
-                                                onclick="removeImageInput(@i)"
-                                                class="flex-shrink-0 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 p-3 rounded-lg"
-                                                title="Eliminar imagen">
-                                            <i class="fas fa-trash-alt text-lg"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                        <div id="noImagesMessage" class="text-center py-12 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 hidden">
-                            <i class="fas fa-image text-5xl mb-4 text-gray-400"></i>
-                            <p class="text-lg font-medium mb-1">No hay imágenes agregadas</p>
-                            <p class="text-sm">Haz clic en "Agregar Imagen" para comenzar</p>
-                        </div>
+                        <ui-image ui-image-model="new UiImageModel<ProductImagesD>
+                                  {
+                                      Images = Model.ProductImage.ToList()
+                                  }">
+                        </ui-image>
+                     
                     </section>
 
                     <!-- Sección Características -->
@@ -289,18 +209,19 @@
                                 <input type="hidden" name="Attributes[@i].MasterAttributeId" value="@attr.Id" />
 
                                 var productValues = Model.Products.ProductAttributes
-                                .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
-                                .Select(x => x.Value)
-                                .Where(v => v != null)
-                                .ToList();
+                                            .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
+                                            .Select(x => x.Value)
+                                            .Where(v => v != null)
+                                            .ToList();
 
-                                var singleValue = productValues.FirstOrDefault()?.GetDisplayValue();
-                                var multiValues = productValues
-                                .Select(v => v!.GetDisplayValue())
-                                .Where(v => !string.IsNullOrEmpty(v))
-                                .ToList();
+                                var singleValueText = productValues.FirstOrDefault()?.GetDisplayValue();
 
-                                bool isChecked = singleValue?.ToLower() == "true";
+                                var singleValue = productValues.Where(x => x != null).Select(x => x.Id).FirstOrDefault();
+                                var multiValues = productValues.Where(x => x != null).Select(x => x.Id).ToList();
+
+                                var attributes = Model.Products.ProductAttributes.FirstOrDefault(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox");
+
+                                bool isChecked = attributes != null ? true : false;
 
                                 <div>
                                     @switch (attr.InputType)
@@ -315,7 +236,7 @@
                                             </label>
                                             <input type="text"
                                                    name="Attributes[@i].Value"
-                                                   value="@singleValue"
+                                                   value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                    @(attr.IsRequired ? "required" : "") />
@@ -331,7 +252,7 @@
                                             </label>
                                             <input type="number"
                                                    name="Attributes[@i].Value"
-                                                   value="@singleValue"
+                                                   value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                    @(attr.IsRequired ? "required" : "") />
@@ -381,11 +302,15 @@
                                                     data-selected="@singleValue"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
-                                                @foreach (var itemA in Model.AtrributeValue.Where(x => x.AttributeId == attr.Id).ToList())
+                                                  @foreach (var itemA in Model.AtrributeValue
+                                                    .Where(x => x.AttributeId == attr.Id))
                                                 {
-                                                    <option value="@itemA.Id">@AttributeValuesExtensions.GetDisplaysValue(itemA)</option>
+
+                                                    <option value="@itemA.Id">
+                                                        @AttributeValuesExtensions.GetDisplaysValue(itemA)
+                                                    </option>
                                                 }
-                                            </select>
+                                                </select>
                                             break;
 
                                         case "multiselect":
@@ -402,6 +327,14 @@
                                                     data-selected="@string.Join(",", multiValues)"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
+                                                @foreach (var itemA in Model.AtrributeValue
+                                                                                    .Where(x => x.AttributeId == attr.Id))
+                                                {
+
+                                                    <option value="@itemA.Id">
+                                                        @AttributeValuesExtensions.GetDisplaysValue(itemA)
+                                                    </option>
+                                                }
                                             </select>
                                             break;
                                     }
@@ -434,151 +367,17 @@
                             {
                                 @for (int i = 0; i < Model.Products.ProductVariants.Count; i++)
                                 {
-                                    var variant = variantesProducto[i];
-                                    <div class="variant-item border-2 border-olive-green-200 rounded-xl p-4 bg-white" data-variant-index="@i">
-                                        <div class="flex items-center justify-between mb-4">
-                                            <h6 class="text-lg font-bold text-dark-chocolate flex items-center gap-2">
-                                                @if (variant.IsDefault)
-                                                {
-                                                    <i class="fas fa-star text-amber-500"></i>
-                                                }
-                                                <i class="fas fa-cube text-olive-green-600"></i>
-                                                <span>Variante #<span class="variant-number">@(i + 1)</span></span>
-                                            </h6>
-                                            <button type="button"
-                                                    onclick="removeVariant(@i)"
-                                                    class="text-red-500 hover:text-red-700 transition">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
+                                    var variante = Model.Products.ProductVariants.ToList();
+                                    PartialProductVariantViewModel partialProductVariantViewModel = new PartialProductVariantViewModel
+                                    {
+                                        Index = i,
+                                        ProductVariant = variante[i],
+                                        MasterAttributes = Model.MasterAttributes,
+                                        AtrributeValue = Model.AtrributeValue.ToList(),
+                                        ProductVariantImages = Model.ProductVariantImages.Where(x => x.VariantId == variante[i].Id).ToList()
+                                    };
+                                    @await Html.PartialAsync("~/Web/Views/Products/_Partial/_ProductVariants.cshtml", partialProductVariantViewModel)
 
-                                        <div class="space-y-4">
-                                            <!-- Nombre -->
-                                            <div>
-                                                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
-                                                    Nombre de la variante
-                                                    <span class="text-red-500">*</span>
-                                                </label>
-                                                <input type="text"
-                                                       name="ProductVariants[@i].Name"
-                                                       value="@variant.Name"
-                                                       class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
-                                                       placeholder="Ej: Talla M - Color Rojo"
-                                                       required />
-                                            </div>
-
-                                            <!-- SKU -->
-                                            <div>
-                                                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
-                                                    SKU
-                                                    <span class="text-red-500">*</span>
-                                                </label>
-                                                <input type="text"
-                                                       name="ProductVariants[@i].SKU"
-                                                       value="@variant.SKU"
-                                                       class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500 font-mono"
-                                                       placeholder="Ej: PROD-001-M-RED"
-                                                       required />
-                                            </div>
-
-                                            <!-- Grid de precios -->
-                                            <div class="grid grid-cols-1 gap-3">
-                                                <!-- Precio Costo -->
-                                                <div>
-                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
-                                                        Precio Costo
-                                                        <span class="text-red-500">*</span>
-                                                    </label>
-                                                    <div class="relative">
-                                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-                                                        <input type="number"
-                                                               name="ProductVariants[@i].CostPrice"
-                                                               value="@variant.CostPrice"
-                                                               class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
-                                                               step="0.01"
-                                                               min="0"
-                                                               required />
-                                                    </div>
-                                                </div>
-
-                                                <!-- Precio -->
-                                                <div>
-                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
-                                                        Precio
-                                                        <span class="text-red-500">*</span>
-                                                    </label>
-                                                    <div class="relative">
-                                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-                                                        <input type="number"
-                                                               name="ProductVariants[@i].Price"
-                                                               value="@variant.Price"
-                                                               class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
-                                                               step="0.01"
-                                                               min="0"
-                                                               required />
-                                                    </div>
-                                                </div>
-
-                                                <!-- Precio de comparación -->
-                                                <div>
-                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
-                                                        Precio de comparación
-                                                    </label>
-                                                    <div class="relative">
-                                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-                                                        <input type="number"
-                                                               name="ProductVariants[@i].CompareAtPrice"
-                                                               value="@variant.CompareAtPrice"
-                                                               class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
-                                                               step="0.01"
-                                                               min="0" />
-                                                    </div>
-                                                </div>
-
-                                                <!-- Stock -->
-                                                <div>
-                                                    <label class="block text-sm font-semibold text-dark-chocolate mb-2">
-                                                        Stock
-                                                        <span class="text-red-500">*</span>
-                                                    </label>
-                                                    <input type="number"
-                                                           name="ProductVariants[@i].StockQuantity"
-                                                           value="@variant.StockQuantity"
-                                                           class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
-                                                           min="0"
-                                                           required />
-                                                </div>
-                                            </div>
-
-                                            <!-- Checkboxes -->
-                                            <div class="flex flex-col gap-2 pt-2">
-                                                <label class="flex items-center gap-2 cursor-pointer">
-                                                    <input type="checkbox"
-                                                           name="ProductVariants[@i].IsDefault"
-                                                           @(variant.IsDefault ? "checked" : "")
-                                                           class="w-4 h-4 text-olive-green-600 border-gray-300 rounded focus:ring-olive-green-500" />
-                                                    <span class="text-sm text-dark-chocolate">
-                                                        <i class="fas fa-star text-amber-500"></i>
-                                                        Variante predeterminada
-                                                    </span>
-                                                </label>
-
-                                                <label class="flex items-center gap-2 cursor-pointer">
-                                                    <input type="checkbox"
-                                                           name="ProductVariants[@i].IsActive"
-                                                           @(variant.IsActive ? "checked" : "")
-                                                           class="w-4 h-4 text-olive-green-600 border-gray-300 rounded focus:ring-olive-green-500" />
-                                                    <span class="text-sm text-dark-chocolate">
-                                                        <i class="fas fa-toggle-on text-green-600"></i>
-                                                        Activa
-                                                    </span>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- Hidden inputs -->
-                                        <input type="hidden" name="ProductVariants[@i].Id" value="@variant.Id" />
-                                    </div>
                                 }
                             }
                             else

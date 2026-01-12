@@ -1,13 +1,19 @@
 ﻿using Ecommers.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Ecommers.Web.Controllers
 {
     public abstract class BaseController : Controller
     {
-        /// <summary>
-        /// Maneja Result sin datos, redirige a una acción
-        /// </summary>
+        protected readonly ICompositeViewEngine _viewEngine;
+
+        protected BaseController(ICompositeViewEngine viewEngine)
+        {
+            _viewEngine = viewEngine;
+        }
         protected IActionResult HandleResult(Result result, string redirect)
         {
             TempData["mensaje"] = result.Message;
@@ -51,5 +57,62 @@ namespace Ecommers.Web.Controllers
 
             return View(viewPath, result.Data);
         }
+
+        protected string RenderPartialViewToString(string viewPathOrName, object model)
+        {
+            ViewData.Model = model;
+
+            using var writer = new StringWriter();
+
+            var viewEngine = HttpContext.RequestServices
+                .GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+
+            if (viewEngine == null)
+                throw new InvalidOperationException("ICompositeViewEngine no está disponible.");
+
+            ViewEngineResult viewResult;
+
+            // 👉 Si viene una ruta (~/...), usar GetView
+            if (viewPathOrName.StartsWith("~/") || viewPathOrName.EndsWith(".cshtml"))
+            {
+                viewResult = viewEngine.GetView(
+                    executingFilePath: null,
+                    viewPath: viewPathOrName,
+                    isMainPage: false
+                );
+            }
+            else
+            {
+                // 👉 Si es solo el nombre, usar FindView
+                viewResult = viewEngine.FindView(
+                    ControllerContext,
+                    viewPathOrName,
+                    isMainPage: false
+                );
+            }
+
+            if (!viewResult.Success || viewResult.View == null)
+            {
+                throw new FileNotFoundException(
+                    $"No se encontró la vista '{viewPathOrName}'. Buscadas: {string.Join(", ", viewResult.SearchedLocations ?? Enumerable.Empty<string>())}"
+                );
+            }
+
+            var viewContext = new ViewContext(
+                ControllerContext,
+                viewResult.View,
+                ViewData,
+                TempData,
+                writer,
+                new HtmlHelperOptions()
+            );
+
+            viewResult.View.RenderAsync(viewContext).GetAwaiter().GetResult();
+
+            return writer.ToString();
+        }
+
+
     }
+
 }

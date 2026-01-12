@@ -1,6 +1,6 @@
-﻿namespace Ecommers.Web.Models.Shared.TagHelpers.Ui
+﻿namespace Ecommers.Web.Models.Shared.TagHelpers
 {
-    public class UiButtonModel
+    public class IUiButton
     {
         public string TipoBoton { get; set; } = "button";
         public string Tipo { get; set; } = "default";

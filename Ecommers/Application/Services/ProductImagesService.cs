@@ -6,6 +6,7 @@ using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
@@ -54,5 +55,20 @@ namespace Ecommers.Application.Services
                 return Result.Fail($"Error al eliminar la imagen del producto: {ex.Message}");
             }
         }
+
+        public async Task<IEnumerable<ProductImagesD>> GetImagesByProductoAsync(GetByIdRequest<long> getByIdRequest)
+        {
+
+            var repo = _unitOfWork.Repository<ProductImagesD, long>();
+
+            var productImages = await repo.GetQuery()
+                .AsNoTracking()
+                .Where(x => x.ProductId == getByIdRequest.Id)
+                .ToListAsync();
+
+
+            return productImages;
+        }
+
     }
 }

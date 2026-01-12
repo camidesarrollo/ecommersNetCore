@@ -6,16 +6,18 @@ using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Entities;
 using Ecommers.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace Ecommers.Web.Controllers
 {
     [Route("Configuracion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class BannersController(
+        ICompositeViewEngine viewEngine,
         IBanners bannerssService,
         IImageStorage imageStorage,
         IMapper mapper,
-        ILogger<BannersController> logger) : BaseController
+        ILogger<BannersController> logger) : BaseController(viewEngine)
     {
         private readonly IBanners _bannersService = bannerssService;
         private readonly IImageStorage _imageStorage = imageStorage;

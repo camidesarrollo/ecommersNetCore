@@ -1,5 +1,5 @@
 import Swal from '../../bundle/notifications/vendors_sweetalert.js';
-import { GetByName } from './bannersService.js';
+import { GetByName } from './banners.api.js';
 /* js\application\banners\generic.js */
 document.addEventListener('DOMContentLoaded', () => {
     setupLivePreview();

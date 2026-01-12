@@ -3,13 +3,14 @@ using AutoMapper;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.Configuracion;
+using Ecommers.Application.DTOs.Requests.Servicios;
+using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
-using Ecommers.Application.Interfaces;
-using Ecommers.Application.DTOs.Requests.Servicios;
 
 namespace Ecommers.Web.Controllers
 {
@@ -19,7 +20,7 @@ namespace Ecommers.Web.Controllers
         IServicio serviciosService,
         IImageStorage imageStorage,
         IMapper mapper,
-        ILogger<ServiciosController> logger) : BaseController
+        ILogger<ServiciosController> logger, ICompositeViewEngine viewEngine) : BaseController(viewEngine)
     {
         private readonly IServicio _servicioService = serviciosService;
         private readonly IImageStorage _imageStorage = imageStorage;

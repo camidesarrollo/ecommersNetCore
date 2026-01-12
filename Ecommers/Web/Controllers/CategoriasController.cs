@@ -6,16 +6,18 @@ using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Entities;
 using Ecommers.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace Ecommers.Web.Controllers
 {
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]
     public class CategoriasController(
+        ICompositeViewEngine viewEngine,
         ICategorias categoriassService,
         IImageStorage imageStorage,
         IMapper mapper,
-        ILogger<CategoriasController> logger) : BaseController
+        ILogger<CategoriasController> logger) : BaseController(viewEngine)
     {
         private readonly ICategorias _categoriasService = categoriassService;
         private readonly IImageStorage _imageStorage = imageStorage;

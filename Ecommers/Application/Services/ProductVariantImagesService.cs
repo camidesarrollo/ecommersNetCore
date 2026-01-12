@@ -5,6 +5,7 @@ using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
@@ -53,6 +54,21 @@ namespace Ecommers.Application.Services
             {
                 return Result.Fail($"Error al eliminar la imagen de variante: {ex.Message}");
             }
+        }
+
+
+        public async Task<IEnumerable<ProductVariantImagesD>> GetImagesByProductoAsync(GetByIdRequest<long> getByIdRequest)
+        {
+
+            var repo = _unitOfWork.Repository<ProductVariantImagesD, long>();
+
+            var productImages = await repo.GetQuery()
+                .AsNoTracking()
+                .Where(x => x.VariantId == getByIdRequest.Id)
+                .ToListAsync();
+
+
+            return productImages;
         }
     }
 }

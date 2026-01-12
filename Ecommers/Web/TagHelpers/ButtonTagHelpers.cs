@@ -1,5 +1,4 @@
 ﻿using Ecommers.Web.Models.Shared.TagHelpers;
-using Ecommers.Web.Models.Shared.TagHelpers.Ui;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Ecommers.Web.TagHelpers
@@ -7,7 +6,7 @@ namespace Ecommers.Web.TagHelpers
     [HtmlTargetElement("ui-button")]
     public class ButtonTagHelpers : TagHelper
     {
-        public required UiButtonModel UiButtonModel { get; set; }
+        public required IUiButton UiButtonModel { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

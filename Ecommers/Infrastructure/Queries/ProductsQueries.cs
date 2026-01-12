@@ -32,6 +32,9 @@ namespace Ecommers.Infrastructure.Queries
                 .AsSplitQuery() // Divide en múltiples queries SQL
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductAttributes)
+                    .ThenInclude(va => va.Value)
+                .Include(p => p.ProductAttributes)
+                    .ThenInclude(va => va.Attribute)
                 .Include(p => p.Category)
                 .Include(p => p.ProductVariants)
                     .ThenInclude(v => v.ProductVariantImages)

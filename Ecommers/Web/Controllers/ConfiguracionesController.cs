@@ -5,11 +5,12 @@ using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace Ecommers.Web.Controllers
 {
     [Route("Configuracion/[controller]")]
-    public class ConfiguracionesController(IConfiguracion configuracionService, IMapper mapper, IFileManager fileManager) : Controller
+    public class ConfiguracionesController(IConfiguracion configuracionService, IMapper mapper, IFileManager fileManager, ICompositeViewEngine viewEngine) : BaseController(viewEngine)
     {
         private readonly IConfiguracion _configuracionService = configuracionService;
         private readonly IFileManager _fileManager = fileManager;

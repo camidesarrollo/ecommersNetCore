@@ -1,6 +1,5 @@
 ﻿@using Ecommers.Application.DTOs.Requests.Auth
 @using Ecommers.Web.Models.Shared.TagHelpers
-@using Ecommers.Web.Models.Shared.TagHelpers.Ui
 @model LoginRequest
 
 @{
@@ -30,7 +29,7 @@
 
                 <!-- Email -->
                 <div class="mb-6">
-                    <ui-input ui-input-model="@(new UiInputModel {
+                    <ui-input ui-input-model="@(new IUiInput {
                             Id = "email",
                             Type = "email",
                             Label = "Correo Electrónico",
@@ -44,7 +43,7 @@
 
                 <!-- Password -->
                 <div class="mb-6">
-                    <ui-input ui-input-model="@(new UiInputModel {
+                    <ui-input ui-input-model="@(new IUiInput {
                             Id = "password",
                             Type = "password",
                             Label = "Contraseña",
@@ -102,7 +101,7 @@
 
                 <!-- Botón -->
                 <div class="w-full">
-                    <ui-button ui-button-model="@(new UiButtonModel {
+                    <ui-button ui-button-model="@(new IUiButton {
                         TipoBoton ="submit",
                         Tipo = "agregar",
                         Label = "Iniciar Sesión",

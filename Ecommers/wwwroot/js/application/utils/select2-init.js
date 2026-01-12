@@ -138,6 +138,43 @@ $(document).ready(() => {
       
       $select.select2(options);
       
+      // ====== NUEVO: Aplicar valores pre-seleccionados desde data-selected ======
+      const dataSelected = $select.attr("data-selected") || $select.data("selected");
+      
+      if (dataSelected && dataSelected.trim() !== "") {
+        console.log('Valor data-selected encontrado:', dataSelected);
+        
+        if (isMulti) {
+          // Para multiselect, separar por comas
+          const selectedValues = dataSelected
+            .split(',')
+            .map(v => v.trim())
+            .filter(v => v !== "");
+          
+          console.log('Valores a seleccionar (multiselect):', selectedValues);
+          
+          // Marcar las opciones como seleccionadas
+          selectedValues.forEach(value => {
+            $select.find(`option[value="${value}"]`).prop('selected', true);
+          });
+          
+          // Aplicar la selección
+          $select.val(selectedValues).trigger('change');
+        } else {
+          // Para select simple
+          console.log('Valor a seleccionar (single):', dataSelected.trim());
+          
+          // Marcar la opción como seleccionada
+          $select.find(`option[value="${dataSelected.trim()}"]`).prop('selected', true);
+          
+          // Aplicar la selección
+          $select.val(dataSelected.trim()).trigger('change');
+        }
+        
+        console.log('Valores seleccionados aplicados correctamente');
+      }
+      // ====== FIN NUEVO ======
+      
       // Evento cuando se selecciona una opción
       $select.on("select2:select", function (e) {
         const data = e.params.data;

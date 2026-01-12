@@ -7,7 +7,7 @@
 }
 
 <div class="bg-pattern min-h-screen py-8 px-4">
-    <div class="max-w-7xl mx-auto space-y-6">
+    <div class="mx-auto space-y-6">
         <!-- Breadcrumb -->
         <nav class="mb-6" aria-label="breadcrumb">
             <ol class="flex items-center space-x-2 bg-white rounded-lg shadow-sm p-4">
@@ -99,14 +99,18 @@
                                 @foreach (var attr in MasterAttributes)
                                 {
                                     var values = Model.Products.ProductAttributes
-                                    .Where(x =>
-                                    x.Attribute != null &&
-                                    x.Attribute.Id == attr.Id &&
+                                    .Where(x => x.AttributeId == attr.Id &&
                                     x.Value != null
                                     )
                                     .Select(x => x.Value!.GetDisplayValue())
                                     .Where(x => !string.IsNullOrEmpty(x))
                                     .ToList();
+
+                                    var attributes = Model.Products.ProductAttributes
+                                    .Where(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox"
+                                    ).ToList();
+
+                                    values.AddRange(attributes.Select(x => x.Attribute.Description));
 
                                     @if (values.Any())
                                     {
@@ -295,6 +299,14 @@
                                                     .Select(x => x.Value.GetDisplayValue())
                                                     .Where(x => !string.IsNullOrEmpty(x))
                                                     .ToList();
+
+                                                    var attributes = variant.VariantAttributes
+                                                    .Where(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox"
+                                                    ).ToList();
+
+
+                                                    values.AddRange(attributes.Select(x => x.Attribute.Description));
+
 
                                                     @if (values.Any())
                                                     {

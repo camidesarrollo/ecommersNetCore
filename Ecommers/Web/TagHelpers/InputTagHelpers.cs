@@ -1,4 +1,4 @@
-﻿using Ecommers.Web.Models.Shared.TagHelpers.Ui;
+﻿using Ecommers.Web.Models.Shared.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Ecommers.Web.TagHelpers
@@ -6,7 +6,7 @@ namespace Ecommers.Web.TagHelpers
     [HtmlTargetElement("ui-input")]
     public class InputTagHelpers : TagHelper
     {
-        public required UiInputModel UiInputModel { get; set; }
+        public required IUiInput UiInputModel { get; set; }
 
         private string _value = "";
 

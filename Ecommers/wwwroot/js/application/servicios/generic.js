@@ -1,4 +1,4 @@
-﻿import { GetByName } from './servicioService.js';
+﻿import { GetByName } from './servicio.api.js';
 import Swal from '../../bundle/notifications/vendors_sweetalert.js';
 
 /* js\application\categorias\generic.js */

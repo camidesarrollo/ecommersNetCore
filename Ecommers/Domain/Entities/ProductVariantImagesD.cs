@@ -1,8 +1,9 @@
 ﻿using Ecommers.Domain.Common;
+using Ecommers.Web.Models.Shared.TagHelpers;
 
 namespace Ecommers.Domain.Entities
 {
-    public class ProductVariantImagesD : BaseEntity<long>
+    public class ProductVariantImagesD : BaseEntity<long>, IUiImage
     {
         public long VariantId { get; set; }
 

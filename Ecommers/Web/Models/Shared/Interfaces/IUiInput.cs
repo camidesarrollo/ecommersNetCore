@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Ecommers.Web.Models.Shared.TagHelpers.Ui
+namespace Ecommers.Web.Models.Shared.TagHelpers
 {
-    public class UiInputModel
+    public class IUiInput
     {
         // Binding con el modelo (opcional)
         public ModelExpression? AspFor { get; set; }

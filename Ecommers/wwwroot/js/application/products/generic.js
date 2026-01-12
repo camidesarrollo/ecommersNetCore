@@ -230,8 +230,13 @@ async function addVariant() {
     try {
         const response = await ObtenerProductVariantView({ index: variantIndex });
 
-        if (response.success) {
+        if (response.success && response.data) {
             const container = document.getElementById('variantsContainer');
+
+            if (!container) {
+                showError('Contenedor de variantes no encontrado');
+                return;
+            }
 
             // Verificar si hay mensaje de "no hay variantes" y eliminarlo
             const emptyMessage = container.querySelector('.text-center.py-12');
@@ -243,17 +248,28 @@ async function addVariant() {
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = response.data.trim();
 
+            // Buscar el primer elemento hijo que sea un elemento válido
+            const newVariant = tempDiv.querySelector('.variant-item') || tempDiv.firstElementChild;
+
+            if (!newVariant) {
+                console.error('HTML recibido:', response.data);
+                showError('Error al procesar la variante');
+                return;
+            }
+
             // Agregar al contenedor
-            container.appendChild(tempDiv.firstElementChild);
+            container.appendChild(newVariant);
 
             // Incrementar el índice
             variantIndex++;
 
             // Scroll suave hacia la nueva variante
-            tempDiv.firstElementChild.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest'
-            });
+            setTimeout(() => {
+                newVariant.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+            }, 100);
 
             // Actualizar números de variantes
             updateVariantNumbers();
@@ -265,6 +281,7 @@ async function addVariant() {
         }
     } catch (error) {
         console.error('Error al agregar variante:', error);
+        console.error('Detalles:', error.stack);
         showError('Error al agregar la variante');
     }
 }

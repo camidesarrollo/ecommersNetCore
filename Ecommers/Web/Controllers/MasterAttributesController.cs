@@ -2,13 +2,14 @@ using System.Xml.Linq;
 using AutoMapper;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
-using Ecommers.Application.DTOs.Requests.MasterAttributes;
 using Ecommers.Application.DTOs.Requests.Configuracion;
+using Ecommers.Application.DTOs.Requests.MasterAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
 
 namespace Ecommers.Web.Controllers
@@ -19,7 +20,7 @@ namespace Ecommers.Web.Controllers
         IMasterAttributes MasterAttributesService,
         IImageStorage imageStorage,
         IMapper mapper,
-        ILogger<MasterAttributesController> logger) : BaseController
+        ILogger<MasterAttributesController> logger, ICompositeViewEngine viewEngine) : BaseController(viewEngine)
     {
         private readonly IMasterAttributes _MasterAttributeservice = MasterAttributesService;
         private readonly IImageStorage _imageStorage = imageStorage;

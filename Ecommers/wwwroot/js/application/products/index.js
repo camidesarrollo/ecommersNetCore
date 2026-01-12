@@ -1,4 +1,4 @@
-﻿import { CambiarEstado } from './productsService.js';
+﻿import { CambiarEstado } from './products.api.JS';
 import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../application/utils/datatable-generic.js";
 import dayjs from "../../bundle/vendors_dayjs.js";
 

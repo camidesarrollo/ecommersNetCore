@@ -4,13 +4,17 @@ namespace Ecommers.Web.Models.Products
 {
     public class ProductsCreateViewModel
     {
-        public ProductsD Products { get; set; } = null!;
-        public ProductVariantsD ProductVariants { get; set; } = null!;
-        public IEnumerable<ProductImagesD> ProductImages { get; set; } = [];
+        public required Ecommers.Infrastructure.Persistence.Entities.Products Products { get; set; }
+
 
         public IEnumerable<CategoriesD> Categories { get; set; } = [];
 
         public IEnumerable<MasterAttributesD> MasterAttributes { get; set; } = [];
+
+        public IEnumerable<AttributeValuesD> AtrributeValue { get; set; } = [];
+
+        public IEnumerable<ProductImagesD> ProductImage { get; set; } = [];
+        public IEnumerable<ProductVariantImagesD> ProductVariantImages { get; set; } = [];
 
 
     }

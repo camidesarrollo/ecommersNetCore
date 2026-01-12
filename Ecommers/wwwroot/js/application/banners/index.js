@@ -1,5 +1,5 @@
 /* js/application/banners/index.js */
-import { CambiarEstado } from './bannersService.js';
+import { CambiarEstado } from './banners.api.js';
 import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../application/utils/datatable-generic.js";
 import dayjs from "../../bundle/vendors_dayjs.js";
 
