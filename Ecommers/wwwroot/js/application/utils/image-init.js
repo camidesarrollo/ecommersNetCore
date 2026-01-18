@@ -19,7 +19,36 @@
         return;
     }
 
-    const currentIndex = window[indexRef]++;
+    //si window[indexRef] es un array buscar el valor por la posicion de indexName
+
+    let currentIndex;
+
+    if (Array.isArray(window[indexRef])) {
+        const match = namePrefix.match(/\[(\d+)\]/);
+
+        if (!match) {
+            console.error('No se pudo extraer el índice desde namePrefix:', namePrefix);
+            return;
+        }
+
+        var indexElementoPadre = parseInt(match[1], 10);
+        // Asegurar que exista la posición para la variante
+        if (typeof window[indexRef][indexElementoPadre] !== 'number') {
+            window[indexRef][indexElementoPadre] = 0;
+        }
+
+        currentIndex = window[indexRef][indexElementoPadre];
+        window[indexRef][indexElementoPadre]++;
+
+    } else {
+        // Fallback: contador simple
+        if (typeof window[indexRef] !== 'number') {
+            window[indexRef] = 0;
+        }
+
+        currentIndex = window[indexRef];
+        window[indexRef]++;
+    }
     const isFirstImage = container.querySelectorAll(`[data-${indexName}-index]`).length === 0;
     const shouldBePrimary = isPrimaryParam || isFirstImage;
 
@@ -33,8 +62,8 @@
             <!-- Preview -->
             <div class="flex-shrink-0">
                 <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
-                    <img id="preview_${currentIndex}" class="w-full h-full object-cover hidden">
-                    <i id="icon_${currentIndex}" class="fas fa-image text-4xl text-gray-400"></i>
+                    <img id="${namePrefix}_preview_${currentIndex}" class="w-full h-full object-cover hidden">
+                    <i id="${namePrefix}_icon_${currentIndex}" class="fas fa-image text-4xl text-gray-400"></i>
                 </div>
             </div>
 
@@ -88,7 +117,7 @@
             </div>
 
             <button type="button"
-                onclick="${removeFn}(${currentIndex})"
+                onclick="${removeFn}(event, ${currentIndex})"
                 class="flex-shrink-0 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 p-3 rounded-lg">
                 <i class="fas fa-trash-alt text-lg"></i>
             </button>

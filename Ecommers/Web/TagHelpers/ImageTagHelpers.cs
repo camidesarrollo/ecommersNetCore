@@ -15,6 +15,7 @@ namespace Ecommers.Web.TagHelpers
 
             var images = UiImageModel.Images as IEnumerable<object>;
             var name = UiImageModel.Name;
+            var nombreCompuesto = UiImageModel?.NombreCompuesto ?? "";
 
             var sb = new StringBuilder();
             int index = 0;
@@ -27,7 +28,7 @@ namespace Ecommers.Web.TagHelpers
             {
                 foreach (var image in images)
                 {
-                    sb.Append(RenderImageBlock(image, name, index));
+                    sb.Append(RenderImageBlock(image, name, nombreCompuesto, index));
                     index++;
                 }
             }
@@ -47,7 +48,7 @@ namespace Ecommers.Web.TagHelpers
             output.Content.SetHtmlContent(sb.ToString());
         }
 
-        private string RenderImageBlock(object image, string name, int i)
+        private string RenderImageBlock(object image, string name, string nombreCompuesto,  int i)
         {
             var type = image.GetType();
 
@@ -61,7 +62,7 @@ namespace Ecommers.Web.TagHelpers
 <div class="border-2 border-olive-green-300 rounded-lg p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md"
      data-image-index="{{i}}">
 
-    <input type="hidden" name="{{name}}[{{i}}].Id" value="{{id}}" />
+    <input type="hidden" name="{{nombreCompuesto}}{{name}}[{{i}}].Id" value="{{id}}" />
 
     <div class="flex items-start gap-4">
 
@@ -70,12 +71,12 @@ namespace Ecommers.Web.TagHelpers
             <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
                 {{(string.IsNullOrWhiteSpace(url)
     ? $"""
-        <img id="preview_{i}" src="" class="w-full h-full object-cover hidden">
-        <i id="icon_{i}" class="fas fa-image text-4xl text-gray-400"></i>
+        <img id="{nombreCompuesto}_preview_{i}" src="" class="w-full h-full object-cover hidden">
+        <i id="{nombreCompuesto}_icon_{i}" class="fas fa-image text-4xl text-gray-400"></i>
       """
     : $"""
-        <img id="preview_{i}" src="{url}" alt="{alt}" class="w-full h-full object-cover" />
-        <i id="icon_{i}" class="fas fa-image text-4xl text-gray-400 hidden"></i>
+        <img id="{nombreCompuesto}_preview_{i}" src="{url}" alt="{alt}" class="w-full h-full object-cover" />
+        <i id="{nombreCompuesto}_icon_{i}" class="fas fa-image text-4xl text-gray-400 hidden"></i>
       """)}}
             </div>
         </div>
@@ -89,7 +90,7 @@ namespace Ecommers.Web.TagHelpers
                 </label>
 
                 <input type="file"
-                       name="{{name}}[{{i}}].ImageFile"
+                       name="{{nombreCompuesto}}{{name}}[{{i}}].ImageFile"
                        accept="image/*"
                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg
                               focus:border-olive-green-500 focus:ring-olive-green-500/20
@@ -111,7 +112,7 @@ namespace Ecommers.Web.TagHelpers
                     </label>
 
                     <input type="number"
-                           name="{{name}}[{{i}}].SortOrder"
+                           name="{{nombreCompuesto}}{{name}}[{{i}}].SortOrder"
                            value="{{order}}"
                            min="0"
                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg
@@ -121,7 +122,7 @@ namespace Ecommers.Web.TagHelpers
                 <div class="flex items-end">
                     <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-olive-green-50 transition-colors">
                         <input type="radio"
-                               name="PrimaryImageIndex"
+                               name="{{nombreCompuesto}}PrimaryImageIndex"
                                value="{{i}}"
                                {{(isPrimary ? "checked" : "")}}
                                onchange="updatePrimaryImage({{i}})"
@@ -132,7 +133,7 @@ namespace Ecommers.Web.TagHelpers
             </div>
 
             <input type="hidden"
-                   name="{{name}}[{{i}}].IsPrimary"
+                   name="{{nombreCompuesto}}{{name}}[{{i}}].IsPrimary"
                    id="isPrimary_{{i}}"
                    value="{{isPrimary.ToString().ToLower()}}" />
         </div>

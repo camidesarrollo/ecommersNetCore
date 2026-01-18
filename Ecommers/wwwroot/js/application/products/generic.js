@@ -8,7 +8,7 @@ import { showSuccess, showError, showWarning, showInfo } from '../../bundle/noti
 // =============================== 
 window.imageIndex = 0;
 window.variantIndex = 0;
-window.variantImageIndex = 0;
+window.variantImageIndex = [0];
 
 // =============================== 
 // INICIALIZACIÓN 
@@ -89,9 +89,24 @@ function addImageInput(event = null, isPrimary = false) {
     });
 }
 
-window.previewImage = function (input, index) {
-    const preview = document.getElementById(`preview_${index}`);
-    const icon = document.getElementById(`icon_${index}`);
+window.previewImage = function (input) {
+
+    // Subir al contenedor raíz de la imagen
+    const wrapper = input.closest('[data-image-index]');
+
+    if (!wrapper) {
+        console.error('No se encontró el contenedor de la imagen');
+        return;
+    }
+
+    // Buscar preview e icono dentro del bloque
+    const preview = wrapper.querySelector('img[id^="ProductImages_preview_"]');
+    const icon = wrapper.querySelector('i[id^="ProductImages_icon_"]');
+
+    if (!preview || !icon) {
+        console.error('Preview o icono no encontrados');
+        return;
+    }
 
     if (!input.files || !input.files[0]) return;
 
@@ -114,13 +129,15 @@ window.previewImage = function (input, index) {
     }
 
     const reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = e => {
         preview.src = e.target.result;
         preview.classList.remove('hidden');
         icon.classList.add('hidden');
     };
+
     reader.readAsDataURL(file);
 };
+
 
 window.removeImageInput = function (index) {
     const imageDiv = document.querySelector(`[data-image-index="${index}"]`);
@@ -144,6 +161,7 @@ window.removeImageInput = function (index) {
 
     setTimeout(() => {
         imageDiv.remove();
+        imageIndex--;
         updateNoImagesMessage();
         reindexImages();
         // Si era la imagen principal, seleccionar la primera disponible
@@ -314,7 +332,7 @@ async function addVariant() {
         showError('Error al agregar la variante: ' + error.message);
     }
 }
-function removeVariant(index) {
+function removeVariant(event, index) {
     const container = document.getElementById('variantsContainer');
     const variants = container.querySelectorAll('.variant-item');
 
@@ -340,6 +358,7 @@ function removeVariant(index) {
     setTimeout(() => {
         variantElement.remove();
         updateVariantNumbers();
+        reindexVariant();
         showSuccess('Variante eliminada correctamente');
     }, 300);
 }
@@ -354,14 +373,39 @@ function updateVariantNumbers() {
     });
 }
 
+function reindexVariant() {
+
+    const container = document.getElementById('variantsContainer');
+    const variants = container.querySelectorAll('[data-variant-index]');
+    variants.forEach((variantDiv, newIndex) => {
+
+        // Buscar todos los elementos que tengan name ProductVariants[n].*
+        const fields = variantDiv.querySelectorAll('[name^="ProductVariants["]');
+
+        fields.forEach(field => {
+
+            field.name = field.name.replace(
+                /ProductVariants\[\d+\]/,
+                `ProductVariants[${newIndex}]`
+            );
+
+        });
+
+    });
+}
+
 /* ===================================================== 
    GESTIÓN DE IMÁGENES DE VARIANTES
    ===================================================== */
 function addVariantImage(event) {
     let wrapper;
-
+    let indice = 0
     if (event) {
         wrapper = event.closest('.product-variant-images-wrapper');
+        if (event.dataset) {
+            indice = event.dataset.variantImageIndex;
+        }
+
     } else {
         // fallback: primera sección disponible
         wrapper = document.querySelector('.product-variant-images-wrapper');
@@ -376,17 +420,32 @@ function addVariantImage(event) {
         containerElement: container,
         indexRef: 'variantImageIndex',
         indexName: 'variant-image',
-        namePrefix: 'ProductVariantImages',
+        namePrefix: `ProductVariants[${indice}].ProductVariantImages`,
         previewFn: 'previewVariantImage',
         updatePrimaryFn: 'updatePrimaryVariantImage',
         removeFn: 'removeVariantImage',
-        radioName: 'PrimaryVariantImageIndex'
+        radioName: `PrimaryVariantImageIndex_${indice}`
     });
 }
 
 window.previewVariantImage = function (input, index) {
-    const preview = document.getElementById(`variant_preview_${index}`);
-    const icon = document.getElementById(`variant_icon_${index}`);
+
+    // Subir al contenedor raíz de la imagen de variante
+    const wrapper = input.closest('[data-variant-image-index]')
+        || input.closest('.flex.items-start');
+
+    if (!wrapper) {
+        console.error('No se encontró el contenedor de la imagen');
+        return;
+    }
+
+    const preview = wrapper.querySelector('img');
+    const icon = wrapper.querySelector('i.fa-image');
+
+    if (!preview || !icon) {
+        console.error('Preview o icono no encontrados');
+        return;
+    }
 
     if (!input.files || !input.files[0]) return;
 
@@ -412,11 +471,19 @@ window.previewVariantImage = function (input, index) {
         preview.classList.remove('hidden');
         icon.classList.add('hidden');
     };
+
     reader.readAsDataURL(file);
 };
 
-window.removeVariantImage = function (index) {
-    const imageDiv = document.querySelector(`[data-variant-image-index="${index}"]`);
+window.removeVariantImage = function (event, index) {
+    // contenedor de la variante
+    const variantContainer = event.currentTarget.closest('[data-variant-index]');
+    if (!variantContainer) return;
+
+    const variantIndex = parseInt(variantContainer.dataset.variantIndex, 10);
+
+    // buscar SOLO dentro de la variante
+    const imageDiv = event.currentTarget.closest('[data-variant-image-index]');
     if (!imageDiv) return;
 
     const isPrimaryRadio = imageDiv.querySelector('input[name="PrimaryVariantImageIndex"]');
@@ -429,8 +496,10 @@ window.removeVariantImage = function (index) {
 
     setTimeout(() => {
         imageDiv.remove();
+        console.log(variantImageIndex);
+        variantImageIndex[variantIndex]--;
         updateNoVariantImagesMessage();
-        reindexVariantImages();
+        reindexVariantImages(variantIndex);
 
         // Si era principal, seleccionar la primera disponible
         if (wasPrimary) {
@@ -446,8 +515,14 @@ window.removeVariantImage = function (index) {
 };
 
 
-function reindexVariantImages() {
-    const container = document.getElementById('ProductVariantImagesDContainer');
+function reindexVariantImages(indiceContenedor) {
+    const el = document.querySelector(
+        `[data-variant-index="${indiceContenedor}"]`
+    );
+    if (!el) return;
+
+    const container = el.querySelector('#ProductVariantImagesDContainer');
+    if (!container) return;
     const images = container.querySelectorAll('[data-variant-image-index]');
 
     images.forEach((imageDiv, newIndex) => {
@@ -457,12 +532,12 @@ function reindexVariantImages() {
 
         // File input
         const fileInput = imageDiv.querySelector('input[type="file"]');
-        fileInput.name = `ProductVariantImages[${newIndex}].ImageFile`;
+        fileInput.name = `ProductVariants[${indiceContenedor}].ProductVariantImages[${newIndex}].ImageFile`;
         fileInput.setAttribute('onchange', `previewImage(this, ${newIndex})`);
 
         // SortOrder
         const sortInput = imageDiv.querySelector('input[name$=".SortOrder"]');
-        sortInput.name = `ProductVariantImages[${newIndex}].SortOrder`;
+        sortInput.name = `ProductVariants[${indiceContenedor}].ProductVariantImages[${newIndex}].SortOrder`;
         sortInput.value = newIndex + 1;
 
         // Radio
@@ -472,7 +547,7 @@ function reindexVariantImages() {
 
         // Hidden IsPrimary
         const hidden = imageDiv.querySelector('input[type="hidden"]');
-        hidden.name = `ProductVariantImages[${newIndex}].IsPrimary`;
+        hidden.name = `ProductVariants[${indiceContenedor}].ProductVariantImages[${newIndex}].IsPrimary`;
         hidden.id = `isPrimary_${newIndex}`;
 
         // Preview

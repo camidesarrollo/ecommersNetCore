@@ -188,7 +188,7 @@
                                                 }
                                             </label>
                                             <input type="text"
-                                                   name="ProductsVariantsAttributes[@attr.Id].Value"
+                                                   name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value"
                                        value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -204,7 +204,7 @@
                                                 }
                                             </label>
                                             <input type="number"
-                                                   name="ProductsVariantsAttributes[@attr.Id].Value"
+                                                   name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value"
                                                    value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -220,16 +220,16 @@
                                                            checked
                                                            disabled
                                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                                                    <input type="hidden" name="ProductsVariantsAttributes[@attr.Id].Value" value="true" />
+                                                    <input type="hidden" name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value" value="true" />
                                                     @attr.Name
                                                 </label>
                                             }
                                             else
                                             {
                                                 <label class="flex items-center gap-3 cursor-pointer">
-                                                    <input type="hidden" name="ProductsVariantsAttributes[@attr.Id].Value" value="false" />
+                                                    <input type="hidden" name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value" value="false" />
                                                     <input type="checkbox"
-                                                           name="ProductsVariantsAttributes[@attr.Id].Value"
+                                                           name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value"
                                                            value="true"
                                                            @(isChecked ? "checked" : "")
                                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
@@ -251,7 +251,7 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="ProductsVariantsAttributes[@attr.Id].Value"
+                                            <select name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value"
                                                     class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                     data-tags="true"
                                                     data-selected="@singleValue"
@@ -277,7 +277,7 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="Attributes[@attr.Id].Value[]"
+                                            <select name="ProductVariants[@Model.Index]Attributes[@attr.Id].Value[]"
                                                     multiple
                                                     class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                     data-tags="true"
@@ -310,15 +310,16 @@
                 </h5>
                 <button type="button"
                         id="addVariantImage"
-                        class="inline-flex items-center gap-2 bg-gradient-to-r from-olive-green-600 to-olive-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-olive-green-700 hover:to-olive-green-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        class="inline-flex items-center gap-2 bg-gradient-to-r from-olive-green-600 to-olive-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-olive-green-700 hover:to-olive-green-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5" data-variant-image-index="@Model.Index">
                     <i class="fas fa-plus"></i>
                     Agregar Imagen
                 </button>
             </div>
-            <ui-image ui-image-model="new UiImageModel<ProductVariantImagesD>
+            <ui-image ui-image-model="@(new UiImageModel<ProductVariantImagesD>
                       {
-                          Images = Model.ProductVariantImages.ToList()
-                      }">
+                          Images = Model.ProductVariantImages.ToList(),
+                          NombreCompuesto = $"ProductVariants[{Model.Index}]"
+                      })">
             </ui-image>
         </div>
     </div>

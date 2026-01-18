@@ -5,6 +5,8 @@
         public List<T> Images { get; set; } = [];
 
         public string Name => typeof(T).Name;
+
+        public string NombreCompuesto { get; set; } 
     }
 
 }
