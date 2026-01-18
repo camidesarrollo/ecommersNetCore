@@ -111,7 +111,7 @@ namespace Ecommers.Web.TagHelpers
                     </label>
 
                     <input type="number"
-                           name="{{name}}[{{i}}].Order"
+                           name="{{name}}[{{i}}].SortOrder"
                            value="{{order}}"
                            min="0"
                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg

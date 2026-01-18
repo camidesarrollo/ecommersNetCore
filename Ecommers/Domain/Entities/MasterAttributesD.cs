@@ -6,7 +6,7 @@ namespace Ecommers.Domain.Entities
     {
         public string Name { get; set; } = null!;
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
 
         public string Slug { get; set; } = null!;
 
@@ -20,7 +20,7 @@ namespace Ecommers.Domain.Entities
 
         public bool IsFilterable { get; set; }
 
-        public bool IsVariant { get; set; }
+        public string AppliesTo { get; set; } = null!;
 
         public string? Category { get; set; }
 

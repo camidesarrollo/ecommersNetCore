@@ -7,7 +7,7 @@
 @model Ecommers.Web.Models.Products.ProductsCreateViewModel
 
 @{
-    var MasterAttributes = Model.MasterAttributes.ToList();
+    var MasterAttributesProductos = Model.MasterAttributes.Where(x => x.AppliesTo == "product").ToList();
     var ImagenesProducto = Model.Products.ProductImages.ToList();
     var variantesProducto = Model.Products.ProductVariants.ToList();
 
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li><i class="fas fa-chevron-right text-sm text-olive-green-500"></i></li>
-                <li class="text-dark-chocolate font-medium">Editar Producto</li>
+                <li class="text-dark-chocolate font-medium">Crear Producto</li>
             </ol>
         </nav>
 
@@ -49,7 +49,7 @@
                     <div>
                         <h1 class="text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
                             <i class="fas fa-image text-olive-green-600 mr-3"></i>
-                            Editar Producto
+                            Crear Producto
                         </h1>
                         <p class="text-gray-600">Complete los campos para editar el producto</p>
                     </div>
@@ -74,7 +74,7 @@
         </div>
 
         <!-- FORM -->
-        <form asp-action="Editar" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formProductos">
+        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formProducts">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="@Model.Products.Id" />
 
@@ -128,10 +128,14 @@
                                 <label asp-for="Products.CategoryId" class="block font-semibold mb-2">
                                     Categoría <span class="text-red-700">*</span>
                                 </label>
+
                                 <select asp-for="Products.CategoryId"
                                         asp-items="@(new SelectList(Model.Categories, "Id", "Name"))"
                                         required
                                         class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition">
+
+                                    <option value="0">Seleccione una opción</option>
+
                                 </select>
                             </div>
 
@@ -203,16 +207,16 @@
                         </h5>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            @for (int i = 0; i < MasterAttributes.Count; i++)
+                            @for (int i = 0; i < MasterAttributesProductos.ToList().Count; i++)
                             {
-                                var attr = MasterAttributes[i];
+                                var attr = MasterAttributesProductos[i];
                                 <input type="hidden" name="Attributes[@i].MasterAttributeId" value="@attr.Id" />
 
                                 var productValues = Model.Products.ProductAttributes
-                                .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
-                                .Select(x => x.Value)
-                                .Where(v => v != null)
-                                .ToList();
+                                    .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
+                                    .Select(x => x.Value)
+                                    .Where(v => v != null)
+                                    .ToList();
 
                                 var singleValueText = productValues.FirstOrDefault()?.GetDisplayValue();
 
@@ -222,6 +226,8 @@
                                 var attributes = Model.Products.ProductAttributes.FirstOrDefault(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox");
 
                                 bool isChecked = attributes != null ? true : false;
+
+                                @* var nombre = "Producto" + Model.Attributes[@attr.Id].Value; *@
 
                                 <div>
                                     @switch (attr.InputType)
@@ -235,7 +241,7 @@
                                                 }
                                             </label>
                                             <input type="text"
-                                                   name="Attributes[@i].Value"
+                                                   name="ProductsAttributes[@attr.Id].Value"
                                                    value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -251,7 +257,7 @@
                                                 }
                                             </label>
                                             <input type="number"
-                                                   name="Attributes[@i].Value"
+                                                   name="ProductsAttributes[@attr.Id].Value"
                                                    value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -267,16 +273,15 @@
                                                            checked
                                                            disabled
                                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                                                    <input type="hidden" name="Attributes[@i].Value" value="true" />
+                                                    <input type="hidden" name="ProductsAttributes[@attr.Id].Value" value="true" />
                                                     @attr.Name
                                                 </label>
                                             }
                                             else
                                             {
                                                 <label class="flex items-center gap-3 cursor-pointer">
-                                                    <input type="hidden" name="Attributes[@i].Value" value="false" />
                                                     <input type="checkbox"
-                                                           name="Attributes[@i].Value"
+                                                           name="ProductsAttributes[@attr.Id].Value"
                                                            value="true"
                                                            @(isChecked ? "checked" : "")
                                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
@@ -297,9 +302,10 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="Attributes[@i].Value"
+                                            <select name="ProductsAttributes[@attr.Id].Value"
                                                     class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                     data-selected="@singleValue"
+                                                    data-tags="true"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
                                                 @foreach (var itemA in Model.AtrributeValue
@@ -321,9 +327,10 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="Attributes[@i].Value[]"
+                                            <select name="ProductsAttributes[@attr.Id].Value[]"
                                                     multiple
                                                     class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                    data-tags="true"
                                                     data-selected="@string.Join(",", multiValues)"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
@@ -396,6 +403,17 @@
                                 </div>
                             }
                         </div>
+                    </div>
+                    <!-- ACCIONES -->
+                    <div class="glass-effect rounded-2xl p-6 shadow-burgundy-red/30 space-y-3">
+                        <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-800 to-amber-900 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-amber-800 transition-all duration-200 shadow-md">
+                            <i class="fas fa-save"></i>
+                            Guardar Cambios
+                        </button>
+                        <a id="volver-button" href="@Url.Action("Index", "Banners")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </a>
                     </div>
                 </aside>
             </div>

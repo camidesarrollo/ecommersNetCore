@@ -1,7 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Text.RegularExpressions;
+using AutoMapper;
 using Azure.Core;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
+using Ecommers.Application.DTOs.Requests.AttributeValues;
+using Ecommers.Application.DTOs.Requests.Categorias;
+using Ecommers.Application.DTOs.Requests.ProductAttributes;
+using Ecommers.Application.DTOs.Requests.ProductImages;
+using Ecommers.Application.DTOs.Requests.Products;
 using Ecommers.Application.Interfaces;
 using Ecommers.Application.Services;
 using Ecommers.Domain.Common;
@@ -89,15 +96,270 @@ namespace Ecommers.Web.Controllers
         {
             var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
             var Categorias = await _CategoriasService.GetAllActiveAsync();
+            var producto = new Products();
+            producto.ProductVariants.Add(new ProductVariants());
             var ProductViewModel = new ProductsCreateViewModel
             {
                 MasterAttributes = MaestroAtributes,
                 Categories = Categorias,
-                Products = new Products()
+                Products = producto
+
             };
             return View("~/Web/Views/Products/Create.cshtml", ProductViewModel);
         }
 
+        // -------------------------------------------------------------------
+        // POST: /Gestion/Categorias/Crear
+        // -------------------------------------------------------------------
+        [HttpPost("Crear")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Crear()
+        {
+            try
+            {
+                var form = Request.Form;
+                var files = Request.Form.Files;
+
+                var productImageFiles = Request.Form.Files
+                                        .Where(f => f.Name.StartsWith("ProductImages[") &&
+                                                    f.Name.EndsWith(".ImageFile"))
+                                        .ToList();
+
+                var ProductsAttributeValues = form
+                                        .Where(k => k.Key.StartsWith("ProductsAttributes["))
+                                        .Select(k => k.Value.ToString())
+                                        .Where(v => !string.IsNullOrWhiteSpace(v))
+                                        .ToList();
+
+                var productImagesWithIndex = Request.Form.Files
+                                                                .Where(f => f.Name.StartsWith("ProductImages[") &&
+                                                                            f.Name.EndsWith(".ImageFile"))
+                                                                .Select(f =>
+                                                                {
+                                                                    var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
+                                                                    int index = match.Success ? int.Parse(match.Groups[1].Value) : -1;
+
+                                                                    return new
+                                                                    {
+                                                                        Index = index,
+                                                                        File = f
+                                                                    };
+                                                                })
+                                                                .Where(x => x.Index >= 0)
+                                                                .OrderBy(x => x.Index)
+                                                                .ToList();
+               
+                // 1️⃣ Crear el producto
+                var producto = new ProductsCreateRequest
+                {
+                    Name = form["Products.Name"],
+                    Description = form["Products.Description"],
+                    ShortDescription = form["Products.ShortDescription"],
+                    CategoryId = int.TryParse(form["Products.CategoryId"], out var catId) ? catId : 0,
+                    BasePrice = decimal.TryParse(form["Products.BasePrice"], out var price) ? price : 0,
+                    Slug = form["Products.Slug"],
+                    IsActive =true
+                };
+
+                // 2️⃣ Validaciones
+                if (string.IsNullOrWhiteSpace(producto.Name))
+                {
+                    ModelState.AddModelError("Products.Name", "El nombre es obligatorio");
+                }
+
+                if (string.IsNullOrWhiteSpace(producto.Description))
+                {
+                    ModelState.AddModelError("Products.Description", "La descripción es obligatoria");
+                }
+
+                if (producto.CategoryId == 0)
+                {
+                    ModelState.AddModelError("Products.CategoryId", "Debe seleccionar una categoría");
+                }
+
+                if (producto.BasePrice <= 0)
+                {
+                    ModelState.AddModelError("Products.BasePrice", "El precio debe ser mayor a 0");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    // Recargar datos necesarios para la vista (categorías, etc.)
+                    ViewBag.ErrorMessage = "Por favor corrija los errores en el formulario";
+                    return View("~/Web/Views/Products/Index.cshtml");
+                }
+
+                // 3️⃣ Guardar producto primero para obtener el ID
+                var productoCreado = await _Productservice.CreateAsync(producto);
+
+                if (productoCreado == null || productoCreado.Data == 0)
+                {
+                    ModelState.AddModelError("", "Error al crear el producto");
+                    return View("~/Web/Views/Products/Index.cshtml");
+                }
+
+                // 4️⃣ Procesar imágenes
+                var productImagesFiles = files
+                    .Where(f => f.Name.StartsWith("ProductImages["))
+                    .GroupBy(f =>
+                    {
+                        var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
+                        return match.Success ? int.Parse(match.Groups[1].Value) : -1;
+                    })
+                    .Where(g => g.Key >= 0)
+                    .OrderBy(g => g.Key)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+
+                var imagenesGuardadas = new List<ProductImagesCreateRequest>();
+
+                foreach (var img in productImagesWithIndex)
+                {
+                    var file = img.File;
+
+                    if (file.Length == 0) continue;
+
+
+                    var altText = form[$"ProductImages[{img.Index}].AltText"].ToString() ?? producto.Name;
+                    var sortOrder = int.TryParse(form[$"ProductImages[{img.Index}].SortOrder"], out var order)
+                        ? order
+                        : img.Index + 1;
+
+                    // Generar nombre único para la imagen
+                    var carpeta = $"Productos/{producto.Slug}";
+
+                    try
+                    {
+                        var imagen = new ProductImagesCreateRequest
+                        {
+                            ProductId = productoCreado.Data,
+                            AltText = string.IsNullOrWhiteSpace(altText) ? producto.Name : altText,
+                            SortOrder = sortOrder,
+                            IsActive = true,
+                            IsPrimary = form[$"ProductImages[{img.Index}].IsPrimary"] == "true" ? true :  false
+                        }; 
+
+                        foreach(var imagenes in productImagesFiles[img.Index])
+
+                        {
+                            var guardarImagen = await _imageStorage.UpdateAsync(
+                                          imagenes,
+                                          imagen.Url,
+                                          "Productos/" + producto.Slug);
+
+                            if (guardarImagen != null) {
+                                imagen.Url = guardarImagen;
+                            }
+                        }
+
+                        // Guardar imagen en BD
+                        var imagenGuardada = await _ProductImagesService.CreateAsync(imagen);
+                       
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log del error pero continuar con otras imágenes
+                        _logger.LogError(ex, $"Error al subir imagen {img.Index} del producto {productoCreado.Data}");
+                    }
+
+                }
+
+                // 5️⃣ Verificar que al menos se guardó una imagen
+                if (imagenesGuardadas.Count == 0)
+                {
+                    _logger.LogWarning($"Producto {productoCreado.Data} creado sin imágenes");
+                }
+
+
+                List<ProductAttributesCreateRequest> productAttributes = [];
+
+                if (ProductsAttributeValues.Count > 0)
+                {
+                    var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
+
+                    foreach (var item in MaestroAtributes)
+                    {
+                        var value = form["ProductsAttributes[" + item.Id + "].Value"];
+
+                        foreach (var valor in value)
+                        {
+                            if (valor != null)
+                            {
+                                var buscarValorIngresado = await _AtrributeValueService.GetByValueAsync(item.DataType, valor);
+
+                                var idValor = buscarValorIngresado?.Data?.Id;
+                                if (idValor == null || idValor == 0)
+                                {
+                                    var validaDecimal = true;
+                                    if (!decimal.TryParse(valor, out var decimalValue))
+                                    {
+                                        validaDecimal = false;
+                                    }
+
+                                    var validaInt = true;
+                                    if (!int.TryParse(valor, out var intValue))
+                                    {
+                                        validaInt = false;
+                                    }
+
+                                    var validaBool = true;
+
+                                    if (!bool.TryParse(valor, out var boolValue))
+                                    {
+                                        validaBool = true;
+                                    }
+
+                                    var nuevoAtributo = new AttributeValuesCreateRequest
+                                    {
+                                        AttributeId = item.Id,
+                                        ValueString = item.DataType == "string" && valor.Length <= 225 ? valor : null,
+                                        ValueText = item.DataType == "text" && valor.Length > 225 ? valor : null,
+                                        ValueDecimal = item.DataType == "decimal" && validaDecimal == true ? decimalValue : null,
+                                        ValueInt = item.DataType == "number" && validaInt == true ? intValue : null,
+                                        ValueBoolean = item.DataType == "boolean" && validaBool == true ? validaBool : false,
+                                        ValueDate = null,
+                                        IsActive = true
+                                    };
+                                    var crearAtributo = await _AtrributeValueService.CreateAsync(nuevoAtributo);
+                                    idValor = crearAtributo.Data;
+                                }
+
+                                productAttributes.Add(new ProductAttributesCreateRequest
+                                {
+                                    ProductId = 0,
+                                    AttributeId = item.Id,
+                                    ValueId = idValor,
+                                    IsActive = true
+                                });
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                //Guardar en ProductAttributes
+
+                //Guardar en ProductVariants
+
+                //Guardar en ProductVariantImages
+
+                //Guardar en ProductPriceHistory
+
+                //VariantAttributes 
+
+
+                TempData["SuccessMessage"] = $"Producto '{producto.Name}' creado exitosamente con {imagenesGuardadas.Count} imagen(es)";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al crear producto");
+                ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
+                return View("~/Web/Views/Products/Index.cshtml");
+            }
+        }
         // -------------------------------------------------------------------
         // GET: /Gestion/Categorias/Editar/{id}
         // -------------------------------------------------------------------

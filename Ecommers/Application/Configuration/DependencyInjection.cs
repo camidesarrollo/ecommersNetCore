@@ -46,19 +46,22 @@ namespace Ecommers.Application.Configuration
             .AddDefaultTokenProviders();
 
             // AutoMapper
-            services.AddAutoMapper(cfg => cfg.AddProfile<BannersProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ConfiguracionProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<CategoriaProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ServicioProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<MasterAttributesProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ProductAttributesProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ProductImagesProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ProductPriceHistoryProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ProductsProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ProductVariantImagesProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<ProductVariantsProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<VariantAttributesProfile>());
-            services.AddAutoMapper(cfg => cfg.AddProfile<AttributeValuesProfile>());
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<BannersProfile>();
+                cfg.AddProfile<ConfiguracionProfile>();
+                cfg.AddProfile<CategoriaProfile>();
+                cfg.AddProfile<ServicioProfile>();
+                cfg.AddProfile<MasterAttributesProfile>();
+                cfg.AddProfile<ProductAttributesProfile>();
+                cfg.AddProfile<ProductImagesProfile>();
+                cfg.AddProfile<ProductPriceHistoryProfile>();
+                cfg.AddProfile<ProductsProfile>();
+                cfg.AddProfile<ProductVariantImagesProfile>();
+                cfg.AddProfile<ProductVariantsProfile>();
+                cfg.AddProfile<VariantAttributesProfile>();
+                cfg.AddProfile<AttributeValuesProfile>();
+            });
             // Repositorios
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();

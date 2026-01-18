@@ -66,7 +66,7 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
     }
@@ -85,6 +85,7 @@ public class EcommersContext : IdentityDbContext<
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.ValueBoolean).HasDefaultValue(false);
             entity.Property(e => e.ValueDecimal).HasColumnType("decimal(18, 4)");
             entity.Property(e => e.ValueString)
                 .HasMaxLength(255)

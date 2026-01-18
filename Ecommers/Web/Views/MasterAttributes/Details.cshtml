@@ -119,8 +119,9 @@
                         <li class="flex items-center gap-2">
                             <i class="fas fa-random text-amber-700"></i>
                             Variante:
-                            <span class="font-semibold">@((Model.IsVariant) ? "Sí" : "No")</span>
+                            <span class="font-semibold">@((Model.AppliesTo == "variant") ? "Sí" : "No")</span>
                         </li>
+
 
                         <li class="flex items-center gap-2">
                             <i class="fas fa-check-circle text-amber-700"></i>

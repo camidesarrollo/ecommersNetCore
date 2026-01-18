@@ -17,7 +17,7 @@ public partial class AttributeValues
 
     public int? ValueInt { get; set; }
 
-    public bool ValueBoolean { get; set; }
+    public bool? ValueBoolean { get; set; }
 
     public DateOnly? ValueDate { get; set; }
 

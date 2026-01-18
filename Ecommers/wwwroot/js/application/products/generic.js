@@ -39,14 +39,14 @@ function initializeImageManager() {
     });
 
     // Agregar una imagen por defecto al cargar
-    if ($("#imagesContainer .border-olive-green-300").length == 0) {
+    if ($("#ProductImagesDContainer .border-olive-green-300").length == 0) {
         addImageInput(true);
         updateNoImagesMessage();
     }
 }
 
 function addImageInput(isPrimary = false) {
-    const imagesContainer = document.getElementById('imagesContainer');
+    const ProductImagesDContainer = document.getElementById('ProductImagesDContainer');
     const currentIndex = imageIndex++;
 
     const imageDiv = document.createElement('div');
@@ -94,7 +94,7 @@ function addImageInput(isPrimary = false) {
                                     Orden <span class="text-red-700">*</span>
                                 </label>
                                 <input type="number"
-                                       name="ProductImages[${currentIndex}].Order"
+                                       name="ProductImages[${currentIndex}].SortOrder"
                                        value="${currentIndex + 1}"
                                        min="0"
                                        required
@@ -131,7 +131,7 @@ function addImageInput(isPrimary = false) {
                 </div>
             `;
 
-    imagesContainer.appendChild(imageDiv);
+    ProductImagesDContainer.appendChild(imageDiv);
 }
 
 window.previewImage = function (input, index) {
@@ -206,12 +206,12 @@ window.updatePrimaryImage = function (index) {
 }
 
 window.updateNoImagesMessage = function () {
-    const imagesContainer = document.getElementById('imagesContainer');
-    const noImagesMessage = document.getElementById('noImagesMessage');
-    const hasImages = imagesContainer.children.length > 0;
+    const ProductImagesDContainer = document.getElementById('ProductImagesDContainer');
+    const noProductImagesDMessage = document.getElementById('noProductImagesDMessage');
+    const hasImages = ProductImagesDContainer.children.length > 0;
 
-    if (noImagesMessage) {
-        noImagesMessage.style.display = hasImages ? 'none' : 'block';
+    if (noProductImagesDMessage) {
+        noProductImagesDMessage.style.display = hasImages ? 'none' : 'block';
     }
 }
 
@@ -373,7 +373,7 @@ function addVariantImage(variantIndex) {
                 <img src="" class="w-full rounded-lg shadow-sm max-h-48 object-cover" alt="Preview" />
             </div>
             
-            <input type="hidden" name="ProductVariants[${variantIndex}].Images[${imageCount}].Order" value="${imageCount}" />
+            <input type="hidden" name="ProductVariants[${variantIndex}].Images[${imageCount}].SortOrder" value="${imageCount}" />
         </div>
     `;
 

@@ -13,7 +13,7 @@ namespace Ecommers.Domain.Entities
 
         public bool IsPrimary { get; set; }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
     }
 }

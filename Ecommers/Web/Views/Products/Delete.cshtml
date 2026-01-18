@@ -138,7 +138,7 @@
                         </h5>
 
                         <div class="space-y-6">
-                            @foreach (var image in Model.Products.ProductImages.OrderBy(x => x.Order))
+                            @foreach (var image in Model.Products.ProductImages.OrderBy(x => x.SortOrder))
                             {
                                 <div class="border border-gray-200 rounded-xl p-4">
                                     @if (!string.IsNullOrEmpty(image.Url))
@@ -172,7 +172,7 @@
                                         </div>
                                         <div>
                                             <dt class="text-sm text-gray-500">Orden</dt>
-                                            <dd class="font-semibold text-dark-chocolate">@image.Order</dd>
+                                            <dd class="font-semibold text-dark-chocolate">@image.SortOrder</dd>
                                         </div>
                                         <div>
                                             <dt class="text-sm text-gray-500">Visible</dt>
@@ -323,7 +323,7 @@
                                                 Imágenes (@variant.ProductVariantImages.Count)
                                             </h6>
                                             <div class="space-y-3">
-                                                @foreach (var variantImage in variant.ProductVariantImages.OrderBy(x => x.Order))
+                                                @foreach (var variantImage in variant.ProductVariantImages.OrderBy(x => x.SortOrder))
                                                 {
                                                     <div class="border border-gray-200 rounded-lg p-2">
                                                         @if (!string.IsNullOrEmpty(variantImage.Url))
@@ -338,7 +338,7 @@
                                                         }
 
                                                         <div class="flex items-center justify-between text-xs">
-                                                            <span class="text-gray-500">Orden: @variantImage.Order</span>
+                                                            <span class="text-gray-500">Orden: @variantImage.SortOrder</span>
                                                             <div class="flex gap-2">
                                                                 @if (variantImage.IsPrimary)
                                                                 {

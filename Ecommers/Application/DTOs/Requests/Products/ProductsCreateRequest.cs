@@ -29,20 +29,9 @@ namespace Ecommers.Application.DTOs.Requests.Products
         [Display(Name = "Categoría")]
         public long CategoryId { get; set; }
 
-          [Required(ErrorMessage = "Debes ingresar el SKU de la variante.")]
-        [MaxLength(100, ErrorMessage = "El SKU no puede superar los 100 caracteres.")]
-        [Display(Name = "SKU")]
-        public string SKU { get; set; } = null!;
 
-        [Range(0, long.MaxValue, ErrorMessage = "La cantidad de stock no puede ser negativa.")]
-        [Display(Name = "Cantidad en stock")]
-        public long? StockQuantity { get; set; }
-
-        [Display(Name = "Gestionar stock")]
-        public bool? ManageStock { get; set; }
-
-        [Required(ErrorMessage = "Debes indicar el estado de stock.")]
-        [Display(Name = "Estado de stock")]
-        public string StockStatus { get; set; } = null!;
+        [Required(ErrorMessage = "Debes singresar el precio base del producto.")]
+        [Display(Name = "BasePrice")]
+        public decimal? BasePrice { get; set; }
     }
 }

@@ -1,5 +1,9 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.Categorias;
+using Ecommers.Application.DTOs.Requests.ProductImages;
+using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -68,6 +72,66 @@ namespace Ecommers.Application.Services
 
 
             return productImages;
+        }
+
+        // -------------------------------------------------------------------
+        // CREATE
+        // -------------------------------------------------------------------
+        public async Task<Result> CreateAsync(ProductImagesCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductImagesD, long>();
+
+                // Reordenar si es necesario
+                var findProductImages = ProductImagesQueries.GetByOrden(request.SortOrder);
+
+                if (findProductImages != null)
+                {
+                    var ordenDisponible = ProductImagesQueries.FindLastOrden();
+                    findProductImages.SortOrder = ordenDisponible;
+
+                    var update = new ProductImagesUpdateRequest
+                    {
+                        Id = findProductImages.Id,
+                        ProductId = findProductImages.ProductId,
+                        Url  = findProductImages.Url,
+                        AltText = findProductImages.AltText,
+                        IsPrimary = findProductImages.IsPrimary,
+                        SortOrder = findProductImages.SortOrder,
+                        IsActive = findProductImages.IsActive,
+                    };
+
+                    await UpdateInternalAsync(update);
+                }
+
+                var ProductImages = _mapper.Map<ProductImagesD>(request);
+                ProductImages.UpdatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(ProductImages);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("ProductImages creada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
+        }
+
+        private async Task UpdateInternalAsync(ProductImagesUpdateRequest request)
+        {
+            var repo = _unitOfWork.Repository<ProductImagesD, long>();
+
+            var ProductImages = await repo.GetQuery()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Id)
+                ?? throw new Exception("Imagen del producto no encontrada");
+
+            _mapper.Map(request, ProductImages);
+            ProductImages.UpdatedAt = DateTime.UtcNow;
+
+            repo.Update(ProductImages);
         }
 
     }

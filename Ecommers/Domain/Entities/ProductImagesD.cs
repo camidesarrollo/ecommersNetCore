@@ -10,11 +10,11 @@ namespace Ecommers.Domain.Entities
         public string Url { get; set; } = null!;
 
         public IFormFile? ImageFile { get; set; }
-
         public string? AltText { get; set; }
 
         public bool IsPrimary { get; set; }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
+
     }
 }

@@ -1,8 +1,6 @@
-﻿using Ecommers.Domain.Common;
-
-namespace Ecommers.Domain.Entities
+﻿namespace Ecommers.Application.DTOs.Requests.AttributeValues
 {
-    public class AttributeValuesD : BaseEntity<long>
+    public class AttributeValuesCreateRequest
     {
         public long AttributeId { get; set; }
 
@@ -20,7 +18,6 @@ namespace Ecommers.Domain.Entities
 
         public int DisplayOrder { get; set; }
 
-
-
+        public bool IsActive { get; set; }
     }
 }

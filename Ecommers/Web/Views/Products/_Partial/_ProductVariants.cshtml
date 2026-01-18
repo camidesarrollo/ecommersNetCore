@@ -3,7 +3,7 @@
 @using Ecommers.Domain.Extensions
 @using Ecommers.Web.Models.Shared.TagHelpers
 @{
-    var MasterAttributes = Model.MasterAttributes.ToList();
+    var MasterAttributes = Model.MasterAttributes.Where(x => x.AppliesTo == "variant").ToList();
     var ProductVariantImages = Model.ProductVariant.ProductVariantImages.ToList();
 
 }
@@ -34,7 +34,7 @@
             </label>
             <input type="text"
                    name="ProductVariants[@Model.Index].Name"
-                   class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                    placeholder="Ej: Talla M - Color Rojo"
                    value="@Model.ProductVariant.Name"
                    required />
@@ -49,7 +49,7 @@
             <input type="text"
                    name="ProductVariants[@Model.Index].SKU"
                    value="@Model.ProductVariant.SKU"
-                   class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500 font-mono"
+                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition font-mono"
                    placeholder="Ej: PROD-001-M-RED"
                    required />
         </div>
@@ -120,7 +120,7 @@
                 <input type="number"
                        name="ProductVariants[@Model.Index].StockQuantity"
                        value="@Model.ProductVariant.StockQuantity"
-                       class="w-full px-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                        min="0"
                        placeholder="0"
                        required />
@@ -188,7 +188,7 @@
                                                 }
                                             </label>
                                             <input type="text"
-                                                   name="Attributes[@i].Value"
+                                                   name="ProductsVariantsAttributes[@attr.Id].Value"
                                        value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -204,7 +204,7 @@
                                                 }
                                             </label>
                                             <input type="number"
-                                                   name="Attributes[@i].Value"
+                                                   name="ProductsVariantsAttributes[@attr.Id].Value"
                                                    value="@singleValueText"
                                                    placeholder="@attr.Description"
                                                    class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -220,16 +220,16 @@
                                                            checked
                                                            disabled
                                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                                                    <input type="hidden" name="Attributes[@i].Value" value="true" />
+                                                    <input type="hidden" name="ProductsVariantsAttributes[@attr.Id].Value" value="true" />
                                                     @attr.Name
                                                 </label>
                                             }
                                             else
                                             {
                                                 <label class="flex items-center gap-3 cursor-pointer">
-                                                    <input type="hidden" name="Attributes[@i].Value" value="false" />
+                                                    <input type="hidden" name="ProductsVariantsAttributes[@attr.Id].Value" value="false" />
                                                     <input type="checkbox"
-                                                           name="Attributes[@i].Value"
+                                                           name="ProductsVariantsAttributes[@attr.Id].Value"
                                                            value="true"
                                                            @(isChecked ? "checked" : "")
                                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
@@ -251,8 +251,9 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="Attributes[@i].Value"
+                                            <select name="ProductsVariantsAttributes[@attr.Id].Value"
                                                     class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                    data-tags="true"
                                                     data-selected="@singleValue"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
@@ -276,9 +277,10 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="Attributes[@i].Value[]"
+                                            <select name="Attributes[@attr.Id].Value[]"
                                                     multiple
                                                     class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                    data-tags="true"
                                                     data-selected="@string.Join(",", multiValues)"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>

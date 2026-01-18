@@ -1,5 +1,4 @@
 ﻿import Shepherd from "../../bundle/vendors_shepherd.js";
-import { productsCreateSchema } from "../../bundle/schema/products.create.shema.js";
 import {
     handleZodFormSubmit
 } from "../../bundle/utils/form-helpers.js";
@@ -318,24 +317,55 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    FORM VALIDATION
 ===================================================== */
-const form = document.getElementById("formProducts");
-if (!form) {
-    console.error("No se encontró el formulario con id: formProducts");
-    throw new Error("Formulario no encontrado");
-}
+document.addEventListener("DOMContentLoaded", () => {
 
-console.log("Schema cargado:", productsCreateSchema);
-initBlurValidation({
-    form,
-    schema: productsCreateSchema
-});
+    const form = document.getElementById("formProducts");
+    if (!form) {
+        console.error("No se encontró el formulario con id: formProducts");
+        return;
+    }
 
-/* =====================================================
-   SUBMIT
-===================================================== */
-handleZodFormSubmit({
-    form,
-    schema: productsCreateSchema,
-    castSchema: productsCreateSchema,
-    spinnerAction: "creating"
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); // 🚫 Detiene el submit
+
+        let isValid = true;
+        let firstInvalidField = null;
+
+        // 🔎 Todos los campos required
+        const requiredFields = form.querySelectorAll(
+            "input[required]:not([disabled]), select[required], textarea[required]"
+        );
+
+        requiredFields.forEach(field => {
+
+            field.classList.remove("border-red-500");
+
+            // Validación base
+            if (!field.value || field.value.trim() === "" || field.value === "0") {
+                isValid = false;
+                field.classList.add("border-red-500");
+
+                if (!firstInvalidField) {
+                    firstInvalidField = field;
+                }
+            }
+        });
+
+        // ❌ Si hay errores
+        if (!isValid) {
+            alert("Por favor completa todos los campos obligatorios.");
+            firstInvalidField?.focus();
+            return;
+        }
+
+        // ✅ REMOVER TODOS LOS DISABLED (CRÍTICO)
+        const disabledFields = form.querySelectorAll("[disabled]");
+        disabledFields.forEach(field => {
+            field.removeAttribute("disabled");
+        });
+
+        // ✅ Enviar formulario
+        form.submit();
+    });
+
 });

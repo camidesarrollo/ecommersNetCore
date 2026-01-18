@@ -6,7 +6,7 @@
         string Url { get; set; }
         string? AltText { get; set; }
         bool IsPrimary { get; set; }
-        int Order { get; set; }
+        int SortOrder { get; set; }
         bool IsActive { get; set; }
     }
 }

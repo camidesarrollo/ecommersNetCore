@@ -15,7 +15,7 @@ public partial class ProductVariantImages
 
     public bool IsPrimary { get; set; }
 
-    public int Order { get; set; }
+    public int SortOrder { get; set; }
 
     public bool IsActive { get; set; }
 

@@ -3,6 +3,8 @@ using AutoMapper;
 using Ecommers.Application.Common.Query;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
+using Ecommers.Application.DTOs.Requests.MasterAttributes;
+using Ecommers.Application.DTOs.Requests.Products;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -159,5 +161,31 @@ namespace Ecommers.Application.Services
             }
         }
 
+        // -------------------------------------------------------------------
+        // ========================================
+        // OPCIÓN 3: Devolver solo el ID (Simple)
+        // ========================================
+        public async Task<Result<long>> CreateAsync(ProductsCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductsD, long>();
+                var productos = _mapper.Map<ProductsD>(request);
+                productos.UpdatedAt = DateTime.UtcNow;
+                productos.CreatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(productos);
+                await _unitOfWork.CompleteAsync();
+
+                var productoCreadoActual = await repo.GetQuery()
+                .FirstOrDefaultAsync(x => x.Slug == request.Slug);
+
+                return Result<long>.Ok(productoCreadoActual?.Id ?? 0, "Producto creado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result<long>.Fail(ex.Message);
+            }
+        }
     }
 }
