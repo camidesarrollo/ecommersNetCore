@@ -131,4 +131,62 @@
     }, 100);
 }
 
+function handleImagePreview({
+    input,
+    wrapperSelector,
+    fallbackWrapperSelector = null,
+    previewSelector,
+    iconSelector
+}) {
+    const wrapper =
+        input.closest(wrapperSelector) ||
+        (fallbackWrapperSelector ? input.closest(fallbackWrapperSelector) : null);
+
+    if (!wrapper) {
+        console.error('No se encontró el contenedor de la imagen');
+        return;
+    }
+
+    const preview = wrapper.querySelector(previewSelector);
+    const icon = wrapper.querySelector(iconSelector);
+
+    if (!preview || !icon) {
+        console.error('Preview o icono no encontrados');
+        return;
+    }
+
+    if (!input.files || !input.files[0]) return;
+
+    const file = input.files[0];
+
+    // Validaciones
+    const maxSize = 5 * 1024 * 1024;
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+
+    if (file.size > maxSize) {
+        showError('La imagen no puede superar los 5MB');
+        input.value = '';
+        return;
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+        showError('Formato no permitido. Use JPG, PNG o WebP');
+        input.value = '';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = e => {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+        icon.classList.add('hidden');
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
 window.addImageBase = addImageBase;
+
+window.handleImagePreview = handleImagePreview;
+

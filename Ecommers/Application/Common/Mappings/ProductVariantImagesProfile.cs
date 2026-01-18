@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Ecommers.Application.DTOs.Requests.ProductVariantImages;
+using Ecommers.Application.DTOs.Requests.ProductVariants;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
 
@@ -11,6 +13,9 @@ namespace Ecommers.Application.Common.Mappings
             // ✅ Mapeo bidireccional entre Infraestructura y Dominio
             CreateMap<ProductVariantImages, ProductVariantImagesD>()
                 .ReverseMap();
+
+
+            CreateMap<ProductVariantImagesCreateRequest, ProductVariantImagesD>();
         }
     }
 }

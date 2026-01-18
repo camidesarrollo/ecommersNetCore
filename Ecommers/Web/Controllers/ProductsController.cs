@@ -9,6 +9,8 @@ using Ecommers.Application.DTOs.Requests.Categorias;
 using Ecommers.Application.DTOs.Requests.ProductAttributes;
 using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.DTOs.Requests.Products;
+using Ecommers.Application.DTOs.Requests.ProductVariantImages;
+using Ecommers.Application.DTOs.Requests.ProductVariants;
 using Ecommers.Application.Interfaces;
 using Ecommers.Application.Services;
 using Ecommers.Domain.Common;
@@ -118,37 +120,12 @@ namespace Ecommers.Web.Controllers
             try
             {
                 var form = Request.Form;
-                var files = Request.Form.Files;
+                var files = Request.Form.Files; 
 
-                var productImageFiles = Request.Form.Files
-                                        .Where(f => f.Name.StartsWith("ProductImages[") &&
-                                                    f.Name.EndsWith(".ImageFile"))
-                                        .ToList();
 
-                var ProductsAttributeValues = form
-                                        .Where(k => k.Key.StartsWith("ProductsAttributes["))
-                                        .Select(k => k.Value.ToString())
-                                        .Where(v => !string.IsNullOrWhiteSpace(v))
-                                        .ToList();
+                
 
-                var productImagesWithIndex = Request.Form.Files
-                                                                .Where(f => f.Name.StartsWith("ProductImages[") &&
-                                                                            f.Name.EndsWith(".ImageFile"))
-                                                                .Select(f =>
-                                                                {
-                                                                    var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
-                                                                    int index = match.Success ? int.Parse(match.Groups[1].Value) : -1;
 
-                                                                    return new
-                                                                    {
-                                                                        Index = index,
-                                                                        File = f
-                                                                    };
-                                                                })
-                                                                .Where(x => x.Index >= 0)
-                                                                .OrderBy(x => x.Index)
-                                                                .ToList();
-               
                 // 1️⃣ Crear el producto
                 var producto = new ProductsCreateRequest
                 {
@@ -199,6 +176,7 @@ namespace Ecommers.Web.Controllers
                 }
 
                 // 4️⃣ Procesar imágenes
+
                 var productImagesFiles = files
                     .Where(f => f.Name.StartsWith("ProductImages["))
                     .GroupBy(f =>
@@ -212,6 +190,26 @@ namespace Ecommers.Web.Controllers
 
                 var imagenesGuardadas = new List<ProductImagesCreateRequest>();
 
+                var productImagesWithIndex = Request.Form.Files
+                                                .Where(f => f.Name.StartsWith("ProductImages[") &&
+                                                            f.Name.EndsWith(".ImageFile"))
+                                                .Select(f =>
+                                                {
+                                                    var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
+                                                    int index = match.Success ? int.Parse(match.Groups[1].Value) : -1;
+
+                                                    return new
+                                                    {
+                                                        Index = index,
+                                                        File = f
+                                                    };
+                                                })
+                                                .Where(x => x.Index >= 0)
+                                                .OrderBy(x => x.Index)
+                                                .ToList();
+                // Generar nombre único para la imagen
+                var carpeta = $"Productos/{producto.Slug}";
+
                 foreach (var img in productImagesWithIndex)
                 {
                     var file = img.File;
@@ -224,8 +222,7 @@ namespace Ecommers.Web.Controllers
                         ? order
                         : img.Index + 1;
 
-                    // Generar nombre único para la imagen
-                    var carpeta = $"Productos/{producto.Slug}";
+
 
                     try
                     {
@@ -244,7 +241,7 @@ namespace Ecommers.Web.Controllers
                             var guardarImagen = await _imageStorage.UpdateAsync(
                                           imagenes,
                                           imagen.Url,
-                                          "Productos/" + producto.Slug);
+                                          carpeta);
 
                             if (guardarImagen != null) {
                                 imagen.Url = guardarImagen;
@@ -268,6 +265,12 @@ namespace Ecommers.Web.Controllers
                 {
                     _logger.LogWarning($"Producto {productoCreado.Data} creado sin imágenes");
                 }
+
+                var ProductsAttributeValues = form
+                                       .Where(k => k.Key.StartsWith("ProductsAttributes["))
+                                       .Select(k => k.Value.ToString())
+                                       .Where(v => !string.IsNullOrWhiteSpace(v))
+                                       .ToList();
 
 
                 List<ProductAttributesCreateRequest> productAttributes = [];
@@ -340,17 +343,156 @@ namespace Ecommers.Web.Controllers
                 }
 
                 //Guardar en ProductAttributes
-
-                foreach(var item in productAttributes)
+                foreach (var item in productAttributes)
                 {
                     var productAttributesGuardada = await _ProductAttributesService.CreateAsync(item);
                 }
 
                 //Guardar en ProductVariants
+                // ===============================
+                // AGRUPAR CAMPOS DE VARIANTES
+                // ===============================
+                var variantsGrouped = form
+                    .Where(k => k.Key.StartsWith("ProductVariants["))
+                    .Select(k =>
+                    {
+                        var match = Regex.Match(k.Key, @"ProductVariants\[(\d+)\]\.(.+)");
+
+                        return new
+                        {
+                            IsValid = match.Success,
+                            VariantIndex = match.Success ? int.Parse(match.Groups[1].Value) : -1,
+                            Property = match.Success ? match.Groups[2].Value : null,
+                            Value = k.Value.ToString()
+                        };
+                    })
+                    .Where(x => x.IsValid && !string.IsNullOrWhiteSpace(x.Value))
+                    .GroupBy(x => x.VariantIndex)
+                    .OrderBy(g => g.Key)
+                    .ToList();
 
 
+                // ===============================
+                // AGRUPAR IMÁGENES DE VARIANTES
+                // ===============================
+                var productVariantImagesWithIndex = Request.Form.Files
+                    .Where(f => f.Name.StartsWith("ProductVariants[") &&
+                                f.Name.Contains(".ProductVariantImages[") &&
+                                f.Name.EndsWith(".File"))
+                    .Select(f =>
+                    {
+                        var match = Regex.Match(
+                            f.Name,
+                            @"ProductVariants\[(\d+)\]\.ProductVariantImages\[(\d+)\]\.File"
+                        );
 
-                //Guardar en ProductVariantImages
+                        return new
+                        {
+                            VariantIndex = match.Success ? int.Parse(match.Groups[1].Value) : -1,
+                            ImageIndex = match.Success ? int.Parse(match.Groups[2].Value) : -1,
+                            File = f
+                        };
+                    })
+                    .Where(x => x.VariantIndex >= 0 && x.ImageIndex >= 0)
+                    .OrderBy(x => x.VariantIndex)
+                    .ThenBy(x => x.ImageIndex)
+                    .ToList();
+
+
+                // ===============================
+                // CREAR VARIANTES + IMÁGENES
+                // ===============================
+                List<ProductVariantsCreateRequest> ProductVariants = new();
+
+                foreach (var group in variantsGrouped)
+                {
+                    var variant = new ProductVariantsCreateRequest
+                    {
+                        ProductId = productoCreado.Data
+                    };
+
+                    // Mapear propiedades
+                    foreach (var field in group)
+                    {
+                        switch (field.Property)
+                        {
+                            case "SKU":
+                                variant.SKU = field.Value;
+                                break;
+
+                            case "Price":
+                                variant.Price = decimal.TryParse(field.Value, out var priceVariante) ? priceVariante : 0;
+                                break;
+
+                            case "CompareAtPrice":
+                                variant.CompareAtPrice = decimal.TryParse(field.Value, out var compare) ? compare : null;
+                                break;
+
+                            case "CostPrice":
+                                variant.CostPrice = decimal.TryParse(field.Value, out var cost) ? cost : null;
+                                break;
+
+                            case "StockQuantity":
+                                variant.StockQuantity = int.TryParse(field.Value, out var stock) ? stock : 0;
+                                break;
+
+                            case "ManageStock":
+                                variant.ManageStock = bool.TryParse(field.Value, out var manage) && manage;
+                                break;
+
+                            case "StockStatus":
+                                variant.StockStatus = field.Value;
+                                break;
+
+                            case "IsDefault":
+                                variant.IsDefault = bool.TryParse(field.Value, out var isDefault) && isDefault;
+                                break;
+
+                            case "IsActive":
+                                variant.IsActive = bool.TryParse(field.Value, out var isActive) && isActive;
+                                break;
+                        }
+                    }
+
+                    // Guardar variante
+                    var guardarVarianteProducto = await _ProductVariantsService.CreateAsync(variant);
+                    long productVariantId = guardarVarianteProducto.Data;
+
+                    ProductVariants.Add(variant);
+
+                    // ===============================
+                    // GUARDAR IMÁGENES DE LA VARIANTE
+                    // ===============================
+                    var variantImages = productVariantImagesWithIndex
+                        .Where(x => x.VariantIndex == group.Key)
+                        .OrderBy(x => x.ImageIndex)
+                        .ToList();
+                    //Guardar en ProductVariantImages
+
+                    foreach (var image in variantImages)
+                    {
+
+                        var altText = variant.Name;
+                        var sortOrder = image.ImageIndex;
+
+                        var imageRequest = new ProductVariantImagesCreateRequest
+                        {
+                            VariantId = productVariantId,
+                            AltText = altText,
+                            SortOrder = sortOrder,
+                            IsActive = true,
+                            IsPrimary = true
+                        };
+
+                        var guardarImagen = await _imageStorage.UpdateAsync(
+                               image.File,
+                            imageRequest.Url,
+                            carpeta+"/"+ altText);
+                        await _ProductVariantImagesService.CreateAsync(imageRequest);
+                    }
+                }
+ 
+
 
                 //Guardar en ProductPriceHistory
 

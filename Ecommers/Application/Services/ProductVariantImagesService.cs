@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.ProductVariantImages;
+using Ecommers.Application.DTOs.Requests.ProductVariantImages;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -62,13 +64,33 @@ namespace Ecommers.Application.Services
 
             var repo = _unitOfWork.Repository<ProductVariantImagesD, long>();
 
-            var productImages = await repo.GetQuery()
+            var ProductVariantImages = await repo.GetQuery()
                 .AsNoTracking()
                 .Where(x => x.VariantId == getByIdRequest.Id)
                 .ToListAsync();
 
 
-            return productImages;
+            return ProductVariantImages;
+        }
+
+        public async Task<Result> CreateAsync(ProductVariantImagesCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductVariantImagesD, long>();
+
+                var ProductVariantImages = _mapper.Map<ProductVariantImagesD>(request);
+                ProductVariantImages.UpdatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(ProductVariantImages);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("ProductVariantImages creada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
         }
     }
 }

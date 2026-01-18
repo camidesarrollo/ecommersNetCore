@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.ProductVariants;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
@@ -36,6 +38,29 @@ namespace Ecommers.Application.Services
             catch (Exception ex)
             {
                 return Result.Fail($"Error al eliminar la variante del producto: {ex.Message}");
+            }
+        }
+
+        public async Task<Result<long>> CreateAsync(ProductVariantsCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductVariantsD, long>();
+                var productos = _mapper.Map<ProductVariantsD>(request);
+                productos.UpdatedAt = DateTime.UtcNow;
+                productos.CreatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(productos);
+                await _unitOfWork.CompleteAsync();
+
+                var productoCreadoActual = await repo.GetQuery()
+                .FirstOrDefaultAsync(x => x.SKU == request.SKU);
+
+                return Result<long>.Ok(productoCreadoActual?.Id ?? 0, "La variante del producto creado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result<long>.Fail(ex.Message);
             }
         }
 

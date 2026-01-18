@@ -93,3 +93,19 @@ function traducirMensaje(msg) {
     // Fallback general
     return "El valor ingresado no es válido.";
 }
+
+
+function animateAndRemove(element, callback, delay = 300) {
+    if (!element) return;
+
+    element.style.opacity = '0';
+    element.style.transform = 'scale(0.95)';
+    element.style.transition = 'all 0.3s ease';
+
+    setTimeout(() => {
+        element.remove();
+        if (typeof callback === 'function') {
+            callback();
+        }
+    }, delay);
+}

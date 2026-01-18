@@ -19,7 +19,7 @@
             <span>Variante #<span class="variant-number">@(@Model.Index + 1)</span></span>
         </h6>
         <button type="button"
-                onclick="removeVariant(@Model.Index)"
+                onclick="removeVariant(event, @Model.Index)"
                 class="text-red-500 hover:text-red-700 transition">
             <i class="fas fa-trash-alt"></i>
         </button>

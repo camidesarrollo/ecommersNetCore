@@ -90,54 +90,13 @@ function addImageInput(event = null, isPrimary = false) {
 }
 
 window.previewImage = function (input) {
-
-    // Subir al contenedor raíz de la imagen
-    const wrapper = input.closest('[data-image-index]');
-
-    if (!wrapper) {
-        console.error('No se encontró el contenedor de la imagen');
-        return;
-    }
-
-    // Buscar preview e icono dentro del bloque
-    const preview = wrapper.querySelector('img[id^="ProductImages_preview_"]');
-    const icon = wrapper.querySelector('i[id^="ProductImages_icon_"]');
-
-    if (!preview || !icon) {
-        console.error('Preview o icono no encontrados');
-        return;
-    }
-
-    if (!input.files || !input.files[0]) return;
-
-    const file = input.files[0];
-
-    // Validar tamaño (5MB)
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-        showError('El archivo es demasiado grande. El tamaño máximo es 5MB.');
-        input.value = '';
-        return;
-    }
-
-    // Validar tipo
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-    if (!allowedTypes.includes(file.type)) {
-        showError('Tipo de archivo no permitido. Solo se aceptan JPG, PNG y WebP.');
-        input.value = '';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = e => {
-        preview.src = e.target.result;
-        preview.classList.remove('hidden');
-        icon.classList.add('hidden');
-    };
-
-    reader.readAsDataURL(file);
+    handleImagePreview({
+        input,
+        wrapperSelector: '[data-image-index]',
+        previewSelector: 'img[id^="ProductImages_preview_"]',
+        iconSelector: 'i[id^="ProductImages_icon_"]'
+    });
 };
-
 
 window.removeImageInput = function (index) {
     const imageDiv = document.querySelector(`[data-image-index="${index}"]`);
@@ -428,51 +387,14 @@ function addVariantImage(event) {
     });
 }
 
-window.previewVariantImage = function (input, index) {
-
-    // Subir al contenedor raíz de la imagen de variante
-    const wrapper = input.closest('[data-variant-image-index]')
-        || input.closest('.flex.items-start');
-
-    if (!wrapper) {
-        console.error('No se encontró el contenedor de la imagen');
-        return;
-    }
-
-    const preview = wrapper.querySelector('img');
-    const icon = wrapper.querySelector('i.fa-image');
-
-    if (!preview || !icon) {
-        console.error('Preview o icono no encontrados');
-        return;
-    }
-
-    if (!input.files || !input.files[0]) return;
-
-    const file = input.files[0];
-    const maxSize = 5 * 1024 * 1024;
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-
-    if (file.size > maxSize) {
-        showError('La imagen no puede superar los 5MB');
-        input.value = '';
-        return;
-    }
-
-    if (!allowedTypes.includes(file.type)) {
-        showError('Formato no permitido. Use JPG, PNG o WebP');
-        input.value = '';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = e => {
-        preview.src = e.target.result;
-        preview.classList.remove('hidden');
-        icon.classList.add('hidden');
-    };
-
-    reader.readAsDataURL(file);
+window.previewVariantImage = function (input) {
+    handleImagePreview({
+        input,
+        wrapperSelector: '[data-variant-image-index]',
+        fallbackWrapperSelector: '.flex.items-start',
+        previewSelector: 'img',
+        iconSelector: 'i.fa-image'
+    });
 };
 
 window.removeVariantImage = function (event, index) {
@@ -565,6 +487,7 @@ function reindexVariantImages(indiceContenedor) {
     // 🔥 Actualizar el contador global
     window.imageIndex = images.length;
 }
+
 window.updatePrimaryVariantImage = function (index) {
     document.querySelectorAll('[id^="variant_isPrimary_"]').forEach(input => {
         input.value = 'false';
