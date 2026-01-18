@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.ProductAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -37,5 +38,29 @@ namespace Ecommers.Application.Services
                 return Result.Fail($"Error al eliminar el atributo del producto: {ex.Message}");
             }
         }
+
+        // -------------------------------------------------------------------
+        // CREATE
+        // -------------------------------------------------------------------
+        public async Task<Result> CreateAsync(ProductAttributesCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductAttributesD, long>();
+
+                var productAttributes = _mapper.Map<ProductAttributesD>(request);
+                productAttributes.UpdatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(productAttributes);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("atributo del producto creado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
+        }
+
     }
 }

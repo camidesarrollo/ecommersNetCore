@@ -325,7 +325,7 @@ namespace Ecommers.Web.Controllers
 
                                 productAttributes.Add(new ProductAttributesCreateRequest
                                 {
-                                    ProductId = 0,
+                                    ProductId = productoCreado.Data,
                                     AttributeId = item.Id,
                                     ValueId = idValor,
                                     IsActive = true
@@ -341,7 +341,14 @@ namespace Ecommers.Web.Controllers
 
                 //Guardar en ProductAttributes
 
+                foreach(var item in productAttributes)
+                {
+                    var productAttributesGuardada = await _ProductAttributesService.CreateAsync(item);
+                }
+
                 //Guardar en ProductVariants
+
+
 
                 //Guardar en ProductVariantImages
 
