@@ -6,9 +6,9 @@ import { showSuccess, showError, showWarning, showInfo } from '../../bundle/noti
 // =============================== 
 // CONTADORES GLOBALES 
 // =============================== 
-let imageIndex = 0;
-let variantIndex = 0;
-let variantImageIndex = 0;
+window.imageIndex = 0;
+window.variantIndex = 0;
+window.variantImageIndex = 0;
 
 // =============================== 
 // INICIALIZACIÓN 
@@ -61,101 +61,17 @@ function initializeImageManager() {
 }
 
 function addImageInput(isPrimary = false) {
-    const ProductImagesDContainer = document.getElementById('ProductImagesDContainer');
-    if (!ProductImagesDContainer) {
-        console.error('Contenedor de imágenes no encontrado');
-        return;
-    }
-
-    const currentIndex = imageIndex++;
-    const isFirstImage = ProductImagesDContainer.querySelectorAll('.border-2.border-olive-green-300').length === 0;
-    const shouldBePrimary = isPrimary || isFirstImage;
-
-    const imageDiv = document.createElement('div');
-    imageDiv.className = 'border-2 border-olive-green-300 rounded-lg p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md';
-    imageDiv.setAttribute('data-image-index', currentIndex);
-
-    imageDiv.innerHTML = `
-        <div class="flex items-start gap-4">
-            <!-- Preview de la imagen -->
-            <div class="flex-shrink-0">
-                <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
-                    <img id="preview_${currentIndex}" src="" alt="Preview" class="w-full h-full object-cover hidden">
-                    <i id="icon_${currentIndex}" class="fas fa-image text-4xl text-gray-400"></i>
-                </div>
-            </div>
-
-            <!-- Controles de la imagen -->
-            <div class="flex-1 space-y-4">
-                <!-- Input de archivo -->
-                <div>
-                    <label class="block font-semibold mb-2">
-                        Archivo de imagen <span class="text-red-700">*</span>
-                    </label>
-                    <input type="file" 
-                           name="ProductImages[${currentIndex}].ImageFile" 
-                           accept="image/*" 
-                           data-max-size="5" 
-                           data-allowed-types="image/jpeg,image/png,image/webp" 
-                           required 
-                           onchange="previewImage(this, ${currentIndex})" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500/20 outline-none transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer">
-                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                        <i class="fas fa-info-circle"></i>
-                        Formatos: JPG, PNG, WebP (Máx: 5MB)
-                    </p>
-                </div>
-
-                <!-- Orden y Principal -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-semibold mb-2 text-sm">
-                            Orden <span class="text-red-700">*</span>
-                        </label>
-                        <input type="number" 
-                               name="ProductImages[${currentIndex}].SortOrder" 
-                               value="${currentIndex + 1}" 
-                               min="0" 
-                               required 
-                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition">
-                    </div>
-
-                    <div class="flex items-end">
-                        <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-olive-green-50 transition-colors">
-                            <input type="radio" 
-                                   name="PrimaryImageIndex" 
-                                   value="${currentIndex}" 
-                                   ${shouldBePrimary ? 'checked' : ''} 
-                                   onchange="updatePrimaryImage(${currentIndex})" 
-                                   class="w-5 h-5 text-olive-green-600 focus:ring-olive-green-500 cursor-pointer">
-                            <span class="text-sm font-semibold text-dark-chocolate">Imagen principal</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Hidden para IsPrimary -->
-                <input type="hidden" 
-                       name="ProductImages[${currentIndex}].IsPrimary" 
-                       id="isPrimary_${currentIndex}" 
-                       value="${shouldBePrimary ? 'true' : 'false'}">
-            </div>
-
-            <!-- Botón eliminar -->
-            <button type="button" 
-                    onclick="removeImageInput(${currentIndex})" 
-                    class="flex-shrink-0 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 p-3 rounded-lg" 
-                    title="Eliminar imagen">
-                <i class="fas fa-trash-alt text-lg"></i>
-            </button>
-        </div>
-    `;
-
-    ProductImagesDContainer.appendChild(imageDiv);
-
-    // Scroll suave hacia la nueva imagen
-    setTimeout(() => {
-        imageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
+    addImageBase({
+        containerId: 'ProductImagesDContainer',
+        indexRef: 'imageIndex',
+        indexName: 'image',
+        namePrefix: 'ProductImages',
+        previewFn: 'previewImage',
+        updatePrimaryFn: 'updatePrimaryImage',
+        removeFn: 'removeImageInput',
+        radioName: 'PrimaryImageIndex',
+        isPrimaryParam: isPrimary
+    });
 }
 
 window.previewImage = function (input, index) {
@@ -338,7 +254,6 @@ async function addVariant() {
         showError('Error al agregar la variante: ' + error.message);
     }
 }
-
 function removeVariant(index) {
     const container = document.getElementById('variantsContainer');
     const variants = container.querySelectorAll('.variant-item');
@@ -383,93 +298,16 @@ function updateVariantNumbers() {
    GESTIÓN DE IMÁGENES DE VARIANTES
    ===================================================== */
 function addVariantImage() {
-    const container = document.getElementById('ProductVariantImagesDContainer');
-    if (!container) {
-        console.error('Contenedor de imágenes de variante no encontrado');
-        return;
-    }
-
-    const currentIndex = variantImageIndex++;
-    const isFirstImage = container.querySelectorAll('[data-variant-image-index]').length === 0;
-
-    const imageDiv = document.createElement('div');
-    imageDiv.className = 'border-2 border-olive-green-300 rounded-lg p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md';
-    imageDiv.setAttribute('data-variant-image-index', currentIndex);
-
-    imageDiv.innerHTML = `
-        <div class="flex items-start gap-4">
-            <!-- Preview -->
-            <div class="flex-shrink-0">
-                <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
-                    <img id="variant_preview_${currentIndex}" src="" alt="Preview" class="w-full h-full object-cover hidden">
-                    <i id="variant_icon_${currentIndex}" class="fas fa-image text-4xl text-gray-400"></i>
-                </div>
-            </div>
-
-            <!-- Controles -->
-            <div class="flex-1 space-y-4">
-                <div>
-                    <label class="block font-semibold mb-2">
-                        Archivo de imagen <span class="text-red-700">*</span>
-                    </label>
-                    <input type="file" 
-                           name="ProductVariantImages[${currentIndex}].ImageFile" 
-                           accept="image/*" 
-                           required 
-                           onchange="previewVariantImage(this, ${currentIndex})" 
-                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600 file:cursor-pointer cursor-pointer">
-                    <p class="text-xs text-gray-500 mt-2">
-                        <i class="fas fa-info-circle"></i> Formatos: JPG, PNG, WebP (Máx: 5MB)
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-semibold mb-2 text-sm">
-                            Orden <span class="text-red-700">*</span>
-                        </label>
-                        <input type="number" 
-                               name="ProductVariantImages[${currentIndex}].SortOrder" 
-                               value="${currentIndex + 1}" 
-                               min="0" 
-                               required 
-                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition">
-                    </div>
-
-                    <div class="flex items-end">
-                        <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-olive-green-50 transition-colors">
-                            <input type="radio" 
-                                   name="PrimaryVariantImageIndex" 
-                                   value="${currentIndex}" 
-                                   ${isFirstImage ? 'checked' : ''} 
-                                   onchange="updatePrimaryVariantImage(${currentIndex})" 
-                                   class="w-5 h-5 text-olive-green-600 focus:ring-olive-green-500 cursor-pointer">
-                            <span class="text-sm font-semibold text-dark-chocolate">Imagen principal</span>
-                        </label>
-                    </div>
-                </div>
-
-                <input type="hidden" 
-                       name="ProductVariantImages[${currentIndex}].IsPrimary" 
-                       id="variant_isPrimary_${currentIndex}" 
-                       value="${isFirstImage ? 'true' : 'false'}">
-            </div>
-
-            <button type="button" 
-                    onclick="removeVariantImage(${currentIndex})" 
-                    class="flex-shrink-0 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 p-3 rounded-lg" 
-                    title="Eliminar imagen">
-                <i class="fas fa-trash-alt text-lg"></i>
-            </button>
-        </div>
-    `;
-
-    container.appendChild(imageDiv);
-
-    // Scroll suave
-    setTimeout(() => {
-        imageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
+    addImageBase({
+        containerId: 'ProductVariantImagesDContainer',
+        indexRef: 'variantImageIndex',
+        indexName: 'variant-image',
+        namePrefix: 'ProductVariantImages',
+        previewFn: 'previewVariantImage',
+        updatePrimaryFn: 'updatePrimaryVariantImage',
+        removeFn: 'removeVariantImage',
+        radioName: 'PrimaryVariantImageIndex'
+    });
 }
 
 window.previewVariantImage = function (input, index) {
