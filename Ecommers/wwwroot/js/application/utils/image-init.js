@@ -1,6 +1,6 @@
 ﻿function addImageBase(config) {
     const {
-        containerId,
+        containerElement,
         indexRef,
         indexName,
         namePrefix,
@@ -11,9 +11,11 @@
         isPrimaryParam = false
     } = config;
 
-    const container = document.getElementById(containerId);
+
+    console.log(config);
+    const container = containerElement;
     if (!container) {
-        console.error(`Contenedor ${containerId} no encontrado`);
+        console.error(`Contenedor ${container} no encontrado`);
         return;
     }
 

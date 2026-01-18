@@ -302,7 +302,7 @@
         </div>
 
         <!-- Sección de imágenes -->
-        <div class="border-t border-gray-200 pt-4 mt-4">
+        <div class="border-t border-gray-200 pt-4 mt-4 product-variant-images-wrapper">
             <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-olive-green-300">
                 <h5 class="text-xl font-semibold text-dark-chocolate flex items-center">
                     <i class="fas fa-images text-olive-green-600 mr-2"></i>
@@ -320,12 +320,6 @@
                           Images = Model.ProductVariantImages.ToList()
                       }">
             </ui-image>
-         
-            <div id="noImagesMessage" class="text-center py-12 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 hidden">
-                <i class="fas fa-image text-5xl mb-4 text-gray-400"></i>
-                <p class="text-lg font-medium mb-1">No hay imágenes agregadas</p>
-                <p class="text-sm">Haz clic en "Agregar Imagen" para comenzar</p>
-            </div>
         </div>
     </div>
 

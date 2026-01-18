@@ -45,24 +45,39 @@ function initializeImageManager() {
         return;
     }
 
-    // Evento para agregar nueva imagen
-    btnAddImage.addEventListener('click', function () {
-        addImageInput();
+    btnAddImage.addEventListener('click', function (e) {
+        addImageInput(e);
         updateNoImagesMessage();
     });
 
-    // Verificar si hay imágenes existentes
-    const existingImages = document.querySelectorAll('#ProductImagesDContainer .border-2.border-olive-green-300');
+    const existingImages = document.querySelectorAll(
+        '#ProductImagesDContainer .border-2.border-olive-green-300'
+    );
+
     if (existingImages.length === 0) {
-        addImageInput(true); // Agregar primera imagen como principal
+        addImageInput(null, true); // 👈 sin event
     }
 
     updateNoImagesMessage();
 }
 
-function addImageInput(isPrimary = false) {
+function addImageInput(event = null, isPrimary = false) {
+    let wrapper;
+
+    if (event?.currentTarget) {
+        wrapper = event.currentTarget.closest('.product-images-wrapper');
+    } else {
+        // fallback: primera sección disponible
+        wrapper = document.querySelector('.product-images-wrapper');
+    }
+
+    if (!wrapper) return;
+
+    const container = wrapper.querySelector('#ProductImagesDContainer');
+    if (!container) return;
+
     addImageBase({
-        containerId: 'ProductImagesDContainer',
+        containerElement: container,
         indexRef: 'imageIndex',
         indexName: 'image',
         namePrefix: 'ProductImages',
@@ -130,7 +145,7 @@ window.removeImageInput = function (index) {
     setTimeout(() => {
         imageDiv.remove();
         updateNoImagesMessage();
-
+        reindexImages();
         // Si era la imagen principal, seleccionar la primera disponible
         if (wasPrimary) {
             const firstRadio = document.querySelector('input[name="PrimaryImageIndex"]');
@@ -143,6 +158,51 @@ window.removeImageInput = function (index) {
         showSuccess('Imagen eliminada correctamente');
     }, 300);
 };
+
+function reindexImages() {
+    const container = document.getElementById('ProductImagesDContainer');
+    const images = container.querySelectorAll('[data-image-index]');
+
+    images.forEach((imageDiv, newIndex) => {
+
+        // data-image-index
+        imageDiv.setAttribute('data-image-index', newIndex);
+
+        // File input
+        const fileInput = imageDiv.querySelector('input[type="file"]');
+        fileInput.name = `ProductImages[${newIndex}].ImageFile`;
+        fileInput.setAttribute('onchange', `previewImage(this, ${newIndex})`);
+
+        // SortOrder
+        const sortInput = imageDiv.querySelector('input[name$=".SortOrder"]');
+        sortInput.name = `ProductImages[${newIndex}].SortOrder`;
+        sortInput.value = newIndex + 1;
+
+        // Radio
+        const radio = imageDiv.querySelector('input[type="radio"]');
+        radio.value = newIndex;
+        radio.setAttribute('onchange', `updatePrimaryImage(${newIndex})`);
+
+        // Hidden IsPrimary
+        const hidden = imageDiv.querySelector('input[type="hidden"]');
+        hidden.name = `ProductImages[${newIndex}].IsPrimary`;
+        hidden.id = `isPrimary_${newIndex}`;
+
+        // Preview
+        const img = imageDiv.querySelector('img');
+        img.id = `preview_${newIndex}`;
+
+        const icon = imageDiv.querySelector('i');
+        icon.id = `icon_${newIndex}`;
+
+        // Botón eliminar
+        const removeBtn = imageDiv.querySelector('button');
+        removeBtn.setAttribute('onclick', `removeImageInput(${newIndex})`);
+    });
+
+    // 🔥 Actualizar el contador global
+    window.imageIndex = images.length;
+}
 
 window.updatePrimaryImage = function (index) {
     // Actualizar todos los hidden inputs de IsPrimary
@@ -190,9 +250,9 @@ function initVariants() {
 function initVariantImageButtons() {
     // Usar delegación de eventos para manejar botones dinámicos
     document.addEventListener('click', function (e) {
-        if (e.target && e.target.id === 'btnAddVariantImages') {
+        if (e.target && e.target.id === 'addVariantImage') {
             e.preventDefault();
-            addVariantImage();
+            addVariantImage(e.target);
             updateNoVariantImagesMessage();
         }
     });
@@ -297,9 +357,23 @@ function updateVariantNumbers() {
 /* ===================================================== 
    GESTIÓN DE IMÁGENES DE VARIANTES
    ===================================================== */
-function addVariantImage() {
+function addVariantImage(event) {
+    let wrapper;
+
+    if (event) {
+        wrapper = event.closest('.product-variant-images-wrapper');
+    } else {
+        // fallback: primera sección disponible
+        wrapper = document.querySelector('.product-variant-images-wrapper');
+    }
+
+    if (!wrapper) return;
+
+    const container = wrapper.querySelector('#ProductVariantImagesDContainer');
+    if (!container) return;
+
     addImageBase({
-        containerId: 'ProductVariantImagesDContainer',
+        containerElement: container,
         indexRef: 'variantImageIndex',
         indexName: 'variant-image',
         namePrefix: 'ProductVariantImages',
@@ -356,6 +430,7 @@ window.removeVariantImage = function (index) {
     setTimeout(() => {
         imageDiv.remove();
         updateNoVariantImagesMessage();
+        reindexVariantImages();
 
         // Si era principal, seleccionar la primera disponible
         if (wasPrimary) {
@@ -370,6 +445,51 @@ window.removeVariantImage = function (index) {
     }, 300);
 };
 
+
+function reindexVariantImages() {
+    const container = document.getElementById('ProductVariantImagesDContainer');
+    const images = container.querySelectorAll('[data-variant-image-index]');
+
+    images.forEach((imageDiv, newIndex) => {
+
+        // data-image-index
+        imageDiv.setAttribute('data-variant-image-index', newIndex);
+
+        // File input
+        const fileInput = imageDiv.querySelector('input[type="file"]');
+        fileInput.name = `ProductVariantImages[${newIndex}].ImageFile`;
+        fileInput.setAttribute('onchange', `previewImage(this, ${newIndex})`);
+
+        // SortOrder
+        const sortInput = imageDiv.querySelector('input[name$=".SortOrder"]');
+        sortInput.name = `ProductVariantImages[${newIndex}].SortOrder`;
+        sortInput.value = newIndex + 1;
+
+        // Radio
+        const radio = imageDiv.querySelector('input[type="radio"]');
+        radio.value = newIndex;
+        radio.setAttribute('onchange', `updatePrimaryImage(${newIndex})`);
+
+        // Hidden IsPrimary
+        const hidden = imageDiv.querySelector('input[type="hidden"]');
+        hidden.name = `ProductVariantImages[${newIndex}].IsPrimary`;
+        hidden.id = `isPrimary_${newIndex}`;
+
+        // Preview
+        const img = imageDiv.querySelector('img');
+        img.id = `preview_${newIndex}`;
+
+        const icon = imageDiv.querySelector('i');
+        icon.id = `icon_${newIndex}`;
+
+        // Botón eliminar
+        const removeBtn = imageDiv.querySelector('button');
+        removeBtn.setAttribute('onclick', `removeImageInput(${newIndex})`);
+    });
+
+    // 🔥 Actualizar el contador global
+    window.imageIndex = images.length;
+}
 window.updatePrimaryVariantImage = function (index) {
     document.querySelectorAll('[id^="variant_isPrimary_"]').forEach(input => {
         input.value = 'false';
