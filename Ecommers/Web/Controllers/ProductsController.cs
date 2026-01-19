@@ -605,10 +605,7 @@ namespace Ecommers.Web.Controllers
                         }
                     }
 
-
                 }
-
-
 
                 TempData["SuccessMessage"] = $"Producto '{producto.Name}' creado exitosamente con {imagenesGuardadas.Count} imagen(es)";
                 return RedirectToAction("Index");
@@ -798,6 +795,8 @@ namespace Ecommers.Web.Controllers
 
                 if (finalResult.Success)
                 {
+                    await _AtrributeValueService.DeleteMasivoSinUso();
+
                     TempData["mensaje"] = "Producto eliminado exitosamente";
                     TempData["estado"] = "Exito";
                 }

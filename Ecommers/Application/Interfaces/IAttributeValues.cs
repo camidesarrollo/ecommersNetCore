@@ -17,7 +17,7 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result<AttributeValuesD>> GetByValueAsync(string tipovalor, string valor);
         Task<Result<long>> CreateAsync(AttributeValuesCreateRequest request);
-
+        Task DeleteMasivoSinUso();
 
     }
 }

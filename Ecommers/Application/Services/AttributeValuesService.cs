@@ -159,7 +159,27 @@ namespace Ecommers.Application.Services
             }
         }
 
+        public async Task DeleteMasivoSinUso()
+        {
+            var atributosSinUso = AttributeValuesQueries.GetAttributeValuesSinRelacion(_context);
 
+            if(atributosSinUso.Count > 0)
+            {
+                foreach(var item in atributosSinUso)
+                {
+                    var repo = _unitOfWork.Repository<AttributeValuesD, long>();
+                    var entity = await repo.GetByIdAsync(item.Id);
+
+                    if (entity == null)
+                    {
+                        continue;
+                    }
+
+                    repo.Remove(entity);
+                    await _unitOfWork.CompleteAsync();
+                }
+            }
+        }
 
     }
 }

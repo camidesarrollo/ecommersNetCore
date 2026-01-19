@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.Requests.VariantAttributes;
 using Ecommers.Application.Interfaces;
@@ -44,6 +45,7 @@ namespace Ecommers.Application.Services
         {
             try
             {
+
                 var repo = _unitOfWork.Repository<VariantAttributesD, long>();
 
                 var VariantAttributes = _mapper.Map<VariantAttributesD>(request);
