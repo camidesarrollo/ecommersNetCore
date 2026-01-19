@@ -20,7 +20,6 @@ namespace Ecommers.Application.Services
         {
             try
             {
-                // Validaciones
                 if (file == null || file.Length == 0)
                     throw new ArgumentException("El archivo está vacío o es nulo.");
 
@@ -29,47 +28,39 @@ namespace Ecommers.Application.Services
 
                 var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
                 if (!_allowedExtensions.Contains(extension))
-                    throw new ArgumentException($"Extensión de archivo no permitida. Permitidas: {string.Join(", ", _allowedExtensions)}");
+                    throw new ArgumentException($"Extensión no permitida.");
 
-                // Sanitizar subfolder
-                subfolder = SanitizeSubfolder(subfolder);
+                // 🔹 SANITIZAR SUBFOLDER
+                var safeSubfolder = SanitizeSubfolder(subfolder);
 
-                // ================================
-                // SVG: se copia tal cual, sin convertir
-                // ================================
+                var basePath = Path.Combine(_environment.WebRootPath, "img");
+                var targetDirectory = Path.Combine(basePath, safeSubfolder);
+
+                if (!Directory.Exists(targetDirectory))
+                    Directory.CreateDirectory(targetDirectory);
+
+                // =====================
+                // SVG (sin conversión)
+                // =====================
                 if (extension == ".svg")
                 {
-                    var svgName = $"{Guid.NewGuid()}.svg";
-                    var svgRelative = Path.Combine(BASE_PATH, subfolder, svgName);
-                    var svgPhysical = Path.Combine(_environment.WebRootPath, svgRelative);
+                    var fileName = $"{Guid.NewGuid()}.svg";
+                    var physicalPath = Path.Combine(targetDirectory, fileName);
 
-                    var dir = Path.GetDirectoryName(svgPhysical);
-                    if (!Directory.Exists(dir))
-                        Directory.CreateDirectory(dir!);
-
-                    using (var stream = new FileStream(svgPhysical, FileMode.Create))
+                    using (var stream = new FileStream(physicalPath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
 
-                    var urlSvg = $"/{svgRelative.Replace("\\", "/")}";
-                    _logger.LogInformation("SVG subido sin conversión: {Url}", urlSvg);
-                    return urlSvg;
+                    return $"/img/{Path.Combine(safeSubfolder, fileName).Replace("\\", "/")}";
                 }
 
-                // ================================
-                // Resto de imágenes → convertir a WEBP
-                // ================================
-                var fileName = $"{Guid.NewGuid()}.webp"; // SIEMPRE webp
-                var relativePath = Path.Combine(BASE_PATH, subfolder, fileName);
-                var physicalPath = Path.Combine(_environment.WebRootPath, relativePath);
+                // =====================
+                // IMÁGENES → WEBP
+                // =====================
+                var webpName = $"{Guid.NewGuid()}.webp";
+                var webpPath = Path.Combine(targetDirectory, webpName);
 
-                // Crear carpeta
-                var directory = Path.GetDirectoryName(physicalPath);
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory!);
-
-                // Convertir a WebP
                 using var memoryStream = new MemoryStream();
                 await file.CopyToAsync(memoryStream);
                 memoryStream.Position = 0;
@@ -82,14 +73,10 @@ namespace Ecommers.Application.Services
                         FileFormat = WebpFileFormatType.Lossy
                     };
 
-                    await image.SaveAsync(physicalPath, encoder);
+                    await image.SaveAsync(webpPath, encoder);
                 }
 
-                // Retornar URL web
-                var url = $"/{relativePath.Replace("\\", "/")}";
-                _logger.LogInformation("Imagen convertida y subida como WebP: {Url}", url);
-
-                return url;
+                return $"/img/{Path.Combine(safeSubfolder, webpName).Replace("\\", "/")}";
             }
             catch (Exception ex)
             {
@@ -192,17 +179,19 @@ namespace Ecommers.Application.Services
             if (string.IsNullOrWhiteSpace(subfolder))
                 return string.Empty;
 
-            // Remover caracteres peligrosos
-            var invalidChars = Path.GetInvalidPathChars()
-                .Concat(['/', '\\', ':', '*', '?', '"', '<', '>', '|'])
-                .ToArray();
+            // Normalizar separadores a '/'
+            subfolder = subfolder.Replace("\\", "/");
 
-            subfolder = string.Join("_", subfolder.Split(invalidChars, StringSplitOptions.RemoveEmptyEntries));
+            var invalidChars = Path.GetInvalidFileNameChars();
 
-            // Evitar ataques de path traversal
-            subfolder = subfolder.Replace("..", "").Trim();
+            var safeParts = subfolder
+                .Split('/', StringSplitOptions.RemoveEmptyEntries)
+                .Where(p => p != "." && p != "..") // evita traversal
+                .Select(part =>
+                    string.Concat(part.Select(c => invalidChars.Contains(c) ? '_' : c))
+                );
 
-            return subfolder;
+            return Path.Combine(safeParts.ToArray());
         }
         private static async Task ConvertToWebpAsync(Stream input, string outputPath)
         {

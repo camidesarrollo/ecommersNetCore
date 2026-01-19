@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.VariantAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
+using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
@@ -35,6 +38,25 @@ namespace Ecommers.Application.Services
             catch (Exception ex)
             {
                 return Result.Fail($"Error al eliminar el atributo de variante: {ex.Message}");
+            }
+        }
+        public async Task<Result> CreateAsync(VariantAttributesCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<VariantAttributesD, long>();
+
+                var VariantAttributes = _mapper.Map<VariantAttributesD>(request);
+                VariantAttributes.UpdatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(VariantAttributes);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("VariantAttributes creada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
             }
         }
     }

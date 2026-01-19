@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.ProductPriceHistory;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -35,6 +36,26 @@ namespace Ecommers.Application.Services
             catch (Exception ex)
             {
                 return Result.Fail($"Error al eliminar el historial de precio: {ex.Message}");
+            }
+        }
+
+        public async Task<Result> CreateAsync(ProductPriceHistoryCreateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductPriceHistoryD, long>();
+
+                var ProductPriceHistory = _mapper.Map<ProductPriceHistoryD>(request);
+                ProductPriceHistory.UpdatedAt = DateTime.UtcNow;
+
+                await repo.AddAsync(ProductPriceHistory);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("El historial de precio del producto creada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
             }
         }
     }
