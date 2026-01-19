@@ -158,20 +158,16 @@ namespace Ecommers.Web.Controllers
                     return HandleResult(productoCreado, nameof(Index));
                 }
 
-                // 4️⃣ Procesar imágenes
-                var productId = productoCreado.Data;
-                var carpeta = $"Productos/{producto.Slug}";
-
                 // 2. Procesar imágenes del producto
-                await _ProductImagesService.ProcesarImagenesProducto(files, form, productId, producto);
+                await _ProductImagesService.ProcesarImagenesProducto(files, form, productoCreado.Data, producto);
 
                 // 3. Procesar atributos del producto
-                await _ProductAttributesService.ProcesarAtributosProducto(form, productId);
+                await _ProductAttributesService.ProcesarAtributosProducto(form, productoCreado.Data);
 
                 // 4. Procesar variantes del producto
-                await _ProductVariantsService.ProcesarVariantesProducto(form, files, productId, producto.Slug);
+                await _ProductVariantsService.ProcesarVariantesProducto(form, files, productoCreado.Data, producto.Slug);
 
-                return RedirectToAction("Index");
+                return HandleResult(productoCreado, nameof(Index));
             }
             catch (Exception ex)
             {
@@ -180,12 +176,6 @@ namespace Ecommers.Web.Controllers
                 return View("~/Web/Views/Products/Index.cshtml");
             }
         }
-
-
-
-
-
-
 
 
         // -------------------------------------------------------------------
