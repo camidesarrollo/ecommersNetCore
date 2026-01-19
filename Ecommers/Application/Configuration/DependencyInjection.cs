@@ -86,6 +86,8 @@ namespace Ecommers.Application.Configuration
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IImageStorage, ImageStorageService>();
             services.AddScoped<IAttributeValues, AttributeValuesService>();
+
+        
             // Cache
             services.AddMemoryCache();
 

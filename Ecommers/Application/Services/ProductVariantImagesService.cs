@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.Requests.ProductVariantImages;
-using Ecommers.Application.DTOs.Requests.ProductVariantImages;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -90,6 +89,36 @@ namespace Ecommers.Application.Services
             catch (Exception ex)
             {
                 return Result.Fail(ex.Message);
+            }
+        }
+
+        public async Task ProcesarImagenesVariante(
+    List<(int VariantIndex, int ImageIndex, IFormFile File)> todasImagenes,
+    int variantIndex,
+    long variantId,
+    string carpetaBase)
+        {
+            var imagenesVariante = todasImagenes
+                .Where(x => x.VariantIndex == variantIndex)
+                .OrderBy(x => x.ImageIndex)
+                .ToList();
+
+            foreach (var imagen in imagenesVariante)
+            {
+                var imageRequest = new ProductVariantImagesCreateRequest
+                {
+                    VariantId = variantId,
+                    AltText = $"Variante {variantId}",
+                    SortOrder = imagen.ImageIndex,
+                    IsActive = true,
+                    IsPrimary = true,
+                    Url = await _imageStorage.UpdateAsync(
+                        imagen.File,
+                        null,
+                        $"{carpetaBase}/variante_{variantId}") ?? ""
+                };
+
+                await CreateAsync(imageRequest);
             }
         }
     }

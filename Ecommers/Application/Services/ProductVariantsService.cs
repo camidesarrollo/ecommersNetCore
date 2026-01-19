@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Ecommers.Application.Common.Mappings;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.ProductPriceHistory;
 using Ecommers.Application.DTOs.Requests.ProductVariants;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
@@ -12,12 +14,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
-    public class ProductVariantsService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context)
+    public class ProductVariantsService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context, IProductPriceHistory ProductPriceHistoryService, IProductVariantImages ProductVariantImagesService, IVariantAttributes VariantAttributesService)
             : IProductVariants
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
         private readonly EcommersContext _context = context;
+
+        private readonly IProductPriceHistory _ProductPriceHistoryService = ProductPriceHistoryService;
+
+        private readonly IProductVariantImages _ProductVariantImagesService = ProductVariantImagesService;
+        private readonly IVariantAttributes _VariantAttributesService = VariantAttributesService;
 
         public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
@@ -51,10 +58,10 @@ namespace Ecommers.Application.Services
                 productos.UpdatedAt = DateTime.UtcNow;
                 productos.CreatedAt = DateTime.UtcNow;
 
-                var result = ProductVariantsExtensions.DeterminarStock(productos);
-                productos.ManageStock = result.manageStock;
-                productos.StockQuantity = result.stockQuantity;
-                productos.StockStatus = result.stockStatus;
+                var (stockQuantity, stockStatus, manageStock) = ProductVariantsExtensions.DeterminarStock(productos);
+                productos.ManageStock = manageStock;
+                productos.StockQuantity = stockQuantity;
+                productos.StockStatus = stockStatus;
 
                 await repo.AddAsync(productos);
                 await _unitOfWork.CompleteAsync();
@@ -69,6 +76,41 @@ namespace Ecommers.Application.Services
                 return Result<long>.Fail(ex.Message);
             }
         }
+
+        public async Task ProcesarVariantesProducto(
+    IFormCollection form,
+    IFormFileCollection files,
+    long productId,
+    string slug)
+        {
+            var variantesAgrupadas = ProductVariantsFromMapper.AgruparCamposVariantes(form);
+            var imagenesVariantes = ProductVariantImagesFormMapper.ObtenerImagenesVariantes(files);
+            var carpeta = $"Productos/{slug}";
+
+            foreach (var grupo in variantesAgrupadas)
+            {
+                var variante = ProductVariantsFromMapper.MapearVariante(grupo, productId);
+                var resultado = await CreateAsync(variante);
+                var variantId = resultado.Data;
+
+                if (variantId > 0)
+                {
+                     await _ProductPriceHistoryService.CreateAsync(new ProductPriceHistoryCreateRequest
+                                                                        {
+                                                                            VariantId = variantId,
+                                                                            Price = variante.Price,
+                                                                            CompareAtPrice = variante.CompareAtPrice,
+                                                                            StartDate = DateTime.Now,
+                                                                            Reason = "Creación de la variante",
+                                                                            IsActive = variante.IsActive
+                                                                        });
+
+                    await _ProductVariantImagesService.ProcesarImagenesVariante(imagenesVariantes, grupo.Key, variantId, carpeta);
+                    await _VariantAttributesService.ProcesarAtributosVariante(form, grupo.Key, variantId);
+                }
+            }
+        }
+
 
     }
 }

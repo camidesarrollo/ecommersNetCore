@@ -3,6 +3,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using Azure.Core;
+using Ecommers.Application.Common.Mappings;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
 using Ecommers.Application.DTOs.Requests.AttributeValues;
@@ -16,6 +17,7 @@ using Ecommers.Application.DTOs.Requests.ProductVariants;
 using Ecommers.Application.DTOs.Requests.VariantAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Application.Services;
+using Ecommers.Application.Validator;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Domain.Extensions;
@@ -124,490 +126,51 @@ namespace Ecommers.Web.Controllers
             try
             {
                 var form = Request.Form;
-                var files = Request.Form.Files; 
+                var files = Request.Form.Files;
+
+                var producto = ProductFormMapper.CrearProductoDesdeForm(Request.Form);
+
+                var validator = new ProductsCreateRequestValidator();
+                var result = validator.Validate(producto);
 
 
-
-                // 1️⃣ Crear el producto
-                var producto = new ProductsCreateRequest
+                if (!result.IsValid)
                 {
-                    Name = form["Products.Name"],
-                    Description = form["Products.Description"],
-                    ShortDescription = form["Products.ShortDescription"],
-                    CategoryId = int.TryParse(form["Products.CategoryId"], out var catId) ? catId : 0,
-                    BasePrice = decimal.TryParse(form["Products.BasePrice"], out var price) ? price : 0,
-                    Slug = form["Products.Slug"],
-                    IsActive =true
-                };
-
-                // 2️⃣ Validaciones
-                if (string.IsNullOrWhiteSpace(producto.Name))
-                {
-                    ModelState.AddModelError("Products.Name", "El nombre es obligatorio");
-                }
-
-                if (string.IsNullOrWhiteSpace(producto.Description))
-                {
-                    ModelState.AddModelError("Products.Description", "La descripción es obligatoria");
-                }
-
-                if (producto.CategoryId == 0)
-                {
-                    ModelState.AddModelError("Products.CategoryId", "Debe seleccionar una categoría");
-                }
-
-                if (producto.BasePrice <= 0)
-                {
-                    ModelState.AddModelError("Products.BasePrice", "El precio debe ser mayor a 0");
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    // Recargar datos necesarios para la vista (categorías, etc.)
-                    ViewBag.ErrorMessage = "Por favor corrija los errores en el formulario";
-                    return View("~/Web/Views/Products/Index.cshtml");
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                    }
+                    return View("~/Web/Views/Products/Create.cshtml", form);
                 }
 
                 // 3️⃣ Guardar producto primero para obtener el ID
                 var productoCreado = await _Productservice.CreateAsync(producto);
 
-                if (productoCreado == null || productoCreado.Data == 0)
+                if(productoCreado == null)
                 {
-                    ModelState.AddModelError("", "Error al crear el producto");
+                    _logger.LogError("Error al crear producto");
+                    ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
                     return View("~/Web/Views/Products/Index.cshtml");
                 }
 
+                if (productoCreado.Data == 0)
+                {
+                    return HandleResult(productoCreado, nameof(Index));
+                }
+
                 // 4️⃣ Procesar imágenes
-
-                var productImagesFiles = files
-                    .Where(f => f.Name.StartsWith("ProductImages["))
-                    .GroupBy(f =>
-                    {
-                        var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
-                        return match.Success ? int.Parse(match.Groups[1].Value) : -1;
-                    })
-                    .Where(g => g.Key >= 0)
-                    .OrderBy(g => g.Key)
-                    .ToDictionary(g => g.Key, g => g.ToList());
-
-                var imagenesGuardadas = new List<ProductImagesCreateRequest>();
-
-                var productImagesWithIndex = Request.Form.Files
-                                                .Where(f => f.Name.StartsWith("ProductImages[") &&
-                                                            f.Name.EndsWith(".ImageFile"))
-                                                .Select(f =>
-                                                {
-                                                    var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
-                                                    int index = match.Success ? int.Parse(match.Groups[1].Value) : -1;
-
-                                                    return new
-                                                    {
-                                                        Index = index,
-                                                        File = f
-                                                    };
-                                                })
-                                                .Where(x => x.Index >= 0)
-                                                .OrderBy(x => x.Index)
-                                                .ToList();
-                // Generar nombre único para la imagen
+                var productId = productoCreado.Data;
                 var carpeta = $"Productos/{producto.Slug}";
 
-                foreach (var img in productImagesWithIndex)
-                {
-                    var file = img.File;
+                // 2. Procesar imágenes del producto
+                await _ProductImagesService.ProcesarImagenesProducto(files, form, productId, producto);
 
-                    if (file.Length == 0) continue;
+                // 3. Procesar atributos del producto
+                await _ProductAttributesService.ProcesarAtributosProducto(form, productId);
 
+                // 4. Procesar variantes del producto
+                await _ProductVariantsService.ProcesarVariantesProducto(form, files, productId, producto.Slug);
 
-                    var altText = form[$"ProductImages[{img.Index}].AltText"].ToString() ?? producto.Name;
-                    var sortOrder = int.TryParse(form[$"ProductImages[{img.Index}].SortOrder"], out var order)
-                        ? order
-                        : img.Index + 1;
-
-
-
-                    try
-                    {
-                        var imagen = new ProductImagesCreateRequest
-                        {
-                            ProductId = productoCreado.Data,
-                            AltText = string.IsNullOrWhiteSpace(altText) ? producto.Name : altText,
-                            SortOrder = sortOrder,
-                            IsActive = true,
-                            IsPrimary = form[$"ProductImages[{img.Index}].IsPrimary"] == "true" ? true :  false
-                        }; 
-
-                        foreach(var imagenes in productImagesFiles[img.Index])
-
-                        {
-                            var guardarImagen = await _imageStorage.UpdateAsync(
-                                          imagenes,
-                                          imagen.Url,
-                                          carpeta);
-
-                            if (guardarImagen != null) {
-                                imagen.Url = guardarImagen;
-                            }
-                        }
-
-                        // Guardar imagen en BD
-                        var imagenGuardada = await _ProductImagesService.CreateAsync(imagen);
-                       
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log del error pero continuar con otras imágenes
-                        _logger.LogError(ex, $"Error al subir imagen {img.Index} del producto {productoCreado.Data}");
-                    }
-
-                }
-
-                // 5️⃣ Verificar que al menos se guardó una imagen
-                if (imagenesGuardadas.Count == 0)
-                {
-                    _logger.LogWarning($"Producto {productoCreado.Data} creado sin imágenes");
-                }
-
-                var ProductsAttributeValues = form
-                                       .Where(k => k.Key.StartsWith("ProductsAttributes["))
-                                       .Select(k => k.Value.ToString())
-                                       .Where(v => !string.IsNullOrWhiteSpace(v))
-                                       .ToList();
-
-
-                List<ProductAttributesCreateRequest> productAttributes = [];
-
-                var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
-
-                if (ProductsAttributeValues.Count > 0)
-                {
-                    
-
-                    foreach (var item in MaestroAtributes.Where(x=> x.AppliesTo == "product").ToList())
-                    {
-                        var value = form["ProductsAttributes[" + item.Id + "].Value"];
-
-                        foreach (var valor in value)
-                        {
-                            if (valor != null)
-                            {
-                                var buscarValorIngresado = await _AtrributeValueService.GetByValueAsync(item.DataType, valor);
-
-                                var idValor = buscarValorIngresado?.Data?.Id;
-                                if (idValor == null || idValor == 0)
-                                {
-                                    var validaDecimal = true;
-                                    if (!decimal.TryParse(valor, out var decimalValue))
-                                    {
-                                        validaDecimal = false;
-                                    }
-
-                                    var validaInt = true;
-                                    if (!int.TryParse(valor, out var intValue))
-                                    {
-                                        validaInt = false;
-                                    }
-
-                                    var validaBool = true;
-
-                                    if (!bool.TryParse(valor, out var boolValue))
-                                    {
-                                        validaBool = true;
-                                    }
-
-                                    var nuevoAtributo = new AttributeValuesCreateRequest
-                                    {
-                                        AttributeId = item.Id,
-                                        ValueString = item.DataType == "string" && valor.Length <= 225 ? valor : null,
-                                        ValueText = item.DataType == "text" && valor.Length > 225 ? valor : null,
-                                        ValueDecimal = item.DataType == "decimal" && validaDecimal == true ? decimalValue : null,
-                                        ValueInt = item.DataType == "number" && validaInt == true ? intValue : null,
-                                        ValueBoolean = item.DataType == "boolean" && validaBool == true ? validaBool : null,
-                                        ValueDate = null,
-                                        IsActive = true
-                                    };
-
-                                    //valida que alguno de los valores no se null
-                          
-                                    var crearAtributo = await _AtrributeValueService.CreateAsync(nuevoAtributo);
-                                    idValor = crearAtributo.Data;
-
-
-                                    if(idValor != 0)
-                                    {
-                                        
-
-                                        var productAttributesGuardada = await _ProductAttributesService.CreateAsync(new ProductAttributesCreateRequest
-                                        {
-                                            ProductId = productoCreado.Data,
-                                            AttributeId = item.Id,
-                                            ValueId = idValor,
-                                            IsActive = true
-                                        });
-                                    }
-                                }
-
-                               
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-
-                //Guardar en ProductVariants
-                // ===============================
-                // AGRUPAR CAMPOS DE VARIANTES
-                // ===============================
-                var variantsGrouped = form
-                    .Where(k => k.Key.StartsWith("ProductVariants["))
-                    .Select(k =>
-                    {
-                        var match = Regex.Match(k.Key, @"ProductVariants\[(\d+)\]\.(.+)");
-
-                        return new
-                        {
-                            IsValid = match.Success,
-                            VariantIndex = match.Success ? int.Parse(match.Groups[1].Value) : -1,
-                            Property = match.Success ? match.Groups[2].Value : null,
-                            Value = k.Value.ToString()
-                        };
-                    })
-                    .Where(x => x.IsValid && !string.IsNullOrWhiteSpace(x.Value))
-                    .GroupBy(x => x.VariantIndex)
-                    .OrderBy(g => g.Key)
-                    .ToList();
-
-
-                // ===============================
-                // AGRUPAR IMÁGENES DE VARIANTES
-                // ===============================
-                var productVariantImagesWithIndex = Request.Form.Files
-                                 .Where(f =>
-                                     f.Name.StartsWith("ProductVariants[") &&
-                                     f.Name.Contains(".ProductVariantImages[") &&
-                                     f.Name.EndsWith(".ImageFile")
-                                 )
-                                 .Select(f =>
-                                 {
-                                     var match = Regex.Match(
-                                         f.Name,
-                                         @"ProductVariants\[(\d+)\]\.ProductVariantImages\[(\d+)\]\.ImageFile"
-                                     );
-
-                                     return new
-                                     {
-                                         VariantIndex = match.Success ? int.Parse(match.Groups[1].Value) : -1,
-                                         ImageIndex = match.Success ? int.Parse(match.Groups[2].Value) : -1,
-                                         File = f
-                                     };
-                                 })
-                                 .Where(x => x.VariantIndex >= 0 && x.ImageIndex >= 0)
-                                 .OrderBy(x => x.VariantIndex)
-                                 .ThenBy(x => x.ImageIndex)
-                                 .ToList();
-
-                // ===============================
-                // CREAR VARIANTES + IMÁGENES
-                // ===============================
-
-                foreach (var group in variantsGrouped)
-                {
-                    var variant = new ProductVariantsCreateRequest
-                    {
-                        ProductId = productoCreado.Data
-                    };
-
-                    // Mapear propiedades
-                    foreach (var field in group)
-                    {
-                        switch (field.Property)
-                        {
-                            case "SKU":
-                                variant.SKU = field.Value;
-                                break;
-
-                            case "Price":
-                                variant.Price = decimal.TryParse(field.Value, out var priceVariante) ? priceVariante : 0;
-                                break;
-
-                            case "CompareAtPrice":
-                                variant.CompareAtPrice = decimal.TryParse(field.Value, out var compare) ? compare : null;
-                                break;
-
-                            case "CostPrice":
-                                variant.CostPrice = decimal.TryParse(field.Value, out var cost) ? cost : null;
-                                break;
-
-                            case "StockQuantity":
-                                variant.StockQuantity = int.TryParse(field.Value, out var stock) ? stock : 0;
-                                break;
-
-                            case "ManageStock":
-                                variant.ManageStock = bool.TryParse(field.Value, out var manage) && manage;
-                                break;
-
-                            case "StockStatus":
-                                variant.StockStatus = field.Value;
-                                break;
-
-                            case "IsDefault":
-                                variant.IsDefault = bool.TryParse(field.Value, out var isDefault) && isDefault;
-                                break;
-
-                            case "IsActive":
-                                variant.IsActive = bool.TryParse(field.Value, out var isActive) && isActive;
-                                break;
-                        }
-                    }
-
-                    // Guardar variante
-                    var guardarVarianteProducto = await _ProductVariantsService.CreateAsync(variant);
-                    long productVariantId = guardarVarianteProducto.Data;
-
-                    var guardarHistoriaPrecios = await _ProductPriceHistoryService.CreateAsync(new ProductPriceHistoryCreateRequest
-                    {
-                        VariantId = productVariantId,
-                        Price = variant.Price,
-                        CompareAtPrice = variant.CompareAtPrice,
-                        StartDate = DateTime.Now,
-                        Reason = "Creación de la variante",
-                        IsActive = variant.IsActive
-                    });
-
-
-                    // ===============================
-                    // GUARDAR IMÁGENES DE LA VARIANTE
-                    // ===============================
-                    var variantImages = productVariantImagesWithIndex
-                        .Where(x => x.VariantIndex == group.Key)
-                        .OrderBy(x => x.ImageIndex)
-                        .ToList();
-                    //Guardar en ProductVariantImages
-
-                    foreach (var image in variantImages)
-                    {
-
-                        var altText = variant.Name;
-                        var sortOrder = image.ImageIndex;
-
-                        var imageRequest = new ProductVariantImagesCreateRequest
-                        {
-                            VariantId = productVariantId,
-                            AltText = altText,
-                            SortOrder = sortOrder,
-                            IsActive = true,
-                            IsPrimary = true
-                        };
-
-                        imageRequest.Url = await _imageStorage.UpdateAsync(
-                               image.File,
-                            imageRequest.Url,
-                            carpeta+"/"+ altText) ?? "";
-
-                        await _ProductVariantImagesService.CreateAsync(imageRequest);
-                    }
-                    var productsVariantAttributeValues = form
-                        .Where(k => k.Key.StartsWith($"ProductVariants[{group.Key}].Attributes["))
-                        .Select(k => new
-                        {
-                            Key = k.Key,
-                            Value = k.Value.ToString()
-                        })
-                        .Where(x => !string.IsNullOrWhiteSpace(x.Value))
-                        .ToList();
-
-                    if (!productsVariantAttributeValues.Any())
-                        continue;
-
-                    foreach (var attribute in MaestroAtributes.Where(x => x.AppliesTo == "variant"))
-                    {
-                        var valuesForAttribute = productsVariantAttributeValues
-                            .Where(x => x.Key.Contains($"Attributes[{attribute.Id}]"));
-
-                        foreach (var entry in valuesForAttribute)
-                        {
-                            var rawValue = entry.Value;
-
-                            if (string.IsNullOrWhiteSpace(rawValue))
-                                continue;
-
-                            // Buscar si el valor ya existe
-                            var existingValue = await _AtrributeValueService
-                                .GetByValueAsync(attribute.DataType, rawValue);
-
-                            var valueId = existingValue?.Data?.Id ?? 0;
-
-                            if (valueId == 0)
-                            {
-                                decimal? decimalValue = null;
-                                int? intValue = null;
-                                bool? boolValue = null;
-
-                                if (attribute.DataType == "decimal" &&
-                                    decimal.TryParse(rawValue, out var d))
-                                {
-                                    decimalValue = d;
-                                }
-
-                                if (attribute.DataType == "number" &&
-                                    int.TryParse(rawValue, out var i))
-                                {
-                                    intValue = i;
-                                }
-
-                                if (attribute.DataType == "boolean" &&
-                                    bool.TryParse(rawValue, out var b))
-                                {
-                                    boolValue = b;
-                                }
-
-                                var nuevoAtributo = new AttributeValuesCreateRequest
-                                {
-                                    AttributeId = attribute.Id,
-                                    ValueString = attribute.DataType == "string" && rawValue.Length <= 225 ? rawValue : null,
-                                    ValueText = attribute.DataType == "text" && rawValue.Length > 225 ? rawValue : null,
-                                    ValueDecimal = decimalValue,
-                                    ValueInt = intValue,
-                                    ValueBoolean = boolValue,
-                                    ValueDate = null,
-                                    IsActive = true
-                                };
-
-                                // Validar que al menos un valor fue asignado
-                                if (nuevoAtributo.ValueString == null &&
-                                    nuevoAtributo.ValueText == null &&
-                                    nuevoAtributo.ValueDecimal == null &&
-                                    nuevoAtributo.ValueInt == null &&
-                                    nuevoAtributo.ValueBoolean == null)
-                                {
-                                    continue;
-                                }
-
-                                var createdValue = await _AtrributeValueService.CreateAsync(nuevoAtributo);
-                                valueId = createdValue?.Data ?? 0;
-                            }
-
-                            if (valueId > 0)
-                            {
-                                await _VariantAttributesService.CreateAsync(
-                                    new VariantAttributesCreateRequest
-                                    {
-                                        VariantId = productVariantId,
-                                        AttributeId = attribute.Id,
-                                        ValueId = valueId,
-                                        IsActive = true
-                                    });
-                            }
-                        }
-                    }
-
-                }
-
-                TempData["SuccessMessage"] = $"Producto '{producto.Name}' creado exitosamente con {imagenesGuardadas.Count} imagen(es)";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -617,6 +180,14 @@ namespace Ecommers.Web.Controllers
                 return View("~/Web/Views/Products/Index.cshtml");
             }
         }
+
+
+
+
+
+
+
+
         // -------------------------------------------------------------------
         // GET: /Gestion/Categorias/Editar/{id}
         // -------------------------------------------------------------------

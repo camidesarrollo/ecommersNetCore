@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ecommers.Application.DTOs.Requests.ProductPriceHistory;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
 
@@ -11,6 +12,8 @@ namespace Ecommers.Application.Common.Mappings
             // ✅ Mapeo bidireccional entre Infraestructura y Dominio
             CreateMap<ProductPriceHistory, ProductPriceHistoryD>()
                 .ReverseMap();
+
+            CreateMap<ProductPriceHistoryCreateRequest, ProductPriceHistoryD>();
         }
     }
 }

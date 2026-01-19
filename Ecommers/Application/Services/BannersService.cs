@@ -167,10 +167,7 @@ namespace Ecommers.Application.Services
             try
             {
                 // Reordenar si es necesario
-                if (request.SortOrder != null)
-                {
-                    await ReordenarAsync(request.Id, request.SortOrder.Value);
-                }
+                await ReordenarAsync(request.Id, request.SortOrder);
 
                 await UpdateInternalAsync(request);
                 await _unitOfWork.CompleteAsync();

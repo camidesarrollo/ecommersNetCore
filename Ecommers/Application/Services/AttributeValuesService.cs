@@ -1,9 +1,11 @@
 ﻿using System;
 using AutoMapper;
 using Azure.Core;
+using Ecommers.Application.Common.Mappings;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.Requests.AttributeValues;
 using Ecommers.Application.Interfaces;
+using Ecommers.Application.Validator;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Domain.Extensions;
@@ -157,6 +159,28 @@ namespace Ecommers.Application.Services
             {
                 return Result<long>.Fail(ex.Message);
             }
+        }
+
+        public async Task<long> ObtenerOCrearValorAtributo(dynamic atributo, string valor)
+        {
+            var valorExistente = await GetByValueAsync(atributo.DataType, valor);
+
+            if (valorExistente?.Data?.Id > 0)
+                return valorExistente.Data.Id;
+
+            var nuevoValor = AttributeValuesFromMapper.CrearNuevoValorAtributo(atributo, valor);
+
+            var validator = new AttributeValuesCreateRequestValidator();
+            var result = validator.Validate(nuevoValor);
+
+
+            if (!result.IsValid)
+            {
+                return 0;
+            }
+
+            var resultado = await CreateAsync(nuevoValor);
+            return resultado?.Data ?? 0;
         }
 
         public async Task DeleteMasivoSinUso()

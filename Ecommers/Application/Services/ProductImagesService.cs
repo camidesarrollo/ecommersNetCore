@@ -1,27 +1,30 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using Ecommers.Application.Common.Mappings;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.Requests.Categorias;
 using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.DTOs.Requests.ProductImages;
+using Ecommers.Application.DTOs.Requests.Products;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
+using Ecommers.Web.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
-    public class ProductImagesService(IUnitOfWork unitOfWork, IMapper mapper, IImageStorage imageStorage, EcommersContext context)
+    public class ProductImagesService(ILogger<ProductImagesService> logger, IUnitOfWork unitOfWork, IMapper mapper, IImageStorage imageStorage, EcommersContext context)
             : IProductImages
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
         private readonly IImageStorage _imageStorage = imageStorage;
         private readonly EcommersContext _context = context;
-
+        private readonly ILogger<ProductImagesService> _logger = logger;
         public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
             try
@@ -77,6 +80,8 @@ namespace Ecommers.Application.Services
         // -------------------------------------------------------------------
         // CREATE
         // -------------------------------------------------------------------
+        
+        
         public async Task<Result> CreateAsync(ProductImagesCreateRequest request)
         {
             try
@@ -117,6 +122,42 @@ namespace Ecommers.Application.Services
             {
                 return Result.Fail(ex.Message);
             }
+        }
+
+        public async Task ProcesarImagenesProducto(
+                                                    IFormFileCollection files,
+                                                    IFormCollection form,
+                                                    long productId,
+                                                    ProductsCreateRequest producto)
+        {
+            var imagenesConIndice = ProductImagesFormMapper.ObtenerImagenesConIndice(files);
+            var carpeta = $"Productos/{producto.Slug}";
+            var imagenesGuardadas = 0;
+
+            foreach (var img in imagenesConIndice)
+            {
+                if (img.File.Length == 0) continue;
+
+                try
+                {
+                    var imagen = ProductImagesFormMapper.CrearImagenProductoDesdeForm(form, img, productId, producto.Name);
+                    var urlImagen = await _imageStorage.UpdateAsync(img.File, null, carpeta);
+
+                    if (!string.IsNullOrEmpty(urlImagen))
+                    {
+                        imagen.Url = urlImagen;
+                        await CreateAsync(imagen);
+                        imagenesGuardadas++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error al subir imagen {img.Index} del producto {productId}");
+                }
+            }
+
+            if (imagenesGuardadas == 0)
+                _logger.LogWarning($"Producto {productId} creado sin imágenes");
         }
 
         private async Task UpdateInternalAsync(ProductImagesUpdateRequest request)

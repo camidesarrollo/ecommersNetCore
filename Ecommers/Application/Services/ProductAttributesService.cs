@@ -11,12 +11,15 @@ using Ecommers.Infrastructure.Queries;
 
 namespace Ecommers.Application.Services
 {
-    public class ProductAttributesService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context)
+    public class ProductAttributesService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context, IMasterAttributes MasterAttributesService,
+            IAttributeValues AtrributeValueService)
             : IProductAttributes
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
         private readonly EcommersContext _context = context;
+        private readonly IAttributeValues _AtrributeValueService = AtrributeValueService;
+        private readonly IMasterAttributes _MasterAttributeService = MasterAttributesService;
 
         public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
@@ -60,6 +63,35 @@ namespace Ecommers.Application.Services
             catch (Exception ex)
             {
                 return Result.Fail(ex.Message);
+            }
+        }
+
+        public async Task ProcesarAtributosProducto(IFormCollection form, long productId)
+        {
+            var maestroAtributos = await _MasterAttributeService.GetAllActiveAsync();
+            var atributosProducto = maestroAtributos.Where(x => x.AppliesTo == "product").ToList();
+
+            foreach (var atributo in atributosProducto)
+            {
+                var valores = form[$"ProductsAttributes[{atributo.Id}].Value"];
+
+                foreach (var valor in valores)
+                {
+                    if (string.IsNullOrWhiteSpace(valor)) continue;
+
+                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, valor);
+
+                    if (valueId > 0)
+                    {
+                        await CreateAsync(new ProductAttributesCreateRequest
+                        {
+                            ProductId = productId,
+                            AttributeId = atributo.Id,
+                            ValueId = valueId,
+                            IsActive = true
+                        });
+                    }
+                }
             }
         }
     }

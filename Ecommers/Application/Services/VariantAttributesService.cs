@@ -12,12 +12,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
-    public class VariantAttributesService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context)
+    public class VariantAttributesService(IUnitOfWork unitOfWork, IMapper mapper, EcommersContext context, IMasterAttributes MasterAttributesService,
+            IAttributeValues AtrributeValueService)
             : IVariantAttributes
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
         private readonly EcommersContext _context = context;
+        private readonly IAttributeValues _AtrributeValueService = AtrributeValueService;
+        private readonly IMasterAttributes _MasterAttributeService = MasterAttributesService;
 
         public async Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest)
         {
@@ -59,6 +62,37 @@ namespace Ecommers.Application.Services
             catch (Exception ex)
             {
                 return Result.Fail(ex.Message);
+            }
+        }
+
+        public async Task ProcesarAtributosVariante(IFormCollection form, int variantIndex, long variantId)
+        {
+            var maestroAtributos = await _MasterAttributeService.GetAllActiveAsync();
+            var atributosVariante = maestroAtributos.Where(x => x.AppliesTo == "variant").ToList();
+
+            foreach (var atributo in atributosVariante)
+            {
+                var valores = form
+                    .Where(k => k.Key.StartsWith($"ProductVariants[{variantIndex}].Attributes[{atributo.Id}]"))
+                    .Select(k => k.Value.ToString())
+                    .Where(v => !string.IsNullOrWhiteSpace(v))
+                    .ToList();
+
+                foreach (var valor in valores)
+                {
+                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, valor);
+
+                    if (valueId > 0)
+                    {
+                        await CreateAsync(new VariantAttributesCreateRequest
+                        {
+                            VariantId = variantId,
+                            AttributeId = atributo.Id,
+                            ValueId = valueId,
+                            IsActive = true
+                        });
+                    }
+                }
             }
         }
     }

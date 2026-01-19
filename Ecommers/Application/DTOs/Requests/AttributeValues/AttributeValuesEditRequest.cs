@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
-namespace Ecommers.Application.DTOs.Requests.Servicios
+namespace Ecommers.Application.DTOs.Requests.AttributeValues
 {
-    public class ServiciosUpdateRequest : ServiciosBaseRequest
+    public class AttributeValuesEditRequest : AttributeValuesBaseRequest
     {
         [Required(ErrorMessage = "El Id es obligatorio.")]
         public long Id { get; set; }
     }
 }
-
-

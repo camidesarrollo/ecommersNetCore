@@ -9,5 +9,7 @@ namespace Ecommers.Application.Interfaces
         Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest);
 
         Task<Result> CreateAsync(VariantAttributesCreateRequest request);
+
+        Task ProcesarAtributosVariante(IFormCollection form, int variantIndex, long variantId);
     }
 }
