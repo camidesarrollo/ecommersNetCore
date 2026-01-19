@@ -4,6 +4,7 @@ using Ecommers.Application.DTOs.Requests.ProductVariants;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
+using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
@@ -49,6 +50,11 @@ namespace Ecommers.Application.Services
                 var productos = _mapper.Map<ProductVariantsD>(request);
                 productos.UpdatedAt = DateTime.UtcNow;
                 productos.CreatedAt = DateTime.UtcNow;
+
+                var result = ProductVariantsExtensions.DeterminarStock(productos);
+                productos.ManageStock = result.manageStock;
+                productos.StockQuantity = result.stockQuantity;
+                productos.StockStatus = result.stockStatus;
 
                 await repo.AddAsync(productos);
                 await _unitOfWork.CompleteAsync();

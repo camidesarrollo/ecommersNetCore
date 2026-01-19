@@ -50,5 +50,17 @@ namespace Ecommers.Domain.Extensions
 
             return attributeValue.ValueBoolean.ToString();
         }
+
+        public static bool TieneAlgunValor(AttributeValuesD attr)
+        {
+            if (attr == null) return false;
+
+            return attr.ValueString != null
+                || attr.ValueText != null
+                || attr.ValueDecimal.HasValue
+                || attr.ValueInt.HasValue
+                || attr.ValueBoolean.HasValue
+                || attr.ValueDate.HasValue;
+        }
     }
 }

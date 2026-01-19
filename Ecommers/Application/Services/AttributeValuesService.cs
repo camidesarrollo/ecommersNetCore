@@ -6,7 +6,9 @@ using Ecommers.Application.DTOs.Requests.AttributeValues;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
+using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence;
+using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
 
@@ -125,6 +127,14 @@ namespace Ecommers.Application.Services
             {
                 var repo = _unitOfWork.Repository<AttributeValuesD, long>();
                 var valorAtributos = _mapper.Map<AttributeValuesD>(request);
+
+                var validarInsert = AttributeValuesExtensions.TieneAlgunValor(valorAtributos);
+
+                if (!validarInsert)
+                {
+                    return Result<long>.Fail("No es posible insertarlo porque contiene todos sus valores nulos");
+                }
+
                 valorAtributos.UpdatedAt = DateTime.UtcNow;
                 valorAtributos.CreatedAt = DateTime.UtcNow;
 
@@ -148,6 +158,8 @@ namespace Ecommers.Application.Services
                 return Result<long>.Fail(ex.Message);
             }
         }
+
+
 
     }
 }

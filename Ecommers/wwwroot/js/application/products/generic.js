@@ -546,6 +546,51 @@ function generateSlug(text) {
         .replace(/\s+/g, '-') // Espacios a guiones
         .replace(/-+/g, '-'); // Múltiples guiones a uno solo
 }
+function generateSKU(value) {
+    const words = value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase()
+        .replace(/[^A-Z0-9 ]/g, "")
+        .trim()
+        .split(/\s+/);
+
+    const result = [];
+
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+
+        // si es KG y el elemento anterior es número → unir
+        if (word === "KG" && result.length && /^\d+$/.test(result[result.length - 1])) {
+            result[result.length - 1] += "KG";
+            continue;
+        }
+
+        // si es solo número
+        if (/^\d+$/.test(word)) {
+            result.push(word);
+            continue;
+        }
+
+        // palabras → 3 primeras letras
+        result.push(word.substring(0, 3));
+    }
+
+    return result.join("-");
+}
+
+// tiempo real
+document.addEventListener("input", function (e) {
+    if (!e.target.classList.contains("variant-name")) return;
+
+    const container = e.target.closest("[data-variant-index]");
+    if (!container) return;
+
+    const skuInput = container.querySelector(".variant-sku");
+    if (!skuInput) return;
+
+    skuInput.value = generateSKU(e.target.value);
+});
 
 /* ===================================================== 
    EXPONER FUNCIONES GLOBALMENTE 

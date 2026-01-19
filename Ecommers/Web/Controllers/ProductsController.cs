@@ -15,6 +15,7 @@ using Ecommers.Application.Interfaces;
 using Ecommers.Application.Services;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
+using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Persistence.Repositories;
 using Ecommers.Web.Filters;
@@ -120,10 +121,29 @@ namespace Ecommers.Web.Controllers
             try
             {
                 var form = Request.Form;
-                var files = Request.Form.Files; 
+                var files = Request.Form.Files;
+                var productVariantImagesWithIndex = Request.Form.Files
+                  .Where(f => f.Name.StartsWith("ProductVariants[") &&
+                              f.Name.Contains(".ProductVariantImages[") &&
+                              f.Name.EndsWith(".File"))
+                  .Select(f =>
+                  {
+                      var match = Regex.Match(
+                          f.Name,
+                          @"ProductVariants\[(\d+)\]\.ProductVariantImages\[(\d+)\]\.File"
+                      );
 
-
-                
+                      return new
+                      {
+                          VariantIndex = match.Success ? int.Parse(match.Groups[1].Value) : -1,
+                          ImageIndex = match.Success ? int.Parse(match.Groups[2].Value) : -1,
+                          File = f
+                      };
+                  })
+                  .Where(x => x.VariantIndex >= 0 && x.ImageIndex >= 0)
+                  .OrderBy(x => x.VariantIndex)
+                  .ThenBy(x => x.ImageIndex)
+                  .ToList();
 
 
                 // 1️⃣ Crear el producto
@@ -318,21 +338,32 @@ namespace Ecommers.Web.Controllers
                                         ValueText = item.DataType == "text" && valor.Length > 225 ? valor : null,
                                         ValueDecimal = item.DataType == "decimal" && validaDecimal == true ? decimalValue : null,
                                         ValueInt = item.DataType == "number" && validaInt == true ? intValue : null,
-                                        ValueBoolean = item.DataType == "boolean" && validaBool == true ? validaBool : false,
+                                        ValueBoolean = item.DataType == "boolean" && validaBool == true ? validaBool : null,
                                         ValueDate = null,
                                         IsActive = true
                                     };
+
+                                    //valida que alguno de los valores no se null
+                          
                                     var crearAtributo = await _AtrributeValueService.CreateAsync(nuevoAtributo);
                                     idValor = crearAtributo.Data;
+
+
+                                    if(idValor != 0)
+                                    {
+                                        
+
+                                        var productAttributesGuardada = await _ProductAttributesService.CreateAsync(new ProductAttributesCreateRequest
+                                        {
+                                            ProductId = productoCreado.Data,
+                                            AttributeId = item.Id,
+                                            ValueId = idValor,
+                                            IsActive = true
+                                        });
+                                    }
                                 }
 
-                                productAttributes.Add(new ProductAttributesCreateRequest
-                                {
-                                    ProductId = productoCreado.Data,
-                                    AttributeId = item.Id,
-                                    ValueId = idValor,
-                                    IsActive = true
-                                });
+                               
 
                             }
 
@@ -342,11 +373,6 @@ namespace Ecommers.Web.Controllers
 
                 }
 
-                //Guardar en ProductAttributes
-                foreach (var item in productAttributes)
-                {
-                    var productAttributesGuardada = await _ProductAttributesService.CreateAsync(item);
-                }
 
                 //Guardar en ProductVariants
                 // ===============================
@@ -375,7 +401,7 @@ namespace Ecommers.Web.Controllers
                 // ===============================
                 // AGRUPAR IMÁGENES DE VARIANTES
                 // ===============================
-                var productVariantImagesWithIndex = Request.Form.Files
+                productVariantImagesWithIndex = Request.Form.Files
                     .Where(f => f.Name.StartsWith("ProductVariants[") &&
                                 f.Name.Contains(".ProductVariantImages[") &&
                                 f.Name.EndsWith(".File"))
@@ -492,11 +518,6 @@ namespace Ecommers.Web.Controllers
                     }
                 }
  
-
-
-                //Guardar en ProductPriceHistory
-
-                //VariantAttributes 
 
 
                 TempData["SuccessMessage"] = $"Producto '{producto.Name}' creado exitosamente con {imagenesGuardadas.Count} imagen(es)";

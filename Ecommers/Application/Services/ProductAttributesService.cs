@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.AttributeValues;
 using Ecommers.Application.DTOs.Requests.ProductAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
+using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Queries;
 
@@ -47,7 +49,6 @@ namespace Ecommers.Application.Services
             try
             {
                 var repo = _unitOfWork.Repository<ProductAttributesD, long>();
-
                 var productAttributes = _mapper.Map<ProductAttributesD>(request);
                 productAttributes.UpdatedAt = DateTime.UtcNow;
 
@@ -61,6 +62,5 @@ namespace Ecommers.Application.Services
                 return Result.Fail(ex.Message);
             }
         }
-
     }
 }

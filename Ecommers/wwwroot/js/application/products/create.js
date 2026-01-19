@@ -6,9 +6,6 @@ import {
     initBlurValidation,
 } from "../../domain/utils/ui/input.validation.js";
 
-import {
-    setupSlugAutoGeneration,
-} from "./generic.js";
 
 /* =====================================================
    CONFIGURACIÓN DEL TOUR - CREAR PRODUCTO
@@ -311,7 +308,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.productCreateTour = tour;
 
-    setupSlugAutoGeneration();
 });
 
 /* =====================================================
