@@ -1,4 +1,4 @@
-﻿import Swal from "sweetalert2";
+﻿import Swal, { SweetAlertIcon } from "sweetalert2";
 import { showSpinner, hideSpinner, type SpinnerType } from "../components/spinner";
 import { castFormDataBySchema } from "../schema/zod-generic";
 import { ZodError } from "zod";
@@ -192,6 +192,68 @@ export function handleZodFormSubmit<T = any>({
             hideSpinner();
         }
     });
+}
+
+export function handleConfirmAction({
+  action,
+  title = "¿Estás seguro?",
+  html,
+  text,
+  icon = "warning" as SweetAlertIcon,
+  confirmText = "Sí, continuar",
+  cancelText = "Cancelar",
+  spinnerAction = null,
+  onConfirm,
+  onCancel
+}: {
+  action: (event?: Event) => void | Promise<void>;
+  title?: string;
+  html?: string;
+  text?: string;
+  icon?: SweetAlertIcon;
+  confirmText?: string;
+  cancelText?: string;
+  spinnerAction?: SpinnerType | null; // <-- Cambiado aquí
+  onConfirm?: () => void;
+  onCancel?: () => void;
+}) {
+  return async function (event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    try {
+      const result = await Swal.fire({
+        title,
+        html,
+        text,
+        icon,
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: confirmText,
+        cancelButtonText: cancelText,
+        reverseButtons: true,
+        focusCancel: true
+      });
+
+      if (result.isConfirmed) {
+        if (spinnerAction) {
+          showSpinner(spinnerAction);
+        }
+
+        await action(event);
+
+        onConfirm?.();
+      } else {
+        onCancel?.();
+      }
+    } catch (error) {
+      console.error("Error en confirmación:", error);
+      hideSpinner();
+    }
+  };
 }
 
 // =====================================================

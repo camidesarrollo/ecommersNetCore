@@ -28,11 +28,17 @@ namespace Ecommers.Application.DTOs.Requests.Configuracion
 
         public string? Pais { get; set; }
 
+        public IFormFile? LogoFile { get; set; }
+
         public string? Logo { get; set; }
 
         public string? Favicon { get; set; }
 
+        public IFormFile? FaviconFile { get; set; }
+
         public string? BannerPrincipal { get; set; }
+
+        public IFormFile? BannerFile { get; set; }
 
         public string? Facebook { get; set; }
 

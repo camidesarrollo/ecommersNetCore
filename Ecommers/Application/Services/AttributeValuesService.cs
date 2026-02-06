@@ -130,9 +130,7 @@ namespace Ecommers.Application.Services
                 var repo = _unitOfWork.Repository<AttributeValuesD, long>();
                 var valorAtributos = _mapper.Map<AttributeValuesD>(request);
 
-                var validarInsert = AttributeValuesExtensions.TieneAlgunValor(valorAtributos);
-
-                if (!validarInsert)
+                if (!AttributeValuesExtensions.TieneAlgunValor(valorAtributos))
                 {
                     return Result<long>.Fail("No es posible insertarlo porque contiene todos sus valores nulos");
                 }
@@ -143,17 +141,23 @@ namespace Ecommers.Application.Services
                 await repo.AddAsync(valorAtributos);
                 await _unitOfWork.CompleteAsync();
 
-                var valorAtributoCreadoActual = await repo.GetQuery()
-                .FirstOrDefaultAsync(x => x.AttributeId == request.AttributeId && 
-                                          x.ValueString == request.ValueString && 
-                                          x.ValueText == request.ValueText &&
-                                          x.ValueDecimal == request.ValueDecimal && 
-                                          x.ValueInt == request.ValueInt && 
-                                          x.ValueBoolean == request.ValueBoolean && 
-                                          x.DisplayOrder == request.DisplayOrder && 
-                                          x.IsActive == request.IsActive);
+                // Si el ID sigue siendo 0, buscamos manualmente con precaución de NULOS
+                if (valorAtributos.Id == 0)
+                {
+                    var query = repo.GetQuery().Where(x => x.AttributeId == request.AttributeId);
 
-                return Result<long>.Ok(valorAtributoCreadoActual?.Id ?? 0, "Valor de atributo creado exitosamente");
+                    // Comparaciones manuales para evitar el problema de ANSI NULLS en SQL
+                    var registro = await query.ToListAsync(); // Traemos pocos registros para filtrar en memoria si es necesario
+
+                    var match = registro.FirstOrDefault(x => (request.ValueString != null && 
+                        x.ValueString == request.ValueString ) || (request.ValueDecimal != null && x.ValueDecimal == request.ValueDecimal)
+                        || (request.ValueInt != null && x.ValueInt == request.ValueInt) || (request.ValueBoolean != null && x.ValueBoolean == request.ValueBoolean)
+                    );
+
+                    return Result<long>.Ok(match?.Id ?? 0, "Valor recuperado por búsqueda");
+                }
+
+                return Result<long>.Ok(valorAtributos.Id, "Valor de atributo creado exitosamente");
             }
             catch (Exception ex)
             {

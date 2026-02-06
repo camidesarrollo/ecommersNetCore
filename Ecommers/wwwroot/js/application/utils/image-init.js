@@ -11,15 +11,12 @@
         isPrimaryParam = false
     } = config;
 
-
     console.log(config);
     const container = containerElement;
     if (!container) {
         console.error(`Contenedor ${container} no encontrado`);
         return;
     }
-
-    //si window[indexRef] es un array buscar el valor por la posicion de indexName
 
     let currentIndex;
 
@@ -49,44 +46,46 @@
         currentIndex = window[indexRef];
         window[indexRef]++;
     }
+    
     const isFirstImage = container.querySelectorAll(`[data-${indexName}-index]`).length === 0;
     const shouldBePrimary = isPrimaryParam || isFirstImage;
 
     const imageDiv = document.createElement('div');
-    imageDiv.className =
-        'border-2 border-olive-green-300 rounded-lg p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md';
+    imageDiv.className = 'border-2 border-olive-green-300 rounded-lg p-3 md:p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md';
     imageDiv.setAttribute(`data-${indexName}-index`, currentIndex);
 
     imageDiv.innerHTML = `
-        <div class="flex items-start gap-4">
+        <div class="image-block-layout">
             <!-- Preview -->
-            <div class="flex-shrink-0">
-                <div class="w-28 h-28 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
+            <div class="image-preview-container">
+                <div class="image-preview-box">
                     <img id="${namePrefix}_preview_${currentIndex}" class="w-full h-full object-cover hidden">
-                    <i id="${namePrefix}_icon_${currentIndex}" class="fas fa-image text-4xl text-gray-400"></i>
+                    <i id="${namePrefix}_icon_${currentIndex}" class="fas fa-image text-3xl md:text-4xl text-gray-400"></i>
                 </div>
             </div>
 
             <!-- Controles -->
-            <div class="flex-1 space-y-4">
+            <div class="image-controls-container">
                 <div>
-                    <label class="block font-semibold mb-2">
+                    <label for="${namePrefix}_file_${currentIndex}" class="block font-semibold mb-2 text-sm md:text-base">
                         Archivo de imagen <span class="text-red-700">*</span>
                     </label>
                     <input type="file"
+                        id="${namePrefix}_file_${currentIndex}"
                         name="${namePrefix}[${currentIndex}].ImageFile"
                         accept="image/*"
                         required
                         onchange="${previewFn}(this, ${currentIndex})"
-                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition
-                               file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
-                               file:bg-olive-green-500 file:text-white file:font-semibold hover:file:bg-olive-green-600
-                               file:cursor-pointer cursor-pointer">
+                        class="image-file-input">
+                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                        <i class="fas fa-info-circle"></i>
+                        Formatos: JPG, PNG, WebP
+                    </p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="image-order-grid">
                     <div>
-                        <label class="block font-semibold mb-2 text-sm">
+                        <label class="block font-semibold mb-2 text-xs md:text-sm">
                             Orden <span class="text-red-700">*</span>
                         </label>
                         <input type="number"
@@ -94,18 +93,18 @@
                             value="${currentIndex + 1}"
                             min="0"
                             required
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition">
+                            class="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:border-olive-green-500 outline-none transition">
                     </div>
 
                     <div class="flex items-end">
-                        <label class="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-olive-green-50 transition-colors">
+                        <label class="image-primary-label">
                             <input type="radio"
                                 name="${radioName}"
                                 value="${currentIndex}"
                                 ${shouldBePrimary ? 'checked' : ''}
                                 onchange="${updatePrimaryFn}(${currentIndex})"
-                                class="w-5 h-5 text-olive-green-600 cursor-pointer">
-                            <span class="text-sm font-semibold text-dark-chocolate">Imagen principal</span>
+                                class="w-4 h-4 md:w-5 md:h-5 text-olive-green-600 focus:ring-olive-green-500 cursor-pointer flex-shrink-0">
+                            <span class="text-xs md:text-sm font-semibold text-dark-chocolate whitespace-nowrap">Imagen principal</span>
                         </label>
                     </div>
                 </div>
@@ -118,13 +117,21 @@
 
             <button type="button"
                 onclick="${removeFn}(event, ${currentIndex})"
-                class="flex-shrink-0 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 p-3 rounded-lg">
-                <i class="fas fa-trash-alt text-lg"></i>
+                class="image-delete-button"
+                title="Eliminar imagen"
+                aria-label="Eliminar imagen">
+                <i class="fas fa-trash-alt text-base md:text-lg"></i>
             </button>
         </div>
     `;
 
     container.appendChild(imageDiv);
+
+    // Ocultar mensaje de "no hay imágenes" si existe
+    const noImageMessage = document.querySelector(`#no${indexName}Message`);
+    if (noImageMessage) {
+        noImageMessage.classList.add('hidden');
+    }
 
     setTimeout(() => {
         imageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -185,8 +192,5 @@ function handleImagePreview({
     reader.readAsDataURL(file);
 }
 
-
 window.addImageBase = addImageBase;
-
 window.handleImagePreview = handleImagePreview;
-

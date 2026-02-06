@@ -8,41 +8,39 @@ if (typeof $.fn.select2 === 'undefined') {
   console.log('Select2 cargado correctamente');
 }
 
-// Esperar a que el DOM esté listo
-$(document).ready(() => {
-  console.log('DOM listo, inicializando Select2...');
-  
-  // Buscar todos los select con clase .select2
-  const $selects = $("select.select2");
-  console.log(`Encontrados ${$selects.length} elementos select.select2`);
-  
+export function initSelect2(context = document) {
+  console.log('Inicializando Select2...');
+
+  if (!$.fn.select2) {
+    console.error('Select2 no está cargado');
+    return;
+  }
+
+  const $selects = $(context).find("select.select2").filter(function () {
+    // ❌ Evitar reinicializar
+    return !$(this).hasClass("select2-hidden-accessible");
+  });
+
+  console.log(`Selects nuevos a inicializar: ${$selects.length}`);
+
   $selects.each(function () {
     const $select = $(this);
-    
-    // Verificar que el elemento existe y que select2 está disponible
-    if (!$.fn.select2) {
-      console.error('$.fn.select2 no está definido');
-      return;
-    }
-    
+
     try {
-      // Determinar si es multiselect
-      const isMulti = 
-        $select.attr("data-multiselect") === "true" || 
+      const isMulti =
+        $select.attr("data-multiselect") === "true" ||
         $select.data("multiselect") === true ||
         $select.prop("multiple") === true;
-      
-      // Determinar si permite crear nuevas opciones
-      const allowTags = 
-        $select.attr("data-tags") === "true" || 
-        $select.data("tags") === true || 
+
+      const allowTags =
+        $select.attr("data-tags") === "true" ||
+        $select.data("tags") === true ||
         $select.hasClass("select2-tags");
-      
-      // Si es multiselect, asegurar atributo multiple
+
       if (isMulti && !$select.prop("multiple")) {
         $select.prop("multiple", true);
       }
-      
+
       const options = {
         placeholder: $select.attr("data-placeholder") || "Selecciona una opción",
         tags: allowTags,
@@ -59,45 +57,21 @@ $(document).ready(() => {
         },
         createTag: function (params) {
           if (!allowTags) return null;
-          
+
           const term = $.trim(params.term);
-          if (term === '') return null;
-          
+          if (!term) return null;
+
           const termLower = term.toLowerCase();
-          
-          // Verificar duplicados en opciones existentes (case-insensitive)
-          const existsInOptions = $select.find('option').filter(function () {
-            const optVal = $(this).val();
-            const optText = $(this).text();
+
+          const exists = $select.find("option").filter(function () {
             return (
-              (optVal && optVal.toLowerCase() === termLower) ||
-              (optText && optText.toLowerCase() === termLower)
+              $(this).val()?.toLowerCase() === termLower ||
+              $(this).text()?.toLowerCase() === termLower
             );
           }).length > 0;
-          
-          if (existsInOptions) {
-            console.log('Tag ya existe como opción:', term);
-            return null;
-          }
-          
-          // Verificar duplicados en valores seleccionados (case-insensitive)
-          const selectedValues = $select.val();
-          let alreadySelected = false;
-          
-          if (Array.isArray(selectedValues)) {
-            alreadySelected = selectedValues.some(v => 
-              v && v.toLowerCase() === termLower
-            );
-          } else if (selectedValues) {
-            alreadySelected = selectedValues.toLowerCase() === termLower;
-          }
-          
-          if (alreadySelected) {
-            console.log('Tag ya está seleccionado:', term);
-            return null;
-          }
-          
-          // Usar el término original (con su capitalización)
+
+          if (exists) return null;
+
           return {
             id: term,
             text: term,
@@ -106,134 +80,79 @@ $(document).ready(() => {
         },
         templateResult: function (data) {
           if (data.loading) return data.text;
-          
-          // Mostrar opción "Crear" solo si es nueva
+
           if (data.newTag) {
             return $(`
-              <span style="color: #84cc16;">
+              <span style="color:#84cc16">
                 <i class="fa fa-plus-circle"></i>
-                Crear: <strong>${$.fn.select2.amd.require('select2/utils').escapeMarkup(data.text)}</strong>
+                Crear: <strong>${data.text}</strong>
               </span>
             `);
           }
-          
+
           return data.text;
         },
         insertTag: function (data, tag) {
-          // Verificar una última vez antes de insertar
-          const tagLower = tag.text.toLowerCase();
-          
-          const exists = data.some(item => 
-            item.text && item.text.toLowerCase() === tagLower
+          const exists = data.some(
+            item => item.text?.toLowerCase() === tag.text.toLowerCase()
           );
-          
-          if (!exists) {
-            data.unshift(tag);
-          }
+          if (!exists) data.unshift(tag);
         }
       };
-      
-      console.log('Inicializando Select2 en:', $select.attr('id') || $select.attr('name'), 
-                  '| Multiselect:', isMulti, '| Tags:', allowTags);
-      
+
+      console.log(
+        "Select2 →",
+        $select.attr("id") || $select.attr("name"),
+        "| Multi:", isMulti,
+        "| Tags:", allowTags
+      );
+
       $select.select2(options);
-      
-      // ====== NUEVO: Aplicar valores pre-seleccionados desde data-selected ======
+
+      // ===== data-selected =====
       const dataSelected = $select.attr("data-selected") || $select.data("selected");
-      
-      if (dataSelected && dataSelected.trim() !== "") {
-        console.log('Valor data-selected encontrado:', dataSelected);
-        
+
+      if (dataSelected) {
         if (isMulti) {
-          // Para multiselect, separar por comas
-          const selectedValues = dataSelected
-            .split(',')
-            .map(v => v.trim())
-            .filter(v => v !== "");
-          
-          console.log('Valores a seleccionar (multiselect):', selectedValues);
-          
-          // Marcar las opciones como seleccionadas
-          selectedValues.forEach(value => {
-            $select.find(`option[value="${value}"]`).prop('selected', true);
-          });
-          
-          // Aplicar la selección
-          $select.val(selectedValues).trigger('change');
+          const values = dataSelected.split(',').map(v => v.trim());
+          $select.val(values).trigger("change");
         } else {
-          // Para select simple
-          console.log('Valor a seleccionar (single):', dataSelected.trim());
-          
-          // Marcar la opción como seleccionada
-          $select.find(`option[value="${dataSelected.trim()}"]`).prop('selected', true);
-          
-          // Aplicar la selección
-          $select.val(dataSelected.trim()).trigger('change');
+          $select.val(dataSelected.trim()).trigger("change");
         }
-        
-        console.log('Valores seleccionados aplicados correctamente');
       }
-      // ====== FIN NUEVO ======
-      
-      // Evento cuando se selecciona una opción
+
+      // ===== Eventos =====
       $select.on("select2:select", function (e) {
-        const data = e.params.data;
-        
-        // Si es una nueva opción creada con tags
-        if (data.newTag) {
-          console.log("Nueva opción creada:", data.text);
-          
-          // Verificar si la opción ya existe en el DOM
-          const optionExists = $select.find(`option[value="${data.id}"]`).length > 0;
-          
-          if (!optionExists) {
-            // Agregar la opción al select de forma permanente
-            const $newOption = $('<option>')
-              .val(data.id)
-              .text(data.text)
-              .prop('selected', true);
-            
-            $select.append($newOption);
-            
-            // Disparar evento personalizado
-            $select.trigger('new-option-created', [data]);
+        if (e.params.data.newTag) {
+          const val = e.params.data.id;
+          if (!$select.find(`option[value="${val}"]`).length) {
+            $select.append(
+              $("<option>", {
+                value: val,
+                text: e.params.data.text,
+                selected: true
+              })
+            );
           }
         }
       });
-      
-      // Evento para limpiar la selección
-      $select.on("select2:clear", function () {
-        console.log("Selección limpiada en:", $select.attr('id') || $select.attr('name'));
-      });
-      
-      // Evento para remover una opción (en modo múltiple)
-      $select.on("select2:unselect", function (e) {
-        console.log("Opción removida:", e.params.data.text);
-      });
-      
-    } catch (error) {
-      console.error('Error al inicializar Select2:', error);
+
+    } catch (err) {
+      console.error("Error inicializando Select2:", err);
     }
   });
-  
-  // Aplicar estilos después de inicializar todos los Select2
-  setTimeout(() => {
-      $(".select2.select2-container.select2-container--default").each(function () {
-          $(this).addClass(
-              "w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg " +
-              "focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-          );
-      });
 
-      $(".select2-selection.select2-selection--single").each(function () {
-          $(this).attr("style", "border: none !important");
-      });
-      $(".select2-container--default .select2-selection--single .select2-selection__arrow b").each(function () {
-          $(this).attr("style", "top: 100% !important");
-      });
-    console.log('Estilos aplicados correctamente');
-  }, 100);
-});
+  // ===== Estilos =====
+  setTimeout(() => {
+    $(".select2-container--default")
+      .not(".select2-styled")
+      .addClass(
+        "select2-styled w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg transition"
+      );
+
+    $(".select2-selection--single").css("border", "none");
+  }, 50);
+}
 
 // Función helper para escuchar cuando se crean nuevas opciones
 export function onNewOptionCreated(selector, callback) {

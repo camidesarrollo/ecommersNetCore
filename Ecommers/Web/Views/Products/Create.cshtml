@@ -44,29 +44,34 @@
 
         <!-- Header -->
         <div class="mb-6 slide-in delay-200">
-            <div class="glass-effect rounded-2xl p-6 shadow-olive-green/30">
-                <div class="flex justify-between items-center flex-wrap gap-4">
-                    <div>
-                        <h1 class="text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
-                            <i class="fas fa-image text-olive-green-600 mr-3"></i>
+            <div class="glass-effect rounded-2xl p-4 sm:p-6 shadow-olive-green/30">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                    <!-- Sección del título -->
+                    <div class="flex-1 min-w-0">
+                        <h1 class="text-2xl sm:text-3xl font-bold text-dark-chocolate mb-2 flex items-center">
+                            <i class="fas fa-image text-olive-green-600 mr-2 sm:mr-3 text-xl sm:text-2xl"></i>
                             Crear Producto
                         </h1>
-                        <p class="text-gray-600">Complete los campos para editar el producto</p>
+                        <p class="text-sm sm:text-base text-gray-600">Complete los campos para editar el producto</p>
                     </div>
-                    <div class="flex gap-3">
-                        <!-- Botón de ayuda en header -->
+
+                    <!-- Sección de botones -->
+                    <div class="flex flex-col xs:flex-row gap-3 sm:flex-shrink-0">
+                        <!-- Botón de ayuda -->
                         <button id="help-tour-button"
                                 type="button"
-                                class="help-button-header"
+                                class="help-button-header inline-flex items-center justify-center px-4 sm:px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap"
                                 title="Iniciar tour guiado">
-                            <i class="fas fa-question-circle"></i>
+                            <i class="fas fa-question-circle mr-2"></i>
                             <span>Ayuda</span>
                         </button>
 
                         <!-- Botón volver -->
                         <a href="@Url.Action("Index", "Products")"
-                           class="inline-flex items-center px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all" id="volver-button">
-                            <i class="fas fa-arrow-left mr-2"></i>Volver
+                           class="inline-flex items-center justify-center px-4 sm:px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all whitespace-nowrap"
+                           id="volver-button">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            <span>Volver</span>
                         </a>
                     </div>
                 </div>
@@ -83,66 +88,62 @@
                 <div class="lg:col-span-2 space-y-6">
 
                     <!-- Sección Información -->
-                    <section class="glass-effect rounded-2xl p-6">
-                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
-                            <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                    <section class="glass-effect rounded-2xl p-4 sm:p-6">
+                        <h5 class="text-lg sm:text-xl font-semibold text-dark-chocolate mb-4 sm:mb-6 pb-3 sm:pb-4 border-b-2 border-olive-green-300 flex items-center">
+                            <i class="fas fa-info-circle text-olive-green-600 mr-2 text-base sm:text-lg"></i>
                             Información
                         </h5>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                             <!-- Nombre -->
                             <div>
-                                <label asp-for="Products.Name" class="block font-semibold mb-2">
+                                <label asp-for="Products.Name" class="block font-semibold mb-2 text-sm sm:text-base">
                                     Nombre <span class="text-red-700">*</span>
                                 </label>
                                 <input type="text"
                                        asp-for="Products.Name"
                                        required
-                                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
-                                <span asp-validation-for="Products.Name" class="text-red-700 text-sm"></span>
-
+                                       class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                <span asp-validation-for="Products.Name" class="text-red-700 text-xs sm:text-sm"></span>
                             </div>
 
                             <!-- Slug -->
                             <div>
-                                <label asp-for="Products.Slug" class="block font-semibold mb-2">
+                                <label asp-for="Products.Slug" class="block font-semibold mb-2 text-sm sm:text-base">
                                     Slug URL <span class="text-red-700">*</span>
                                 </label>
                                 <div class="flex">
-                                    <span class="inline-flex items-center px-4 bg-beige-500 border-2 border-r-0 border-olive-green-300 rounded-l-lg">
-                                        <i class="fas fa-globe text-olive-green-600"></i>
+                                    <span class="inline-flex items-center px-3 sm:px-4 bg-beige-500 border-2 border-r-0 border-olive-green-300 rounded-l-lg">
+                                        <i class="fas fa-globe text-olive-green-600 text-sm sm:text-base"></i>
                                     </span>
                                     <input type="text"
                                            asp-for="Products.Slug"
                                            required
                                            disabled
-                                           class="flex-1 px-4 py-3 text-lg border-2 border-olive-green-300 rounded-r-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                           class="flex-1 min-w-0 px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-olive-green-300 rounded-r-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
                                 </div>
-                                <p class="text-sm text-gray-600 mt-2">
+                                <p class="text-xs sm:text-sm text-gray-600 mt-2">
                                     URL amigable (sin espacios, usar guiones)
                                 </p>
-                                <span asp-validation-for="Products.Slug" class="text-red-700 text-sm"></span>
+                                <span asp-validation-for="Products.Slug" class="text-red-700 text-xs sm:text-sm"></span>
                             </div>
 
                             <!-- Categoría -->
                             <div>
-                                <label asp-for="Products.CategoryId" class="block font-semibold mb-2">
+                                <label asp-for="Products.CategoryId" class="block font-semibold mb-2 text-sm sm:text-base">
                                     Categoría <span class="text-red-700">*</span>
                                 </label>
-
                                 <select asp-for="Products.CategoryId"
                                         asp-items="@(new SelectList(Model.Categories, "Id", "Name"))"
                                         required
-                                        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition">
-
+                                        class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition">
                                     <option value="0">Seleccione una opción</option>
-
                                 </select>
                             </div>
 
                             <!-- Precio Base -->
                             <div>
-                                <label asp-for="Products.BasePrice" class="block font-semibold mb-2">
+                                <label asp-for="Products.BasePrice" class="block font-semibold mb-2 text-sm sm:text-base">
                                     Precio de base <span class="text-red-700">*</span>
                                 </label>
                                 <input type="number"
@@ -150,48 +151,47 @@
                                        step="0.01"
                                        min="0"
                                        required
-                                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
-                                <span asp-validation-for="Products.BasePrice" class="text-red-700 text-sm"></span>
+                                       disabled
+                                       class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                <span asp-validation-for="Products.BasePrice" class="text-red-700 text-xs sm:text-sm"></span>
                             </div>
 
                             <!-- Descripción corta -->
-                            <div class="md:col-span-2">
-                                <label asp-for="Products.ShortDescription" class="block font-semibold mb-2">
+                            <div class="lg:col-span-2">
+                                <label asp-for="Products.ShortDescription" class="block font-semibold mb-2 text-sm sm:text-base">
                                     Descripción corta
                                 </label>
                                 <textarea asp-for="Products.ShortDescription"
                                           rows="2"
                                           maxlength="150"
-                                          class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
+                                          class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
                             </div>
 
                             <!-- Descripción completa -->
-                            <div class="md:col-span-2">
-                                <label asp-for="Products.Description" class="block font-semibold mb-2">
+                            <div class="lg:col-span-2">
+                                <label asp-for="Products.Description" class="block font-semibold mb-2 text-sm sm:text-base">
                                     Descripción completa
                                 </label>
                                 <textarea asp-for="Products.Description"
                                           rows="4"
-                                          class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
+                                          class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
                             </div>
                         </div>
                     </section>
-
                     <!-- Sección Imágenes -->
                     <section class="glass-effect rounded-2xl p-6 product-images-wrapper">
-                        <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-olive-green-300">
-                            <h5 class="text-xl font-semibold text-dark-chocolate flex items-center">
-                                <i class="fas fa-images text-olive-green-600 mr-2"></i>
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b-2 border-olive-green-300">
+                            <h5 class="text-lg sm:text-xl font-semibold text-dark-chocolate flex items-center">
+                                <i class="fas fa-images text-olive-green-600 mr-2 text-base sm:text-lg"></i>
                                 Imágenes del producto
                             </h5>
                             <button type="button"
                                     id="btnAddImage"
-                                    class="inline-flex items-center gap-2 bg-gradient-to-r from-olive-green-600 to-olive-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-olive-green-700 hover:to-olive-green-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                    class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-olive-green-600 to-olive-green-700 text-white px-4 py-2.5 sm:py-2 rounded-lg font-semibold hover:from-olive-green-700 hover:to-olive-green-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 w-full sm:w-auto text-sm sm:text-base">
                                 <i class="fas fa-plus"></i>
                                 Agregar Imagen
                             </button>
                         </div>
-
                         <ui-image ui-image-model="new UiImageModel<ProductImagesD>
                                   {
                                       Images = Model.ProductImage.ToList()
@@ -208,27 +208,29 @@
                         </h5>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            @for (int i = 0; i < MasterAttributesProductos.ToList().Count; i++)
+                            @for (int i = 0; i < MasterAttributesProductos.Count; i++)
                             {
                                 var attr = MasterAttributesProductos[i];
-                                <input type="hidden" name="Attributes[@i].MasterAttributeId" value="@attr.Id" />
 
                                 var productValues = Model.Products.ProductAttributes
-                                    .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
-                                    .Select(x => x.Value)
-                                    .Where(v => v != null)
-                                    .ToList();
+                                .Where(x => x.Attribute != null && x.Attribute.Id == attr.Id)
+                                .Select(x => x.Value)
+                                .Where(v => v != null)
+                                .ToList();
 
                                 var singleValueText = productValues.FirstOrDefault()?.GetDisplayValue();
+                                var singleValue = productValues.Select(x => x.Id).FirstOrDefault();
+                                var multiValues = productValues.Select(x => x.Id).ToList();
 
-                                var singleValue = productValues.Where(x => x != null).Select(x => x.Id).FirstOrDefault();
-                                var multiValues = productValues.Where(x => x != null).Select(x => x.Id).ToList();
+                                var attributes = Model.Products.ProductAttributes
+                                .FirstOrDefault(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox");
 
-                                var attributes = Model.Products.ProductAttributes.FirstOrDefault(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox");
+                                bool isChecked = attributes != null;
 
-                                bool isChecked = attributes != null ? true : false;
-
-                                @* var nombre = "Producto" + Model.Attributes[@attr.Id].Value; *@
+                                <!-- ID real del atributo -->
+                                <input type="hidden"
+                                       name="ProductsAttributes[@i].MasterAttributeId"
+                                       value="@attr.Id" />
 
                                 <div>
                                     @switch (attr.InputType)
@@ -241,11 +243,13 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
+
                                             <input type="text"
-                                                   name="ProductsAttributes[@attr.Id].Value"
+                                                   name="ProductsAttributes[@i].Value"
                                                    value="@singleValueText"
                                                    placeholder="@attr.Description"
-                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
+                                              focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                    @(attr.IsRequired ? "required" : "") />
                                             break;
 
@@ -257,42 +261,39 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
+
                                             <input type="number"
-                                                   name="ProductsAttributes[@attr.Id].Value"
+                                                   name="ProductsAttributes[@i].Value"
                                                    value="@singleValueText"
                                                    placeholder="@attr.Description"
-                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
+                                              focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                    @(attr.IsRequired ? "required" : "") />
                                             break;
 
                                         case "checkbox":
-                                            if (attr.Name == "Nuevo")
-                                            {
-                                                <label class="flex items-center gap-3 cursor-pointer">
-                                                    <input type="checkbox"
-                                                           value="true"
-                                                           checked
-                                                           disabled
-                                                           class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                                                    <input type="hidden" name="ProductsAttributes[@attr.Id].Value" value="true" />
-                                                    @attr.Name
-                                                </label>
-                                            }
-                                            else
-                                            {
-                                                <label class="flex items-center gap-3 cursor-pointer">
-                                                    <input type="checkbox"
-                                                           name="ProductsAttributes[@attr.Id].Value"
-                                                           value="true"
-                                                           @(isChecked ? "checked" : "")
-                                                           class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
-                                                    @attr.Name
-                                                    @if (attr.IsRequired)
-                                                    {
-                                                        <span class="text-red-700">*</span>
-                                                    }
-                                                </label>
-                                            }
+                                            <label class="flex items-center gap-3 cursor-pointer">
+                                                <!-- valor por defecto false -->
+                                                <input type="hidden"
+                                                       name="ProductsAttributes[@i].Value"
+                                                       value="false" />
+
+                                                <input type="checkbox"
+                                                       name="ProductsAttributes[@i].Value"
+                                                       value="true"
+                                                       @(isChecked ? "checked" : "")
+                                                       class="w-12 h-6 rounded-full appearance-none bg-gray-300
+                                                  checked:bg-mint-green-700 relative transition
+                                                  before:absolute before:top-1 before:left-1
+                                                  before:w-4 before:h-4 before:bg-white
+                                                  before:rounded-full checked:before:translate-x-6" />
+
+                                                @attr.Name
+                                                @if (attr.IsRequired)
+                                                {
+                                                    <span class="text-red-700">*</span>
+                                                }
+                                            </label>
                                             break;
 
                                         case "select":
@@ -303,16 +304,18 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="ProductsAttributes[@attr.Id].Value"
-                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+
+                                            <select name="ProductsAttributes[@i].Value"
+                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
+                                               focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                     data-selected="@singleValue"
                                                     data-tags="true"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
+
                                                 @foreach (var itemA in Model.AtrributeValue
                                                                                     .Where(x => x.AttributeId == attr.Id))
                                                 {
-
                                                     <option value="@itemA.Id">
                                                         @AttributeValuesExtensions.GetDisplaysValue(itemA)
                                                     </option>
@@ -328,17 +331,18 @@
                                                     <span class="text-red-700">*</span>
                                                 }
                                             </label>
-                                            <select name="ProductsAttributes[@attr.Id].Value[]"
+
+                                            <select name="ProductsAttributes[@i].Value"
                                                     multiple
-                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                                    data-tags="true"
+                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
+                                               focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                                     data-selected="@string.Join(",", multiValues)"
                                                     @(attr.IsRequired ? "required" : "")>
                                                 <option value="">Seleccione</option>
+
                                                 @foreach (var itemA in Model.AtrributeValue
                                                                                     .Where(x => x.AttributeId == attr.Id))
                                                 {
-
                                                     <option value="@itemA.Id">
                                                         @AttributeValuesExtensions.GetDisplaysValue(itemA)
                                                     </option>
@@ -349,6 +353,7 @@
                                 </div>
                             }
                         </div>
+
                     </section>
                 </div>
 
@@ -411,7 +416,7 @@
                             <i class="fas fa-save"></i>
                             Guardar Cambios
                         </button>
-                        <a id="volver-button" href="@Url.Action("Index", "Banners")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
+                        <a id="volver-button" href="@Url.Action("Index", "Products")" class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200" onclick='showSpinner("loading", 0);'>
                             <i class="fas fa-times"></i>
                             Cancelar
                         </a>

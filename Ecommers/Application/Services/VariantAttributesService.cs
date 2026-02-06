@@ -72,8 +72,11 @@ namespace Ecommers.Application.Services
 
             foreach (var atributo in atributosVariante)
             {
+                // Corregido: Se eliminó el punto entre [{variantIndex}] y Attributes
+                var searchKey = $"ProductVariants[{variantIndex}]Attributes[{atributo.Id}].Value";
+
                 var valores = form
-                    .Where(k => k.Key.StartsWith($"ProductVariants[{variantIndex}].Attributes[{atributo.Id}]"))
+                    .Where(k => k.Key.Equals(searchKey, StringComparison.OrdinalIgnoreCase))
                     .Select(k => k.Value.ToString())
                     .Where(v => !string.IsNullOrWhiteSpace(v))
                     .ToList();

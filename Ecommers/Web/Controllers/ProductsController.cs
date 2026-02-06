@@ -105,12 +105,15 @@ namespace Ecommers.Web.Controllers
             var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
             var Categorias = await _CategoriasService.GetAllActiveAsync();
             var producto = new Products();
+            var productImagen = new List<ProductImagesD>();
+            productImagen.Add(new ProductImagesD { Id = 0, IsPrimary = true, IsActive = true, SortOrder = 1 });
             producto.ProductVariants.Add(new ProductVariants());
             var ProductViewModel = new ProductsCreateViewModel
             {
                 MasterAttributes = MaestroAtributes,
                 Categories = Categorias,
-                Products = producto
+                Products = producto,
+                ProductImage = productImagen
 
             };
             return View("~/Web/Views/Products/Create.cshtml", ProductViewModel);
@@ -121,7 +124,7 @@ namespace Ecommers.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear()
+        public async Task<IActionResult> Crear(ProductCreateVM model)
         {
             try
             {

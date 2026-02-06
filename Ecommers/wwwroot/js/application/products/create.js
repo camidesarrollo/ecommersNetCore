@@ -5,7 +5,7 @@ import {
 import {
     initBlurValidation,
 } from "../../domain/utils/ui/input.validation.js";
-
+import { showSuccess, showError, showWarning, showInfo } from '../../bundle/notifications/notyf.config.js';
 
 /* =====================================================
    CONFIGURACIÓN DEL TOUR - CREAR PRODUCTO
@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ❌ Si hay errores
         if (!isValid) {
-            alert("Por favor completa todos los campos obligatorios.");
+            showWarning("Por favor completa todos los campos obligatorios.");
             firstInvalidField?.focus();
             return;
         }

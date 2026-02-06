@@ -1,8 +1,9 @@
 ﻿// Importar todo lo necesario desde select2-init.js
-import $, { onNewOptionCreated, addOption, getOptions } from '../utils/select2-init.js';
+import $, { initSelect2 } from '../utils/select2-init.js';
 import { ObtenerProductVariantView } from './products.api.js';
 import { showSuccess, showError, showWarning, showInfo } from '../../bundle/notifications/notyf.config.js';
-
+import { handleConfirmAction } from "../../bundle/utils/form-helpers.js";
+ 
 // =============================== 
 // CONTADORES GLOBALES 
 // =============================== 
@@ -33,6 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
             parseInt(img.getAttribute('data-variant-image-index')) || 0
         )) + 1;
     }
+});
+
+// Esperar a que el DOM esté listo
+$(document).ready(() => {
+  initSelect2();
 });
 
 /* ===================================================== 
@@ -98,7 +104,7 @@ window.previewImage = function (input) {
     });
 };
 
-window.removeImageInput = function (index) {
+window.removeImageInput = function (event, index) {
     const imageDiv = document.querySelector(`[data-image-index="${index}"]`);
     if (!imageDiv) return;
 
@@ -174,7 +180,7 @@ function reindexImages() {
 
         // Botón eliminar
         const removeBtn = imageDiv.querySelector('button');
-        removeBtn.setAttribute('onclick', `removeImageInput(${newIndex})`);
+        removeBtn.setAttribute('onclick', `removeImageInput(event, ${newIndex})`);
     });
 
     // 🔥 Actualizar el contador global
@@ -283,8 +289,11 @@ async function addVariant() {
         // Actualizar números de variantes
         updateVariantNumbers();
 
+        initSelect2(); // Inicializar Select2 en la nueva variante
+
         // Mostrar mensaje de éxito
         showSuccess('Variante agregada correctamente');
+
 
     } catch (error) {
         console.error('Error al agregar variante:', error);
@@ -301,25 +310,29 @@ function removeVariant(event, index) {
         return;
     }
 
-    // Confirmar eliminación
-    if (!confirm('¿Está seguro de eliminar esta variante?')) {
-        return;
-    }
+    // Usar handleConfirmAction en vez de confirm
+    handleConfirmAction({
+        action: () => {
+            const variantElement = container.querySelector(`[data-variant-index="${index}"]`);
+            if (!variantElement) return;
 
-    const variantElement = container.querySelector(`[data-variant-index="${index}"]`);
-    if (!variantElement) return;
+            // Animación de salida
+            variantElement.style.opacity = '0';
+            variantElement.style.transform = 'scale(0.95)';
+            variantElement.style.transition = 'all 0.3s ease';
 
-    // Animación de salida
-    variantElement.style.opacity = '0';
-    variantElement.style.transform = 'scale(0.95)';
-    variantElement.style.transition = 'all 0.3s ease';
-
-    setTimeout(() => {
-        variantElement.remove();
-        updateVariantNumbers();
-        reindexVariant();
-        showSuccess('Variante eliminada correctamente');
-    }, 300);
+            setTimeout(() => {
+                variantElement.remove();
+                updateVariantNumbers();
+                reindexVariant();
+                showSuccess('Variante eliminada correctamente');
+            }, 300);
+        },
+        title: '¿Está seguro de eliminar esta variante?',
+        icon: 'warning',
+        confirmText: 'Sí, eliminar',
+        cancelText: 'Cancelar'
+    })(event);
 }
 
 function updateVariantNumbers() {
@@ -481,7 +494,7 @@ function reindexVariantImages(indiceContenedor) {
 
         // Botón eliminar
         const removeBtn = imageDiv.querySelector('button');
-        removeBtn.setAttribute('onclick', `removeImageInput(${newIndex})`);
+        removeBtn.setAttribute('onclick', `removeImageInput(event, ${newIndex})`);
     });
 
     // 🔥 Actualizar el contador global
@@ -547,6 +560,10 @@ function generateSlug(text) {
         .replace(/-+/g, '-'); // Múltiples guiones a uno solo
 }
 function generateSKU(value) {
+    const stopWords = new Set([
+        "DE", "DEL", "LA", "EL", "CON", "SIN", "Y", "EN"
+    ]);
+
     const words = value
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -560,24 +577,31 @@ function generateSKU(value) {
     for (let i = 0; i < words.length; i++) {
         const word = words[i];
 
-        // si es KG y el elemento anterior es número → unir
-        if (word === "KG" && result.length && /^\d+$/.test(result[result.length - 1])) {
-            result[result.length - 1] += "KG";
+        if (stopWords.has(word)) continue;
+
+        // unir número + KG / G / ML / L
+        if (
+            ["KG", "G", "ML", "L"].includes(word) &&
+            result.length &&
+            /^\d+$/.test(result[result.length - 1])
+        ) {
+            result[result.length - 1] += word;
             continue;
         }
 
-        // si es solo número
+        // solo números
         if (/^\d+$/.test(word)) {
             result.push(word);
             continue;
         }
 
-        // palabras → 3 primeras letras
+        // palabras → primeras 3 letras
         result.push(word.substring(0, 3));
     }
 
     return result.join("-");
 }
+
 
 // tiempo real
 document.addEventListener("input", function (e) {
@@ -591,6 +615,99 @@ document.addEventListener("input", function (e) {
 
     skuInput.value = generateSKU(e.target.value);
 });
+
+document.addEventListener('change', function (e) {
+    // Detectamos si el cambio viene de un input de variantes
+    if (e.target.name && e.target.name.includes('ProductVariants')) {
+        validarLogicaPrecios(e.target);
+    }
+});
+
+function validarLogicaPrecios(inputCambiado) {
+    // Extraemos el prefijo (ej: ProductVariants[0]) para encontrar sus compañeros
+    const nameAttr = inputCambiado.name;
+    const prefix = nameAttr.substring(0, nameAttr.lastIndexOf('.') + 1);
+
+    // Obtenemos los elementos del grupo de la variante actual
+    const row = inputCambiado.closest('.grid'); // El contenedor de la variante
+    const costInput = row.querySelector(`[name="${prefix}CostPrice"]`);
+    const priceInput = row.querySelector(`[name="${prefix}Price"]`);
+    const compareInput = row.querySelector(`[name="${prefix}CompareAtPrice"]`);
+    const stockInput = row.querySelector(`[name="${prefix}StockQuantity"]`);
+
+    const costo = parseFloat(costInput.value) || 0;
+    const precio = parseFloat(priceInput.value) || 0;
+    const comparacion = parseFloat(compareInput.value) || 0;
+
+    // Limpiar estados de error previos
+    [costInput, priceInput, compareInput, stockInput].forEach(el => el.classList.remove('border-red-500'));
+
+    // 1. Validar que el Precio no sea menor al Costo
+    if (precio > 0 && precio < costo) {
+        showWarning("Alerta: El precio es menor al costo");
+        priceInput.classList.add('border-red-500');
+    }
+
+    // 2. Validar Precio de Comparación (Oferta)
+    if (comparacion > 0 && comparacion <= precio) {
+        showError("El 'Precio de comparación' debe ser mayor al precio actual para ser una oferta válida.");
+        compareInput.value = ""; // Opcional: limpiar el campo
+        compareInput.classList.add('border-red-500');
+    }
+
+    // 3. Validar Stock (Enteros)
+    if (stockInput.value % 1 !== 0) {
+        stockInput.value = Math.floor(stockInput.value);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateBasePrice();
+});
+
+document.addEventListener('input', (e) => {
+  if (e.target.name?.includes('.CostPrice')) {
+    updateBasePrice();
+  }
+});
+
+function updateBasePrice() {
+  const basePriceInput = document.querySelector('#Products_BasePrice');
+  if (!basePriceInput) return;
+
+  // Buscar todos los CostPrice de variantes
+  const costInputs = document.querySelectorAll(
+    'input[name^="ProductVariants"][name$=".CostPrice"]'
+  );
+
+  if (costInputs.length === 0) return;
+
+  let values = [];
+
+  costInputs.forEach(input => {
+    const val = parseFloat(input.value);
+    if (!isNaN(val) && val >= 0) {
+      values.push(val);
+    }
+  });
+
+  if (values.length === 0) return;
+
+  let basePrice = 0;
+
+  if (values.length === 1) {
+    // 1 variante → igualar
+    basePrice = values[0];
+  } else {
+    // N variantes → promedio
+    const sum = values.reduce((a, b) => a + b, 0);
+    basePrice = sum / values.length;
+  }
+
+  // Redondear a 2 decimales
+  basePriceInput.value = basePrice.toFixed(2);
+}
+
 
 /* ===================================================== 
    EXPONER FUNCIONES GLOBALMENTE 

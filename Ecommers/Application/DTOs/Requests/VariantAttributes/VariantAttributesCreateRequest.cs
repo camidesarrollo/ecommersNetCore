@@ -4,4 +4,11 @@
     {
         
     }
+
+    public class ProductVariantAttributeVM
+    {
+        public int MasterAttributeId { get; set; }
+
+        public string? Value { get; set; }
+    }
 }

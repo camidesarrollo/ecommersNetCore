@@ -122,6 +122,43 @@ export function handleZodFormSubmit({ form, schema, castSchema, spinnerAction = 
         }
     });
 }
+export function handleConfirmAction({ action, title = "¿Estás seguro?", html, text, icon = "warning", confirmText = "Sí, continuar", cancelText = "Cancelar", spinnerAction = null, onConfirm, onCancel }) {
+    return async function (event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        try {
+            const result = await Swal.fire({
+                title,
+                html,
+                text,
+                icon,
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: confirmText,
+                cancelButtonText: cancelText,
+                reverseButtons: true,
+                focusCancel: true
+            });
+            if (result.isConfirmed) {
+                if (spinnerAction) {
+                    showSpinner(spinnerAction);
+                }
+                await action(event);
+                onConfirm?.();
+            }
+            else {
+                onCancel?.();
+            }
+        }
+        catch (error) {
+            console.error("Error en confirmación:", error);
+            hideSpinner();
+        }
+    };
+}
 // =====================================================
 // USO EN TU CÓDIGO
 // =====================================================

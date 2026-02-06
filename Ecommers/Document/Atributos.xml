@@ -1,0 +1,115 @@
+<Productos>
+  <Producto nombre="Aceite de oliva Mayaca">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Aceituna"/>
+      <Atributo nombre="Marca" valor="Mayaca"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="BajoEnSodio" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Refinado"/>
+      <Atributo nombre="Color" valor="Amarillo/Verde"/>
+      <Atributo nombre="Textura" valor="Líquida"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Papayas deshidratadas">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Papaya"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Deshidratado"/>
+      <Atributo nombre="Color" valor="Naranja"/>
+      <Atributo nombre="Alergenos" valor="Puede contener trazas de frutos secos"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Pasas negras">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Uva"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="BajoEnSodio" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Deshidratado"/>
+      <Atributo nombre="Color" valor="Negro/Morado oscuro"/>
+      <Atributo nombre="Alergenos" valor="Puede contener trazas de frutos secos"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Pasas rubias">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Uva"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="BajoEnSodio" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Deshidratado"/>
+      <Atributo nombre="Color" valor="Dorado/Amarillo"/>
+      <Atributo nombre="Alergenos" valor="Puede contener trazas de frutos secos"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Pepita crocante">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Semilla de zapallo"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="AltoEnProteina" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Tostado y confitado"/>
+      <Atributo nombre="Color" valor="Verde"/>
+      <Atributo nombre="Textura" valor="Crujiente"/>
+      <Atributo nombre="Alergenos" valor="Puede contener trazas de frutos secos"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Pistacho">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Pistacho"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="AltoEnProteina" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Tostado"/>
+      <Atributo nombre="Color" valor="Verde"/>
+      <Atributo nombre="GradoCalidad" valor="Premium"/>
+      <Atributo nombre="PaisDeOrigen" valor="Irán/USA"/>
+      <Atributo nombre="Alergenos" valor="Contiene frutos secos (pistacho)"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Salsa de soya Kikkoman">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Soya"/>
+      <Atributo nombre="Marca" valor="Kikkoman"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Fermentado"/>
+      <Atributo nombre="Color" valor="Café oscuro"/>
+      <Atributo nombre="Textura" valor="Líquida"/>
+      <Atributo nombre="PaisDeOrigen" valor="Japón"/>
+      <Atributo nombre="Alergenos" valor="Contiene soya, puede contener gluten"/>
+    </Atributos>
+  </Producto>
+
+  <Producto nombre="Té chino verde">
+    <Atributos>
+      <Atributo nombre="IngredientePrincipal" valor="Té verde"/>
+      <Atributo nombre="Vegano" valor="true"/>
+      <Atributo nombre="Vegetariano" valor="true"/>
+      <Atributo nombre="SinGluten" valor="true"/>
+      <Atributo nombre="SinLactosa" valor="true"/>
+      <Atributo nombre="BajoEnSodio" valor="true"/>
+      <Atributo nombre="EstadoOProcesamiento" valor="Deshidratado"/>
+      <Atributo nombre="Color" valor="Verde"/>
+      <Atributo nombre="PaisDeOrigen" valor="China"/>
+    </Atributos>
+  </Producto>
+</Productos>

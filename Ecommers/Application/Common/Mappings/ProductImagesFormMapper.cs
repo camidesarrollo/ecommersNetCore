@@ -32,10 +32,10 @@ namespace Ecommers.Application.Common.Mappings
         public static List<(int Index, IFormFile File)> ObtenerImagenesConIndice(IFormFileCollection files)
         {
             return files
-                .Where(f => f.Name.StartsWith("ProductImages[") && f.Name.EndsWith(".ImageFile"))
+                .Where(f => f.Name.StartsWith("ProductImagesD[") && f.Name.EndsWith(".ImageFile"))
                 .Select(f =>
                 {
-                    var match = Regex.Match(f.Name, @"ProductImages\[(\d+)\]");
+                    var match = Regex.Match(f.Name, @"ProductImagesD\[(\d+)\]");
                     return (
                         Index: match.Success ? int.Parse(match.Groups[1].Value) : -1,
                         File: f

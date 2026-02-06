@@ -1,0 +1,2499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductVariants>
+  <Variant name="Aceitunas amargas">
+    <SKU>ACE-AMA-1KG-GRA</SKU>
+    <Name>Aceitunas amargas 1 kg granel</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas amargas">
+    <SKU>ACE-AMA-500G-GRA</SKU>
+    <Name>Aceitunas amargas 500 g granel</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2900</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas amargas">
+    <SKU>ACE-AMA-250G-GRA</SKU>
+    <Name>Aceitunas amargas 250 g granel</Name>
+    <Price>2200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas envasadas">
+    <SKU>ACE-ENV-FRASCO1-KG</SKU>
+    <Name>Aceitunas envasadas frasco 1 kg</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4200</CostPrice>
+    <StockQuantity>80</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-31T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas jumbo">
+    <SKU>ACE-JUM-1KG-GRA</SKU>
+    <Name>Aceitunas jumbo 1 kg granel</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4700</CostPrice>
+    <StockQuantity>120</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas jumbo">
+    <SKU>ACE-JUM-500G-GRA</SKU>
+    <Name>Aceitunas jumbo 500 g granel</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas jumbo">
+    <SKU>ACE-JUM-250G-GRA</SKU>
+    <Name>Aceitunas jumbo 250 g granel</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1450</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas rellenas">
+    <SKU>ACE-REL-1KG-GRA</SKU>
+    <Name>Aceitunas rellenas 1 kg granel</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4000</CostPrice>
+    <StockQuantity>90</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas rellenas">
+    <SKU>ACE-REL-500G-GRA</SKU>
+    <Name>Aceitunas rellenas 500 g granel</Name>
+    <Price>3800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas rellenas">
+    <SKU>ACE-REL-250G-GRA</SKU>
+    <Name>Aceitunas rellenas 250 g granel</Name>
+    <Price>2100</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas super">
+    <SKU>ACE-SUP-1KG-GRA</SKU>
+    <Name>Aceitunas super 1 kg granel</Name>
+    <Price>5800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4500</CostPrice>
+    <StockQuantity>150</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas super">
+    <SKU>ACE-SUP-500G-GRA</SKU>
+    <Name>Aceitunas super 500 g granel</Name>
+    <Price>3300</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Aceitunas super">
+    <SKU>ACE-SUP-250G-GRA</SKU>
+    <Name>Aceitunas super 250 g granel</Name>
+    <Price>1900</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Almendras con chocolate">
+    <SKU>ALM-CON-CHOCOLATE1-KG</SKU>
+    <Name>Almendra con chocolate 1 kg</Name>
+    <Price>16000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>12138</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Almendras con chocolate">
+    <SKU>ALM-CON-CHOCOLATE500-G</SKU>
+    <Name>Almendra con chocolate 500 g granel</Name>
+    <Price>8500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>6700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Almendras con chocolate">
+    <SKU>ALM-CON-CHOCOLATE250-G</SKU>
+    <Name>Almendra con chocolate 250 g granel</Name>
+    <Price>4800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Almendras laminadas sin piel">
+    <SKU>ALM-LAM-SINPIEL-1</SKU>
+    <Name>Almendra laminada sin piel 1 kg</Name>
+    <Price>18000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>12250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Almendras laminadas sin piel">
+    <SKU>ALM-LAM-SINPIEL-500</SKU>
+    <Name>Almendra laminada sin piel 500 g granel</Name>
+    <Price>9500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>6800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Almendras laminadas sin piel">
+    <SKU>ALM-LAM-SINPIEL-250</SKU>
+    <Name>Almendra laminada sin piel 250 g granel</Name>
+    <Price>5200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Salsa americana">
+    <SKU>SAL-AMER-1KG</SKU>
+    <Name>Salsa americana 1 kg</Name>
+    <Price>1600</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1360</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avellana chilena">
+    <SKU>AVE-CHI-500G-GRA</SKU>
+    <Name>Avellana chilena 500 g granel</Name>
+    <Price>12000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>9700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avellana chilena">
+    <SKU>AVE-CHI-250G-GRA</SKU>
+    <Name>Avellana chilena 250 g granel</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avellana europea">
+    <SKU>AVE-EUR-500G-GRA</SKU>
+    <Name>Avellana europea 500 g granel</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avellana europea">
+    <SKU>AVE-EUR-250G-GRA</SKU>
+    <Name>Avellana europea 250 g granel</Name>
+    <Price>3600</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2900</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avena instantanea">
+    <SKU>AVE-INS-500G-GRA</SKU>
+    <Name>Avena instantánea 500 g granel</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>450</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avena instantanea">
+    <SKU>AVE-INS-250G-GRA</SKU>
+    <Name>Avena instantánea 250 g granel</Name>
+    <Price>700</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avena integral">
+    <SKU>AVE-INT-500G-GRA</SKU>
+    <Name>Avena integral 500 g granel</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>450</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Avena integral">
+    <SKU>AVE-INT-250G-GRA</SKU>
+    <Name>Avena integral 250 g granel</Name>
+    <Price>700</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Banana chips">
+    <SKU>BAN-CHI-500G-GRA</SKU>
+    <Name>Banana chips 500 g granel</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2300</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Banana chips">
+    <SKU>BAN-CHI-250G-GRA</SKU>
+    <Name>Banana chips 250 g granel</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1300</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Cafe vegnano molido">
+    <SKU>CAF-VER-MOLIDO1-KG</SKU>
+    <Name>Café Vergnano molido 1 kg</Name>
+    <Price>30000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>21700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Canela entera">
+    <SKU>CAN-ENT-100G-GRA</SKU>
+    <Name>Canela entera 100 g granel</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1956</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Canela entera">
+    <SKU>CAN-ENT-500G-GRA</SKU>
+    <Name>Canela entera 500 g granel</Name>
+    <Price>12000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8900</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Canela entera">
+    <SKU>CAN-ENT-250G-GRA</SKU>
+    <Name>Canela entera 250 g granel</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Canela molida">
+    <SKU>CAN-MOL-100G-GRA</SKU>
+    <Name>Canela molida 100 g granel</Name>
+    <Price>12000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8925</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Canela molida">
+    <SKU>CAN-MOL-500G-GRA</SKU>
+    <Name>Canela molida 500 g granel</Name>
+    <Price>50000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>40000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Canela molida">
+    <SKU>CAN-MOL-250G-GRA</SKU>
+    <Name>Canela molida 250 g granel</Name>
+    <Price>27000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>20000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Cardamomo">
+    <SKU>CAR-ENT-100G-GRA</SKU>
+    <Name>Cardamomo entero 100 g granel</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4420</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Cardamomo">
+    <SKU>CAR-ENT-500G-GRA</SKU>
+    <Name>Cardamomo entero 500 g granel</Name>
+    <Price>27000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>20000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Cardamomo">
+    <SKU>CAR-ENT-250G-GRA</SKU>
+    <Name>Cardamomo entero 250 g granel</Name>
+    <Price>14000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>10500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Ciruela con carozo">
+    <SKU>CIR-CON-CAROZO1-KG</SKU>
+    <Name>Ciruela con carozo 1 kg granel</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Ciruela sin carozo">
+    <SKU>CIR-SIN-CAROZO1-KG</SKU>
+    <Name>Ciruela sin carozo 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Clavo de olor">
+    <SKU>CLA-DE-OLORENTERO-100</SKU>
+    <Name>Clavo de olor entero 100 g</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>15470</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Clavo de olor">
+    <SKU>CLA-DE-OLORMOLIDO-100</SKU>
+    <Name>Clavo de olor molido 100 g</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Coco rallado">
+    <SKU>COC-RAL-1KG-GRA</SKU>
+    <Name>Coco rallado 1 kg granel</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5117</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Cranberry con chocolate">
+    <SKU>CRA-CON-CHOCOLATE1-KG</SKU>
+    <Name>Cranberry con chocolate 1 kg granel</Name>
+    <Price>14000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>10500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Damasco turco">
+    <SKU>DAM-TUR-1KG-GRA</SKU>
+    <Name>Damasco turco 1 kg granel</Name>
+    <Price>12000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Datiles sin cuesco">
+    <SKU>DAT-SIN-1KG</SKU>
+    <Name>Dátiles con cuesco 1 kg granel</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2261</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Duraznos del Jardin">
+    <SKU>DUR-JAR-3KG</SKU>
+    <Name>Durazno del jardín 3 kg</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4950</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Duraznos en conserva">
+    <SKU>DUR-CON-820G</SKU>
+    <Name>Durazno en conserva 820 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1620</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Duraznos en conserva">
+    <SKU>EDU-GOU-UN</SKU>
+    <Name>Edulzor gourmet unidad</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>873</CostPrice>
+    <StockQuantity>200</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="Flor de hibisco">
+    <SKU>HIB-250G</SKU>
+    <Name>Flor de hibisco 250 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FONDO DE ALCACHOFA">
+    <SKU>FONDO-ALCACHOFA-1K</SKU>
+    <Name>Fondo de alcachofa 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4165</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-26T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FONDO DE ALCACHOFA">
+    <SKU>FONDO-ALCACHOFA-500</SKU>
+    <Name>Fondo de alcachofa 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-26T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FRUTA DESH. MANGO, PIÑA">
+    <SKU>FRUTA-DESH-MP-1K</SKU>
+    <Name>Fruta deshidratada mango y piña 1 kg</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5534</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FRUTA DESH. MANGO, PIÑA">
+    <SKU>FRUTA-DESH-MP-500</SKU>
+    <Name>Fruta deshidratada mango y piña 500 g</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FRUTA DESH. MANGO, PIÑA">
+    <SKU>FRUTA-DESH-MP-250</SKU>
+    <Name>Fruta deshidratada mango y piña 250 g</Name>
+    <Price>2200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FRUTA CONFITADA ROCOFRUT">
+    <SKU>FRUTA-CONF-1K</SKU>
+    <Name>Fruta confitada Rocofrut 1 kg</Name>
+    <Price>5000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2951</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-28T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="FRUTA CONFITADA ROCOFRUT">
+    <SKU>FRUTA-CONF-500</SKU>
+    <Name>Fruta confitada Rocofrut 500 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-28T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GARBANZO SIN PIEL">
+    <SKU>GARBANZO-SP-1K</SKU>
+    <Name>Garbanzo sin piel 1 kg</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1316</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-29T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GARBANZO SIN PIEL">
+    <SKU>GARBANZO-SP-500</SKU>
+    <Name>Garbanzo sin piel 500 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-29T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GELATINA SIN SABOR">
+    <SKU>GELATINA-SS-500</SKU>
+    <Name>Gelatina sin sabor 500 g</Name>
+    <Price>16000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>12090</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-30T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GELATINA SIN SABOR">
+    <SKU>GELATINA-SS-250</SKU>
+    <Name>Gelatina sin sabor 250 g</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3130</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-01-31T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GOJI">
+    <SKU>GOJI-1K</SKU>
+    <Name>Goji 1 kg</Name>
+    <Price>8000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>6069</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-01T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GOJI">
+    <SKU>GOJI-500</SKU>
+    <Name>Goji 500 g</Name>
+    <Price>4500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-01T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="GOJI">
+    <SKU>GOJI-250</SKU>
+    <Name>Goji 250 g</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1900</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-01T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA ALMENDRA">
+    <SKU>HARINA-ALM-1K</SKU>
+    <Name>Harina de almendra 1 kg</Name>
+    <Price>12000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>10710</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-02T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA ALMENDRA">
+    <SKU>HARINA-ALM-500</SKU>
+    <Name>Harina de almendra 500 g</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-02T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA DE COCO">
+    <SKU>HARINA-COCO-1K</SKU>
+    <Name>Harina de coco 1 kg</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-03T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA DE COCO">
+    <SKU>HARINA-COCO-500</SKU>
+    <Name>Harina de coco 500 g</Name>
+    <Price>2300</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-03T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA INTEGRAL">
+    <SKU>HARINA-INT-1K</SKU>
+    <Name>Harina integral 1 kg</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1025</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-04T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA INTEGRAL">
+    <SKU>HARINA-INT-500</SKU>
+    <Name>Harina integral 500 g</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-04T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA TOSTADA">
+    <SKU>HARINA-TOST-1K</SKU>
+    <Name>Harina tostada 1 kg</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>985</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-05T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HARINA TOSTADA">
+    <SKU>HARINA-TOST-500</SKU>
+    <Name>Harina tostada 500 g</Name>
+    <Price>900</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>550</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-05T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HUESILLO EXTRA">
+    <SKU>HUESILLO-EXT-1K</SKU>
+    <Name>Huesillo extra 1 kg</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4680</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HUESILLO EXTRA">
+    <SKU>HUESILLO-EXT-500</SKU>
+    <Name>Huesillo extra 500 g</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HUESILLO JUMBO">
+    <SKU>HUESILLO-JMB-1K</SKU>
+    <Name>Huesillo jumbo 1 kg</Name>
+    <Price>7500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-07T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HUESILLO JUMBO">
+    <SKU>HUESILLO-JMB-500</SKU>
+    <Name>Huesillo jumbo 500 g</Name>
+    <Price>4200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2550</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-07T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HUESILLO MEDIANO">
+    <SKU>HUESILLO-MED-1K</SKU>
+    <Name>Huesillo mediano 1 kg</Name>
+    <Price>5800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-08T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="HUESILLO MEDIANO">
+    <SKU>HUESILLO-MED-500</SKU>
+    <Name>Huesillo mediano 500 g</Name>
+    <Price>3300</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-08T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA 6MM">
+    <SKU>LENTEJA-6MM-1K</SKU>
+    <Name>Lenteja 6mm 1 kg</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1606</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-09T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA 6MM">
+    <SKU>LENTEJA-6MM-500</SKU>
+    <Name>Lenteja 6mm 500 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>900</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-09T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA BABY">
+    <SKU>LENTEJA-BABY-1K</SKU>
+    <Name>Lenteja baby 1 kg</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1750</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-10T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA BABY">
+    <SKU>LENTEJA-BABY-500</SKU>
+    <Name>Lenteja baby 500 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-10T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA NEGRA">
+    <SKU>LENTEJA-NEG-1K</SKU>
+    <Name>Lenteja negra 1 kg</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2225</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-11T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA NEGRA">
+    <SKU>LENTEJA-NEG-500</SKU>
+    <Name>Lenteja negra 500 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-11T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA ROJA">
+    <SKU>LENTEJA-ROJA-1K</SKU>
+    <Name>Lenteja roja 1 kg</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1725</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-12T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LENTEJA ROJA">
+    <SKU>LENTEJA-ROJA-500</SKU>
+    <Name>Lenteja roja 500 g</Name>
+    <Price>1700</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-12T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LEVADURA">
+    <SKU>LEVADURA-125</SKU>
+    <Name>Levadura 125 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>860</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-13T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LEVADURA">
+    <SKU>LEVADURA-500</SKU>
+    <Name>Levadura 500 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2356</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-14T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LINAZA ENTERA">
+    <SKU>LINAZA-ENT-1K</SKU>
+    <Name>Linaza entera 1 kg</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1430</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-15T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LINAZA ENTERA">
+    <SKU>LINAZA-ENT-500</SKU>
+    <Name>Linaza entera 500 g</Name>
+    <Price>1800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>850</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-15T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LINAZA MOLIDA">
+    <SKU>LINAZA-MOL-1K</SKU>
+    <Name>Linaza molida 1 kg</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-16T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="LINAZA MOLIDA">
+    <SKU>LINAZA-MOL-500</SKU>
+    <Name>Linaza molida 500 g</Name>
+    <Price>1800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>950</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-16T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MAICENA">
+    <SKU>MAICENA-1K</SKU>
+    <Name>Maicena 1 kg</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-17T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MAIZ CURAGUA">
+    <SKU>MAIZ-CUR-1K</SKU>
+    <Name>Maíz curagua 1 kg</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>880</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-18T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MAIZ CURAGUA">
+    <SKU>MAIZ-CUR-500</SKU>
+    <Name>Maíz curagua 500 g</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-18T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON CHOCOLATE">
+    <SKU>MANI-CHOC-1K</SKU>
+    <Name>Maní con chocolate 1 kg</Name>
+    <Price>5000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3510</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-19T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON CHOCOLATE">
+    <SKU>MANI-CHOC-500</SKU>
+    <Name>Maní con chocolate 500 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-19T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON CHOCOLATE">
+    <SKU>MANI-CHOC-250</SKU>
+    <Name>Maní con chocolate 250 g</Name>
+    <Price>1700</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1150</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-19T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON CASCARA TOSTADO">
+    <SKU>MANI-CASC-1K</SKU>
+    <Name>Maní con cáscara tostado 1 kg</Name>
+    <Price>5000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3076</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-20T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON CASCARA TOSTADO">
+    <SKU>MANI-CASC-500</SKU>
+    <Name>Maní con cáscara tostado 500 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1750</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-20T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON MERKEN">
+    <SKU>MANI-MERK-1K</SKU>
+    <Name>Maní con merkén 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-21T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON MERKEN">
+    <SKU>MANI-MERK-500</SKU>
+    <Name>Maní con merkén 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-21T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON MERKEN">
+    <SKU>MANI-MERK-250</SKU>
+    <Name>Maní con merkén 250 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-21T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON SAL">
+    <SKU>MANI-SAL-1K</SKU>
+    <Name>Maní con sal 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2118</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-22T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CON SAL">
+    <SKU>MANI-SAL-500</SKU>
+    <Name>Maní con sal 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-22T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI SIN SAL">
+    <SKU>MANI-SSAL-1K</SKU>
+    <Name>Maní sin sal 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2118</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-22T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI SIN SAL">
+    <SKU>MANI-SSAL-500</SKU>
+    <Name>Maní sin sal 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-22T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CONFITADO">
+    <SKU>MANI-CONF-1K</SKU>
+    <Name>Maní confitado 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-23T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI CONFITADO">
+    <SKU>MANI-CONF-500</SKU>
+    <Name>Maní confitado 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-23T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI JAPONES GRANEL">
+    <SKU>MANI-JAP-1K</SKU>
+    <Name>Maní japonés 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3689</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI JAPONES GRANEL">
+    <SKU>MANI-JAP-500</SKU>
+    <Name>Maní japonés 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2100</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MANI JAPONES GRANEL">
+    <SKU>MANI-JAP-250</SKU>
+    <Name>Maní japonés 250 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MARAVILLA CRUDA CON PIEL">
+    <SKU>MARAV-CRUDA-1K</SKU>
+    <Name>Maravilla cruda con piel 1 kg</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MARAVILLA CRUDA CON PIEL">
+    <SKU>MARAV-CRUDA-500</SKU>
+    <Name>Maravilla cruda con piel 500 g</Name>
+    <Price>1800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MARAVILLA CON CHOCOLATE">
+    <SKU>MARAV-CHOC-1K</SKU>
+    <Name>Maravilla con chocolate 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4522</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-26T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MARAVILLA CON CHOCOLATE">
+    <SKU>MARAV-CHOC-500</SKU>
+    <Name>Maravilla con chocolate 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-26T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MARAVILLA PELADA">
+    <SKU>MARAV-PEL-1K</SKU>
+    <Name>Maravilla pelada 1 kg</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2916</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MARAVILLA PELADA">
+    <SKU>MARAV-PEL-500</SKU>
+    <Name>Maravilla pelada 500 g</Name>
+    <Price>2300</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1650</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MIEL MULTI FLORA">
+    <SKU>MIEL-MF-1K</SKU>
+    <Name>Miel multiflora 1 kg</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3950</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-28T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MIEL MULTI FLORA">
+    <SKU>MIEL-MF-500</SKU>
+    <Name>Miel multiflora 500 g</Name>
+    <Price>3800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-02-28T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MIX FRUTOS SECOS">
+    <SKU>MIX-FS-1K</SKU>
+    <Name>Mix frutos secos 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-01T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MIX FRUTOS SECOS">
+    <SKU>MIX-FS-500</SKU>
+    <Name>Mix frutos secos 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-01T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="MIX FRUTOS SECOS">
+    <SKU>MIX-FS-250</SKU>
+    <Name>Mix frutos secos 250 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-01T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUEZ ENTERA MARIPOSA 500 GRAMOS">
+    <SKU>NUEZ-MAR-500</SKU>
+    <Name>Nuez entera mariposa 500 g</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-02T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUEZ ENTERA MARIPOSA 500 GRAMOS">
+    <SKU>NUEZ-MAR-1K</SKU>
+    <Name>Nuez entera mariposa 1 kg</Name>
+    <Price>11000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>9500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-02T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUEZ ENTERA MARIPOSA 500 GRAMOS">
+    <SKU>NUEZ-MAR-250</SKU>
+    <Name>Nuez entera mariposa 250 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-02T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUEZ MOSCADA MOLIDA 100 GRAMOS">
+    <SKU>NUEZ-MOSC-MOL-100</SKU>
+    <Name>Nuez moscada molida 100 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>15650</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-03T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUEZ MOSCADA MOLIDA 100 GRAMOS">
+    <SKU>NUEZ-MOSC-MOL-50</SKU>
+    <Name>Nuez moscada molida 50 g</Name>
+    <Price>1700</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-03T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUEZ MOSCADA ENTERA 100 GRAMOS">
+    <SKU>NUEZ-MOSC-ENT-100</SKU>
+    <Name>Nuez moscada entera 100 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>17612</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-04T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="NUTELLA 350 GRAMOS">
+    <SKU>NUTELLA-350</SKU>
+    <Name>Nutella 350 g</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3880</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-05T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="OLIVA 500ML MAYACA">
+    <SKU>OLIVA-MAY-500</SKU>
+    <Name>Aceite de oliva Mayaca 500 ml</Name>
+    <Price>3800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="OLIVA 500ML MAYACA">
+    <SKU>OLIVA-MAY-1L</SKU>
+    <Name>Aceite de oliva Mayaca 1 L</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PAPAYAS">
+    <SKU>PAPAYA-1K</SKU>
+    <Name>Papayas deshidratadas 1 kg</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PAPAYAS">
+    <SKU>PAPAYA-500</SKU>
+    <Name>Papayas deshidratadas 500 g</Name>
+    <Price>3800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PAPAYAS">
+    <SKU>PAPAYA-250</SKU>
+    <Name>Papayas deshidratadas 250 g</Name>
+    <Price>2200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-06T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PASA NEGRA">
+    <SKU>PASA-NEG-1K</SKU>
+    <Name>Pasas negras 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2142</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-08T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PASA NEGRA">
+    <SKU>PASA-NEG-500</SKU>
+    <Name>Pasas negras 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-08T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PASA NEGRA">
+    <SKU>PASA-NEG-250</SKU>
+    <Name>Pasas negras 250 g</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-08T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PASA RUBIA">
+    <SKU>PASA-RUB-1K</SKU>
+    <Name>Pasas rubias 1 kg</Name>
+    <Price>7000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4850</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-09T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PASA RUBIA">
+    <SKU>PASA-RUB-500</SKU>
+    <Name>Pasas rubias 500 g</Name>
+    <Price>4000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-09T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PASA RUBIA">
+    <SKU>PASA-RUB-250</SKU>
+    <Name>Pasas rubias 250 g</Name>
+    <Price>2300</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-09T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PEPITA CROCANTE">
+    <SKU>PEPITA-CROC-1K</SKU>
+    <Name>Pepita crocante 1 kg</Name>
+    <Price>12000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>8630</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-10T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PEPITA CROCANTE">
+    <SKU>PEPITA-CROC-500</SKU>
+    <Name>Pepita crocante 500 g</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-10T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PEPITA CROCANTE">
+    <SKU>PEPITA-CROC-250</SKU>
+    <Name>Pepita crocante 250 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-10T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PEPITA ZAPALLO">
+    <SKU>PEPITA-ZAP-1K</SKU>
+    <Name>Pepita de zapallo 1 kg</Name>
+    <Price>8000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3990</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-11T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PEPITA ZAPALLO">
+    <SKU>PEPITA-ZAP-500</SKU>
+    <Name>Pepita de zapallo 500 g</Name>
+    <Price>4500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-11T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PEPITA ZAPALLO">
+    <SKU>PEPITA-ZAP-250</SKU>
+    <Name>Pepita de zapallo 250 g</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1250</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-11T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PISTACHO">
+    <SKU>PISTACHO-1K</SKU>
+    <Name>Pistacho 1 kg</Name>
+    <Price>16000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>12140</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-12T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PISTACHO">
+    <SKU>PISTACHO-500</SKU>
+    <Name>Pistacho 500 g</Name>
+    <Price>9000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>6800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-12T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="PISTACHO">
+    <SKU>PISTACHO-250</SKU>
+    <Name>Pistacho 250 g</Name>
+    <Price>5000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3800</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-12T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POLVO DE HORNEAR">
+    <SKU>POLVO-HORN-1K</SKU>
+    <Name>Polvo de hornear gourmet 1 kg</Name>
+    <Price>5000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2930</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-13T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POLVO DE HORNEAR">
+    <SKU>POLVO-HORN-500</SKU>
+    <Name>Polvo de hornear gourmet 500 g</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-13T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO BLANCO (ALUBIA)">
+    <SKU>POROTO-BL-1K</SKU>
+    <Name>Poroto blanco (alubia) 1 kg</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1773</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-14T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO BLANCO (ALUBIA)">
+    <SKU>POROTO-BL-500</SKU>
+    <Name>Poroto blanco (alubia) 500 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-14T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO CANARIO">
+    <SKU>POROTO-CAN-1K</SKU>
+    <Name>Poroto canario 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2740</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-15T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO CANARIO">
+    <SKU>POROTO-CAN-500</SKU>
+    <Name>Poroto canario 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1550</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-15T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO HALLADO">
+    <SKU>POROTO-HALL-1K</SKU>
+    <Name>Poroto hallado 1 kg</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1820</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-16T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO HALLADO">
+    <SKU>POROTO-HALL-500</SKU>
+    <Name>Poroto hallado 500 g</Name>
+    <Price>1500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1050</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-16T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO TORTOLA">
+    <SKU>POROTO-TORT-1K</SKU>
+    <Name>Poroto tórtola 1 kg</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-17T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO TORTOLA">
+    <SKU>POROTO-TORT-500</SKU>
+    <Name>Poroto tórtola 500 g</Name>
+    <Price>1800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1150</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-17T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO NEGRO">
+    <SKU>POROTO-NEG-1K</SKU>
+    <Name>Poroto negro 1 kg</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-18T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO NEGRO">
+    <SKU>POROTO-NEG-500</SKU>
+    <Name>Poroto negro 500 g</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>700</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-18T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO PALLAR">
+    <SKU>POROTO-PALL-1K</SKU>
+    <Name>Poroto pallar 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2676</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-19T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO PALLAR">
+    <SKU>POROTO-PALL-500</SKU>
+    <Name>Poroto pallar 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-19T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO ROJO">
+    <SKU>POROTO-ROJO-1K</SKU>
+    <Name>Poroto rojo 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2560</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-20T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="POROTO ROJO">
+    <SKU>POROTO-ROJO-500</SKU>
+    <Name>Poroto rojo 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1450</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-20T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA BLANCA">
+    <SKU>QUINOA-BL-1K</SKU>
+    <Name>Quinoa blanca 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-21T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA BLANCA">
+    <SKU>QUINOA-BL-500</SKU>
+    <Name>Quinoa blanca 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-21T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA BLANCA">
+    <SKU>QUINOA-BL-250</SKU>
+    <Name>Quinoa blanca 250 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1350</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-21T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA NEGRA">
+    <SKU>QUINOA-NEG-1K</SKU>
+    <Name>Quinoa negra 1 kg</Name>
+    <Price>6500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5474</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-22T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA NEGRA">
+    <SKU>QUINOA-NEG-500</SKU>
+    <Name>Quinoa negra 500 g</Name>
+    <Price>3800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3100</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-22T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA POP">
+    <SKU>QUINOA-POP-1K</SKU>
+    <Name>Quinoa pop 1 kg</Name>
+    <Price>8000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>5900</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-23T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA POP">
+    <SKU>QUINOA-POP-500</SKU>
+    <Name>Quinoa pop 500 g</Name>
+    <Price>4500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3300</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-23T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA POP">
+    <SKU>QUINOA-POP-250</SKU>
+    <Name>Quinoa pop 250 g</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1850</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-23T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA ROJA">
+    <SKU>QUINOA-ROJA-1K</SKU>
+    <Name>Quinoa roja 1 kg</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3451</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA ROJA">
+    <SKU>QUINOA-ROJA-500</SKU>
+    <Name>Quinoa roja 500 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1950</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="QUINOA ROJA">
+    <SKU>QUINOA-ROJA-250</SKU>
+    <Name>Quinoa roja 250 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1100</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-24T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SAL HIMALAYA 1K">
+    <SKU>SAL-HIM-1K</SKU>
+    <Name>Sal del Himalaya 1 kg</Name>
+    <Price>3000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1730</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SAL HIMALAYA 1K">
+    <SKU>SAL-HIM-500</SKU>
+    <Name>Sal del Himalaya 500 g</Name>
+    <Price>1800</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1000</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SAL HIMALAYA 1K">
+    <SKU>SAL-HIM-250</SKU>
+    <Name>Sal del Himalaya 250 g</Name>
+    <Price>1100</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-25T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SEMILLA MOSTAZA 250 GRAMOS">
+    <SKU>SEM-MOST-250</SKU>
+    <Name>Semilla de mostaza 250 g</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2980</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-26T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SEMILLA MOSTAZA 250 GRAMOS">
+    <SKU>SEM-MOST-100</SKU>
+    <Name>Semilla de mostaza 100 g</Name>
+    <Price>1200</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1400</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-26T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SEMOLA">
+    <SKU>SEMOLA-1K</SKU>
+    <Name>Sémola 1 kg</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2130</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SEMOLA">
+    <SKU>SEMOLA-500</SKU>
+    <Name>Sémola 500 g</Name>
+    <Price>2000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1200</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-27T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="SOYA KIKKOMAN">
+    <SKU>SOYA-KIK-1-2L</SKU>
+    <Name>Salsa de soya Kikkoman 1.2 L</Name>
+    <Price>15000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>7230</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-28T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="TABASCO">
+    <SKU>TABASCO-60ML</SKU>
+    <Name>Salsa Tabasco 60 ml</Name>
+    <Price>2500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>1850</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-29T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="TE CEYLAN">
+    <SKU>TE-CEYLAN-100</SKU>
+    <Name>Té Ceylán 100 g</Name>
+    <Price>10000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>6353</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-30T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="TE CEYLAN">
+    <SKU>TE-CEYLAN-50</SKU>
+    <Name>Té Ceylán 50 g</Name>
+    <Price>5500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>3500</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-30T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="TE CHINO VERDE">
+    <SKU>TE-VERDE-100</SKU>
+    <Name>Té chino verde 100 g</Name>
+    <Price>6000</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>4605</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>1</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-31T00:00:00.000Z</CreatedAt>
+  </Variant>
+  <Variant name="TE CHINO VERDE">
+    <SKU>TE-VERDE-50</SKU>
+    <Name>Té chino verde 50 g</Name>
+    <Price>3500</Price>
+    <CompareAtPrice></CompareAtPrice>
+    <CostPrice>2600</CostPrice>
+    <StockQuantity>100</StockQuantity>
+    <ManageStock>1</ManageStock>
+    <StockStatus>InStock</StockStatus>
+    <IsDefault>0</IsDefault>
+    <IsActive>1</IsActive>
+    <CreatedAt>2026-03-31T00:00:00.000Z</CreatedAt>
+  </Variant>
+</ProductVariants>
