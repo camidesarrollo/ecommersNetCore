@@ -10,6 +10,6 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> CreateAsync(ProductAttributesCreateRequest request);
 
-        Task ProcesarAtributosProducto(IFormCollection form, long productId);
+        Task ProcesarAtributosProducto(List<ProductAttributeVM> productsAttributes, long productId);
     }
 }

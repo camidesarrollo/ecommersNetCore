@@ -102,22 +102,10 @@ namespace Ecommers.Web.Controllers
         [HttpGet("Crear")]
         public async Task<IActionResult> CrearAsync()
         {
-            var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
-            var Categorias = await _CategoriasService.GetAllActiveAsync();
-            var producto = new Products();
-            var productImagen = new List<ProductImagesD>();
-            productImagen.Add(new ProductImagesD { Id = 0, IsPrimary = true, IsActive = true, SortOrder = 1 });
-            producto.ProductVariants.Add(new ProductVariants());
-            var ProductViewModel = new ProductsCreateViewModel
-            {
-                MasterAttributes = MaestroAtributes,
-                Categories = Categorias,
-                Products = producto,
-                ProductImage = productImagen
-
-            };
-            return View("~/Web/Views/Products/Create.cshtml", ProductViewModel);
+            var vm = await BuildCreateViewModelAsync();
+            return View("~/Web/Views/Products/Create.cshtml", vm);
         }
+
 
         // -------------------------------------------------------------------
         // POST: /Gestion/Categorias/Crear
@@ -128,14 +116,10 @@ namespace Ecommers.Web.Controllers
         {
             try
             {
-                var form = Request.Form;
-                var files = Request.Form.Files;
-
-                var producto = ProductFormMapper.CrearProductoDesdeForm(Request.Form);
+                
 
                 var validator = new ProductsCreateRequestValidator();
-                var result = validator.Validate(producto);
-
+                var result = validator.Validate(model.Products);
 
                 if (!result.IsValid)
                 {
@@ -143,13 +127,17 @@ namespace Ecommers.Web.Controllers
                     {
                         ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                     }
-                    return View("~/Web/Views/Products/Create.cshtml", form);
+
+                    var vm = await BuildCreateViewModelAsync(model);
+                    return View("~/Web/Views/Products/Create.cshtml", vm);
                 }
+
+                var producto = model.Products;
 
                 // 3️⃣ Guardar producto primero para obtener el ID
                 var productoCreado = await _Productservice.CreateAsync(producto);
 
-                if(productoCreado == null)
+                if (productoCreado == null)
                 {
                     _logger.LogError("Error al crear producto");
                     ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
@@ -162,13 +150,13 @@ namespace Ecommers.Web.Controllers
                 }
 
                 // 2. Procesar imágenes del producto
-                await _ProductImagesService.ProcesarImagenesProducto(files, form, productoCreado.Data, producto);
+                await _ProductImagesService.ProcesarImagenesProducto(model.ProductImagesD, producto, productoCreado.Data);
 
                 // 3. Procesar atributos del producto
-                await _ProductAttributesService.ProcesarAtributosProducto(form, productoCreado.Data);
+                await _ProductAttributesService.ProcesarAtributosProducto(model.ProductsAttributes, productoCreado.Data);
 
                 // 4. Procesar variantes del producto
-                await _ProductVariantsService.ProcesarVariantesProducto(form, files, productoCreado.Data, producto.Slug);
+                await _ProductVariantsService.ProcesarVariantesProducto(model.ProductVariants, producto.Slug, productoCreado.Data);
 
                 return HandleResult(productoCreado, nameof(Index));
             }
@@ -474,7 +462,7 @@ namespace Ecommers.Web.Controllers
                 var model = new PartialProductVariantViewModel
                 {
                     Index = request.Index,
-                    ProductVariant = new ProductVariants(),
+                    ProductVariant = new ProductVariantsCreateRequest(),
                     MasterAttributes = MaestroAtributes,
                     ProductVariantImages =[]
                 };
@@ -512,5 +500,41 @@ namespace Ecommers.Web.Controllers
                 });
             }
         }
+
+        private async Task<ProductsCreateViewModel> BuildCreateViewModelAsync(ProductCreateVM? model = null)
+        {
+            model ??= new ProductCreateVM();
+
+            model.Products ??= new ProductsCreateRequest
+            {
+                Description = "",
+                ShortDescription = ""
+            };
+
+            model.ProductImagesD ??= new List<ProductImagesCreateRequest>
+    {
+        new ProductImagesCreateRequest
+        {
+            Id = 0,
+            IsPrimary = true,
+            IsActive = true,
+            SortOrder = 1
+        }
+    };
+
+            if (!model.ProductVariants.Any())
+            {
+                model.ProductVariants.Add(new ProductVariantsCreateRequest { Id = 0 });
+            }
+
+            return new ProductsCreateViewModel
+            {
+                MasterAttributes = await _MasterAttributeService.GetAllActiveAsync(),
+                AtrributeValue = await _AtrributeValueService.GetAllActiveAsync(),
+                Categories = await _CategoriasService.GetAllActiveAsync(),
+                Products = model
+            };
+        }
+
     }
 }

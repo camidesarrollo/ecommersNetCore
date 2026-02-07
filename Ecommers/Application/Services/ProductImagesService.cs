@@ -6,6 +6,7 @@ using Ecommers.Application.DTOs.Requests.Categorias;
 using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.DTOs.Requests.Products;
+using Ecommers.Application.DTOs.Requests.ProductVariantImages;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
@@ -13,6 +14,7 @@ using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
 using Ecommers.Web.Controllers;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
@@ -124,24 +126,23 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarImagenesProducto(
-                                                    IFormFileCollection files,
-                                                    IFormCollection form,
-                                                    long productId,
-                                                    ProductsCreateRequest producto)
+        public async Task ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto)
         {
-            var imagenesConIndice = ProductImagesFormMapper.ObtenerImagenesConIndice(files);
             var carpeta = $"Productos/{producto.Slug}";
             var imagenesGuardadas = 0;
 
-            foreach (var img in imagenesConIndice)
+            foreach (var img in imagenes)
             {
-                if (img.File.Length == 0) continue;
+                if (img.ImageFile == null) continue;
 
                 try
                 {
-                    var imagen = ProductImagesFormMapper.CrearImagenProductoDesdeForm(form, img, productId, producto.Name);
-                    var urlImagen = await _imageStorage.UpdateAsync(img.File, null, carpeta);
+                    var imagen = img;
+                    imagen.ProductId = IdProducto;
+                    imagen.AltText = string.IsNullOrWhiteSpace(imagen.AltText) ? producto.Name : imagen.AltText;
+                    imagen.IsActive = true;
+
+                    var urlImagen = await _imageStorage.UpdateAsync(img.ImageFile, null, carpeta);
 
                     if (!string.IsNullOrEmpty(urlImagen))
                     {
@@ -152,12 +153,12 @@ namespace Ecommers.Application.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Error al subir imagen {img.Index} del producto {productId}");
+                    _logger.LogError(ex, $"Error al subir imagen {img.Url} del producto {IdProducto}");
                 }
             }
 
             if (imagenesGuardadas == 0)
-                _logger.LogWarning($"Producto {productId} creado sin imágenes");
+                _logger.LogWarning($"Producto {IdProducto} creado sin imágenes");
         }
 
         private async Task UpdateInternalAsync(ProductImagesUpdateRequest request)

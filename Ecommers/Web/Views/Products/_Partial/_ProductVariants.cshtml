@@ -160,18 +160,11 @@
                 {
                     var attr = MasterAttributes[i];
 
-                    var productValues = Model.ProductVariant.VariantAttributes
-                    .Where(x => x.AttributeId == attr.Id)
+                    var productValues = Model.ProductVariant.Attributes
+                    .Where(x => x.MasterAttributeId == attr.Id)
                     .Select(x => x.Value)
                     .Where(v => v != null)
                     .ToList();
-
-                    var singleValueText = productValues.FirstOrDefault()?.GetDisplayValue();
-
-                    var attributes = Model.ProductVariant.VariantAttributes
-                    .FirstOrDefault(x => x.AttributeId == attr.Id && x.Attribute.InputType == "checkbox");
-
-                    bool isChecked = attributes != null;
 
                     <!-- ID real del atributo -->
                     <input type="hidden"
@@ -192,7 +185,7 @@
 
                                 <input type="text"
                                        name="ProductVariants[@Model.Index].Attributes[@i].Value"
-                                       value="@singleValueText"
+                                       value="@productValues.FirstOrDefault()"
                                        placeholder="@attr.Description"
                                        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
                                               focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -210,7 +203,7 @@
 
                                 <input type="number"
                                        name="ProductVariants[@Model.Index].Attributes[@i].Value"
-                                       value="@singleValueText"
+                                       value="@productValues.FirstOrDefault()"
                                        placeholder="@attr.Description"
                                        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
                                               focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
@@ -227,7 +220,7 @@
                                     <input type="checkbox"
                                            name="ProductVariants[@Model.Index].Attributes[@i].Value"
                                            value="true"
-                                           @(isChecked ? "checked" : "")
+                                           @(productValues.FirstOrDefault(x=> x == "true") != null ? "checked" : "")
                                            class="w-12 h-6 rounded-full appearance-none bg-gray-300
                                                   checked:bg-mint-green-700 relative transition
                                                   before:absolute before:top-1 before:left-1
@@ -243,7 +236,6 @@
                                 break;
 
                             case "select":
-                                var singleValue = productValues.Select(x => x.Id).FirstOrDefault();
 
                                 <label class="block font-semibold mb-2">
                                     @attr.Name
@@ -256,7 +248,7 @@
                                 <select name="ProductVariants[@Model.Index].Attributes[@i].Value"
                                         class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
                                                focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                        data-selected="@singleValue"
+                                        data-selected="@productValues.FirstOrDefault()"
                                         data-tags="true"
                                         @(attr.IsRequired ? "required" : "")>
                                     <option value="">Seleccione</option>
@@ -272,7 +264,6 @@
                                 break;
 
                             case "multiselect":
-                                var multiValues = productValues.Select(x => x.Id).ToList();
 
                                 <label class="block font-semibold mb-2">
                                     @attr.Name
@@ -286,7 +277,7 @@
                                         multiple
                                         class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
                                                focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                        data-selected="@string.Join(",", multiValues)"
+                                        data-selected="@string.Join(",", @productValues)"
                                         @(attr.IsRequired ? "required" : "")>
                                     <option value="">Seleccione</option>
 
@@ -319,9 +310,26 @@
                     Agregar Imagen
                 </button>
             </div>
+            @{
+                var imagen = new List<ProductVariantImagesD>();
+
+                foreach (var item in Model.ProductVariantImages.ToList())
+                {
+                    imagen.Add(new ProductVariantImagesD{
+                        Id = 0,
+                        VariantId = item.VariantId,
+                        Url = item.Url ?? "",
+                        AltText = item.AltText,
+                        IsPrimary = item.IsPrimary,
+                        SortOrder = item.SortOrder
+
+                    });
+                    
+                }
+            }
             <ui-image ui-image-model="@(new UiImageModel<ProductVariantImagesD>
                       {
-                          Images = Model.ProductVariantImages.ToList(),
+                          Images = imagen,
                           NombreCompuesto = $"ProductVariants[{Model.Index}]"
                       })">
             </ui-image>

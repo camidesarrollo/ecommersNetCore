@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using Ecommers.Application.DTOs.Common;
+using Ecommers.Application.DTOs.Requests.ProductAttributes;
 using Ecommers.Application.DTOs.Requests.VariantAttributes;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence;
+using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
 
@@ -65,25 +67,18 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarAtributosVariante(IFormCollection form, int variantIndex, long variantId)
+        public async Task ProcesarAtributosVariante(List<ProductVariantAttributeVM> form, long variantId)
         {
             var maestroAtributos = await _MasterAttributeService.GetAllActiveAsync();
             var atributosVariante = maestroAtributos.Where(x => x.AppliesTo == "variant").ToList();
 
             foreach (var atributo in atributosVariante)
             {
-                // Corregido: Se eliminó el punto entre [{variantIndex}] y Attributes
-                var searchKey = $"ProductVariants[{variantIndex}]Attributes[{atributo.Id}].Value";
+                var busqueda = form.FirstOrDefault(x => x.MasterAttributeId == atributo.Id && (x.Value != null && x.Value != "" && x.Value != "false"));
 
-                var valores = form
-                    .Where(k => k.Key.Equals(searchKey, StringComparison.OrdinalIgnoreCase))
-                    .Select(k => k.Value.ToString())
-                    .Where(v => !string.IsNullOrWhiteSpace(v))
-                    .ToList();
-
-                foreach (var valor in valores)
+                if (busqueda != null)
                 {
-                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, valor);
+                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, busqueda?.Value ?? "");
 
                     if (valueId > 0)
                     {

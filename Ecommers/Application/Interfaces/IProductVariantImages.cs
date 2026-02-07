@@ -15,9 +15,7 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> CreateAsync(ProductVariantImagesCreateRequest request);
 
-        Task ProcesarImagenesVariante(
-    List<(int VariantIndex, int ImageIndex, IFormFile File)> todasImagenes,
-    int variantIndex,
+        Task ProcesarImagenesVariante(List<ProductVariantImagesCreateRequest> imagenesVariante,
     long variantId,
     string carpetaBase);
     }

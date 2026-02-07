@@ -66,20 +66,18 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarAtributosProducto(IFormCollection form, long productId)
+        public async Task ProcesarAtributosProducto(List<ProductAttributeVM> productsAttributes, long productId)
         {
             var maestroAtributos = await _MasterAttributeService.GetAllActiveAsync();
             var atributosProducto = maestroAtributos.Where(x => x.AppliesTo == "product").ToList();
 
             foreach (var atributo in atributosProducto)
             {
-                var valores = form[$"ProductsAttributes[{atributo.Id}].Value"];
+                var busqueda = productsAttributes.FirstOrDefault(x => x.MasterAttributeId == atributo.Id && (x.Value != null && x.Value != "" && x.Value != "false"));
 
-                foreach (var valor in valores)
+                if(busqueda != null)
                 {
-                    if (string.IsNullOrWhiteSpace(valor)) continue;
-
-                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, valor);
+                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, busqueda?.Value ?? "");
 
                     if (valueId > 0)
                     {

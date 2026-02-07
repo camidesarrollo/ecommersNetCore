@@ -4,15 +4,13 @@ namespace Ecommers.Application.DTOs.Requests.ProductImages
 {
     public class ProductImagesBaseRequest
     {
-        [Required(ErrorMessage = "Debes indicar el producto asociado a la imagen.")]
         [Display(Name = "Producto")]
         public long ProductId { get; set; }
 
-        [Required(ErrorMessage = "Debes ingresar la URL de la imagen.")]
         [MaxLength(500, ErrorMessage = "La URL de la imagen no puede superar los 500 caracteres.")]
         [Url(ErrorMessage = "Debes ingresar una URL válida.")]
         [Display(Name = "URL de la imagen")]
-        public string Url { get; set; } = null!;
+        public string? Url { get; set; } = null!;
 
         [Display(Name = "Imagen de la Categoría")]
         public IFormFile? ImageFile { get; set; }
@@ -30,5 +28,7 @@ namespace Ecommers.Application.DTOs.Requests.ProductImages
 
         [Display(Name = "Imagen activa")]
         public bool IsActive { get; set; }
+
+        public int? Id { get; set; }
     }
 }

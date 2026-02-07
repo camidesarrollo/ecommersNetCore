@@ -14,11 +14,7 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> CreateAsync(ProductImagesCreateRequest request);
 
-        Task ProcesarImagenesProducto(
-                                                    IFormFileCollection files,
-                                                    IFormCollection form,
-                                                    long productId,
-                                                    ProductsCreateRequest producto);
+        Task ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto);
 
     }
 }

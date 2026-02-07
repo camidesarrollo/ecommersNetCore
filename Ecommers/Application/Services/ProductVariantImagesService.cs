@@ -92,28 +92,22 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarImagenesVariante(
-    List<(int VariantIndex, int ImageIndex, IFormFile File)> todasImagenes,
-    int variantIndex,
+        public async Task ProcesarImagenesVariante(List<ProductVariantImagesCreateRequest> imagenesVariante,
     long variantId,
     string carpetaBase)
         {
-            var imagenesVariante = todasImagenes
-                .Where(x => x.VariantIndex == variantIndex)
-                .OrderBy(x => x.ImageIndex)
-                .ToList();
-
+    
             foreach (var imagen in imagenesVariante)
             {
                 var imageRequest = new ProductVariantImagesCreateRequest
                 {
                     VariantId = variantId,
                     AltText = $"Variante {variantId}",
-                    SortOrder = imagen.ImageIndex,
+                    SortOrder = imagen.SortOrder,
                     IsActive = true,
                     IsPrimary = true,
                     Url = await _imageStorage.UpdateAsync(
-                        imagen.File,
+                        imagen.ImageFile,
                         null,
                         $"{carpetaBase}/variante_{variantId}") ?? ""
                 };

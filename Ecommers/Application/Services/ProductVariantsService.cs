@@ -77,19 +77,13 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarVariantesProducto(
-    IFormCollection form,
-    IFormFileCollection files,
-    long productId,
-    string slug)
+        public async Task ProcesarVariantesProducto(List<ProductVariantsCreateRequest> productVariantsCreateRequest,string slug, long id)
         {
-            var variantesAgrupadas = ProductVariantsFromMapper.AgruparCamposVariantes(form);
-            var imagenesVariantes = ProductVariantImagesFormMapper.ObtenerImagenesVariantes(files);
             var carpeta = $"Productos/{slug}";
 
-            foreach (var grupo in variantesAgrupadas)
+            foreach (var variante in productVariantsCreateRequest)
             {
-                var variante = ProductVariantsFromMapper.MapearVariante(grupo, productId);
+                variante.ProductId = id;
                 var resultado = await CreateAsync(variante);
                 var variantId = resultado.Data;
 
@@ -105,8 +99,8 @@ namespace Ecommers.Application.Services
                                                                             IsActive = variante.IsActive
                                                                         });
 
-                    await _ProductVariantImagesService.ProcesarImagenesVariante(imagenesVariantes, grupo.Key, variantId, carpeta);
-                    await _VariantAttributesService.ProcesarAtributosVariante(form, grupo.Key, variantId);
+                    await _ProductVariantImagesService.ProcesarImagenesVariante(variante.ProductVariantImages, variantId, carpeta);
+                    await _VariantAttributesService.ProcesarAtributosVariante(variante.Attributes, variantId);
                 }
             }
         }

@@ -12,10 +12,6 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result<long>> CreateAsync(ProductVariantsCreateRequest request);
 
-            Task ProcesarVariantesProducto(
-    IFormCollection form,
-    IFormFileCollection files,
-    long productId,
-    string slug);
+        Task ProcesarVariantesProducto(List<ProductVariantsCreateRequest> productVariantsCreateRequest,string slug, long id);
     }
 }

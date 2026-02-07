@@ -86,7 +86,7 @@ function addImageInput(event = null, isPrimary = false) {
         containerElement: container,
         indexRef: 'imageIndex',
         indexName: 'image',
-        namePrefix: 'ProductImages',
+        namePrefix: 'ProductImagesD',
         previewFn: 'previewImage',
         updatePrimaryFn: 'updatePrimaryImage',
         removeFn: 'removeImageInput',
@@ -99,8 +99,8 @@ window.previewImage = function (input) {
     handleImagePreview({
         input,
         wrapperSelector: '[data-image-index]',
-        previewSelector: 'img[id^="ProductImages_preview_"]',
-        iconSelector: 'i[id^="ProductImages_icon_"]'
+        previewSelector: 'img[id^="ProductImagesD_preview_"]',
+        iconSelector: 'i[id^="ProductImagesD_icon_"]'
     });
 };
 
@@ -153,12 +153,12 @@ function reindexImages() {
 
         // File input
         const fileInput = imageDiv.querySelector('input[type="file"]');
-        fileInput.name = `ProductImages[${newIndex}].ImageFile`;
+        fileInput.name = `ProductImagesD[${newIndex}].ImageFile`;
         fileInput.setAttribute('onchange', `previewImage(this, ${newIndex})`);
 
         // SortOrder
         const sortInput = imageDiv.querySelector('input[name$=".SortOrder"]');
-        sortInput.name = `ProductImages[${newIndex}].SortOrder`;
+        sortInput.name = `ProductImagesD[${newIndex}].SortOrder`;
         sortInput.value = newIndex + 1;
 
         // Radio
@@ -168,7 +168,7 @@ function reindexImages() {
 
         // Hidden IsPrimary
         const hidden = imageDiv.querySelector('input[type="hidden"]');
-        hidden.name = `ProductImages[${newIndex}].IsPrimary`;
+        hidden.name = `ProductImagesD[${newIndex}].IsPrimary`;
         hidden.id = `isPrimary_${newIndex}`;
 
         // Preview
@@ -240,6 +240,24 @@ function initVariantImageButtons() {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input[type="checkbox"][data-index]')
+        .forEach(checkbox => {
+
+            const index = checkbox.dataset.index;
+            const hidden = document.querySelector(
+                `input[type="hidden"][data-index="${index}"]`
+            );
+
+            // set inicial
+            hidden.value = checkbox.checked ? 'true' : 'false';
+
+            checkbox.addEventListener('change', () => {
+                hidden.value = checkbox.checked ? 'true' : 'false';
+            });
+        });
+});
 
 async function addVariant() {
     try {

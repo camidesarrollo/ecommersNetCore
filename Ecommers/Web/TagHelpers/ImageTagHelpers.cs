@@ -16,6 +16,7 @@ namespace Ecommers.Web.TagHelpers
             var images = UiImageModel.Images as IEnumerable<object>;
             var name = UiImageModel.Name;
             var nombreCompuesto = UiImageModel?.NombreCompuesto ?? "";
+            var nombreCostumizado = UiImageModel?.NombreCostumizado ?? false;
 
             var sb = new StringBuilder();
             int index = 0;
@@ -29,7 +30,7 @@ namespace Ecommers.Web.TagHelpers
                 foreach (var image in images)
                 {
 
-                    sb.Append(RenderImageBlock(image, name, nombreCompuesto, index));
+                    sb.Append(RenderImageBlock(image, name, nombreCompuesto, nombreCostumizado, index));
                     index++;
                 }
             }
@@ -49,9 +50,14 @@ namespace Ecommers.Web.TagHelpers
             output.Content.SetHtmlContent(sb.ToString());
         }
 
-        private string RenderImageBlock(object image, string name, string nombreCompuesto, int i)
+        private string RenderImageBlock(object image, string name, string nombreCompuesto, bool nombreCostumizado,  int i)
         {
             var type = image.GetType();
+
+            if(nombreCostumizado == true)
+            {
+                name = "";
+            }
 
             var id = type.GetProperty("Id")?.GetValue(image);
             var url = type.GetProperty("Url")?.GetValue(image)?.ToString();

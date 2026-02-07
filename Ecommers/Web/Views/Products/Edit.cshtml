@@ -1,4 +1,4 @@
-﻿@using Ecommers.Domain.Entities
+﻿@* @using Ecommers.Domain.Entities
 @using Ecommers.Domain.Extensions
 @using Ecommers.Infrastructure.Persistence.Entities
 @using System.Globalization
@@ -367,14 +367,14 @@
                             {
                                 @for (int i = 0; i < Model.Products.ProductVariants.Count; i++)
                                 {
-                                    var variante = Model.Products.ProductVariants.ToList();
+                                    var variante = Model.Products.ProductVariants[i];
                                     PartialProductVariantViewModel partialProductVariantViewModel = new PartialProductVariantViewModel
                                     {
                                         Index = i,
-                                        ProductVariant = variante[i],
+                                        ProductVariant = variante,
                                         MasterAttributes = Model.MasterAttributes,
                                         AtrributeValue = Model.AtrributeValue.ToList(),
-                                        ProductVariantImages = Model.ProductVariantImages.Where(x => x.VariantId == variante[i].Id).ToList()
+                                        ProductVariantImages = variante.ProductVariantImages.Where(x => x.VariantId == variante.Id).ToList()
                                     };
                                     @await Html.PartialAsync("~/Web/Views/Products/_Partial/_ProductVariants.cshtml", partialProductVariantViewModel)
 
@@ -409,4 +409,4 @@
 @section Scripts {
     <script type="module" src="~/js/application/products/generic.js"></script>
     <script type="module" src="~/js/application/products/edit.js"></script>
-}
+} *@

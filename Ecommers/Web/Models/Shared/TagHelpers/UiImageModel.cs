@@ -7,6 +7,8 @@
         public string Name => typeof(T).Name;
 
         public string NombreCompuesto { get; set; } 
+
+        public bool NombreCostumizado { get; set; }
     }
 
 }
