@@ -1,5 +1,5 @@
 ﻿using Ecommers.Domain.Common;
-using Ecommers.Web.Models.Shared.TagHelpers;
+using Ecommers.Infrastructure.Web.Models.Shared.Interfaces;
 
 namespace Ecommers.Domain.Entities
 {

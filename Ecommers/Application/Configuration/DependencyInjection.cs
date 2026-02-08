@@ -8,7 +8,7 @@ using Ecommers.Infrastructure.Files;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Persistence.Repositories;
-using Ecommers.Web.Filters;
+using Ecommers.Infrastructure.Web.Filters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;

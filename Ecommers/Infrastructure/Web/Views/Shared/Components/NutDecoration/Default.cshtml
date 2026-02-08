@@ -1,0 +1,9 @@
+﻿@using Ecommers.Infrastructure.Web.Models.Shared.Components
+@model NutDecorationViewModel
+
+<div class="nut-decoration-container"
+     data-count="@Model.Count"
+     data-size="@Model.Size"
+     data-opacity="@Model.Opacity"
+     data-nuts="@string.Join(",", Model.NutTypes)">
+</div>

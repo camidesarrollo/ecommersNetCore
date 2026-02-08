@@ -1,0 +1,16 @@
+﻿using Ecommers.Infrastructure.Web.Models.Shared.Interfaces;
+
+namespace Ecommers.Infrastructure.Web.Models.Shared.TagHelpers
+{
+    public class UiImageModel<T> where T : IUiImage
+    {
+        public List<T> Images { get; set; } = [];
+
+        public string Name => typeof(T).Name;
+
+        public string NombreCompuesto { get; set; } 
+
+        public bool NombreCostumizado { get; set; }
+    }
+
+}

@@ -19,6 +19,15 @@ namespace Ecommers.Application.Configuration
             services.AddDbContext<EcommersContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("EcommersContext")));
 
+            services.AddControllersWithViews()
+               .AddRazorOptions(options =>
+               {
+                   options.ViewLocationFormats.Clear();
+
+                   options.ViewLocationFormats.Add("/Infrastructure/Web/Views/{1}/{0}.cshtml");
+                   options.ViewLocationFormats.Add("/Infrastructure/Web/Views/Shared/{0}.cshtml");
+               });
+
             // Dependency Injection
             services.AddDependencyInjectionConfiguration(configuration);
 
