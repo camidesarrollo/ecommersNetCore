@@ -110,11 +110,12 @@ namespace Ecommers.Web.TagHelpers
 
             <div class="image-order-grid">
                 <div>
-                    <label class="block font-semibold mb-2 text-xs md:text-sm">
+                    <label for="{{nombreCompuesto}}_sortorder_{{i}}" class="block font-semibold mb-2 text-xs md:text-sm">
                         Orden <span class="text-red-700">*</span>
                     </label>
 
                     <input type="number"
+                            id="{{nombreCompuesto}}_sortorder_{{i}}"
                            name="{{nombreCompuesto}}{{name}}[{{i}}].SortOrder"
                            value="{{order}}"
                            min="0"
@@ -123,8 +124,9 @@ namespace Ecommers.Web.TagHelpers
                 </div>
 
                 <div class="flex items-end">
-                    <label class="image-primary-label">
+                    <label for="{{nombreCompuesto}}_primary_{{i}}" class="image-primary-label">
                         <input type="radio"
+                                 id="{{nombreCompuesto}}_primary_{{i}}"
                                name="{{nombreCompuesto}}PrimaryImageIndex"
                                value="{{i}}"
                                {{(isPrimary ? "checked" : "")}}

@@ -1,59 +1,328 @@
-﻿/* Personalización de botones de navegación */
-.swiper-button-prev,
-.swiper-button-next {
-    width: 22px;
-    height: 22px;
-    background: rgba(255, 255, 255, 0.9);
+﻿/* =========================
+   SWIPER CUSTOM STYLES
+   Estilos personalizados para Swiper.js
+   Acordes a la paleta de colores del negocio
+========================= */
+
+/* Contenedor principal del swiper */
+.swiper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}
+
+/* Slide individual */
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-beige-200);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+    /* Imagen dentro del slide */
+    .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+/* ===== BOTONES DE NAVEGACIÓN ===== */
+
+/* Botones base */
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--color-white);
+    background-color: var(--color-olive-green-500);
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
+    transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-    .swiper-button-prev:after,
-    .swiper-button-next:after {
-        font-size: 20px;
-        color: #333;
-        font-weight: bold;
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 1rem;
+        font-weight: 700;
     }
 
-    .swiper-button-prev:hover,
-    .swiper-button-next:hover {
-        background: rgba(255, 255, 255, 1);
+    /* Hover en botones */
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        background-color: var(--color-olive-green-600);
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(71, 94, 29, 0.3);
     }
 
-/* Personalización de paginación */
-.swiper-pagination-bullet {
-    width: 12px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 1;
-}
-
-.swiper-pagination-bullet-active {
-    background: rgba(255, 255, 255, 1);
-    width: 32px;
-    border-radius: 6px;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 36px;
-        height: 36px;
-    }
-
-        .swiper-button-prev:after,
-        .swiper-button-next:after {
-            font-size: 16px;
-        }
-}
-
-
-.swiper-button-next svg, .swiper-button-prev svg {
-    height: 50%;
-    object-fit: contain;
-    transform-origin: center;
-    width: 50%;
-    fill: currentColor;
+/* Botones deshabilitados */
+.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
     pointer-events: none;
+}
+
+/* Posicionamiento personalizado */
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+/* ===== PAGINACIÓN ===== */
+
+/* Contenedor de paginación */
+.swiper-pagination {
+    bottom: 10px;
+}
+
+/* Bullets base */
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-beige-400);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+/* Bullet activo */
+.swiper-pagination-bullet-active {
+    background-color: var(--color-olive-green-500);
+    opacity: 1;
+    width: 24px;
+    border-radius: 5px;
+}
+
+/* Hover en bullets */
+.swiper-pagination-bullet:hover {
+    background-color: var(--color-nut-brown-400);
+    opacity: 0.8;
+}
+
+/* ===== SCROLLBAR ===== */
+
+.swiper-scrollbar {
+    background-color: var(--color-beige-400);
+    border-radius: 10px;
+    height: 6px;
+}
+
+.swiper-scrollbar-drag {
+    background-color: var(--color-olive-green-500);
+    border-radius: 10px;
+    cursor: grab;
+}
+
+    .swiper-scrollbar-drag:active {
+        cursor: grabbing;
+        background-color: var(--color-olive-green-600);
+    }
+
+/* ===== VARIANTES DE COLORES ===== */
+
+/* Variante Nut Brown (para productos de frutos secos) */
+.swiper-nutbrown .swiper-button-next,
+.swiper-nutbrown .swiper-button-prev {
+    background-color: var(--color-nut-brown-500);
+}
+
+    .swiper-nutbrown .swiper-button-next:hover,
+    .swiper-nutbrown .swiper-button-prev:hover {
+        background-color: var(--color-nut-brown-600);
+        box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
+    }
+
+.swiper-nutbrown .swiper-pagination-bullet-active {
+    background-color: var(--color-nut-brown-500);
+}
+
+/* Variante Golden Yellow (para cereales y semillas) */
+.swiper-golden .swiper-button-next,
+.swiper-golden .swiper-button-prev {
+    background-color: var(--color-golden-yellow-600);
+    color: var(--color-dark-chocolate-500);
+}
+
+    .swiper-golden .swiper-button-next:hover,
+    .swiper-golden .swiper-button-prev:hover {
+        background-color: var(--color-golden-yellow-700);
+        box-shadow: 0 4px 12px rgba(244, 196, 48, 0.4);
+    }
+
+.swiper-golden .swiper-pagination-bullet-active {
+    background-color: var(--color-golden-yellow-600);
+}
+
+/* Variante Burgundy Red (para frutas deshidratadas) */
+.swiper-burgundy .swiper-button-next,
+.swiper-burgundy .swiper-button-prev {
+    background-color: var(--color-burgundy-red-500);
+}
+
+    .swiper-burgundy .swiper-button-next:hover,
+    .swiper-burgundy .swiper-button-prev:hover {
+        background-color: var(--color-burgundy-red-600);
+        box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+    }
+
+.swiper-burgundy .swiper-pagination-bullet-active {
+    background-color: var(--color-burgundy-red-500);
+}
+
+/* Variante Orange Warm (para snacks energéticos) */
+.swiper-orange .swiper-button-next,
+.swiper-orange .swiper-button-prev {
+    background-color: var(--color-orange-warm-500);
+    color: var(--color-white);
+}
+
+    .swiper-orange .swiper-button-next:hover,
+    .swiper-orange .swiper-button-prev:hover {
+        background-color: var(--color-orange-warm-600);
+        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+    }
+
+.swiper-orange .swiper-pagination-bullet-active {
+    background-color: var(--color-orange-warm-500);
+}
+
+/* ===== EFECTOS Y ANIMACIONES ===== */
+
+/* Efecto de zoom al hacer hover en slides */
+.swiper-slide-zoom:hover img {
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
+}
+
+/* Overlay para slides con información */
+.swiper-slide-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(59, 47, 47, 0.8), transparent);
+    color: var(--color-white);
+    padding: 1.5rem 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover .swiper-slide-overlay {
+    transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablets */
+@media (min-width: 768px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 3rem;
+        height: 3rem;
+    }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 1.25rem;
+        }
+
+    .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+    }
+
+    .swiper-pagination-bullet-active {
+        width: 28px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 1.5rem;
+        }
+
+    .swiper-button-prev {
+        left: 20px;
+    }
+
+    .swiper-button-next {
+        right: 20px;
+    }
+}
+
+/* ===== THUMBS GALLERY (para galería de miniaturas) ===== */
+
+.swiper-thumbs {
+    height: 80px;
+    margin-top: 10px;
+}
+
+    .swiper-thumbs .swiper-slide {
+        opacity: 0.4;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+        .swiper-thumbs .swiper-slide:hover {
+            opacity: 0.7;
+            border-color: var(--color-olive-green-300);
+        }
+
+    .swiper-thumbs .swiper-slide-thumb-active {
+        opacity: 1;
+        border-color: var(--color-olive-green-500);
+        box-shadow: 0 2px 8px rgba(71, 94, 29, 0.2);
+    }
+
+/* ===== LAZY LOADING ===== */
+
+.swiper-lazy-preloader {
+    border-color: var(--color-olive-green-500) transparent var(--color-olive-green-500) transparent;
+}
+
+/* ===== PRODUCTOS: Estilos específicos para galería de productos ===== */
+
+.product-swiper .swiper-slide {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-beige-400);
+}
+
+.product-swiper .swiper-button-next,
+.product-swiper .swiper-button-prev {
+    background-color: rgba(71, 94, 29, 0.9);
+}
+
+    .product-swiper .swiper-button-next:hover,
+    .product-swiper .swiper-button-prev:hover {
+        background-color: var(--color-olive-green-600);
+    }
+
+/* Indicador de imagen principal */
+.product-swiper .swiper-slide.is-primary::before {
+    content: "Principal";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--color-golden-yellow-500);
+    color: var(--color-dark-chocolate-500);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

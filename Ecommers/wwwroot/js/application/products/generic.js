@@ -3,7 +3,8 @@ import $, { initSelect2 } from '../utils/select2-init.js';
 import { ObtenerProductVariantView } from './products.api.js';
 import { showSuccess, showError, showWarning, showInfo } from '../../bundle/notifications/notyf.config.js';
 import { handleConfirmAction } from "../../bundle/utils/form-helpers.js";
- 
+
+
 // =============================== 
 // CONTADORES GLOBALES 
 // =============================== 
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Esperar a que el DOM esté listo
 $(document).ready(() => {
-  initSelect2();
+    initSelect2();
 });
 
 /* ===================================================== 
@@ -96,12 +97,31 @@ function addImageInput(event = null, isPrimary = false) {
 }
 
 window.previewImage = function (input) {
+
+     // 🔴 Validación ANTES del preview
+    if (!validateImageUpload(input)) {
+        return;
+    }
+
     handleImagePreview({
         input,
         wrapperSelector: '[data-image-index]',
         previewSelector: 'img[id^="ProductImagesD_preview_"]',
         iconSelector: 'i[id^="ProductImagesD_icon_"]'
     });
+
+    // Si la imagen es nueva y no hay otras imágenes, marcar como principal
+    const wrapper = input.closest('[data-image-index]');
+    if (wrapper) {
+        const isFirstImage = wrapper.parentElement.querySelectorAll('[data-image-index]').length === 1;
+        if (isFirstImage) {
+            const radio = wrapper.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                updatePrimaryImage(radio.value);
+            }
+        }
+    }
 };
 
 window.removeImageInput = function (event, index) {
@@ -116,7 +136,33 @@ window.removeImageInput = function (event, index) {
     const allImages = document.querySelectorAll('#ProductImagesDContainer [data-image-index]');
     if (allImages.length <= 1) {
         showWarning('Debe existir al menos una imagen del producto');
+
+        // Animación de error
+        imageDiv.classList.remove('shake'); // reset por si ya estaba
+        void imageDiv.offsetWidth;          // fuerza reflow
+        imageDiv.classList.add('shake');
+
+        // Limpiar el input para que el usuario pueda seleccionar otra imagen
+        const fileInput = imageDiv.querySelector('input[type="file"]');
+        if (fileInput) {
+            fileInput.value = '';
+        }
+
+        // Limpiar la vista previa
+        const previewImg = imageDiv.querySelector('img[id^="ProductImagesD_preview_"]');
+        if (previewImg) {
+            previewImg.src = '';
+            previewImg.classList.add('hidden');
+        }
+
+        const previewIcono = imageDiv.querySelector('i[id^="ProductImagesD_icon_"]');
+        if (previewIcono) {
+            previewIcono.classList.remove('hidden');
+        }
+
         return;
+    }else{
+        imageDiv.classList.remove('shake');
     }
 
     // Animación de salida
@@ -236,7 +282,7 @@ function initVariantImageButtons() {
         if (e.target && e.target.id === 'addVariantImage') {
             e.preventDefault();
             addVariantImage(e.target);
-            updateNoVariantImagesMessage();
+            updateNoVariantImagesMessage(e.target);
         }
     });
 }
@@ -451,7 +497,7 @@ window.removeVariantImage = function (event, index) {
         imageDiv.remove();
         console.log(variantImageIndex);
         variantImageIndex[variantIndex]--;
-        updateNoVariantImagesMessage();
+        updateNoVariantImagesMessage(event);
         reindexVariantImages(variantIndex);
 
         // Si era principal, seleccionar la primera disponible
@@ -530,16 +576,25 @@ window.updatePrimaryVariantImage = function (index) {
     }
 };
 
-function updateNoVariantImagesMessage() {
-    const container = document.getElementById('ProductVariantImagesDContainer');
-    const message = document.getElementById('noProductVariantImagesDMessage');
+function updateNoVariantImagesMessage(event) {
+    const button = event.currentTarget || event; // por si llamas directo
+    if (!button) return;
+
+    // Subir al wrapper de la sección
+    const wrapper = button.closest('.product-variant-images-wrapper');
+    if (!wrapper) return;
+
+    // Buscar elementos RELATIVOS a este wrapper
+    const container = wrapper.querySelector('#ProductVariantImagesDContainer');
+    const message = wrapper.querySelector('#noProductVariantImagesDMessage');
 
     if (!container || !message) return;
 
-    const hasImages = container.querySelectorAll('[data-variant-image-index]').length > 0;
+    const hasImages =
+        container.querySelectorAll('[data-variant-image-index]').length > 0;
+
     message.style.display = hasImages ? 'none' : 'block';
 }
-
 /* ===================================================== 
    SLUG AUTOMÁTICO 
    ===================================================== */
@@ -680,50 +735,50 @@ function validarLogicaPrecios(inputCambiado) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  updateBasePrice();
+    updateBasePrice();
 });
 
 document.addEventListener('input', (e) => {
-  if (e.target.name?.includes('.CostPrice')) {
-    updateBasePrice();
-  }
+    if (e.target.name?.includes('.CostPrice')) {
+        updateBasePrice();
+    }
 });
 
 function updateBasePrice() {
-  const basePriceInput = document.querySelector('#Products_BasePrice');
-  if (!basePriceInput) return;
+    const basePriceInput = document.querySelector('#Products_BasePrice');
+    if (!basePriceInput) return;
 
-  // Buscar todos los CostPrice de variantes
-  const costInputs = document.querySelectorAll(
-    'input[name^="ProductVariants"][name$=".CostPrice"]'
-  );
+    // Buscar todos los CostPrice de variantes
+    const costInputs = document.querySelectorAll(
+        'input[name^="ProductVariants"][name$=".CostPrice"]'
+    );
 
-  if (costInputs.length === 0) return;
+    if (costInputs.length === 0) return;
 
-  let values = [];
+    let values = [];
 
-  costInputs.forEach(input => {
-    const val = parseFloat(input.value);
-    if (!isNaN(val) && val >= 0) {
-      values.push(val);
+    costInputs.forEach(input => {
+        const val = parseFloat(input.value);
+        if (!isNaN(val) && val >= 0) {
+            values.push(val);
+        }
+    });
+
+    if (values.length === 0) return;
+
+    let basePrice = 0;
+
+    if (values.length === 1) {
+        // 1 variante → igualar
+        basePrice = values[0];
+    } else {
+        // N variantes → promedio
+        const sum = values.reduce((a, b) => a + b, 0);
+        basePrice = sum / values.length;
     }
-  });
 
-  if (values.length === 0) return;
-
-  let basePrice = 0;
-
-  if (values.length === 1) {
-    // 1 variante → igualar
-    basePrice = values[0];
-  } else {
-    // N variantes → promedio
-    const sum = values.reduce((a, b) => a + b, 0);
-    basePrice = sum / values.length;
-  }
-
-  // Redondear a 2 decimales
-  basePriceInput.value = basePrice.toFixed(2);
+    // Redondear a 2 decimales
+    basePriceInput.value = basePrice.toFixed(2);
 }
 
 

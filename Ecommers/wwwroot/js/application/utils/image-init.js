@@ -1,4 +1,6 @@
-﻿function addImageBase(config) {
+﻿import { isImageFile } from "../../domain/utils/validators.js";
+import {  showError } from '../../bundle/notifications/notyf.config.js';
+function addImageBase(config) {
     const {
         containerElement,
         indexRef,
@@ -79,16 +81,17 @@
                         class="image-file-input">
                     <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
                         <i class="fas fa-info-circle"></i>
-                        Formatos: JPG, PNG, WebP
+                        Formatos: JPG, JPEG, PNG, GIF, WebP, SVG, BMP
                     </p>
                 </div>
 
                 <div class="image-order-grid">
                     <div>
-                        <label class="block font-semibold mb-2 text-xs md:text-sm">
+                        <label for="${namePrefix}_sortorder_${currentIndex}" class="block font-semibold mb-2 text-xs md:text-sm">
                             Orden <span class="text-red-700">*</span>
                         </label>
                         <input type="number"
+                            id="${namePrefix}_sortorder_${currentIndex}"
                             name="${namePrefix}[${currentIndex}].SortOrder"
                             value="${currentIndex + 1}"
                             min="0"
@@ -97,8 +100,9 @@
                     </div>
 
                     <div class="flex items-end">
-                        <label class="image-primary-label">
+                        <label for="${namePrefix}_primary_${currentIndex}" class="image-primary-label">
                             <input type="radio"
+                                id="${namePrefix}_primary_${currentIndex}"
                                 name="${radioName}"
                                 value="${currentIndex}"
                                 ${shouldBePrimary ? 'checked' : ''}
@@ -189,8 +193,59 @@ function handleImagePreview({
         icon.classList.add('hidden');
     };
 
+    const imageDiv = wrapper.closest('[data-image-index]');
+    if (imageDiv) {
+        imageDiv.classList.remove('shake');
+    }
+
     reader.readAsDataURL(file);
 }
 
+function markImageHelperError(input, message) {
+    const wrapper = input.closest('[data-image-index]');
+    if (!wrapper) return;
+
+    const helperText = wrapper.querySelector('.text-xs');
+    if (!helperText) return;
+
+    helperText.classList.remove('text-gray-500');
+    helperText.classList.add('text-red-500');
+    if (message){
+        helperText.textContent = message;
+    }
+}
+
+function clearImageHelperError(input) {
+    const wrapper = input.closest('[data-image-index]');
+    if (!wrapper) return;
+
+    const helperText = wrapper.querySelector('.text-xs');
+    if (!helperText) return;
+
+    helperText.classList.remove('text-red-500');
+    helperText.classList.add('text-gray-500');
+}
+
+function validateImageUpload(input) {
+    const file = input.files && input.files[0];
+    if (!file) return false;
+
+    // Validar extensión usando tu util
+    if (!isImageFile(file.name)) {
+        showError('El archivo seleccionado no es una imagen válida');
+
+        markImageHelperError(input, null);
+
+        input.value = '';
+        return false;
+    }else{
+        clearImageHelperError(input);
+    }
+
+    return true;
+}
 window.addImageBase = addImageBase;
 window.handleImagePreview = handleImagePreview;
+window.markImageHelperError = markImageHelperError;
+window.clearImageHelperError = clearImageHelperError;
+window.validateImageUpload = validateImageUpload;

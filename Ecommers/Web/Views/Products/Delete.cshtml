@@ -6,6 +6,10 @@
     Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
+<link rel="stylesheet" href="~/css/swiper-custom.css" />
+<script type="module" src="~/js/bundle/vendors_swiper.js"></script>
+
 <div class="bg-pattern min-h-screen py-8 px-4">
     <div class="mx-auto space-y-6">
         <!-- Breadcrumb -->
@@ -46,18 +50,15 @@
                 </a>
             </div>
         </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- Info principal -->
             <div class="lg:col-span-2 space-y-6">
-                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
-                    <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
-                        <i class="fas fa-info-circle text-olive-green-600 mr-2"></i>
+                <section class="glass-effect rounded-2xl p-4 sm:p-6">
+                    <h5 class="text-lg sm:text-xl font-semibold text-dark-chocolate mb-4 sm:mb-6 pb-3 sm:pb-4 border-b-2 border-olive-green-300 flex items-center">
+                        <i class="fas fa-info-circle text-olive-green-600 mr-2 text-base sm:text-lg"></i>
                         Información
                     </h5>
 
-                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <dl class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                             <dt class="text-sm text-gray-500">Nombre</dt>
                             <dd id="nombre" class="font-semibold text-dark-chocolate">@Model.Products.Name</dd>
@@ -91,289 +92,277 @@
                             </div>
                         }
                     </dl>
-                    @if (Model.Products.ProductAttributes.Any())
-                    {
-                        <div class="border-t border-gray-200 pt-4 mt-4">
-                            <h6 class="text-sm font-semibold text-dark-chocolate mb-3 flex items-center">
-                                <i class="fas fa-tags text-olive-green-600 mr-2 text-xs"></i>
-                                Características
-                            </h6>
-
-                            <dl class="grid grid-cols-1 gap-2">
-                                @foreach (var attr in MasterAttributes)
-                                {
-                                    var values = Model.Products.ProductAttributes
-                                    .Where(x =>
-                                    x.Attribute != null &&
-                                    x.Attribute.Id == attr.Id &&
-                                    x.Value != null
-                                    )
-                                    .Select(x => x.Value!.GetDisplayValue())
-                                    .Where(x => !string.IsNullOrEmpty(x))
-                                    .ToList();
-
-                                    @if (values.Any())
-                                    {
-                                        <div>
-                                            <dt class="text-xs text-gray-500">@attr.Name</dt>
-                                            <dd class="font-semibold text-dark-chocolate text-sm">
-                                                @string.Join(", ", values)
-                                            </dd>
-                                        </div>
-                                    }
-                                }
-                            </dl>
-                        </div>
-                    }
-
-                </div>
-
-                <!-- Imágenes del producto -->
+                </section>
                 @if (Model.Products.ProductImages.Any())
                 {
-                    <div class="glass-effect rounded-2xl p-6">
+                    <section class="glass-effect rounded-2xl p-6 product-images-wrapper">
                         <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
                             <i class="fas fa-images text-olive-green-600 mr-2"></i>
                             Imágenes del producto
                         </h5>
+                        <!-- Carrucel de imagenes -->
+                        <swiper slides-per-view="2"
+                                space-between="16"
+                                breakpoints='{
+                                "320":  { "slidesPerView": 1 },
+                                "640":  { "slidesPerView": 2 },
+                                "768":  { "slidesPerView": 3 },
+                                "1024": { "slidesPerView": 3 },
+                                "1440": { "slidesPerView": 4 }
+                            }'
+                                class="pb-6">
 
-                        <div class="space-y-6">
                             @foreach (var image in Model.Products.ProductImages.OrderBy(x => x.SortOrder))
                             {
-                                <div class="border border-gray-200 rounded-xl p-4">
+                                <swiper-slide>
                                     @if (!string.IsNullOrEmpty(image.Url))
                                     {
-                                        <img src="@image.Url" class="w-full rounded-xl shadow-md mb-4" alt="@image.AltText" />
+                                        <img src="@image.Url" alt="Producto" loading="lazy" />
                                     }
                                     else
                                     {
-                                        <div class="text-gray-500 text-sm text-center p-8 bg-gray-100 rounded-xl mb-4">
-                                            Sin imagen asignada
+                                        <div class="flex items-center justify-center h-full text-gray-400">
+                                            Sin imagen
                                         </div>
                                     }
 
-                                    <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Principal</dt>
-                                            <dd>
-                                                @if (image.IsPrimary)
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
-                                                        <i class="fas fa-check-circle"></i> Sí
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
-                                                        <i class="fas fa-times-circle"></i> No
-                                                    </span>
-                                                }
-                                            </dd>
-                                        </div>
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Orden</dt>
-                                            <dd class="font-semibold text-dark-chocolate">@image.SortOrder</dd>
-                                        </div>
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Visible</dt>
-                                            <dd>
-                                                @if (image.IsActive)
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
-                                                        <i class="fas fa-eye"></i> Sí
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
-                                                        <i class="fas fa-eye-slash"></i> No
-                                                    </span>
-                                                }
-                                            </dd>
-                                        </div>
-                                    </dl>
-                                </div>
+                                </swiper-slide>
                             }
-                        </div>
-                    </div>
+
+                        </swiper>
+                    </section>
+                }
+
+                <!-- Características de la variante -->
+                @if (Model.Products.ProductAttributes.Any())
+                {
+                    <section class="glass-effect rounded-2xl p-6">
+                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+                            <i class="fas fa-sliders-h text-olive-green-600 mr-2"></i>
+                            Características
+                        </h5>
+                        <dl class="grid grid-cols-1 gap-2">
+                            @foreach (var attr in MasterAttributes)
+                            {
+                                var values = Model.Products.ProductAttributes
+                                .Where(x =>
+                                x.Attribute != null &&
+                                x.Attribute.Id == attr.Id &&
+                                x.Value != null
+                                )
+                                .Select(x => x.Value!.GetDisplayValue())
+                                .Where(x => !string.IsNullOrEmpty(x))
+                                .ToList();
+
+                                @if (values.Any())
+                                {
+                                    <div>
+                                        <dt class="text-xs text-gray-500">@attr.Name</dt>
+                                        <dd class="font-semibold text-dark-chocolate text-sm">
+                                            @if (values.Count == 1 && values.Contains("True"))
+                                            {
+                                                values[0] = "Si";
+                                            }
+
+
+
+
+                                            @string.Join(", ", values)
+
+                                        </dd>
+                                    </div>
+                                }
+                            }
+                        </dl>
+
+                    </section>
                 }
             </div>
-
-            <!-- Columna derecha - Variantes -->
-            @if (Model.Products.ProductVariants.Any())
-            {
-                <div class="space-y-6">
-                    <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
-                        <h5 class="text-xl font-semibold text-dark-chocolate mb-6 pb-4 border-b-2 border-olive-green-300 flex items-center">
+            <!-- Columna Lateral (1/3) -->
+            <aside class="lg:col-span-1 space-y-6">
+                <div class="glass-effect rounded-2xl p-6 shadow-nut-brown/30">
+                    <!-- Encabezado con botón de agregar -->
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-olive-green-300">
+                        <h5 class="text-xl font-semibold text-dark-chocolate flex items-center">
                             <i class="fas fa-layer-group text-olive-green-600 mr-2"></i>
                             Variantes del producto
                         </h5>
+                    </div>
 
-                        <div class="space-y-8">
-                            @foreach (var variant in Model.Products.ProductVariants)
-                            {
-                                bool isLast = variant == Model.Products.ProductVariants.Last();
-                                <div class="border-2 border-olive-green-200 rounded-xl p-4 bg-white  @(isLast ? "" : "mb-4")">
-                                    <!-- Información básica de la variante -->
-                                    <h6 class="text-lg font-bold text-dark-chocolate mb-4 flex items-center gap-2">
-                                        @if (variant.IsDefault)
-                                        {
-                                            <i class="fas fa-star text-amber-500"></i>
-                                        }
-                                        @variant.Name
-                                    </h6>
-
-                                    <dl class="grid grid-cols-1 gap-3 mb-4">
-                                        <div>
-                                            <dt class="text-sm text-gray-500">SKU</dt>
-                                            <dd class="font-mono text-sm text-dark-chocolate">@variant.SKU</dd>
-                                        </div>
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Precio Costo</dt>
-                                            <dd class="font-semibold text-dark-chocolate">@variant.CostPrice</dd>
-                                        </div>
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Precio</dt>
-                                            <dd class="font-semibold text-dark-chocolate text-lg">@variant.Price.ToString("C")</dd>
-                                        </div>
-                                        @if (variant.CompareAtPrice.HasValue && variant.CompareAtPrice > 0)
-                                        {
-                                            <div>
-                                                <dt class="text-sm text-gray-500">Precio de comparación</dt>
-                                                <dd class="font-semibold text-gray-500 line-through">@variant.CompareAtPrice.Value.ToString("C")</dd>
-                                            </div>
-                                        }
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Stock</dt>
-                                            <dd class="font-semibold text-dark-chocolate">@variant.StockQuantity unidades</dd>
-                                        </div>
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Estado del stock</dt>
-                                            <dd>
-                                                @if (variant.StockStatus == "in_stock")
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
-                                                        <i class="fas fa-check-circle"></i> En stock
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
-                                                        <i class="fas fa-times-circle"></i> Sin stock
-                                                    </span>
-                                                }
-                                            </dd>
-                                        </div>
-                                        <div>
-                                            <dt class="text-sm text-gray-500">Estado</dt>
-                                            <dd>
-                                                @if (variant.IsActive)
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
-                                                        <i class="fas fa-toggle-on"></i> Activa
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
-                                                        <i class="fas fa-toggle-off"></i> Inactiva
-                                                    </span>
-                                                }
-                                            </dd>
-                                        </div>
-                                    </dl>
-
-                                    <!-- Características de la variante -->
-                                    @if (MasterAttributes.Any() && variant.VariantAttributes.Any())
+                    <!-- Contenedor de variantes -->
+                    <div class="space-y-4">
+                        @foreach (var variant in Model.Products.ProductVariants)
+                        {
+                            bool isLast = variant == Model.Products.ProductVariants.Last();
+                            <div class="border-2 border-olive-green-200 rounded-xl p-4 bg-white  @(isLast ? "" : "mb-4")">
+                                <!-- Información básica de la variante -->
+                                <h6 class="text-lg font-bold text-dark-chocolate mb-4 flex items-center gap-2">
+                                    @if (variant.IsDefault)
                                     {
-                                        <div class="border-t border-gray-200 pt-4 mt-4">
-                                            <h6 class="text-sm font-semibold text-dark-chocolate mb-3 flex items-center">
-                                                <i class="fas fa-tags text-olive-green-600 mr-2 text-xs"></i>
-                                                Características
-                                            </h6>
-                                            <dl class="grid grid-cols-1 gap-2">
-                                                @foreach (var attr in MasterAttributes)
-                                                {
-                                                    var values = variant.VariantAttributes
-                                                    .Where(x => x.Attribute.Id == attr.Id && x.Value != null)
-                                                    .Select(x => x.Value.GetDisplayValue())
-                                                    .Where(x => !string.IsNullOrEmpty(x))
-                                                    .ToList();
+                                        <i class="fas fa-star text-amber-500"></i>
+                                    }
+                                    @variant.Name
+                                </h6>
 
-                                                    @if (values.Any())
-                                                    {
-                                                        <div>
-                                                            <dt class="text-xs text-gray-500">@attr.Name</dt>
-                                                            <dd class="font-semibold text-dark-chocolate text-sm">
-                                                                @string.Join(", ", values)
-                                                            </dd>
-                                                        </div>
-                                                    }
-                                                }
-                                            </dl>
+                                <dl class="grid grid-cols-1 gap-3 mb-4">
+                                    <div>
+                                        <dt class="text-sm text-gray-500">SKU</dt>
+                                        <dd class="font-mono text-sm text-dark-chocolate">@variant.SKU</dd>
+                                    </div>
+                                    <div>
+                                        <dt class="text-sm text-gray-500">Precio Costo</dt>
+                                        <dd class="font-semibold text-dark-chocolate">@variant.CostPrice</dd>
+                                    </div>
+                                    <div>
+                                        <dt class="text-sm text-gray-500">Precio</dt>
+                                        <dd class="font-semibold text-dark-chocolate text-lg">@variant.Price.ToString("C")</dd>
+                                    </div>
+                                    @if (variant.CompareAtPrice.HasValue && variant.CompareAtPrice > 0)
+                                    {
+                                        <div>
+                                            <dt class="text-sm text-gray-500">Precio de comparación</dt>
+                                            <dd class="font-semibold text-gray-500 line-through">@variant.CompareAtPrice.Value.ToString("C")</dd>
                                         </div>
                                     }
+                                    <div>
+                                        <dt class="text-sm text-gray-500">Stock</dt>
+                                        <dd class="font-semibold text-dark-chocolate">@variant.StockQuantity unidades</dd>
+                                    </div>
+                                    <div>
+                                        <dt class="text-sm text-gray-500">Estado del stock</dt>
+                                        <dd>
+                                            @if (variant.StockStatus == "in_stock")
+                                            {
+                                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
+                                                    <i class="fas fa-check-circle"></i> En stock
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
+                                                    <i class="fas fa-times-circle"></i> Sin stock
+                                                </span>
+                                            }
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt class="text-sm text-gray-500">Estado</dt>
+                                        <dd>
+                                            @if (variant.IsActive)
+                                            {
+                                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-mint-green-100 text-green-700 text-sm font-semibold">
+                                                    <i class="fas fa-toggle-on"></i> Activa
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-semibold">
+                                                    <i class="fas fa-toggle-off"></i> Inactiva
+                                                </span>
+                                            }
+                                        </dd>
+                                    </div>
+                                </dl>
 
-                                    <!-- Imágenes de la variante -->
-                                    @if (variant.ProductVariantImages.Any())
-                                    {
-                                        <div class="border-t border-gray-200 pt-4 mt-4">
-                                            <h6 class="text-sm font-semibold text-dark-chocolate mb-3 flex items-center">
-                                                <i class="fas fa-images text-olive-green-600 mr-2 text-xs"></i>
-                                                Imágenes (@variant.ProductVariantImages.Count)
-                                            </h6>
-                                            <div class="space-y-3">
-                                                @foreach (var variantImage in variant.ProductVariantImages.OrderBy(x => x.SortOrder))
+                                <!-- Características de la variante -->
+                                @if (MasterAttributes.Any() && variant.VariantAttributes.Any())
+                                {
+                                    <div class="border-t border-gray-200 pt-4 mt-4">
+                                        <h6 class="text-sm font-semibold text-dark-chocolate mb-3 flex items-center">
+                                            <i class="fas fa-tags text-olive-green-600 mr-2 text-xs"></i>
+                                            Características
+                                        </h6>
+                                        <dl class="grid grid-cols-1 gap-2">
+                                            @foreach (var attr in MasterAttributes)
+                                            {
+                                                var values = variant.VariantAttributes
+                                                .Where(x => x.Attribute.Id == attr.Id && x.Value != null)
+                                                .Select(x => x.Value.GetDisplayValue())
+                                                .Where(x => !string.IsNullOrEmpty(x))
+                                                .ToList();
+
+                                                @if (values.Any())
                                                 {
-                                                    <div class="border border-gray-200 rounded-lg p-2">
-                                                        @if (!string.IsNullOrEmpty(variantImage.Url))
-                                                        {
-                                                            <img src="@variantImage.Url" class="w-full rounded-lg shadow-sm mb-2" alt="@variantImage.AltText" />
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="text-gray-500 text-xs text-center p-4 bg-gray-50 rounded-lg mb-2">
-                                                                Sin imagen
-                                                            </div>
-                                                        }
+                                                    <div>
+                                                        <dt class="text-xs text-gray-500">@attr.Name</dt>
+                                                        <dd class="font-semibold text-dark-chocolate text-sm">
+                                                            @if (values.Count == 1 && values.Contains("True"))
+                                                            {
+                                                                values[0] = "Si";
+                                                            }
 
-                                                        <div class="flex items-center justify-between text-xs">
-                                                            <span class="text-gray-500">Orden: @variantImage.SortOrder</span>
-                                                            <div class="flex gap-2">
-                                                                @if (variantImage.IsPrimary)
-                                                                {
-                                                                    <span class="px-2 py-1 rounded bg-amber-100 text-amber-700">
-                                                                        <i class="fas fa-star"></i> Principal
-                                                                    </span>
-                                                                }
-                                                                @if (variantImage.IsActive)
-                                                                {
-                                                                    <span class="px-2 py-1 rounded bg-green-100 text-green-700">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span class="px-2 py-1 rounded bg-gray-100 text-gray-600">
-                                                                        <i class="fas fa-eye-slash"></i>
-                                                                    </span>
-                                                                }
-                                                            </div>
-                                                        </div>
+
+
+
+                                                            @string.Join(", ", values)
+
+                                                        </dd>
                                                     </div>
                                                 }
-                                            </div>
+                                            }
+                                        </dl>
+                                    </div>
+                                }
+
+                                <!-- Imágenes de la variante -->
+                                @if (variant.ProductVariantImages.Any())
+                                {
+                                    <div class="border-t border-gray-200 pt-4 mt-4">
+                                        <h6 class="text-sm font-semibold text-dark-chocolate mb-3 flex items-center">
+                                            <i class="fas fa-images text-olive-green-600 mr-2 text-xs"></i>
+                                            Imágenes (@variant.ProductVariantImages.Count)
+                                        </h6>
+                                        <div class="space-y-3">
+                                            @foreach (var variantImage in variant.ProductVariantImages.OrderBy(x => x.SortOrder))
+                                            {
+                                                <div class="border border-gray-200 rounded-lg p-2">
+                                                    @if (!string.IsNullOrEmpty(variantImage.Url))
+                                                    {
+                                                        <img src="@variantImage.Url" class="w-full rounded-lg shadow-sm mb-2" alt="@variantImage.AltText" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-gray-500 text-xs text-center p-4 bg-gray-50 rounded-lg mb-2">
+                                                            Sin imagen
+                                                        </div>
+                                                    }
+
+                                                    <div class="flex items-center justify-between text-xs">
+                                                        <span class="text-gray-500">Orden: @variantImage.SortOrder</span>
+                                                        <div class="flex gap-2">
+                                                            @if (variantImage.IsPrimary)
+                                                            {
+                                                                <span class="px-2 py-1 rounded bg-amber-100 text-amber-700">
+                                                                    <i class="fas fa-star"></i> Principal
+                                                                </span>
+                                                            }
+                                                            @if (variantImage.IsActive)
+                                                            {
+                                                                <span class="px-2 py-1 rounded bg-green-100 text-green-700">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="px-2 py-1 rounded bg-gray-100 text-gray-600">
+                                                                    <i class="fas fa-eye-slash"></i>
+                                                                </span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
-                                    }
-                                </div>
-                            }
-                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="border-t border-gray-200 pt-4 mt-4">
                     </div>
                 </div>
-            }
+            </aside>
         </div>
-
-
     </div>
 
 </div>

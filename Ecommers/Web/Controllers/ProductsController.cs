@@ -133,6 +133,7 @@ namespace Ecommers.Web.Controllers
                 }
 
                 var producto = model.Products;
+                producto.IsActive = true;
 
                 // 3️⃣ Guardar producto primero para obtener el ID
                 var productoCreado = await _Productservice.CreateAsync(producto);
