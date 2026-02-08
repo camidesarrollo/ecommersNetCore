@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Ecommers.Web.TagHelpers
+namespace Ecommers.Infrastructure.Web.TagHelpers
 {
     [HtmlTargetElement("swiper-slide", ParentTag = "swiper")]
     public class SwiperSlideTagHelper : TagHelper

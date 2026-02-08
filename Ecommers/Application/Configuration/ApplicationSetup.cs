@@ -4,7 +4,7 @@ using Ecommers.Application.Validator;
 using Ecommers.Infrastructure.Files;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Persistence.Repositories;
-using Ecommers.Web.Filters;
+using Ecommers.Infrastructure.Web.Filters;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;

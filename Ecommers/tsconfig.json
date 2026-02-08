@@ -12,17 +12,22 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": ".",
         "paths": {
-            "*": [ "Web/Configuration/node_modules/*" ]
+            "*": [ 
+                "./Infrastructure/Web/Configuration/node_modules/*"
+            ]
         },
         "typeRoots": [
-            "./Web/Configuration/node_modules/@types"
-        ]
+            "./Infrastructure/Web/Configuration/node_modules/@types",
+            "./Infrastructure/Web/Configuration/node_modules"
+        ],
+        "types": []
     },
     "include": [
         "wwwroot/js/**/*.ts"
-        , "wwwroot/js/domain/utils/vendors_dayjs.js", "wwwroot/js/domain/vendors_zod.js", "wwwroot/js/domain/vendors_dayjs.ts"    ],
+    ],
     "exclude": [
-        "Web/Configuration/node_modules",
-        "wwwroot/js/bundle"
+        "Infrastructure/Web/Configuration/node_modules",
+        "wwwroot/js/bundle",
+        "node_modules"
     ]
 }

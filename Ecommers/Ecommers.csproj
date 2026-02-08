@@ -7,6 +7,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>268359da-4de5-4755-9c38-5f5f9620b1cf</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -50,23 +51,22 @@
 
 	<!-- 🔥 Tailwind Build Automático -->
 	<Target Name="PreBuildNpm" BeforeTargets="ResolveStaticWebAssets">
-
 		<Message Text="Ejecutando npm antes del build..." Importance="high" />
-
 		<!-- Verificar Node -->
 		<Exec Command="node -v" ContinueOnError="true">
 			<Output TaskParameter="ExitCode" PropertyName="NodeExitCode" />
 		</Exec>
-
 		<Error Condition="'$(NodeExitCode)' != '0'" Text="Node.js no está instalado. Es requerido para ejecutar el frontend." />
-
 		<!-- npm install (solo si no existe) -->
-		<Exec WorkingDirectory="Web/Configuration" Command="npm install" Condition="!Exists('Web/Configuration/node_modules')" />
-
+		<Exec WorkingDirectory="Infrastructure/Web/Configuration" Command="npm install" Condition="!Exists('Infrastructure/Web/Configuration/node_modules')" />
 		<!-- npm build -->
-		<Exec WorkingDirectory="Web/Configuration" Command="npm run build" />
-
+		<Exec WorkingDirectory="Infrastructure/Web/Configuration" Command="npm run build" />
 	</Target>
 
+	<!-- DESHABILITAR TypeScript de MSBuild -->
+	<PropertyGroup>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	</PropertyGroup>
+	
 	<ProjectExtensions><VisualStudio><UserProperties tsconfig_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

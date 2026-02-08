@@ -17,14 +17,12 @@
         "baseUrl": ".",
         "paths": {
             "*": [
-                "../../wwwroot/js/*"
+                "../../../wwwroot/js/*"
             ]
         }
     },
     "include": [
-        "../../wwwroot/js/**/*.ts",
-        "../../wwwroot/js/domain/vendors_dayjs.ts",
-        "../../wwwroot/js/domain/vendors_zod.js"
+        "../../../wwwroot/js/**/*.ts"
     ],
     "exclude": [
         "node_modules"

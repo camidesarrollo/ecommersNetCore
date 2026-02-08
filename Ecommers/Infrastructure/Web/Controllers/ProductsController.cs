@@ -23,13 +23,13 @@ using Ecommers.Domain.Entities;
 using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Persistence.Repositories;
-using Ecommers.Web.Filters;
-using Ecommers.Web.Models.Products;
-using Ecommers.Web.Models.Requests;
+using Ecommers.Infrastructure.Web.Filters;
+using Ecommers.Infrastructure.Web.Models.Products;
+using Ecommers.Infrastructure.Web.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 
-namespace Ecommers.Web.Controllers
+namespace Ecommers.Infrastructure.Web.Controllers
 {
     [Route("Gestion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]

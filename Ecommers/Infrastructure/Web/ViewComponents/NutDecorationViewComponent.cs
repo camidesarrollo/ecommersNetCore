@@ -1,4 +1,4 @@
-﻿using Ecommers.Web.Models.Shared.Components;
+﻿using Ecommers.Infrastructure.Web.Models.Shared.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Infrastructure.Web.ViewComponents

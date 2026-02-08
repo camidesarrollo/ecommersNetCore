@@ -4,10 +4,10 @@ const esbuild = require("esbuild");
 const fs = require("fs");
 
 // Rutas base
-const baseDir = path.resolve(__dirname, "../../wwwroot/js/domain");
-const outputDir = path.resolve(__dirname, "../../wwwroot/js/bundle");
+const baseDir = path.resolve(__dirname, "../../../wwwroot/js/domain");
+const outputDir = path.resolve(__dirname, "../../../wwwroot/js/bundle");
 const nodeModulesDir = path.resolve(__dirname, "./node_modules");
-const cssOutputDir = path.resolve(__dirname, "../../wwwroot/css");
+const cssOutputDir = path.resolve(__dirname, "../../../wwwroot/css");
 
 // Verificar que el directorio existe
 console.log("📂 Verificando directorio base:", baseDir);

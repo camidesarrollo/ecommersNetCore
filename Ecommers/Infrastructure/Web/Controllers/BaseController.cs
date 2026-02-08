@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Ecommers.Web.Controllers
+namespace Ecommers.Infrastructure.Web.Controllers
 {
     public abstract class BaseController : Controller
     {

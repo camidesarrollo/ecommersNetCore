@@ -7,7 +7,7 @@ using Ecommers.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 
-namespace Ecommers.Web.Controllers
+namespace Ecommers.Infrastructure.Web.Controllers
 {
     [Route("Configuracion/[controller]")]
     public class ConfiguracionesController(IConfiguracion configuracionService, IMapper mapper, IFileManager fileManager, ICompositeViewEngine viewEngine) : BaseController(viewEngine)

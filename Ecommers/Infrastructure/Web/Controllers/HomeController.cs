@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Ecommers.Web.Models;
+using Ecommers.Infrastructure.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Infrastructure.Web.Controllers

@@ -1,6 +1,6 @@
 ﻿// vendors_swiper.ts
 // OPCIÓN 1: Usar el bundle completo (MÁS SIMPLE - RECOMENDADO)
-import Swiper from "swiper/swiper-bundle.mjs";
+import Swiper from "swiper/swiper-bundle.js";
 
 // Exponer Swiper globalmente para uso en Razor/HTML
 (window as any).Swiper = Swiper;

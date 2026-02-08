@@ -1,7 +1,8 @@
-﻿@model  Ecommers.Web.Models.Products.PartialProductVariantViewModel
+﻿@model  PartialProductVariantViewModel
 @using Ecommers.Domain.Entities
 @using Ecommers.Domain.Extensions
-@using Ecommers.Web.Models.Shared.TagHelpers
+@using Ecommers.Infrastructure.Web.Models.Products
+@using Ecommers.Infrastructure.Web.Models.Shared.TagHelpers
 @{
     var MasterAttributes = Model.MasterAttributes.Where(x => x.AppliesTo == "variant").ToList();
     var ProductVariantImages = Model.ProductVariant.ProductVariantImages.ToList();

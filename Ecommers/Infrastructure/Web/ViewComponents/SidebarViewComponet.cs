@@ -2,7 +2,7 @@
 using Ecommers.Application.DTOs.Requests.Configuracion;
 using Ecommers.Application.Interfaces;
 using Ecommers.Infrastructure.Web.Models;
-using Ecommers.Web.Models.Shared.Components;
+using Ecommers.Infrastructure.Web.Models.Shared.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommers.Infrastructure.Web.ViewComponents

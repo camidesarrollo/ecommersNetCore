@@ -7,12 +7,12 @@ using Ecommers.Application.DTOs.Requests.Servicios;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
-using Ecommers.Web.Filters;
+using Ecommers.Infrastructure.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
 
-namespace Ecommers.Web.Controllers
+namespace Ecommers.Infrastructure.Web.Controllers
 {
     [Route("Configuracion/[controller]")]
     [ServiceFilter(typeof(ValidateModelFilter))]

@@ -3,12 +3,12 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "build:css": "tailwindcss -i ../../wwwroot/css/input.css -o ../../wwwroot/css/output.css --minify",
-        "build:js": "node build.js",
-        "build": "npm run build:css && npm run build:js",
-        "watch:css": "tailwindcss -i ../../wwwroot/css/input.css -o ../../wwwroot/css/output.css --watch",
-        "watch:js": "node watch.js",
-        "watch": "concurrently \"npm run watch:css\" \"npm run watch:js\""
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "tailwindcss -i ../../../wwwroot/css/input.css -o ../../../wwwroot/css/output.css --minify",
+    "build:js": "node build.js",
+    "watch:css": "tailwindcss -i ../../../wwwroot/css/input.css -o ../../../wwwroot/css/output.css --watch",
+    "watch:js": "node watch.js",
+    "watch": "concurrently \"npm run watch:css\" \"npm run watch:js\""
     },
     "devDependencies": {
         "autoprefixer": "^10.4.22",

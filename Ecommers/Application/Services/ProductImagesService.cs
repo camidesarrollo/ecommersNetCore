@@ -1,20 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
-using Ecommers.Application.Common.Mappings;
+﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
-using Ecommers.Application.DTOs.Requests.Categorias;
-using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.DTOs.Requests.ProductImages;
 using Ecommers.Application.DTOs.Requests.Products;
-using Ecommers.Application.DTOs.Requests.ProductVariantImages;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
-using Ecommers.Infrastructure.Persistence.Entities;
 using Ecommers.Infrastructure.Queries;
-using Ecommers.Web.Controllers;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services

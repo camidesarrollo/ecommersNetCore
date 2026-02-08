@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Ecommers.Application.Interfaces;
 using Ecommers.Infrastructure.Persistence.Entities;
-using Ecommers.Web.Models.Shared.Components;
+using Ecommers.Infrastructure.Web.Models.Shared.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

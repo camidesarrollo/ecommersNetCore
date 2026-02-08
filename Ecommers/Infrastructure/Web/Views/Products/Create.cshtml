@@ -1,11 +1,12 @@
-﻿@using Ecommers.Application.DTOs.Requests.ProductImages
+﻿@using System.Globalization
+@using Ecommers.Application.DTOs.Requests.ProductImages
 @using Ecommers.Domain.Entities
 @using Ecommers.Domain.Extensions
 @using Ecommers.Infrastructure.Persistence.Entities
-@using System.Globalization
-@using Ecommers.Web.Models.Products
-@using Ecommers.Web.Models.Shared.TagHelpers
-@model Ecommers.Web.Models.Products.ProductsCreateViewModel
+@using Ecommers.Infrastructure.Web.Models.Products
+@using Ecommers.Infrastructure.Web.Models.Products
+@using Ecommers.Infrastructure.Web.Models.Shared.TagHelpers
+@model ProductsCreateViewModel
 
 @{
     var MasterAttributesProductos = Model.MasterAttributes.Where(x => x.AppliesTo == "product").ToList();

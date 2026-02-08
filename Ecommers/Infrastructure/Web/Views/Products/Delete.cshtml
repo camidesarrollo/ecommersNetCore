@@ -1,5 +1,6 @@
 ﻿@using Ecommers.Domain.Extensions
-@model Ecommers.Web.Models.Products.ProductsDetailsViewModel
+@using Ecommers.Infrastructure.Web.Models.Products
+@model ProductsDetailsViewModel
 @{
     var MasterAttributes = Model.MasterAttributes.ToList();
     ViewData["Title"] = "Eliminar Producto";

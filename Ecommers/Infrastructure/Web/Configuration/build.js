@@ -6,10 +6,10 @@ const fs = require("fs");
 // ========================================
 // CONFIGURACIÓN DE RUTAS
 // ========================================
-const baseDirDomain = path.resolve(__dirname, "../../wwwroot/js/domain");
-const outputDir = path.resolve(__dirname, "../../wwwroot/js/bundle");
+const baseDirDomain = path.resolve(__dirname, "../../../wwwroot/js/domain");
+const outputDir = path.resolve(__dirname, "../../../wwwroot/js/bundle");
 const nodeModulesDir = path.resolve(__dirname, "./node_modules");
-const cssOutputDir = path.resolve(__dirname, "../../wwwroot/css");
+const cssOutputDir = path.resolve(__dirname, "../../../wwwroot/css");
 
 // ========================================
 // LIMPIAR DIRECTORIO DE SALIDA
@@ -94,26 +94,53 @@ console.log("\n📋 Copiando CSS de dependencias...");
     );
 });
 
-
 // ========================================
 // HELPER: RESOLVER MÓDULOS
 // ========================================
 function resolveNodeModule(moduleName) {
-    const modulePath = path.resolve(nodeModulesDir, moduleName);
+    // Separar el nombre del paquete de la ruta interna
+    let packageName, subPath;
+    
+    if (moduleName.startsWith('@')) {
+        // Paquetes con scope (@org/package)
+        const parts = moduleName.split('/');
+        packageName = `${parts[0]}/${parts[1]}`;
+        subPath = parts.slice(2).join('/');
+    } else {
+        // Paquetes normales
+        const parts = moduleName.split('/');
+        packageName = parts[0];
+        subPath = parts.slice(1).join('/');
+    }
 
-    // Si no existe el directorio del módulo, retornar null
-    if (!fs.existsSync(modulePath)) {
+    const packagePath = path.resolve(nodeModulesDir, packageName);
+
+    // Si no existe el paquete, retornar null
+    if (!fs.existsSync(packagePath)) {
         return null;
     }
 
-    // Verificar si es un archivo directo
-    const stat = fs.statSync(modulePath);
-    if (stat.isFile()) {
-        return modulePath;
+    // Si hay una ruta interna (subPath), intentar resolverla
+    if (subPath) {
+        const possiblePaths = [
+            path.join(packagePath, subPath),
+            path.join(packagePath, `${subPath}.js`),
+            path.join(packagePath, `${subPath}.mjs`),
+            path.join(packagePath, `${subPath}.ts`),
+            path.join(packagePath, subPath, 'index.js'),
+            path.join(packagePath, subPath, 'index.mjs'),
+            path.join(packagePath, subPath, 'index.ts')
+        ];
+
+        for (const p of possiblePaths) {
+            if (fs.existsSync(p)) {
+                return p;
+            }
+        }
     }
 
-    // Si es un directorio, buscar package.json
-    const packageJsonPath = path.join(modulePath, "package.json");
+    // Si no hay subPath, buscar el entry point del paquete
+    const packageJsonPath = path.join(packagePath, "package.json");
     if (fs.existsSync(packageJsonPath)) {
         try {
             const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
@@ -124,26 +151,27 @@ function resolveNodeModule(moduleName) {
                 packageJson.main,
                 packageJson.browser,
                 "index.js",
+                "index.mjs",
                 "index.ts"
             ];
 
             for (const entry of entryPoints) {
                 if (!entry) continue;
 
-                const entryPath = path.join(modulePath, entry);
+                const entryPath = path.join(packagePath, entry);
                 if (fs.existsSync(entryPath)) {
                     return entryPath;
                 }
             }
         } catch (err) {
-            console.warn(`⚠️ Error leyendo package.json de ${moduleName}`);
+            console.warn(`⚠️ Error leyendo package.json de ${packageName}`);
         }
     }
 
     // Intentar archivos por defecto
-    const defaultFiles = ["index.js", "index.ts", "dist/index.js"];
+    const defaultFiles = ["index.js", "index.mjs", "index.ts", "dist/index.js"];
     for (const file of defaultFiles) {
-        const fullPath = path.join(modulePath, file);
+        const fullPath = path.join(packagePath, file);
         if (fs.existsSync(fullPath)) {
             return fullPath;
         }
