@@ -63,7 +63,7 @@ appsettings.*.json
 
 # ASP.NET Core
 Ecommers/wwwroot/node_modules/
-Ecommers/Web/Configuration/node_modules/
+Ecommers/Infrastructure/Web/Configuration/node_modules/
 
 # Entity Framework
 Ecommers/Infrastructure/Migrations/*.cs
