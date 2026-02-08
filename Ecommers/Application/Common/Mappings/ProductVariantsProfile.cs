@@ -16,6 +16,9 @@ namespace Ecommers.Application.Common.Mappings
 
             CreateMap<ProductVariantsCreateRequest, ProductVariantsD>();
 
+            CreateMap<ProductVariants, ProductVariantsUpdateRequest>();
+            CreateMap<ProductVariantsUpdateRequest, ProductVariants>();
+
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿@model  PartialProductVariantViewModel
+﻿@model PartialProductVariantCreateViewModel
 @using Ecommers.Domain.Entities
 @using Ecommers.Domain.Extensions
 @using Ecommers.Infrastructure.Web.Models.Products
 @using Ecommers.Infrastructure.Web.Models.Shared.TagHelpers
+@using Ecommers.Infrastructure.Web.Models
 @{
     var MasterAttributes = Model.MasterAttributes.Where(x => x.AppliesTo == "variant").ToList();
     var ProductVariantImages = Model.ProductVariant.ProductVariantImages.ToList();
@@ -157,6 +158,7 @@
                 Características
             </h6>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             
                 @for (int i = 0; i < MasterAttributes.Count; i++)
                 {
                     var attr = MasterAttributes[i];
@@ -279,6 +281,7 @@
                                         class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
                                                focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
                                         data-selected="@string.Join(",", @productValues)"
+                                        data-tags="true"
                                         @(attr.IsRequired ? "required" : "")>
                                     <option value="">Seleccione</option>
 

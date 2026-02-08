@@ -22,5 +22,7 @@ namespace Ecommers.Application.Interfaces
         Result<Products> GetById(GetByIdRequest<long> getByIdRequest);
 
         Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest);
+        Task<Result> CambiarEstadoAsync(GetByIdRequest<long> getByIdRequest);
+        
     }
 }

@@ -187,5 +187,31 @@ namespace Ecommers.Application.Services
                 return Result<long>.Fail(ex.Message);
             }
         }
+
+        public async Task<Result> CambiarEstadoAsync(GetByIdRequest<long> getByIdRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductsD, long>();
+
+                var producto = await repo.GetByIdAsync(getByIdRequest.Id);
+                if (producto == null)
+                {
+                    return Result.Fail("Producto no encontrado");
+                }
+
+                producto.IsActive = !producto.IsActive;
+                producto.UpdatedAt = DateTime.UtcNow;
+
+                repo.Update(producto);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("Producto desactivado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
+        }
     }
 }

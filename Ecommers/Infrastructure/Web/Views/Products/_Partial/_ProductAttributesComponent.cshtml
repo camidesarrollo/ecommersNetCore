@@ -1,0 +1,21 @@
+@using Ecommers.Infrastructure.Web.Models.Products
+@model ProductAttributesComponentVM
+
+@{
+    var renderModel = new AttributeRenderingVM
+    {
+        MasterAttributes = Model.MasterAttributes,
+        AttributeValues = Model.AtrributeValue,
+        InputNamePrefix = "ProductsAttributes",
+        CompactMode = false,
+        GetProductValues = (masterAttributeId) =>
+        {
+            return Model.ProductsAttributes
+                .Where(x => x.MasterAttributeId == masterAttributeId && x.Value != null)
+                .Select(x => x.Value!)
+                .ToList();
+        }
+    };
+}
+
+@await Html.PartialAsync("~/Infrastructure/Web/Views/Products/_Partial/_AttributeRenderer.cshtml", renderModel) 

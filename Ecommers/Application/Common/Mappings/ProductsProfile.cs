@@ -15,6 +15,9 @@ namespace Ecommers.Application.Common.Mappings
 
             CreateMap<ProductsCreateRequest, ProductsD>();
 
+            CreateMap<Products, ProductsUpdateRequest>();
+            CreateMap<ProductsUpdateRequest, Products>();
+
         }
     }
 

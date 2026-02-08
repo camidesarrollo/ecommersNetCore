@@ -15,8 +15,10 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> CreateAsync(ProductVariantImagesCreateRequest request);
 
-        Task ProcesarImagenesVariante(List<ProductVariantImagesCreateRequest> imagenesVariante,
+        Task<Result> ProcesarImagenesVariante(List<ProductVariantImagesCreateRequest> imagenesVariante,
     long variantId,
     string carpetaBase);
+
+        Task<Result<ProductVariantImagesD>> GetByIdAsync(GetByIdRequest<long> getByIdRequest);
     }
 }

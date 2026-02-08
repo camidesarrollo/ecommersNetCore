@@ -1,11 +1,12 @@
-﻿using Ecommers.Domain.Entities;
+﻿using Ecommers.Application.DTOs.Requests.Products;
+using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence.Entities;
 
 namespace Ecommers.Infrastructure.Web.Models.Products
 {
     public class ProductsEditViewModel
     {
-        public required Persistence.Entities.Products Products { get; set; }
+        public required ProductEditVM Products { get; set; }
 
 
         public IEnumerable<CategoriesD> Categories { get; set; } = [];
@@ -14,10 +15,7 @@ namespace Ecommers.Infrastructure.Web.Models.Products
 
         public IEnumerable<AttributeValuesD> AtrributeValue { get; set; } = [];
 
-        public IEnumerable<ProductImagesD> ProductImage { get; set; } = [];
-        public IEnumerable<ProductVariantImagesD> ProductVariantImages { get; set; } = [];
 
-        
 
 
     }

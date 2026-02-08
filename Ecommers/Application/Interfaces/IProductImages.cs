@@ -14,7 +14,9 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> CreateAsync(ProductImagesCreateRequest request);
 
-        Task ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto);
+        Task<Result> ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto);
+
+        Task<Result<ProductImagesD>> GetByIdAsync(GetByIdRequest<long> getByIdRequest);
 
     }
 }

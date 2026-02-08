@@ -1,0 +1,21 @@
+@using Ecommers.Infrastructure.Web.Models.Products
+@model ProductVariantAttributesComponentVM
+
+@{
+    var renderModel = new AttributeRenderingVM
+    {
+        MasterAttributes = Model.MasterAttributes,
+        AttributeValues = Model.AtrributeValue,
+        InputNamePrefix = $"ProductVariants[{Model.Index}].Attributes",
+        CompactMode = true,
+        GetProductValues = (masterAttributeId) =>
+        {
+            return Model.ProductVariant
+                .Where(x => x.MasterAttributeId == masterAttributeId && x.Value != null)
+                .Select(x => x.Value!)
+                .ToList();
+        }
+    };
+}
+
+@await Html.PartialAsync("~/Infrastructure/Web/Views/Products/_Partial/_AttributeRenderer.cshtml", renderModel)

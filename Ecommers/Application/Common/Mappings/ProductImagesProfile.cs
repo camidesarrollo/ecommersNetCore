@@ -18,6 +18,9 @@ namespace Ecommers.Application.Common.Mappings
             CreateMap<ProductImagesCreateRequest, ProductImagesD>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
+
+            CreateMap<ProductImages, ProductImagesUpdateRequest>();
+            CreateMap<ProductImagesUpdateRequest, ProductImages>();
         }
     }
 }

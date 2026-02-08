@@ -27,7 +27,5 @@ namespace Ecommers.Application.DTOs.Requests.ProductVariantImages
 
         [Display(Name = "Imagen activa")]
         public bool IsActive { get; set; }
-
-        public int? Id { get; set; }
     }
 }

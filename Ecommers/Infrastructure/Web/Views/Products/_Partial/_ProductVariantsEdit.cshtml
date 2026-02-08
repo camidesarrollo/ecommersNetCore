@@ -1,0 +1,220 @@
+﻿@model PartialProductVariantUpdateViewModel
+@using Ecommers.Domain.Entities
+@using Ecommers.Domain.Extensions
+@using Ecommers.Infrastructure.Web.Models.Products
+@using Ecommers.Infrastructure.Web.Models.Shared.TagHelpers
+@using Ecommers.Infrastructure.Web.Models
+@{
+    var MasterAttributes = Model.MasterAttributes.Where(x => x.AppliesTo == "variant").ToList();
+    var ProductVariantImages = Model.ProductVariant.ProductVariantImages.ToList();
+
+}
+<div class="variant-item border-2 border-olive-green-200 rounded-xl p-4 bg-white mb-4" data-variant-index="@Model.Index">
+    <div class="flex items-center justify-between mb-4">
+        <input type="hidden" name="ProductVariants[@Model.Index].Id" value="@Model.ProductVariant.Id" />
+         <h6 class="text-lg font-bold text-dark-chocolate flex items-center gap-2">
+            @if (Model.ProductVariant.IsDefault)
+            {
+                <i class="fas fa-star text-amber-500"></i>
+            }
+            <i class="fas fa-cube text-olive-green-600"></i>
+            <span>Variante #<span class="variant-number">@(@Model.Index + 1)</span></span>
+        </h6>
+        <button type="button"
+                onclick="removeVariant(event, @Model.Index)"
+                class="text-red-500 hover:text-red-700 transition">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+
+    <div class="space-y-4">
+        <!-- Nombre de la variante -->
+        <div>
+            <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                Nombre de la variante
+                <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   name="ProductVariants[@Model.Index].Name"
+                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition variant-name"
+                   placeholder="Ej: Talla M - Color Rojo"
+                   value="@Model.ProductVariant.Name"
+                   required />
+        </div>
+
+        <!-- SKU -->
+        <div>
+            <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                SKU
+                <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   name="ProductVariants[@Model.Index].SKU"
+                   value="@Model.ProductVariant.SKU"
+                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition font-mono variant-sku"
+                   placeholder="Ej: PROD-001-M-RED"
+                   required />
+        </div>
+
+        <!-- Grid de precios -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Precio Costo -->
+            <div>
+                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                    Precio Costo
+                    <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <input type="number"
+                           name="ProductVariants[@Model.Index].CostPrice"
+                           value="@(Model.ProductVariant.CostPrice?
+                               .ToString(System.Globalization.CultureInfo.InvariantCulture))"
+                           class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                           step="0.01"
+                           min="0"
+                           placeholder="0.00"
+                           required />
+                </div>
+            </div>
+
+            <!-- Precio -->
+            <div>
+                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                    Precio
+                    <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <input type="number"
+                           name="ProductVariants[@Model.Index].Price"
+                           value="@Model.ProductVariant.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                           class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                           step="0.01"
+                           min="0"
+                           placeholder="0.00"
+                           required />
+                </div>
+            </div>
+
+            <!-- Precio de comparación -->
+            <div>
+                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                    Precio de comparación
+                </label>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <input type="number"
+                           name="ProductVariants[@Model.Index].CompareAtPrice"
+                           value="@(Model.ProductVariant.CompareAtPrice?
+                                                          .ToString(System.Globalization.CultureInfo.InvariantCulture))"
+                           class="w-full pl-8 pr-4 py-2 border-2 border-olive-green-200 rounded-lg focus:outline-none focus:border-olive-green-500"
+                           step="0.01"
+                           min="0"
+                           placeholder="0.00" />
+                </div>
+            </div>
+
+            <!-- Stock -->
+            <div>
+                <label class="block text-sm font-semibold text-dark-chocolate mb-2">
+                    Stock
+                    <span class="text-red-500">*</span>
+                </label>
+                <input type="number"
+                       name="ProductVariants[@Model.Index].StockQuantity"
+                       value="@Model.ProductVariant.StockQuantity"
+                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
+                       min="0"
+                       placeholder="0"
+                       required />
+            </div>
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="flex flex-wrap gap-4 pt-2">
+            <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox"
+                       name="ProductVariants[@Model.Index].IsDefault"
+                       value="true"
+                       checked="@Model.ProductVariant.IsDefault"
+                       class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
+                        <i class="fas fa-star text-amber-500"></i>
+                       Variante predeterminada
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox"
+                       name="ProductVariants[@Model.Index].IsActive"
+                       value="true"
+                       checked="@Model.ProductVariant.IsActive"
+                       class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
+                Activa
+            </label>
+        </div>
+
+        <!-- Sección de atributos (opcional - según tus necesidades) -->
+        <div class="border-t border-gray-200 pt-4 mt-4">
+            <h6 class="text-sm font-semibold text-dark-chocolate mb-3 flex items-center">
+                <i class="fas fa-tags text-olive-green-600 mr-2 text-xs"></i>
+                Características
+            </h6>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @await Html.PartialAsync(
+                "~/Infrastructure/Web/Views/Products/_Partial/_ProductVariantAttributesComponent.cshtml",
+                                new ProductVariantAttributesComponentVM
+                                {
+                                    MasterAttributes = MasterAttributes.ToList(),
+                                    ProductVariant = Model.ProductVariant.Attributes,
+                                    AtrributeValue = Model.AtrributeValue.ToList(),
+                                    Index = @Model.Index
+                                }
+                                )
+
+                }
+            </div>
+        </div>
+
+        <!-- Sección de imágenes -->
+        <div class="border-t border-gray-200 pt-4 mt-4 product-variant-images-wrapper">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-olive-green-300">
+                <h5 class="text-xl font-semibold text-dark-chocolate flex items-center">
+                    <i class="fas fa-images text-olive-green-600 mr-2"></i>
+                    Imágenes de la variante
+                </h5>
+                <button type="button"
+                        id="addVariantImage"
+                        class="inline-flex items-center gap-2 bg-gradient-to-r from-olive-green-600 to-olive-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-olive-green-700 hover:to-olive-green-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5" data-variant-image-index="@Model.Index">
+                    <i class="fas fa-plus"></i>
+                    Agregar Imagen
+                </button>
+            </div>
+            @{
+                var imagen = new List<ProductVariantImagesD>();
+
+                foreach (var item in Model.ProductVariantImages.ToList())
+                {
+                    imagen.Add(new ProductVariantImagesD{
+                        Id = 0,
+                        VariantId = item.VariantId,
+                        Url = item.Url ?? "",
+                        AltText = item.AltText,
+                        IsPrimary = item.IsPrimary,
+                        SortOrder = item.SortOrder
+
+                    });
+                    
+                }
+            }
+            <ui-image ui-image-model="@(new UiImageModel<ProductVariantImagesD>
+                      {
+                          Images = imagen,
+                          NombreCompuesto = $"ProductVariants[{Model.Index}]"
+                      })">
+            </ui-image>
+        </div>
+    </div>
+
+    <!-- Hidden inputs -->
+    <input type="hidden" name="ProductVariants[@Model.Index].Id" value="@Model.ProductVariant.Id" />
+</div>

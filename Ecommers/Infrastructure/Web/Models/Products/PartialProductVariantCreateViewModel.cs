@@ -6,15 +6,9 @@ using Ecommers.Infrastructure.Persistence.Entities;
 
 namespace Ecommers.Infrastructure.Web.Models.Products
 {
-    public class PartialProductVariantViewModel
+    public class PartialProductVariantCreateViewModel : PartialBaseProductVariantViewModel
     {
-        public int Index { get; set; }
-
         public required ProductVariantsCreateRequest ProductVariant { get; set; }
-
-        public IEnumerable<MasterAttributesD> MasterAttributes { get; set; } = [];
-
-        public IEnumerable<AttributeValuesD> AtrributeValue { get; set; } = [];
 
         public IEnumerable<ProductVariantImagesCreateRequest> ProductVariantImages { get; set; } = [];
 

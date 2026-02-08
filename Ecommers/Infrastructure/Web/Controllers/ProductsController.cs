@@ -116,7 +116,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         {
             try
             {
-                
+
 
                 var validator = new ProductsCreateRequestValidator();
                 var result = validator.Validate(model.Products);
@@ -176,28 +176,27 @@ namespace Ecommers.Infrastructure.Web.Controllers
         [HttpGet("Editar/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var result = _Productservice.GetById(
-                new GetByIdRequest<long> { Id = id });
+            var vm = await BuildEditViewModelAsync(id);
+            return View(vm);
+        }
 
-            var MaestroAtributes = await _MasterAttributeService.GetAllActiveAsync();
-            var Categorias = await _CategoriasService.GetAllActiveAsync();
-            var ValoresAtributo = await _AtrributeValueService.GetAllActiveAsync();
-            var ImagenProducto = await _ProductImagesService.GetImagesByProductoAsync(
-                new GetByIdRequest<long> { Id = id });
-
-            var ImagenProductoVariante = await _ProductVariantImagesService.GetImagesByProductoAsync(
-                new GetByIdRequest<long> { Id = id });
-
-            var ProductViewModel = new ProductsEditViewModel
+        // -------------------------------------------------------------------
+        // POST: /Gestion/Categorias/Crear
+        // -------------------------------------------------------------------
+        [HttpPost("Editar")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ProductEditVM model)
+        {
+            try
             {
-                Products = result?.Data ?? new Products(),
-                MasterAttributes = MaestroAtributes,
-                Categories = Categorias,
-                AtrributeValue = ValoresAtributo,
-                ProductImage = ImagenProducto,
-                ProductVariantImages = ImagenProductoVariante
-            };
-            return View(ProductViewModel);
+                return HandleResult(null, nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al editar producto");
+                ModelState.AddModelError("", "Ocurrió un error al editar el producto. Por favor intente nuevamente.");
+                return HandleResult(null, nameof(Index));
+            }
         }
 
         // -------------------------------------------------------------------
@@ -460,12 +459,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
 
                 // Crear el modelo para la vista parcial
-                var model = new PartialProductVariantViewModel
+                var model = new PartialProductVariantCreateViewModel
                 {
                     Index = request.Index,
                     ProductVariant = new ProductVariantsCreateRequest(),
                     MasterAttributes = MaestroAtributes,
-                    ProductVariantImages =[]
+                    ProductVariantImages = []
                 };
 
                 // Renderizar la vista parcial a string
@@ -513,15 +512,14 @@ namespace Ecommers.Infrastructure.Web.Controllers
             };
 
             model.ProductImagesD ??= new List<ProductImagesCreateRequest>
-    {
-        new ProductImagesCreateRequest
-        {
-            Id = 0,
-            IsPrimary = true,
-            IsActive = true,
-            SortOrder = 1
-        }
-    };
+            {
+                new ProductImagesCreateRequest
+                {
+                    IsPrimary = true,
+                    IsActive = true,
+                    SortOrder = 1
+                }
+            };
 
             if (!model.ProductVariants.Any())
             {
@@ -536,6 +534,347 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 Products = model
             };
         }
+
+        private async Task<ProductsEditViewModel> BuildEditViewModelAsync(long id, ProductEditVM? model = null)
+        {
+            model ??= new ProductEditVM();
+
+            var result = _Productservice.GetById(
+               new GetByIdRequest<long> { Id = id });
+
+            if (result.Data != null)
+            {
+                model.Products = _mapper.Map<ProductsUpdateRequest>(result.Data);
+
+                if (result.Data.ProductImages.Count > 0)
+                {
+                    model.ProductImagesD = _mapper.Map<List<ProductImagesUpdateRequest>>(
+                       result.Data.ProductImages
+                   );
+                }
+                else
+                {
+                    model.ProductImagesD =
+                    [
+                        new() {
+                            IsPrimary = true,
+                            IsActive = true,
+                            SortOrder = 1
+                        }
+                    ];
+                }
+
+
+                List<ProductAttributeVM> ProductAttributeVM = [];
+
+
+                foreach (var item in result.Data.ProductAttributes)
+                {
+                    ProductAttributeVM.Add(new Application.DTOs.Requests.ProductAttributes.ProductAttributeVM
+                    {
+                        MasterAttributeId = int.Parse(item.AttributeId.ToString()),
+                        Value = item.Value != null ? AttributeValuesExtensions.GetDisplayValue(item.Value) : ""
+                    });
+                }
+
+                model.ProductVariants = _mapper.Map<List<ProductVariantsUpdateRequest>>(
+                    result.Data.ProductVariants
+                );
+
+                model.ProductsAttributes = ProductAttributeVM;
+
+                foreach (var item in result.Data.ProductVariants)
+                {
+                    List<ProductVariantAttributeVM> productVariantAttributeVMs = new List<ProductVariantAttributeVM>();
+                    var productVariants = model.ProductVariants.FirstOrDefault(x => x.Id == item.Id);
+
+                    if (productVariants != null)
+                    {
+                        productVariants.ProductVariantImages = _mapper.Map<List<ProductVariantImagesUpdateRequest>>(
+                            item.ProductVariantImages
+                         );
+
+                        foreach (var item2 in item.VariantAttributes)
+                        {
+                            productVariantAttributeVMs.Add(new ProductVariantAttributeVM
+                            {
+                                MasterAttributeId = int.Parse(item2.AttributeId.ToString()),
+                                Value = item2.Value != null ? AttributeValuesExtensions.GetDisplayValue(item2.Value) : ""
+                            });
+                        }
+
+                        productVariants.Attributes = productVariantAttributeVMs;
+                    }
+
+
+
+                }
+
+            }
+
+            return new ProductsEditViewModel
+            {
+                MasterAttributes = await _MasterAttributeService.GetAllActiveAsync(),
+                AtrributeValue = await _AtrributeValueService.GetAllActiveAsync(),
+                Categories = await _CategoriasService.GetAllActiveAsync(),
+                Products = model
+            };
+        }
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA SUBIR IMAGEN DEL PRODUCTO INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+
+        [HttpPost("SubirImagenProducto")]
+        public async Task<IActionResult> SubirImagenProducto(
+            [FromForm] ProductImagesUploadImageRequest request)
+        {
+            try
+            {
+                var productoResult = _Productservice.GetById(
+                    new GetByIdRequest<long> { Id = request.ProductoId });
+
+                if (productoResult.Data == null)
+                {
+                    return Json(new { success = false, message = "Producto no encontrado" });
+                }
+
+                var result = await _ProductImagesService.ProcesarImagenesProducto(
+                    request.Imagenes,
+                    request.Producto,
+                    request.ProductoId
+                );
+
+                return Json(new
+                {
+                    success = result.Success,
+                    message = result.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA SUBIR IMAGEN VARIANTE INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+        [HttpPost("SubirImagenVariante")]
+        public async Task<IActionResult> SubirImagenVariante(
+            [FromForm] ProductVariantImagesUploadImageRequest request)
+        {
+            try
+            {
+                var carpeta = $"Productos/{request.Slug}";
+
+                var result = await _ProductVariantImagesService.ProcesarImagenesVariante(
+                    request.Imagenes,
+                    request.VariantId,
+                    carpeta
+                );
+
+                return Json(new
+                {
+                    success = result.Success,
+                    message = result.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA ELIMINAR VARIANTE INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+        [HttpPost("EliminarVariante")]
+        public async Task<IActionResult> EliminarVariante(
+            [FromForm] ProductVariantImagesDeleteRequest request)
+        {
+            var resultVariant = await _ProductVariantsService.GetDataByIdAsync(
+                new GetByIdRequest<long> { Id = request.VarianteId });
+
+            if (resultVariant.Data == null)
+                return Json(new { success = false, message = "Variante no encontrada" });
+
+            foreach (var img in resultVariant.Data.ProductVariantImages.ToList())
+            {
+                await _ProductVariantImagesService.DeleteAsync(
+                    new DeleteRequest<long> { Id = img.Id });
+            }
+
+            return Json(new
+            {
+                success = true,
+                message = "Imagen de la variante eliminada exitosamente"
+            });
+        }
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA ELIMINAR IMAGEN DEL PRODUCTO INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+        [HttpPost("EliminarImagenProducto")]
+        public async Task<IActionResult> EliminarImagenProducto(
+            [FromForm] ProductImagesDeleteRequest request)
+        {
+            var result = await _ProductImagesService.DeleteAsync(
+                new DeleteRequest<long> { Id = request.ImagenId });
+
+            return Json(new
+            {
+                success = result.Success,
+                message = result.Success
+                    ? "Imagen del producto eliminada exitosamente"
+                    : result.Message
+            });
+        }
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA ELIMINAR IMAGEN LA VARIANTE INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+        [HttpPost("EliminarImagenVariante")]
+        public async Task<IActionResult> EliminarImagenVariante(
+            [FromForm] ProductVariantsDeleteRequest request)
+        {
+            var resultVariant = await _ProductVariantsService.GetDataByIdAsync(
+                new GetByIdRequest<long> { Id = request.VarianteId });
+
+            if (resultVariant.Data == null)
+                return Json(new { success = false, message = "Variante no encontrada" });
+
+            foreach (var img in resultVariant.Data.ProductVariantImages.ToList())
+            {
+                await _ProductVariantImagesService.DeleteAsync(
+                    new DeleteRequest<long> { Id = img.Id });
+            }
+
+            return Json(new
+            {
+                success = true,
+                message = "Imagen de la variante eliminada exitosamente"
+            });
+        }
+
+        //Generar metodo para subir imagen al storage al crear o editar producto o variante individualmente
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA MANEJAR ESTADOS PRODUCTO INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+        [HttpPost("EstadoProducto")]
+        public async Task<IActionResult> EstadoProducto([FromForm] ProductStateRequest request)
+        {
+            try
+            {
+                var productoResult = _Productservice.GetById(
+                    new GetByIdRequest<long> { Id = request.ProductoId });
+
+                if (!productoResult.Success || productoResult.Data == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Producto no encontrado"
+                    });
+                }
+
+                // Cambiar estado del producto
+                var cambiarProductoResult = await _Productservice.CambiarEstadoAsync(
+                    new GetByIdRequest<long> { Id = request.ProductoId });
+
+                if (!cambiarProductoResult.Success)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = cambiarProductoResult.Message
+                    });
+                }
+
+                // Nuevo estado del producto (ya cambiado)
+                bool nuevoEstadoProducto = !productoResult.Data.IsActive;
+
+                foreach (var variant in productoResult.Data.ProductVariants)
+                {
+                    var variantResult = await _ProductVariantsService.CambiarEstadoAsync(
+                        new GetByIdRequest<long> { Id = variant.Id }
+                    );
+
+                    if (!variantResult.Success)
+                    {
+                        return Json(new
+                        {
+                            success = false,
+                            message = $"Error en variante {variant.Id}: {variantResult.Message}"
+                        });
+                    }
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    message = nuevoEstadoProducto
+                        ? "Producto activado exitosamente"
+                        : "Producto desactivado exitosamente"
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cambiar estado del producto {ProductoId}",   request.ProductoId);
+
+                return Json(new
+                {
+                    success = false,
+                    message = "Error al cambiar el estado del producto"
+                });
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // ENDPOINT PARA MANEJAR ESTADOS VARIANTE INDIVIDUAL (server-side)
+        // -------------------------------------------------------------------
+        [HttpPost("EstadoVariante")]
+        public async Task<IActionResult> EstadoVariante([FromForm] ProductVariantsStateRequest request)
+        {
+            try
+            {
+                var result = await _ProductVariantsService.CambiarEstadoAsync(
+                    new GetByIdRequest<long> { Id = request.VarianteId }
+                );
+
+                if (result.Success)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = "Variante desactivada exitosamente"
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = result.Message
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log del error
+                _logger.LogError(ex, "Error al desactivar la variante");
+
+                return Json(new
+                {
+                    success = false,
+                    message = "Error al desactivar la variante",
+                    error = ex.Message
+                });
+            }
+        }
+
+
 
     }
 }

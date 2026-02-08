@@ -4,7 +4,6 @@
 @using Ecommers.Domain.Extensions
 @using Ecommers.Infrastructure.Persistence.Entities
 @using Ecommers.Infrastructure.Web.Models.Products
-@using Ecommers.Infrastructure.Web.Models.Products
 @using Ecommers.Infrastructure.Web.Models.Shared.TagHelpers
 @model ProductsCreateViewModel
 
@@ -230,140 +229,15 @@
                         </h5>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            @for (int i = 0; i < MasterAttributesProductos.Count; i++)
-                            {
-                                var attr = MasterAttributesProductos[i];
-
-                                var productValues = Model.Products.ProductsAttributes
-                                .Where(x => x.MasterAttributeId == attr.Id)
-                                .Select(x => x.Value)
-                                .Where(v => v != null)
-                                .ToList();
-
-                                <!-- ID real del atributo -->
-                                <input type="hidden"
-                                       name="ProductsAttributes[@i].MasterAttributeId"
-                                       value="@attr.Id" />
-
-                                <div>
-                                    @switch (attr.InputType)
+                            @await Html.PartialAsync(
+                                    "~/Infrastructure/Web/Views/Products/_Partial/_ProductAttributes.cshtml",
+                                    new ProductAttributesComponentVM
                                     {
-                                        case "text":
-                                            <label class="block font-semibold mb-2">
-                                                @attr.Name
-                                                @if (attr.IsRequired)
-                                                {
-                                                    <span class="text-red-700">*</span>
-                                                }
-                                            </label>
-
-                                            <input type="text"
-                                                   name="ProductsAttributes[@i].Value"
-                                                   value="@productValues.FirstOrDefault()"
-                                                   placeholder="@attr.Description"
-                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
-                                              focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                                   @(attr.IsRequired ? "required" : "") />
-                                            break;
-
-                                        case "number":
-                                            <label class="block font-semibold mb-2">
-                                                @attr.Name
-                                                @if (attr.IsRequired)
-                                                {
-                                                    <span class="text-red-700">*</span>
-                                                }
-                                            </label>
-
-                                            <input type="number"
-                                                   name="ProductsAttributes[@i].Value"
-                                                   value="@productValues.FirstOrDefault()"
-                                                   placeholder="@attr.Description"
-                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
-                                              focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                                   @(attr.IsRequired ? "required" : "") />
-                                            break;
-
-                                        case "checkbox":
-                                            <label class="flex items-center gap-3 cursor-pointer">
-                                                <!-- valor por defecto false -->
-                                                <input type="hidden"
-                                                       name="ProductsAttributes[@i].Value"
-                                                       value="false"
-                                                       data-index="@i" />
-
-                                                <input type="checkbox"
-                                                       data-index="@i"
-                                                       @(productValues.Contains("true") ? "checked" : "")
-                                                       class="w-12 h-6 rounded-full appearance-none bg-gray-300
-                                                              checked:bg-mint-green-700 relative transition
-                                                              before:absolute before:top-1 before:left-1
-                                                              before:w-4 before:h-4 before:bg-white
-                                                              before:rounded-full checked:before:translate-x-6" />
-
-                                                @attr.Name
-                                                @if (attr.IsRequired)
-                                                {
-                                                    <span class="text-red-700">*</span>
-                                                }
-                                            </label>
-                                            break;
-
-                                        case "select":
-                                            <label class="block font-semibold mb-2">
-                                                @attr.Name
-                                                @if (attr.IsRequired)
-                                                {
-                                                    <span class="text-red-700">*</span>
-                                                }
-                                            </label>
-
-                                            <select name="ProductsAttributes[@i].Value"
-                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
-                                               focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                                    data-selected="@productValues.FirstOrDefault()"
-                                                    data-tags="true"
-                                                    @(attr.IsRequired ? "required" : "")>
-                                                <option value="">Seleccione</option>
-
-                                                @foreach (var itemA in Model.AtrributeValue
-                                                                                    .Where(x => x.AttributeId == attr.Id))
-                                                {
-                                                    <option value="@itemA.Id">
-                                                        @AttributeValuesExtensions.GetDisplaysValue(itemA)
-                                                    </option>
-                                                }
-                                            </select>
-                                            break;
-
-                                        case "multiselect":
-                                            <label class="block font-semibold mb-2">
-                                                @attr.Name
-                                                @if (attr.IsRequired)
-                                                {
-                                                    <span class="text-red-700">*</span>
-                                                }
-                                            </label>
-
-                                            <select name="ProductsAttributes[@i].Value"
-                                                    multiple
-                                                    class="select2 w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg
-                                               focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"
-                                                    data-selected="@string.Join(",", productValues)"
-                                                    @(attr.IsRequired ? "required" : "")>
-                                                <option value="">Seleccione</option>
-
-                                                @foreach (var itemA in Model.AtrributeValue
-                                                                                    .Where(x => x.AttributeId == attr.Id))
-                                                {
-                                                    <option value="@itemA.Id">
-                                                        @AttributeValuesExtensions.GetDisplaysValue(itemA)
-                                                    </option>
-                                                }
-                                            </select>
-                                            break;
+                                        MasterAttributes = MasterAttributesProductos.ToList(),
+                                        ProductsAttributes = Model.Products.ProductsAttributes,
+                                        AtrributeValue = Model.AtrributeValue.ToList(),
                                     }
-                                </div>
+                                    )
                             }
                         </div>
 
@@ -394,7 +268,7 @@
                                 @for (int i = 0; i < Model.Products.ProductVariants.Count; i++)
                                 {
                                     var variante = Model.Products.ProductVariants[i];
-                                    PartialProductVariantViewModel partialProductVariantViewModel = new PartialProductVariantViewModel
+                                    PartialProductVariantCreateViewModel partialProductVariantViewModel = new PartialProductVariantCreateViewModel
                                     {
                                         Index = i,
                                         ProductVariant = variante,
@@ -402,7 +276,7 @@
                                         AtrributeValue = Model.AtrributeValue.ToList(),
                                         ProductVariantImages = variante.ProductVariantImages.Where(x => x.VariantId == variante.Id).ToList()
                                     };
-                                    @await Html.PartialAsync("~/Infrastructure/Web/Views/Products/_Partial/_ProductVariants.cshtml", partialProductVariantViewModel)
+                                    @await Html.PartialAsync("~/Infrastructure/Web/Views/Products/_Partial/_ProductVariantsCreate.cshtml", partialProductVariantViewModel)
 
                                 }
                             }

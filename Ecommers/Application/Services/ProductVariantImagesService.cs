@@ -92,7 +92,7 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarImagenesVariante(List<ProductVariantImagesCreateRequest> imagenesVariante,
+        public async Task<Result> ProcesarImagenesVariante(List<ProductVariantImagesCreateRequest> imagenesVariante,
     long variantId,
     string carpetaBase)
         {
@@ -112,7 +112,41 @@ namespace Ecommers.Application.Services
                         $"{carpetaBase}/variante_{variantId}") ?? ""
                 };
 
-                await CreateAsync(imageRequest);
+                var result = await CreateAsync(imageRequest);
+
+                if (!result.Success)
+                {
+                    return Result.Fail($"Error al crear imagen de variante: {result.Message}");
+                }
+                
+
+                
+            }
+            return Result.Ok("Imágenes de variante procesadas exitosamente");
+        }
+
+        
+        // -------------------------------------------------------------------
+        // GET BY ID - Ahora retorna Result<T>
+        // -------------------------------------------------------------------
+        public async Task<Result<ProductVariantImagesD>> GetByIdAsync(GetByIdRequest<long> getByIdRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductVariantImagesD, long>();
+                var ProductImages = await repo.GetByIdAsync(getByIdRequest.Id);
+
+                if (ProductImages == null)
+                {
+                    return Result<ProductVariantImagesD>.Fail("La imagen de variante no encontrada");
+                }
+
+
+                return Result<ProductVariantImagesD>.Ok(ProductImages);
+            }
+            catch (Exception ex)
+            {
+                return Result<ProductVariantImagesD>.Fail($"Error al obtener la imagen de variante: {ex.Message}");
             }
         }
     }

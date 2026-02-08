@@ -118,7 +118,7 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto)
+        public async Task<Result> ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto)
         {
             var carpeta = $"Productos/{producto.Slug}";
             var imagenesGuardadas = 0;
@@ -142,6 +142,8 @@ namespace Ecommers.Application.Services
                         await CreateAsync(imagen);
                         imagenesGuardadas++;
                     }
+
+                    return Result.Ok("Imágenes procesadas exitosamente");
                 }
                 catch (Exception ex)
                 {
@@ -151,6 +153,8 @@ namespace Ecommers.Application.Services
 
             if (imagenesGuardadas == 0)
                 _logger.LogWarning($"Producto {IdProducto} creado sin imágenes");
+
+            return Result.Ok("Imágenes procesadas exitosamente");
         }
 
         private async Task UpdateInternalAsync(ProductImagesUpdateRequest request)
@@ -166,6 +170,30 @@ namespace Ecommers.Application.Services
             ProductImages.UpdatedAt = DateTime.UtcNow;
 
             repo.Update(ProductImages);
+        }
+
+        // -------------------------------------------------------------------
+        // GET BY ID - Ahora retorna Result<T>
+        // -------------------------------------------------------------------
+        public async Task<Result<ProductImagesD>> GetByIdAsync(GetByIdRequest<long> getByIdRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductImagesD, long>();
+                var ProductImages = await repo.GetByIdAsync(getByIdRequest.Id);
+
+                if (ProductImages == null)
+                {
+                    return Result<ProductImagesD>.Fail("La imagen del producto no encontrada");
+                }
+
+
+                return Result<ProductImagesD>.Ok(ProductImages);
+            }
+            catch (Exception ex)
+            {
+                return Result<ProductImagesD>.Fail($"Error al obtener la imagen del producto: {ex.Message}");
+            }
         }
 
     }

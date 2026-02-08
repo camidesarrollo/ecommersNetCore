@@ -106,5 +106,73 @@ namespace Ecommers.Application.Services
         }
 
 
+// -------------------------------------------------------------------
+        // GET BY ID - Ahora retorna Result<T>
+        // -------------------------------------------------------------------
+        public async Task<Result<ProductVariantsD>> GetByIdAsync(GetByIdRequest<long> getByIdRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductVariantsD, long>();
+                var categorias = await repo.GetByIdAsync(getByIdRequest.Id);
+
+                if (categorias == null)
+                {
+                    return Result<ProductVariantsD>.Fail("Variante no encontrada");
+                }
+
+                return Result<ProductVariantsD>.Ok(categorias);
+            }
+            catch (Exception ex)
+            {
+                return Result<ProductVariantsD>.Fail($"Error al obtener la variante: {ex.Message}");
+            }
+        }
+
+        public async Task<Result<ProductVariants>> GetDataByIdAsync(GetByIdRequest<long> getByIdRequest)
+        {
+            try
+            {
+                var variant = ProductVariantsQueries.GetProductVariantById(_context, getByIdRequest.Id);
+
+                if (variant == null)
+                {
+                    return Result<ProductVariants>.Fail("Variante no encontrada");
+                }
+
+                var variantDto = _mapper.Map<ProductVariants>(variant);
+                return Result<ProductVariants>.Ok(variantDto);
+            }
+            catch (Exception ex)
+            {
+                return Result<ProductVariants>.Fail($"Error al obtener la variante: {ex.Message}");
+            }
+        }
+
+        public async Task<Result> CambiarEstadoAsync(GetByIdRequest<long> getByIdRequest)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductVariantsD, long>();
+
+                var variant = await repo.GetByIdAsync(getByIdRequest.Id);
+                if (variant == null)
+                {
+                    return Result.Fail("Variante no encontrada");
+                }
+
+                variant.IsActive = !variant.IsActive;
+                variant.UpdatedAt = DateTime.UtcNow;
+
+                repo.Update(variant);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("Variante del producto desactivada exitosamente");
+            }catch (Exception ex)
+            {
+                return Result.Fail($"Error al cambiar el estado de la variante del producto: {ex.Message}");
+            }
+        }
+
     }
 }

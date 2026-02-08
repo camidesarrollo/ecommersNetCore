@@ -30,7 +30,7 @@ namespace Ecommers.Application.Validator
         }
     }
 
-    public class ProductsEditRequestValidator : ProductsRequestValidator<ProductsEditRequest>
+    public class ProductsEditRequestValidator : ProductsRequestValidator<ProductsUpdateRequest>
     {
         public ProductsEditRequestValidator() : base()
         {
