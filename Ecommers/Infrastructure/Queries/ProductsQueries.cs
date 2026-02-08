@@ -29,6 +29,7 @@ namespace Ecommers.Infrastructure.Queries
         public static Products? GetProductsById(EcommersContext context, long productId)
         {
             var product = context.Products
+                .AsNoTracking()
                 .AsSplitQuery() // Divide en múltiples queries SQL
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductAttributes)

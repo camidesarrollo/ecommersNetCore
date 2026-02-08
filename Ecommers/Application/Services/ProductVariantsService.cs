@@ -153,24 +153,36 @@ namespace Ecommers.Application.Services
         {
             try
             {
+
                 var repo = _unitOfWork.Repository<ProductVariantsD, long>();
 
-                var variant = await repo.GetByIdAsync(getByIdRequest.Id);
-                if (variant == null)
+                // ⚠️ NO AsNoTracking
+                var banner = await repo.GetQuery()
+                    .FirstOrDefaultAsync(x => x.Id == getByIdRequest.Id);
+
+                if (banner == null)
+                    return Result.Fail("Variante no encontrado");
+
+                banner.IsActive = !banner.IsActive;
+                banner.UpdatedAt = DateTime.UtcNow;
+                if (banner.IsActive == false)
                 {
-                    return Result.Fail("Variante no encontrada");
+                    banner.DeletedAt = DateTime.UtcNow;
+                }
+                else
+                {
+                    banner.DeletedAt = null;
                 }
 
-                variant.IsActive = !variant.IsActive;
-                variant.UpdatedAt = DateTime.UtcNow;
+                repo.Update(banner);
 
-                repo.Update(variant);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Variante del producto desactivada exitosamente");
-            }catch (Exception ex)
+                return Result.Ok("Variante editada exitosamente");
+            }
+            catch (Exception ex)
             {
-                return Result.Fail($"Error al cambiar el estado de la variante del producto: {ex.Message}");
+                return Result.Fail(ex.Message);
             }
         }
 

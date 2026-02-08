@@ -1,5 +1,10 @@
 ﻿import Swal from '../../bundle/notifications/vendors_sweetalert.js';
 import { $ } from "../../bundle/vendors_datatables.js";
+import { initGlobalUI,showSpinner, hideSpinner, showResultModal } from "../../bundle/components/spinner.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    initGlobalUI();
+});
 // =============================
 //  CONFIGURACIÓN GLOBAL
 // =============================

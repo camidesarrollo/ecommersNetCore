@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
+using Azure.Core;
 using Ecommers.Application.Common.Query;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.DataTables;
@@ -192,26 +193,38 @@ namespace Ecommers.Application.Services
         {
             try
             {
+
                 var repo = _unitOfWork.Repository<ProductsD, long>();
 
-                var producto = await repo.GetByIdAsync(getByIdRequest.Id);
-                if (producto == null)
-                {
+                // ⚠️ NO AsNoTracking
+                var banner = await repo.GetQuery()
+                    .FirstOrDefaultAsync(x => x.Id == getByIdRequest.Id);
+
+                if (banner == null)
                     return Result.Fail("Producto no encontrado");
+
+                banner.IsActive = !banner.IsActive;
+                banner.UpdatedAt = DateTime.UtcNow;
+                if (banner.IsActive == false)
+                {
+                    banner.DeletedAt = DateTime.UtcNow;
+                }
+                else
+                {
+                    banner.DeletedAt = null;
                 }
 
-                producto.IsActive = !producto.IsActive;
-                producto.UpdatedAt = DateTime.UtcNow;
+                repo.Update(banner);
 
-                repo.Update(producto);
                 await _unitOfWork.CompleteAsync();
 
-                return Result.Ok("Producto desactivado exitosamente");
+                return Result.Ok("Producto editada exitosamente");
             }
             catch (Exception ex)
             {
                 return Result.Fail(ex.Message);
             }
         }
+
     }
 }

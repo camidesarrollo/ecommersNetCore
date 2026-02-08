@@ -250,13 +250,41 @@ export function hideResultModal(): void {
 }
 
 // =====================
-// ESC handler
+// Bind de eventos UI
 // =====================
-document.addEventListener("keydown", (e: KeyboardEvent) => {
-    if (e.key === "Escape" && resultModal?.classList.contains("show")) {
+function bindResultModalEvents(): void {
+    if (!resultButton) return;
+
+    resultButton.addEventListener("click", () => {
         hideResultModal();
-    }
-});
+    });
+}
+
+// =====================
+// Eventos globales
+// =====================
+function bindGlobalEvents(): void {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key !== "Escape") return;
+
+        if (resultModal?.classList.contains("show")) {
+            hideResultModal();
+            return;
+        }
+
+        if (loadingModal?.classList.contains("show")) {
+            hideSpinner();
+        }
+    });
+}
+
+// =====================
+// Inicializador UI global
+// =====================
+export function initGlobalUI(): void {
+    bindResultModalEvents();
+    bindGlobalEvents();
+}
 
 // En spinner.ts, añade al final:
 export type { SpinnerType };

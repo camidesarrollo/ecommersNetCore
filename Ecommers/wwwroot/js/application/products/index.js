@@ -1,4 +1,4 @@
-﻿import { CambiarEstado } from './products.api.JS';
+﻿import { CambiarEstadoProducto } from './products.api.JS';
 import { initDataTable, guardarPaginaYSalir, handleConfirmAction } from "../../application/utils/datatable-generic.js";
 import dayjs from "../../bundle/vendors_dayjs.js";
 
@@ -272,32 +272,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ============================
     //   ACTIVAR / DESACTIVAR
     // ============================
-    //document.addEventListener("click", (e) => {
-    //    handleConfirmAction({
-    //        event: e,
-    //        selector: ".btn-toggle",
+    document.addEventListener("click", (e) => {
+       handleConfirmAction({
+           event: e,
+           selector: ".btn-toggle",
 
-    //        getData: (btn) => ({
-    //            id: btn.dataset.id
-    //        }),
+           getData: (btn) => ({
+               ProductoId: btn.dataset.id
+           }),
 
-    //        action: CambiarEstado,
+           action:  CambiarEstadoProducto,
 
-    //        confirmText: (() => {
-    //            const btn = e.target.closest(".btn-toggle");
-    //            const isActive = btn?.dataset.isactive === "true";
-    //            const textActivo = isActive ? "desactivar" : "activar";
-    //            const titulo = btn?.dataset.titulo;
+           confirmText: (() => {
+               const btn = e.target.closest(".btn-toggle");
+               const isActive = btn?.dataset.isactive === "true";
+               const textActivo = isActive ? "desactivar" : "activar";
+               const titulo = btn?.dataset.titulo;
 
-    //            return {
-    //                title: `¿Deseas ${textActivo} el banner?`,
-    //                html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
-    //                confirmButton: `Sí, ${textActivo}`
-    //            };
-    //        })(),
+               return {
+                   title: `¿Deseas ${textActivo} el producto?`,
+                   html: `Estás a punto de ${textActivo} <b>${titulo}</b>.`,
+                   confirmButton: `Sí, ${textActivo}`
+               };
+           })(),
 
-    //        reloadTable: true,
-    //        dataTable: dt 
-    //    });
-    //});
+           reloadTable: true,
+           dataTable: dt 
+       });
+    });
 });

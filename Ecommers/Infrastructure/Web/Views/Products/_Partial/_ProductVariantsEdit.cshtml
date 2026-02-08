@@ -145,10 +145,14 @@
 
             <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox"
+
                        name="ProductVariants[@Model.Index].IsActive"
                        value="true"
                        checked="@Model.ProductVariant.IsActive"
-                       class="w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
+                       data-id="@Model.ProductVariant.Id" 
+                       data-isActive="@Model.ProductVariant.IsActive" 
+                       data-titulo="@Model.ProductVariant.Name"
+                       class="btn-toggle-variante w-12 h-6 rounded-full appearance-none bg-gray-300 checked:bg-mint-green-700 relative transition before:absolute before:top-1 before:left-1 before:w-4 before:h-4 before:bg-white before:rounded-full checked:before:translate-x-6" />
                 Activa
             </label>
         </div>
@@ -170,8 +174,6 @@
                                     Index = @Model.Index
                                 }
                                 )
-
-                }
             </div>
         </div>
 

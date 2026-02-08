@@ -4,16 +4,46 @@
 // CONFIGURACIÓN DE ENDPOINTS
 // ===============================
 const PRODUCTOS_API = {
-    CambiarEstado: {
-        url: "/Gestion/Products/CambiarEstado",
+    CambiarEstadoProducto: {
+        url: "/Gestion/Products/EstadoProducto",
         errorMessage: "Error al cambiar el estado del producto"
     },
+
+    CambiarEstadoVariante: {
+        url: "/Gestion/Products/EstadoVariante",
+        errorMessage: "Error al cambiar el estado de la variante"
+    },
+
+    SubirImagenProducto: {
+        url: "/Gestion/Products/SubirImagenProducto",
+        errorMessage: "Error al subir imagen del producto"
+    },
+
+    SubirImagenVariante: {
+        url: "/Gestion/Products/SubirImagenVariante",
+        errorMessage: "Error al subir imagen de la variante"
+    },
+
+    EliminarImagenProducto: {
+        url: "/Gestion/Products/EliminarImagenProducto",
+        errorMessage: "Error al eliminar imagen del producto"
+    },
+
+    EliminarImagenVariante: {
+        url: "/Gestion/Products/EliminarImagenVariante",
+        errorMessage: "Error al eliminar imagen de la variante"
+    },
+
+    EliminarVariante: {
+        url: "/Gestion/Products/EliminarVariante",
+        errorMessage: "Error al eliminar la variante"
+    },
+
     ObtenerProductVariantView: {
         url: "/Gestion/Products/ObtenerProductVariantView",
         errorMessage: "Error al obtener la variante de productos"
-    },
+    }
 };
-
 // ===============================
 // FUNCIONES ESPECÍFICAS
 // ===============================
@@ -78,10 +108,42 @@ async function ObtenerProductVariantView(data) {
     }
 }
 
+function CambiarEstadoProducto(data) {
+    return ajaxPost(PRODUCTOS_API.CambiarEstadoProducto, data);
+}
+    
+function CambiarEstadoVariante(data) {
+    return ajaxPost(PRODUCTOS_API.CambiarEstadoVariante, data);
+}
+
+function SubirImagenProducto(data) {
+    return ajaxPost(PRODUCTOS_API.SubirImagenProducto, data);
+}
+
+function SubirImagenVariante(data) {
+    return ajaxPost(PRODUCTOS_API.SubirImagenVariante, data);
+}
+
+function EliminarImagenProducto(data) {
+    return ajaxPost(PRODUCTOS_API.EliminarImagenProducto, data);
+}
+
+function EliminarImagenVariante(data) {
+    return ajaxPost(PRODUCTOS_API.EliminarImagenVariante, data);
+}
+function EliminarVariante(data) {
+    return ajaxPost(PRODUCTOS_API.EliminarVariante, data);
+}
 // ===============================
 // EXPORTS
 // ===============================
 export {
-    CambiarEstado,
+    CambiarEstadoProducto,
+    CambiarEstadoVariante,
+    SubirImagenProducto,
+    SubirImagenVariante,
+    EliminarImagenProducto,
+    EliminarImagenVariante,
+    EliminarVariante,
     ObtenerProductVariantView
 };
