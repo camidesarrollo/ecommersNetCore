@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Crear Categoría";
-    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Infrastructure/Web/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/shepherd.css">
@@ -147,7 +147,7 @@
                         </h5>
                         <!-- Card de Preview -->
                         @await Html.PartialAsync(
-                        "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                        "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
                                                 Model
                                                 )
                         <div class="mt-4 p-3 bg-white rounded-xl overflow-hidden shadow-lg">

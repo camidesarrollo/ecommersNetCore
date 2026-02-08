@@ -61,9 +61,9 @@ namespace Ecommers.Infrastructure.Web.Filters
 
                         string? viewName = actionName switch
                         {
-                            "Crear" => $"~/Web/Views/{controllerName}/Create.cshtml",
-                            "Editar" => $"~/Web/Views/{controllerName}/Edit.cshtml",
-                            "Eliminar" => $"~/Web/Views/{controllerName}/Delete.cshtml",
+                            "Crear" => $"~/Infrastructure/Web/Views/{controllerName}/Create.cshtml",
+                            "Editar" => $"~/Infrastructure/Web/Views/{controllerName}/Edit.cshtml",
+                            "Eliminar" => $"~/Infrastructure/Web/Views/{controllerName}/Delete.cshtml",
                             _ => null
                         };
 

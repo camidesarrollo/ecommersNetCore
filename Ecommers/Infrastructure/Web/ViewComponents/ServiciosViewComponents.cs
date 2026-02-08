@@ -12,7 +12,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
         {
 
             var servicios = await _serviciosService.GetAllActiveAsync();
-            return View("~/Web/Views/Shared/Components/Servicios/Default.cshtml", servicios); // Remove the path completely
+            return View(servicios); // Remove the path completely
         }
     }
 }

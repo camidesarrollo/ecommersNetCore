@@ -33,7 +33,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Web/Views/MasterAttributes/Index.cshtml");
+            return View();
         }
 
         // -------------------------------------------------------------------
@@ -45,7 +45,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             var result = await _MasterAttributeservice.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/MasterAttributes/Details.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/MasterAttributes/Details.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -55,7 +55,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         public IActionResult Crear()
         {
             MasterAttributesD MasterAttributes = new() { Id = 0 };
-            return View("~/Web/Views/MasterAttributes/Create.cshtml", MasterAttributes);
+            return View( MasterAttributes);
         }
 
         // -------------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(MasterAttributesCreateRequest request)
+        public async Task<IActionResult> Create(MasterAttributesCreateRequest request)
         {
     
             var result = await _MasterAttributeservice.CreateAsync(request);
@@ -74,12 +74,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Gestion/MasterAttributes/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _MasterAttributeservice.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/MasterAttributes/Edit.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/MasterAttributes/Edit.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -87,7 +87,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(long id, MasterAttributesUpdateRequest request)
+        public async Task<IActionResult> Edit(long id, MasterAttributesUpdateRequest request)
         {
 
             var result = await _MasterAttributeservice.UpdateAsync(request);
@@ -98,12 +98,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Gestion/MasterAttributes/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _MasterAttributeservice.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/MasterAttributes/Delete.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/MasterAttributes/Delete.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -111,7 +111,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(long id, DeleteRequest<long>  request)
+        public async Task<IActionResult> Delete(long id, DeleteRequest<long>  request)
         {
             var result = await _MasterAttributeservice.DeleteAsync(request);
             return HandleResult(result, nameof(Index));

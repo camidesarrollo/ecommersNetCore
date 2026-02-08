@@ -14,10 +14,14 @@ namespace Ecommers.Infrastructure.Web.Controllers
         {
             _viewEngine = viewEngine;
         }
-        protected IActionResult HandleResult(Result result, string redirect)
+        protected IActionResult HandleResult(Result? result, string redirect)
         {
-            TempData["mensaje"] = result.Message;
-            TempData["estado"] = result.Success ? "Exito" : "Error";
+            if(result != null)
+            {
+                TempData["mensaje"] = result?.Message;
+                TempData["estado"] = result != null ? result.Success ? "Exito" : "Error": "";
+            }
+
             return RedirectToAction(redirect);
         }
 

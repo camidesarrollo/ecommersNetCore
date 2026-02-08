@@ -14,7 +14,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
         {
             var types = nutTypes ?? ["🥜", "🌰", "🥥"];
 
-            return View("~/Web/Views/Shared/Components/NutDecoration/Default.cshtml", new NutDecorationViewModel
+            return View(new NutDecorationViewModel
             {
                 Count = count,
                 Size = size,

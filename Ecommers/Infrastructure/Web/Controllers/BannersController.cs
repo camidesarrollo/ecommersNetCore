@@ -30,7 +30,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Web/Views/Banners/Index.cshtml");
+            return View();
         }
 
         // -------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             var result = await _bannersService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Banners/Details.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Banners/Details.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         public IActionResult Crear()
         {
             BannersD bannerss = new() { Id = 0 };
-            return View("~/Web/Views/Banners/Create.cshtml", bannerss);
+            return View(bannerss);
         }
 
         // -------------------------------------------------------------------
@@ -60,7 +60,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(BannersCreateRequest request)
+        public async Task<IActionResult> Create(BannersCreateRequest request)
         {
             // Procesar imagen si existe
             request.Image = await _imageStorage.UpdateAsync(
@@ -77,12 +77,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Configuracion/Banners/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _bannersService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Banners/Edit.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Banners/Edit.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -90,7 +90,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(long id, BannersUpdateRequest request)
+        public async Task<IActionResult> Edit(long id, BannersUpdateRequest request)
         {
 
             // Procesar imagen si existe
@@ -108,12 +108,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Configuracion/Banners/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _bannersService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Banners/Delete.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Banners/Delete.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -121,7 +121,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(long id, DeleteRequest<long>  request)
+        public async Task<IActionResult> Delete(long id, DeleteRequest<long>  request)
         {
             var result = await _bannersService.DeleteAsync(request);
             return HandleResult(result, nameof(Index));

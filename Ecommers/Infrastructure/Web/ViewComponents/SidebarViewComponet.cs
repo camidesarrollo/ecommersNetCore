@@ -77,7 +77,6 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
             };
 
             return View(
-                "~/Web/Views/Shared/Components/Sidebar/Default.cshtml",
                 model
             );
         }

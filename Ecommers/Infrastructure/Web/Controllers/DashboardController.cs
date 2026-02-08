@@ -7,7 +7,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View("~/Web/Views/Dashboard/Index.cshtml");
+            return View();
         }
     }
 }

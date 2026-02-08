@@ -69,7 +69,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
             ViewData["RequiresHeaderCss"] = true;
             ViewData["RequiresHeaderJs"] = true;
 
-            return View("~/Web/Views/Shared/Components/Header/Default.cshtml", model);
+            return View(model);
         }
     }
 }

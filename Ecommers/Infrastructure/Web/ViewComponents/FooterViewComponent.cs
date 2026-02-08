@@ -17,7 +17,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
             };
 
             var configuracion = await _configService.GetCachedAsync(configuracionCacheRequest);
-            return View("~/Web/Views/Shared/Components/Configuracion/Default.cshtml", configuracion); // Remove the path completely
+            return View(configuracion); // Remove the path completely
         }
     }
 }

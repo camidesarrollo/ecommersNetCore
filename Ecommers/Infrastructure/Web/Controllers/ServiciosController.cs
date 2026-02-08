@@ -33,7 +33,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Web/Views/Servicios/Index.cshtml");
+            return View();
         }
 
         // -------------------------------------------------------------------
@@ -45,7 +45,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             var result = await _servicioService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Servicios/Details.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Servicios/Details.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -55,7 +55,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         public IActionResult Crear()
         {
             ServiciosD servicios = new() { Id = 0 };
-            return View("~/Web/Views/Servicios/Create.cshtml", servicios);
+            return View(servicios);
         }
 
         // -------------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(ServiciosCreateRequest request)
+        public async Task<IActionResult> Create(ServiciosCreateRequest request)
         {
             // Procesar imagen si existe
             request.Image = await _imageStorage.UpdateAsync(
@@ -80,12 +80,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Configuracion/Servicios/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _servicioService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Servicios/Edit.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Servicios/Edit.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -93,7 +93,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(long id, ServiciosUpdateRequest request)
+        public async Task<IActionResult> Edit(long id, ServiciosUpdateRequest request)
         {
 
             // Procesar imagen si existe
@@ -111,12 +111,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Configuracion/Servicios/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _servicioService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Servicios/Delete.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Servicios/Delete.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(long id, DeleteRequest<long>  request)
+        public async Task<IActionResult> Delete(long id, DeleteRequest<long>  request)
         {
             var result = await _servicioService.DeleteAsync(request);
             return HandleResult(result, nameof(Index));

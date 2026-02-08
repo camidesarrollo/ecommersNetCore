@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Eliminar Categoría";
-    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Infrastructure/Web/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="bg-pattern min-h-screen py-8 px-4">
@@ -114,7 +114,7 @@
                     </h5>
 
                     @await Html.PartialAsync(
-                    "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                    "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
                                         Model
                                         )
                 </div>

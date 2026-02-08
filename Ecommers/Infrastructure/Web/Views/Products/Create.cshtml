@@ -15,7 +15,7 @@
     var Products = Model.Products.Products;
 
     ViewData["Title"] = "Crear Producto";
-    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Infrastructure/Web/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @section Styles {
@@ -402,7 +402,7 @@
                                         AtrributeValue = Model.AtrributeValue.ToList(),
                                         ProductVariantImages = variante.ProductVariantImages.Where(x => x.VariantId == variante.Id).ToList()
                                     };
-                                    @await Html.PartialAsync("~/Web/Views/Products/_Partial/_ProductVariants.cshtml", partialProductVariantViewModel)
+                                    @await Html.PartialAsync("~/Infrastructure/Web/Views/Products/_Partial/_ProductVariants.cshtml", partialProductVariantViewModel)
 
                                 }
                             }

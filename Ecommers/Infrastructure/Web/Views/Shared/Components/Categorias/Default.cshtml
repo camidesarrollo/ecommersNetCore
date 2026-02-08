@@ -39,7 +39,7 @@
                 {
                     <swiper-slide>
                         @await Html.PartialAsync(
-                        "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                        "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
                                 cat
                                 )
             </swiper-slide>
@@ -53,7 +53,7 @@
                 @foreach (var cat in categorias)
                 {
                     @await Html.PartialAsync(
-                    "~/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                    "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
                         cat
                         )
                         }

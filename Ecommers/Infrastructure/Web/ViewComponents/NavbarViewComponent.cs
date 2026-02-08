@@ -48,7 +48,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
                 }
 
             };
-            return View("~/Web/Views/Shared/Components/Navbar/Default.cshtml", Navegacion); // Remove the path completely
+            return View(Navegacion); // Remove the path completely
         }
     }
 }

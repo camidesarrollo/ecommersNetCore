@@ -26,7 +26,7 @@
         @foreach (var banner in banners)
         {
             <swiper-slide>
-                @await Html.PartialAsync("~/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", banner)
+                @await Html.PartialAsync("~/Infrastructure/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", banner)
             </swiper-slide>
         }
 
@@ -34,5 +34,6 @@
 }
 else
 {
-    @await Html.PartialAsync("~/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", banners.First());
+    @await Html.PartialAsync("~/Infrastructure/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", banners.First())
+    ;
 }

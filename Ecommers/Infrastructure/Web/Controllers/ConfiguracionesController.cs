@@ -26,7 +26,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             try
             {
                 var configuraciones = await _configuracionService.GetAllAsync();
-                return View("~/Web/Views/Configuracion/Index.cshtml", configuraciones);
+                return View( configuraciones);
             }
             catch (Exception)
             {
@@ -40,7 +40,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // Vista formulario de edición
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                return View("~/Web/Views/Configuracion/Edit.cshtml", configuracion);
+                return View(configuracion);
             }
             catch (Exception)
             {
@@ -65,7 +65,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, ConfiguracionUpdateRequest request)
+        public async Task<IActionResult> Edit(int id, ConfiguracionUpdateRequest request)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
                     ConfiguracionesD configuracion = new() { Id = id };
                     _mapper.Map(request, configuracion); // Se actualizan propiedades
-                    return View("~/Web/Views/Configuracion/Edit.cshtml", configuracion);
+                    return View(configuracion);
                 }
 
                 if (!ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                     TempData["mensaje"] = string.Join("<br>", errores);
                     ConfiguracionesD configuracion = new() { Id = id };
                     _mapper.Map(request, configuracion); // Se actualizan propiedades
-                    return View("~/Web/Views/Configuracion/Edit.cshtml", configuracion);
+                    return View(configuracion);
                 }
                 string? newImageUrl = null;
                 if (request.FaviconFile != null)
@@ -138,7 +138,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 TempData["estado"] = "Error";
                 ConfiguracionesD configuracion = new() { Id = id };
                 _mapper.Map(request, configuracion); // Se actualizan propiedades
-                return View("~/Web/Views/Configuracion/Edit.cshtml", configuracion);
+                return View(configuracion);
             }
         }
 
@@ -158,7 +158,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                return View("~/Web/Views/Configuracion/Details.cshtml", configuracion);
+                return View(configuracion);
             }
             catch (Exception)
             {

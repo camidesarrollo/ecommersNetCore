@@ -11,7 +11,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
         {
 
             var categorias = await _categoriasService.GetAllActiveAsync();
-            return View("~/Web/Views/Shared/Components/Categorias/Default.cshtml", categorias); // Remove the path completely
+            return View(categorias); // Remove the path completely
         }
     }
 }

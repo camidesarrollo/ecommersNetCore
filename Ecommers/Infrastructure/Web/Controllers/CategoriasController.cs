@@ -30,7 +30,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Web/Views/Categorias/Index.cshtml");
+            return View();
         }
 
         // -------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             var result = await _categoriasService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Categorias/Details.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Categorias/Details.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         public IActionResult Crear()
         {
             CategoriesD categoriass = new() { Id = 0 };
-            return View("~/Web/Views/Categorias/Create.cshtml", categoriass);
+            return View(categoriass);
         }
 
         // -------------------------------------------------------------------
@@ -60,7 +60,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(CategoriaCreateRequest request)
+        public async Task<IActionResult> Create(CategoriaCreateRequest request)
         {
             // Procesar imagen si existe
             request.Image = await _imageStorage.UpdateAsync(
@@ -77,12 +77,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Gestion/Categorias/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _categoriasService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Categorias/Edit.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Categorias/Edit.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -90,7 +90,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(long id, CategoriaUpdateRequest request)
+        public async Task<IActionResult> Edit(long id, CategoriaUpdateRequest request)
         {
 
             // Procesar imagen si existe
@@ -108,12 +108,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Gestion/Categorias/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _categoriasService.GetByIdAsync(
                 new GetByIdRequest<long> { Id = id });
 
-            return HandleResultView(result, "~/Web/Views/Categorias/Delete.cshtml");
+            return HandleResultView(result, "~/Infrastructure/Web/Views/Categorias/Delete.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -121,7 +121,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(long id, DeleteRequest<long>  request)
+        public async Task<IActionResult> Delete(long id, DeleteRequest<long>  request)
         {
             var result = await _categoriasService.DeleteAsync(request);
             return HandleResult(result, nameof(Index));

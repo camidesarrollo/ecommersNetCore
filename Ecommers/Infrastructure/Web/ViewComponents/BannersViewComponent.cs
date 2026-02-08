@@ -12,7 +12,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
         {
 
             var banners = await _bannersService.GetBySeccionAsync(seccion, activo);
-            return View("~/Web/Views/Shared/Components/Banners/Default.cshtml", banners); // Remove the path completely
+            return View(banners); // Remove the path completely
         }
     }
 }

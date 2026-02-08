@@ -9,7 +9,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
  
         public IActionResult Index()
         {
-            return View("~/Web/Views/Home/Index.cshtml");
+            return View();
         }
 
         public IActionResult Privacy()

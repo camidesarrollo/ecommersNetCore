@@ -70,7 +70,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Web/Views/Products/Index.cshtml");
+            return View();
         }
 
         // -------------------------------------------------------------------
@@ -92,7 +92,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
             var res = Result<ProductsDetailsViewModel>.Ok(ProductViewModel);
 
-            return HandleResultView(res, "~/Web/Views/Products/Details.cshtml");
+            return HandleResultView(res, "~/Infrastructure/Web/Views/Products/Details.cshtml");
         }
 
 
@@ -100,10 +100,10 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Gestion/MasterAttributes/Crear
         // -------------------------------------------------------------------
         [HttpGet("Crear")]
-        public async Task<IActionResult> CrearAsync()
+        public async Task<IActionResult> CreateAsync()
         {
             var vm = await BuildCreateViewModelAsync();
-            return View("~/Web/Views/Products/Create.cshtml", vm);
+            return View(vm);
         }
 
 
@@ -112,7 +112,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Crear")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(ProductCreateVM model)
+        public async Task<IActionResult> Create(ProductCreateVM model)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                     }
 
                     var vm = await BuildCreateViewModelAsync(model);
-                    return View("~/Web/Views/Products/Create.cshtml", vm);
+                    return View(vm);
                 }
 
                 var producto = model.Products;
@@ -142,7 +142,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 {
                     _logger.LogError("Error al crear producto");
                     ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
-                    return View("~/Web/Views/Products/Index.cshtml");
+                    return View("~/Infrastructure/Web/Views/Products/Index.cshtml");
                 }
 
                 if (productoCreado.Data == 0)
@@ -165,7 +165,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             {
                 _logger.LogError(ex, "Error al crear producto");
                 ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
-                return View("~/Web/Views/Products/Index.cshtml");
+                return HandleResult(null, nameof(Index));
             }
         }
 
@@ -174,7 +174,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Gestion/Categorias/Editar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Editar/{id}")]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = _Productservice.GetById(
                 new GetByIdRequest<long> { Id = id });
@@ -197,14 +197,14 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 ProductImage = ImagenProducto,
                 ProductVariantImages = ImagenProductoVariante
             };
-            return View("~/Web/Views/Products/Edit.cshtml", ProductViewModel);
+            return View(ProductViewModel);
         }
 
         // -------------------------------------------------------------------
         // GET: /Gestion/Categorias/Eliminar/{id}
         // -------------------------------------------------------------------
         [HttpGet("Eliminar/{id}")]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = _Productservice.GetById(
                        new GetByIdRequest<long> { Id = id });
@@ -219,7 +219,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
             var res = Result<ProductsDetailsViewModel>.Ok(ProductViewModel);
 
-            return HandleResultView(res, "~/Web/Views/Products/Delete.cshtml");
+            return HandleResultView(res, "~/Infrastructure/Web/Views/Products/Delete.cshtml");
         }
 
         // -------------------------------------------------------------------
@@ -227,7 +227,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         [HttpPost("Eliminar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(long id, DeleteRequest<long> request)
+        public async Task<IActionResult> Delete(long id, DeleteRequest<long> request)
         {
             try
             {
@@ -469,7 +469,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 };
 
                 // Renderizar la vista parcial a string
-                var html = RenderPartialViewToString("~/Web/Views/Products/_Partial/_ProductVariants.cshtml", model);
+                var html = RenderPartialViewToString("~/Infrastructure/Web/Views/Products/_Partial/_ProductVariants.cshtml", model);
 
                 // Verificar que el HTML no esté vacío
                 if (string.IsNullOrWhiteSpace(html))

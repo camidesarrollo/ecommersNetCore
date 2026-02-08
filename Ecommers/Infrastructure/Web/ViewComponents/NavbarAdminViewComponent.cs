@@ -61,7 +61,7 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
 
             model.LoggedUser = loggedUser;
 
-            return View("~/Web/Views/Shared/Components/NavbarAdmin/Default.cshtml", model);
+            return View(model);
         }
     }
 }

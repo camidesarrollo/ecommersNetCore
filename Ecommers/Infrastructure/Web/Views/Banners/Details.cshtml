@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Detalle Banner";
-    Layout = "~/Web/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Infrastructure/Web/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="bg-pattern min-h-screen py-8 px-4">
@@ -102,7 +102,7 @@
                     </h5>
 
                  
-                    @await Html.PartialAsync("~/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", Model);
+                    @await Html.PartialAsync("~/Infrastructure/Web/Views/Shared/Components/Banners/_BannerItem.cshtml", Model);
                 </div>
             </div>
 

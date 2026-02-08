@@ -26,7 +26,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
             ViewBag.AppName = "NutriStore"; // O desde configuración
 
-            return View("~/Web/Views/Auth/Login.cshtml", new LoginRequest { Email = "", Password = "" });
+            return View(new LoginRequest { Email = "", Password = "" });
         }
 
         // POST: Auth/Login
@@ -39,7 +39,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("~/Web/Views/Auth/Login.cshtml", model);
+                return View(model);
             }
 
             try
@@ -50,21 +50,21 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Credenciales inválidas.");
-                    return View("~/Web/Views/Auth/Login.cshtml",model);
+                    return View(model);
                 }
 
                 // Verificar si el usuario está activo
                 if (!user.IsActive || user.DeletedAt.HasValue)
                 {
                     ModelState.AddModelError(string.Empty, "Esta cuenta ha sido desactivada.");
-                    return View("~/Web/Views/Auth/Login.cshtml", model);
+                    return View(model);
                 }
 
                 // Verificar si el email está confirmado (opcional)
                 if (!user.EmailConfirmed)
                 {
                     ModelState.AddModelError(string.Empty, "Debes confirmar tu email antes de iniciar sesión.");
-                    return View("~/Web/Views/Auth/Login.cshtml", model);
+                    return View(model);
                 }
 
                 // Intentar iniciar sesión
@@ -84,17 +84,17 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 if (result.IsLockedOut)
                 {
                     ModelState.AddModelError(string.Empty, "Tu cuenta ha sido bloqueada temporalmente por múltiples intentos fallidos.");
-                    return View("~/Web/Views/Auth/Login.cshtml", model);
+                    return View(model);
                 }
 
                 ModelState.AddModelError(string.Empty, "Credenciales inválidas.");
-                return View("~/Web/Views/Auth/Login.cshtml", model);
+                return View(model);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error durante el inicio de sesión");
                 ModelState.AddModelError(string.Empty, "Ocurrió un error durante el inicio de sesión. Por favor, inténtalo de nuevo.");
-                return View("~/Web/Views/Auth/Login.cshtml", model);
+                return View(model);
             }
         }
     }
