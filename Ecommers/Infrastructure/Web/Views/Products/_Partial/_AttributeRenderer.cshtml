@@ -53,11 +53,7 @@
 
             case "checkbox":
                 <label class="flex items-center gap-3 cursor-pointer">
-                    <!-- Valor por defecto false -->
-                    <input type="hidden"
-                           name="@(Model.InputNamePrefix)[@i].Value"
-                           value="false" />
-
+    
                     <input type="checkbox"
                            name="@(Model.InputNamePrefix)[@i].Value"
                            value="true"

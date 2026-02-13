@@ -23,7 +23,7 @@
                 </li>
                 <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
                 <li>
-                    <a href="@Url.Action("Index", "Products")" class="text-olive-green-600 hover:text-olive-green-700">Categorías</a>
+                    <a href="/Gestion/Products/Index" class="text-olive-green-600 hover:text-olive-green-700">Categorías</a>
                 </li>
                 <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
                 <li class="text-dark-chocolate font-medium">Detalle</li>
@@ -39,14 +39,17 @@
                 </h1>
             </div>
             <div class="flex gap-2">
-                <form asp-action="Eliminar" method="post" enctype="multipart/form-data" id="formProducto" class="slide-in delay-400">
+                <form action="@($"/Gestion/Products/Eliminar/{Model.Products.Id}")"
+                          method="post"
+                          enctype="multipart/form-data"
+                          id="formProducts">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="@Model.Products.Id" />
                     <button type="submit" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
                         <i class="fas fa-edit mr-2"></i>Eliminar
                     </button>
                 </form>
-                <a href="@Url.Action("Index", "Products")" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
+                <a href="/Gestion/Products/Index" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
                     <i class="fas fa-arrow-left mr-2"></i>Volver
                 </a>
             </div>

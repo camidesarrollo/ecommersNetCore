@@ -118,9 +118,9 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task<Result> ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, ProductsCreateRequest producto, long IdProducto)
+        public async Task<Result> ProcesarImagenesProducto(List<ProductImagesCreateRequest> imagenes, string slug, string nameProducto, long IdProducto)
         {
-            var carpeta = $"Productos/{producto.Slug}";
+            var carpeta = $"Productos/{slug}";
             var imagenesGuardadas = 0;
 
             foreach (var img in imagenes)
@@ -131,7 +131,7 @@ namespace Ecommers.Application.Services
                 {
                     var imagen = img;
                     imagen.ProductId = IdProducto;
-                    imagen.AltText = string.IsNullOrWhiteSpace(imagen.AltText) ? producto.Name : imagen.AltText;
+                    imagen.AltText = string.IsNullOrWhiteSpace(imagen.AltText) ? nameProducto : imagen.AltText;
                     imagen.IsActive = true;
 
                     var urlImagen = await _imageStorage.UpdateAsync(img.ImageFile, null, carpeta);
@@ -155,6 +155,86 @@ namespace Ecommers.Application.Services
                 _logger.LogWarning($"Producto {IdProducto} creado sin imágenes");
 
             return Result.Ok("Imágenes procesadas exitosamente");
+        }
+
+        public async Task<Result> ProcesarImagenEditarProducto(
+    List<ProductImagesUpdateRequest> imagenes,
+    string slug,
+    string nombreProducto,
+    long productId)
+        {
+            var carpeta = $"Productos/{slug}";
+            var repo = _unitOfWork.Repository<ProductImagesD, long>();
+
+            try
+            {
+                foreach (var img in imagenes)
+                {
+                    // 🔹 Caso 1: Imagen existente
+                    if (img.Id > 0)
+                    {
+                        var existing = await repo.GetQuery()
+                    .FirstOrDefaultAsync(x => x.Id == img.Id);
+                        if (existing == null) continue;
+
+                        // Si viene nuevo archivo → reemplazar
+                        if (img.ImageFile != null)
+                        {
+                            if (!string.IsNullOrWhiteSpace(existing.Url))
+                                await _imageStorage.DeleteAsync(existing.Url);
+
+                            var nuevaUrl = await _imageStorage.UpdateAsync(img.ImageFile, null, carpeta);
+                            if (string.IsNullOrEmpty(nuevaUrl))
+                            {
+                                return Result.Fail("Error al procesar las imágenes del producto");
+                            }
+                            existing.Url = nuevaUrl;
+                        }
+
+                        existing.AltText = string.IsNullOrWhiteSpace(img.AltText)
+                            ? nombreProducto
+                            : img.AltText;
+
+                        existing.SortOrder = img.SortOrder;
+                        existing.IsPrimary = img.IsPrimary;
+                        existing.IsActive = true;
+                        existing.UpdatedAt = DateTime.UtcNow;
+
+                        repo.Update(existing);
+                    }
+                    else
+                    {
+                        // 🔹 Caso 2: Nueva imagen
+                        if (img.ImageFile == null) continue;
+
+                        var nuevaUrl = await _imageStorage.UpdateAsync(img.ImageFile, null, carpeta);
+
+                        var nuevaImagen = new ProductImagesD
+                        { Id = 0,
+                            ProductId = productId,
+                            Url = nuevaUrl,
+                            AltText = string.IsNullOrWhiteSpace(img.AltText)
+                                ? nombreProducto
+                                : img.AltText,
+                            SortOrder = img.SortOrder,
+                            IsPrimary = img.IsPrimary,
+                            IsActive = true,
+                            UpdatedAt = DateTime.UtcNow
+                        };
+
+                        await repo.AddAsync(nuevaImagen);
+                    }
+                }
+
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("Imágenes actualizadas correctamente");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error al editar imágenes del producto {productId}");
+                return Result.Fail("Error al procesar las imágenes del producto");
+            }
         }
 
         private async Task UpdateInternalAsync(ProductImagesUpdateRequest request)

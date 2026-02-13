@@ -151,13 +151,13 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 }
 
                 // 2. Procesar imágenes del producto
-                await _ProductImagesService.ProcesarImagenesProducto(model.ProductImagesD, producto, productoCreado.Data);
+                await _ProductImagesService.ProcesarImagenesProducto(model.ProductImagesD, producto.Slug, producto.Name, productoCreado.Data);
 
                 // 3. Procesar atributos del producto
                 await _ProductAttributesService.ProcesarAtributosProducto(model.ProductsAttributes, productoCreado.Data);
 
                 // 4. Procesar variantes del producto
-                await _ProductVariantsService.ProcesarVariantesProducto(model.ProductVariants, producto.Slug, productoCreado.Data);
+                await _ProductVariantsService.ProcesarCrearVariantesProducto(model.ProductVariants, producto.Slug, productoCreado.Data);
 
                 return HandleResult(productoCreado, nameof(Index));
             }
@@ -183,12 +183,94 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // -------------------------------------------------------------------
         // POST: /Gestion/Categorias/Crear
         // -------------------------------------------------------------------
-        [HttpPost("Editar")]
+        [HttpPost("Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProductEditVM model)
+        public async Task<IActionResult> EditAsync(long id, ProductEditVM model)
         {
             try
             {
+                var validator = new ProductsEditRequestValidator();
+                var result = validator.Validate(model.Products);
+
+                if (!result.IsValid)
+                {
+                    var errores = "";
+                    foreach (var error in result.Errors)
+                    {
+                       errores += $"{error.PropertyName}: {error.ErrorMessage}\n";
+                    }
+
+                    TempData["mensaje"] = errores;
+                    TempData["estado"] = "Error";
+
+                    return HandleResult(null, nameof(Index));
+                }
+
+                var productoEditado = await _Productservice.UpdateAsync(model.Products);
+
+                if (productoEditado.Success == false)
+                {
+                    return HandleResult(productoEditado, nameof(Index));
+                }
+
+                var imagenCrear = _mapper.Map<List<ProductImagesCreateRequest>>(model.ProductImagesD.Where(x => x.Id == 0).ToList());
+
+     
+
+                if(imagenCrear.Count > 0)
+                {
+                    var imagen_creada = await _ProductImagesService.ProcesarImagenesProducto(imagenCrear, model.Products.Slug, model.Products.Name, model.Products.Id);
+
+                    if(imagen_creada.Success == false)
+                    {
+                        return HandleResult(imagen_creada, nameof(Index));
+
+                    }
+                }
+
+                var imagenEditar = model.ProductImagesD.Where(x => x.Id != 0).ToList();
+
+                if(imagenEditar.Count > 0)
+                {
+                    var imagen_editar = await _ProductImagesService.ProcesarImagenEditarProducto(imagenEditar, model.Products.Slug, model.Products.Name, model.Products.Id);
+
+                    if (imagen_editar.Success == false)
+                    {
+                        return HandleResult(imagen_editar, nameof(Index));
+
+                    }
+
+                }
+
+               var productoAtributo =  await _ProductAttributesService.ProcesarAtributosProducto(model.ProductsAttributes, model.Products.Id);
+
+                if (productoAtributo.Success == false)
+                {
+                    return HandleResult(productoAtributo, nameof(Index));
+                }
+
+                var variantesCrear = _mapper.Map<List<ProductVariantsCreateRequest>>(model.ProductVariants.Where(x => x.Id == 0).ToList());
+
+                if(variantesCrear.Count > 0)
+                {
+                    var variantes_creada = await _ProductVariantsService.ProcesarCrearVariantesProducto(variantesCrear, model.Products.Slug, model.Products.Id);
+                    if (variantes_creada.Success == false)
+                    {
+                        return HandleResult(variantes_creada, nameof(Index));
+                    }
+                }
+
+                var variantesEditar = model.ProductVariants.Where(x => x.Id != 0).ToList();
+
+                if(variantesEditar.Count > 0)
+                {
+                    var variantes_editar = await _ProductVariantsService.ProcesarEditarVariantesProducto(variantesEditar, model.Products.Slug, model.Products.Id);
+                    if (variantes_editar.Success == false)
+                    {
+                        return HandleResult(variantes_editar, nameof(Index));
+                    }
+                }
+
                 return HandleResult(null, nameof(Index));
             }
             catch (Exception ex)
@@ -641,7 +723,8 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
                 var result = await _ProductImagesService.ProcesarImagenesProducto(
                     request.Imagenes,
-                    request.Producto,
+                    request.Producto.Slug,
+                    request.Producto.Name,
                     request.ProductoId
                 );
 
@@ -668,7 +751,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
             {
                 var carpeta = $"Productos/{request.Slug}";
 
-                var result = await _ProductVariantImagesService.ProcesarImagenesVariante(
+                var result = await _ProductVariantImagesService.ProcesarCrearImagenesVariante(
                     request.Imagenes,
                     request.VariantId,
                     carpeta

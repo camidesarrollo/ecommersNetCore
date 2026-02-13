@@ -226,5 +226,39 @@ namespace Ecommers.Application.Services
             }
         }
 
+        public async Task<Result> UpdateAsync(ProductsUpdateRequest request)
+        {
+            try
+            {
+                // Reordenar si es necesario
+                //await ReordenarAsync(request.Id, request.SortOrder);
+
+                await UpdateInternalAsync(request);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("Categoría editada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
+        }
+
+        // Método interno para actualizar sin Result
+        private async Task UpdateInternalAsync(ProductsUpdateRequest request)
+        {
+            var repo = _unitOfWork.Repository<ProductsD, long>();
+
+            var productos = await repo.GetQuery()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Id)
+                ?? throw new Exception("Producto no encontrado");
+
+            _mapper.Map(request, productos);
+            productos.UpdatedAt = DateTime.UtcNow;
+
+            repo.Update(productos);
+        }
+
     }
 }

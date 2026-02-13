@@ -48,51 +48,63 @@ namespace Ecommers.Infrastructure.Web.TagHelpers
             content.AppendLine($@"
 <script>
 (function () {{
-
-    function onPageLoaded(cb) {{
-        if (document.readyState === 'complete') {{
-            cb();
-        }} else {{
-            window.addEventListener('load', cb, {{ once: true }});
-        }}
-    }}
-
-    onPageLoaded(function () {{
-
+    function initSwiper() {{
         if (typeof window.Swiper === 'undefined') {{
-            console.error('Swiper no está cargado');
+            console.error('Swiper no está disponible');
             return;
         }}
-
+        
         var el = document.getElementById('{swiperId}');
         if (!el) {{
             console.warn('Swiper no encontrado: {swiperId}');
             return;
         }}
-
-        new window.Swiper(el, {{
-            slidesPerView: {SlidesPerView},
-            spaceBetween: {SpaceBetween},
-            loop: {Loop.ToString().ToLower()},
-            {(Navigation ? $@"
-            navigation: {{
-                nextEl: '.swiper-button-next-{swiperId}',
-                prevEl: '.swiper-button-prev-{swiperId}'
-            }}," : "")}
-            {(Pagination ? $@"
-            pagination: {{
-                el: '.swiper-pagination-{swiperId}',
-                clickable: true
-            }}," : "")}
-            {(Autoplay ? $@"
-            autoplay: {{
-                delay: {AutoplayDelay},
-                disableOnInteraction: false
-            }}," : "")}
-            {(!string.IsNullOrWhiteSpace(Breakpoints) ? $"breakpoints: {Breakpoints}," : "")}
-        }});
-    }});
-
+        
+        try {{ console.log( window.Swiper);
+            new window.Swiper(el, {{
+                slidesPerView: {SlidesPerView},
+                spaceBetween: {SpaceBetween},
+                loop: {Loop.ToString().ToLower()},
+                {(Navigation ? $@"
+                navigation: {{
+                    nextEl: '.swiper-button-next-{swiperId}',
+                    prevEl: '.swiper-button-prev-{swiperId}'
+                }}," : "")}
+                {(Pagination ? $@"
+                pagination: {{
+                    el: '.swiper-pagination-{swiperId}',
+                    clickable: true
+                }}," : "")}
+                {(Autoplay ? $@"
+                autoplay: {{
+                    delay: {AutoplayDelay},
+                    disableOnInteraction: false
+                }}," : "")}
+                {(!string.IsNullOrWhiteSpace(Breakpoints) ? $"breakpoints: {Breakpoints}," : "")}
+            }});
+        }} catch (e) {{
+            console.error('Error inicializando Swiper:', e);
+        }}
+    }}
+    
+    // Esperar a que Swiper esté cargado
+    if (typeof window.Swiper !== 'undefined') {{
+        // Ya está disponible
+        if (document.readyState === 'loading') {{
+            document.addEventListener('DOMContentLoaded', initSwiper);
+        }} else {{
+            initSwiper();
+        }}
+    }} else {{
+        // Esperar el evento personalizado
+        window.addEventListener('swiperLoaded', function() {{
+            if (document.readyState === 'loading') {{
+                document.addEventListener('DOMContentLoaded', initSwiper);
+            }} else {{
+                initSwiper();
+            }}
+        }}, {{ once: true }});
+    }}
 }})();
 </script>");
 

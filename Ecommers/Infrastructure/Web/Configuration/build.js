@@ -36,11 +36,17 @@ function copyCssFile(source, destination, libraryName) {
 // BUSCAR ARCHIVOS TYPESCRIPT
 // ========================================
 const normalizedBasePath = baseDirDomain.replace(/\\/g, "/");
-const entryPoints = glob.sync(`${normalizedBasePath}/**/*.ts`);
+const allEntryPoints = glob.sync(`${normalizedBasePath}/**/*.ts`);
 
-console.log("\n📦 Archivos TypeScript encontrados:", entryPoints.length);
+// SEPARAR vendors de otros archivos
+const vendorsSwiper = allEntryPoints.find(f => f.includes("vendors_swiper.ts"));
+const regularEntryPoints = allEntryPoints.filter(f => !f.includes("vendors_swiper.ts"));
 
-if (entryPoints.length === 0) {
+console.log("\n📦 Archivos TypeScript encontrados:");
+console.log("  - Regular:", regularEntryPoints.length);
+console.log("  - Vendors:", vendorsSwiper ? 1 : 0);
+
+if (allEntryPoints.length === 0) {
     console.error("❌ No se encontraron archivos .ts en domain");
     process.exit(1);
 }
@@ -82,7 +88,7 @@ console.log("\n📋 Copiando CSS de dependencias...");
         name: "Swiper"
     },
     {
-        src: "select2/dist/css/select2.min.css", 
+        src: "select2/dist/css/select2.min.css",
         dest: "select2.min.css",
         name: "Select2"
     }
@@ -98,16 +104,13 @@ console.log("\n📋 Copiando CSS de dependencias...");
 // HELPER: RESOLVER MÓDULOS
 // ========================================
 function resolveNodeModule(moduleName) {
-    // Separar el nombre del paquete de la ruta interna
     let packageName, subPath;
-    
+
     if (moduleName.startsWith('@')) {
-        // Paquetes con scope (@org/package)
         const parts = moduleName.split('/');
         packageName = `${parts[0]}/${parts[1]}`;
         subPath = parts.slice(2).join('/');
     } else {
-        // Paquetes normales
         const parts = moduleName.split('/');
         packageName = parts[0];
         subPath = parts.slice(1).join('/');
@@ -115,12 +118,10 @@ function resolveNodeModule(moduleName) {
 
     const packagePath = path.resolve(nodeModulesDir, packageName);
 
-    // Si no existe el paquete, retornar null
     if (!fs.existsSync(packagePath)) {
         return null;
     }
 
-    // Si hay una ruta interna (subPath), intentar resolverla
     if (subPath) {
         const possiblePaths = [
             path.join(packagePath, subPath),
@@ -139,13 +140,11 @@ function resolveNodeModule(moduleName) {
         }
     }
 
-    // Si no hay subPath, buscar el entry point del paquete
     const packageJsonPath = path.join(packagePath, "package.json");
     if (fs.existsSync(packageJsonPath)) {
         try {
             const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
-            // Intentar con diferentes campos de entrada
             const entryPoints = [
                 packageJson.module,
                 packageJson.main,
@@ -168,7 +167,6 @@ function resolveNodeModule(moduleName) {
         }
     }
 
-    // Intentar archivos por defecto
     const defaultFiles = ["index.js", "index.mjs", "index.ts", "dist/index.js"];
     for (const file of defaultFiles) {
         const fullPath = path.join(packagePath, file);
@@ -181,13 +179,92 @@ function resolveNodeModule(moduleName) {
 }
 
 // ========================================
-// BUILD DOMAIN
+// PLUGIN COMPARTIDO
+// ========================================
+const resolvePlugin = {
+    name: "resolve-node-modules",
+    setup(build) {
+        build.onResolve({ filter: /^[^.]/ }, args => {
+            if (args.path.startsWith('.') || args.path.startsWith('/')) {
+                return null;
+            }
+
+            const resolved = resolveNodeModule(args.path);
+
+            if (resolved) {
+                return { path: resolved };
+            }
+
+            return null;
+        });
+    }
+};
+
+// ========================================
+// BUILD VENDORS SWIPER (IIFE - GLOBAL)
+// ========================================
+async function buildVendorsSwiper() {
+    console.log("\n🔨 Preparando vendors_swiper...");
+
+    // Buscar el bundle IIFE/UMD de Swiper que ya está compilado
+    const swiperBundlePath = path.resolve(nodeModulesDir, 'swiper/swiper-bundle.js');
+    
+    if (!fs.existsSync(swiperBundlePath)) {
+        console.error('❌ No se encontró swiper-bundle.js');
+        console.log('Intentando con swiper-bundle.min.js...');
+        
+        const swiperMinPath = path.resolve(nodeModulesDir, 'swiper/swiper-bundle.min.js');
+        if (fs.existsSync(swiperMinPath)) {
+            // Copiar directamente el minificado
+            fs.copyFileSync(
+                swiperMinPath,
+                path.join(outputDir, "vendors_swiper.js")
+            );
+            console.log("✅ Swiper bundle copiado (minificado)");
+            return;
+        }
+        
+        console.error('❌ No se encontró ningún bundle de Swiper');
+        return;
+    }
+
+    // Leer el bundle original
+    let swiperCode = fs.readFileSync(swiperBundlePath, 'utf8');
+    
+    // El bundle de Swiper ya expone window.Swiper, solo necesitamos asegurarnos
+    const wrappedCode = `${swiperCode}
+
+// Verificación y evento de carga
+if (typeof window.Swiper === 'function') {
+    console.log('✅ Swiper cargado correctamente:', typeof window.Swiper);
+    window.dispatchEvent(new Event('swiperLoaded'));
+} else {
+    console.error('❌ Swiper no se cargó correctamente:', typeof window.Swiper);
+}
+`;
+
+    // Guardar
+    fs.writeFileSync(
+        path.join(outputDir, "vendors_swiper.js"),
+        wrappedCode
+    );
+    
+    console.log("✅ vendors_swiper preparado");
+}
+
+// ========================================
+// BUILD DOMAIN (ESM - RESTO DE ARCHIVOS)
 // ========================================
 async function buildDomain() {
-    console.log("\n🔨 Compilando Domain...");
+    if (regularEntryPoints.length === 0) {
+        console.log("\n⚠️ No hay archivos regulares para compilar");
+        return;
+    }
+
+    console.log("\n🔨 Compilando archivos regulares...");
 
     await esbuild.build({
-        entryPoints,
+        entryPoints: regularEntryPoints,
         outdir: outputDir,
         bundle: true,
         format: "esm",
@@ -202,34 +279,10 @@ async function buildDomain() {
         },
         absWorkingDir: path.resolve(__dirname),
         logLevel: "info",
-        plugins: [
-            {
-                name: "resolve-node-modules",
-                setup(build) {
-                    // Resolver imports desde node_modules
-                    build.onResolve({ filter: /^[^.]/ }, args => {
-                        // Solo procesar imports que no sean relativos
-                        if (args.path.startsWith('.') || args.path.startsWith('/')) {
-                            return null;
-                        }
-
-                        // Resolver el módulo
-                        const resolved = resolveNodeModule(args.path);
-
-                        if (resolved) {
-                            return { path: resolved };
-                        }
-
-                        // Si no se resolvió, dejar que esbuild lo maneje
-                        return null;
-                    });
-                }
-            }
-        ]
+        plugins: [resolvePlugin]
     });
 
-    console.log("\n✅ Compilación finalizada");
-    console.log("📍 Output:", outputDir);
+    console.log("✅ Archivos regulares compilados");
 }
 
 // ========================================
@@ -237,8 +290,10 @@ async function buildDomain() {
 // ========================================
 (async () => {
     try {
-        await buildDomain();
+        await buildVendorsSwiper(); // Primero vendors como IIFE
+        await buildDomain();         // Luego el resto como ESM
         console.log("\n🎉 Build completado correctamente");
+        console.log("📍 Output:", outputDir);
     } catch (err) {
         console.error("\n❌ Error en el build");
         console.error(err);

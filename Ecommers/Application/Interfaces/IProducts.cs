@@ -15,6 +15,8 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result<long>> CreateAsync(ProductsCreateRequest request);
 
+        Task<Result> UpdateAsync(ProductsUpdateRequest request);
+
         Task<DataTableResponse<vw_Products>> GetProductosDataTable(
     ClaimsPrincipal user,
     DataTableRequest<vw_Products> request);

@@ -69,7 +69,7 @@
                         </button>
 
                         <!-- Botón volver -->
-                        <a href="@Url.Action("Index", "Products")"
+                        <a href="/Gestion/Products/Index"
                            class="inline-flex items-center justify-center px-4 sm:px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all whitespace-nowrap"
                            id="volver-button">
                             <i class="fas fa-arrow-left mr-2"></i>
@@ -81,7 +81,10 @@
         </div>
 
         <!-- FORM -->
-        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formProducts">
+        <form class="slide-in delay-400" action="@($"/Gestion/Products/Crear")"
+                method="post"
+                enctype="multipart/form-data"
+                id="formProducts">
             @Html.AntiForgeryToken()
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -230,7 +233,7 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @await Html.PartialAsync(
-                                    "~/Infrastructure/Web/Views/Products/_Partial/_ProductAttributes.cshtml",
+                                    "~/Infrastructure/Web/Views/Products/_Partial/_ProductAttributesComponent.cshtml",
                                     new ProductAttributesComponentVM
                                     {
                                         MasterAttributes = MasterAttributesProductos.ToList(),

@@ -35,7 +35,7 @@
                 </li>
                 <li><i class="fas fa-chevron-right text-sm text-olive-green-500"></i></li>
                 <li>
-                    <a href="@Url.Action("Index", "Products")" class="text-olive-green-600 hover:text-olive-green-700">
+                    <a href="@($"/Gestion/Products/Index")" class="text-olive-green-600 hover:text-olive-green-700">
                         Productos
                     </a>
                 </li>
@@ -69,7 +69,7 @@
                         </button>
 
                         <!-- Botón volver -->
-                        <a href="@Url.Action("Index", "Products")"
+                        <a href="@($"/Gestion/Products/Index")"
                            class="inline-flex items-center justify-center px-4 sm:px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all whitespace-nowrap"
                            id="volver-button">
                             <i class="fas fa-arrow-left mr-2"></i>
@@ -81,9 +81,14 @@
         </div>
 
         <!-- FORM -->
-        <form asp-action="Editar" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formProducts">
-            @Html.AntiForgeryToken()
+        <form action="@($"/Gestion/Products/Editar/{Products.Id}")"
+              method="post"
+              enctype="multipart/form-data"
+              id="formProducts">
 
+            @Html.AntiForgeryToken()
+            <input hidden type="text"
+                   asp-for="@Products.Id" />
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Columna Principal (2/3) -->
                 <div class="lg:col-span-2 space-y-6">
@@ -177,6 +182,14 @@
                                           rows="4"
                                           class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg resize-none focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition"></textarea>
                             </div>
+                            <!-- Activo -->
+                            <div>
+                                <input hidden type="text"
+                                       asp-for="@Products.IsActive"
+                                       required
+                                       class="w-full px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg border-2 border-gray-300 rounded-lg focus:border-olive-green-500 focus:ring-olive-green-500 outline-none transition" />
+                                <span asp-validation-for="@Products.IsActive" class="text-red-700 text-xs sm:text-sm"></span>
+                            </div>
                         </div>
                     </section>
                     <!-- Sección Imágenes -->
@@ -200,7 +213,7 @@
                             {
                                 imagen.Add(new ProductImagesD
                                 {
-                                    Id = 0,
+                                    Id = item.Id,
                                     ProductId = item.ProductId,
                                     Url = item.Url ?? "",
                                     AltText = item.AltText,

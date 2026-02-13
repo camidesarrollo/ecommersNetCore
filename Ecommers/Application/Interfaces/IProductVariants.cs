@@ -14,7 +14,8 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result<long>> CreateAsync(ProductVariantsCreateRequest request);
 
-        Task ProcesarVariantesProducto(List<ProductVariantsCreateRequest> productVariantsCreateRequest,string slug, long id);
+        Task<Result> ProcesarCrearVariantesProducto(List<ProductVariantsCreateRequest> productVariantsCreateRequest, string slug, long id);
+        Task<Result> ProcesarEditarVariantesProducto(List<ProductVariantsUpdateRequest> productVariantsCreateRequest, string slug, long id);
 
         Task<Result<ProductVariantsD>> GetByIdAsync(GetByIdRequest<long> getByIdRequest);
 

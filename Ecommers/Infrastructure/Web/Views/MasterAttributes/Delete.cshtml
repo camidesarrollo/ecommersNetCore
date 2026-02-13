@@ -18,7 +18,7 @@
                 </li>
                 <li><i class="fas fa-chevron-right text-sm text-gray-400"></i></li>
                 <li>
-                    <a href="@Url.Action("Index", "MasterAttributes")" class="text-olive-green-600">
+                    <a href="@($"/Gestion/MasterAttributes/Index")" class="text-olive-green-600">
                         Maestro de atributos
                     </a>
                 </li>
@@ -40,7 +40,8 @@
             </div>
 
             <div class="flex gap-3">
-                <form asp-action="Eliminar" method="post">
+                <form class="slide-in delay-400" action="@($"/Gestion/MasterAttributes/Delete/{Model.Id}")"
+                      enctype="multipart/form-data" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="Id" />
 
@@ -51,7 +52,7 @@
                     </button>
                 </form>
 
-                <a href="@Url.Action("Index", "MasterAttributes")"
+                <a href="@($"/Gestion/MasterAttributes/Index")"
                    class="inline-flex items-center gap-2 bg-gray-200 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
                     <i class="fas fa-arrow-left"></i>
                     Volver

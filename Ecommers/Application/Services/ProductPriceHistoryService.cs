@@ -6,6 +6,7 @@ using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
@@ -39,19 +40,64 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task<Result> CreateAsync(ProductPriceHistoryCreateRequest request)
+        public async Task<Result> CambiarEstadoAsync(GetByIdRequest<long> getByIdRequest)
         {
             try
             {
                 var repo = _unitOfWork.Repository<ProductPriceHistoryD, long>();
+                var entity = await repo.GetByIdAsync(getByIdRequest.Id);
+                if (entity == null)
+                {
+                    return Result.Fail("El historial de precio no fue encontrado");
+                }
+                entity.IsActive = !entity.IsActive;
+                entity.UpdatedAt = DateTime.UtcNow;
+                repo.Update(entity);
+                await _unitOfWork.CompleteAsync();
+                return Result.Ok("El estado del historial de precio fue cambiado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"Error al cambiar el estado del historial de precio: {ex.Message}");
+            }
+        }
+
+        public async Task<Result> CreateAsync(ProductPriceHistoryCreateRequest request)
+        {
+            try
+            {
+                var repoPriceHistory = _unitOfWork.Repository<ProductPriceHistoryD, long>();
+
+                /*Validar si el precio existe y no se ha editado*/
+
+                var precioActual = repoPriceHistory.GetQuery().AsNoTracking().Where(ph => ph.VariantId == request.VariantId && ph.IsActive && (ph.Price == request.Price && ph.CompareAtPrice == request.CompareAtPrice)).ToList();
+
+                if(precioActual.Count == 0)
+                {
+                    var activePriceHistories = repoPriceHistory.GetQuery().AsNoTracking().Where(ph => ph.VariantId == request.VariantId && ph.IsActive).ToList();
+
+                    foreach (var priceHistory in activePriceHistories)
+                    {
+                        priceHistory.IsActive = false;
+                        priceHistory.UpdatedAt = DateTime.UtcNow;
+                        priceHistory.EndDate = DateTime.UtcNow;
+                        repoPriceHistory.Update(priceHistory);
+                    }
+                    await _unitOfWork.CompleteAsync();
+
+                }
+
+                var repo = _unitOfWork.Repository<ProductPriceHistoryD, long>();
 
                 var ProductPriceHistory = _mapper.Map<ProductPriceHistoryD>(request);
-                ProductPriceHistory.UpdatedAt = DateTime.UtcNow;
+                ProductPriceHistory.StartDate = DateTime.UtcNow;
+
 
                 await repo.AddAsync(ProductPriceHistory);
                 await _unitOfWork.CompleteAsync();
 
                 return Result.Ok("El historial de precio del producto creada exitosamente");
+
             }
             catch (Exception ex)
             {

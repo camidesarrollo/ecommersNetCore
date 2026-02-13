@@ -24,6 +24,7 @@ namespace Ecommers.Application.Configuration
                {
                    options.ViewLocationFormats.Clear();
 
+                   // Formato para vistas normales
                    options.ViewLocationFormats.Add("/Infrastructure/Web/Views/{1}/{0}.cshtml");
                    options.ViewLocationFormats.Add("/Infrastructure/Web/Views/Shared/{0}.cshtml");
                });
@@ -31,10 +32,7 @@ namespace Ecommers.Application.Configuration
             // Dependency Injection
             services.AddDependencyInjectionConfiguration(configuration);
 
-            // MVC
-            services.AddControllersWithViews();
-
-            // FluentValidation (nueva sintaxis)
+            // FluentValidation
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
             services.AddValidatorsFromAssemblyContaining<ProductsCreateRequestValidator>();
@@ -55,6 +53,8 @@ namespace Ecommers.Application.Configuration
             app.UseRouting();
             app.UseAuthorization();
 
+
+            // Ruta por defecto
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

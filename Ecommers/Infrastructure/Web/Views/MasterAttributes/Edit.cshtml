@@ -22,7 +22,7 @@
                 </li>
                 <li><i class="fas fa-chevron-right text-sm text-gray-400"></i></li>
                 <li>
-                    <a href="@Url.Action("Index", "MasterAttributes")" class="text-olive-green-600">
+                    <a href="@($"/Gestion/MasterAttributes/Index")" class="text-olive-green-600">
                         Maestro de atributos
                     </a>
                 </li>
@@ -53,7 +53,7 @@
                         </button>
 
                         <!-- Botón volver -->
-                        <a href="@Url.Action("Index", "MasterAttributes")"
+                        <a href="@($"/Gestion/MasterAttributes/Index")"
                            class="inline-flex items-center px-6 py-3 bg-gray-light rounded-lg text-dark-chocolate font-semibold hover:bg-gray-light-dark transition-all" id="volver-button">
                             <i class="fas fa-arrow-left mr-2"></i>Volver
                         </a>
@@ -62,7 +62,8 @@
             </div>
 
             <!-- FORM -->
-            <form asp-action="Editar" method="post" class="space-y-6">
+            <form class="slide-in delay-400" action="@($"/Gestion/MasterAttributes/Editar/{Model.Id}")"
+                  enctype="multipart/form-data" method="post" class="space-y-6">
                 @Html.AntiForgeryToken()
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -240,7 +241,7 @@
                                 <i class="fas fa-save mr-2"></i>Guardar atributo
                             </button>
 
-                            <a href="@Url.Action("Index", "MasterAttributes")"
+                            <a href="@($"/Gestion/MasterAttributes/Index")"
                                class="block w-full text-center bg-gray-200 py-3 rounded-lg font-semibold">
                                 Cancelar
                             </a>

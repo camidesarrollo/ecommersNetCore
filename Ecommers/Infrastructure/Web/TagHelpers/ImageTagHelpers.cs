@@ -64,6 +64,7 @@ namespace Ecommers.Infrastructure.Web.TagHelpers
             var alt = type.GetProperty("AltText")?.GetValue(image)?.ToString();
             var order = type.GetProperty("SortOrder")?.GetValue(image);
             var isPrimary = (bool)(type.GetProperty("IsPrimary")?.GetValue(image) ?? false);
+            var accionRemover = id?.ToString() != "" ? $"confirmDeleteImageProducto(event, {id}, {i})" : $"removeImageInput(event, {i})";
 
             return $$"""
 <div class="border-2 border-olive-green-300 rounded-lg p-3 md:p-5 bg-white hover:border-olive-green-500 transition-all duration-300 shadow-sm hover:shadow-md"
@@ -144,7 +145,7 @@ namespace Ecommers.Infrastructure.Web.TagHelpers
         </div>
 
         <button type="button"
-                onclick="removeImageInput(event, {{i}})"
+                onclick="{{accionRemover}}"
                 aria-label="Eliminar imagen del {{nombreCompuesto}}{{name}}[{{i}}]"
                 class="image-delete-button"
                 title="Eliminar imagen">

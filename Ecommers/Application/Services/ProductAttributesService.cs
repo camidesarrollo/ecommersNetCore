@@ -8,6 +8,7 @@ using Ecommers.Domain.Entities;
 using Ecommers.Domain.Extensions;
 using Ecommers.Infrastructure.Persistence;
 using Ecommers.Infrastructure.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommers.Application.Services
 {
@@ -66,31 +67,150 @@ namespace Ecommers.Application.Services
             }
         }
 
-        public async Task ProcesarAtributosProducto(List<ProductAttributeVM> productsAttributes, long productId)
+        // -------------------------------------------------------------------
+        // EDIT
+        // -------------------------------------------------------------------
+        public async Task<Result> EditAsync(ProductAttributesUpdateRequest request)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductAttributesD, long>();
+
+                var entity = await repo.GetByIdAsync(request.Id);
+
+                if (entity == null)
+                {
+                    return Result.Fail("El atributo del producto no fue encontrado");
+                }
+
+                // Actualizamos propiedades
+                entity.ValueId = request.ValueId;
+                entity.IsActive = request.IsActive;
+                entity.UpdatedAt = DateTime.UtcNow;
+
+                repo.Update(entity);
+                await _unitOfWork.CompleteAsync();
+
+                return Result.Ok("Atributo del producto actualizado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"Error al actualizar el atributo del producto: {ex.Message}");
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // GET BY ID - Ahora retorna Result<T>
+        // -------------------------------------------------------------------
+        public Result<List<ProductAttributesD>> FindData(long ProductId, long MasterAttributeId)
+        {
+            try
+            {
+                var repo = _unitOfWork.Repository<ProductAttributesD, long>();
+                // Corrección CS1718: comparar el campo AttributeId con MasterAttributeId
+                var productAttributes = repo.GetQuery().AsNoTracking()
+                    .Where(x => x.ProductId == ProductId && x.AttributeId == MasterAttributeId)
+                    .ToList(); // Corrección CS1061: ToList() es síncrono sobre IQueryable
+
+                if (productAttributes == null || productAttributes.Count == 0)
+                {
+                    return Result<List<ProductAttributesD>>.Fail("ProductAttributes no encontrada");
+                }
+
+                return Result<List<ProductAttributesD>>.Ok(productAttributes);
+            }
+            catch (Exception ex)
+            {
+                return Result<List<ProductAttributesD>>.Fail($"Error al obtener la ProductAttributes: {ex.Message}");
+            }
+        }
+
+
+        public async Task<Result> ProcesarAtributosProducto(List<ProductAttributeVM> productsAttributes, long productId)
         {
             var maestroAtributos = await _MasterAttributeService.GetAllActiveAsync();
             var atributosProducto = maestroAtributos.Where(x => x.AppliesTo == "product").ToList();
-
+            
             foreach (var atributo in atributosProducto)
             {
-                var busqueda = productsAttributes.FirstOrDefault(x => x.MasterAttributeId == atributo.Id && (x.Value != null && x.Value != "" && x.Value != "false"));
-
-                if(busqueda != null)
+                var busquedaBD = FindData(productId, atributo.Id);
+                if (busquedaBD.Data != null && busquedaBD.Data.Count > 0)
                 {
-                    var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, busqueda?.Value ?? "");
+                    var atributoExistente = busquedaBD.Data.First();
 
-                    if (valueId > 0)
+                    var busqueda = productsAttributes
+                        .FirstOrDefault(x => x.MasterAttributeId == atributo.Id);
+
+                    if (busqueda != null)
                     {
-                        await CreateAsync(new ProductAttributesCreateRequest
+                        if(busqueda?.Value == "false" || busqueda?.Value == null || busqueda?.Value == null)
                         {
-                            ProductId = productId,
-                            AttributeId = atributo.Id,
-                            ValueId = valueId,
-                            IsActive = true
-                        });
+                            //Se debe eliminar de la base de datos 
+                            var resultadoEliminar = await DeleteAsync(new DeleteRequest<long>
+                            {
+                                Id = atributoExistente.Id
+                            });
+
+                            if(resultadoEliminar.Success == false)
+                            {
+                                return Result.Fail(resultadoEliminar.Message);
+                            }
+
+                        }
+                        else
+                        {
+                            var valueId = await _AtrributeValueService
+                                .ObtenerOCrearValorAtributo(atributo, busqueda?.Value ?? "");
+
+                            if (valueId > 0 && atributoExistente.ValueId != valueId)
+                            {
+                                var resultadoEditar = await EditAsync(new ProductAttributesUpdateRequest
+                                {
+                                    Id = atributoExistente.Id,
+                                    ValueId = valueId,
+                                    IsActive = true
+                                });
+
+                                if (resultadoEditar.Success == false)
+                                {
+                                    return Result.Fail(resultadoEditar.Message);
+                                }
+                            }
+                        }
+                            
                     }
                 }
+                else
+                {
+                    var busqueda = productsAttributes.FirstOrDefault(x => x.MasterAttributeId == atributo.Id && (x.Value != null && x.Value != "" && x.Value != "false"));
+
+                    if (busqueda != null)
+                    {
+                        var valueId = await _AtrributeValueService.ObtenerOCrearValorAtributo(atributo, busqueda?.Value ?? "");
+
+                        if (valueId > 0)
+                        {
+                            var resultadoCrear = await CreateAsync(new ProductAttributesCreateRequest
+                            {
+                                ProductId = productId,
+                                AttributeId = atributo.Id,
+                                ValueId = valueId,
+                                IsActive = true
+                            });
+
+                            if (resultadoCrear.Success == false)
+                            {
+                                return Result.Fail(resultadoCrear.Message);
+                            }
+                        }
+                    }
+                }
+
+
             }
+
+
+            return Result.Ok("Proceso de atributo realizado exitosamente");
         }
     }
 }

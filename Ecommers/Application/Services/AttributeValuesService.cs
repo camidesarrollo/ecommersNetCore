@@ -71,31 +71,32 @@ namespace Ecommers.Application.Services
                 {
                     case "string":
                         atributo = await repo.GetQuery()
-                            .FirstOrDefaultAsync(x =>
-                                x.ValueString == valor ||
-                                x.ValueText == valor);
+                         .FirstOrDefaultAsync(x =>
+                             EF.Functions.Like(x.ValueString, valor) ||
+                             EF.Functions.Like(x.ValueText, valor));
+
                         break;
 
                     case "number":
-                        if (!decimal.TryParse(valor, out var decimalValue))
+                        if (decimal.TryParse(valor, out var decimalValue))
+                        {
+                            atributo = await repo.GetQuery().FirstOrDefaultAsync(x => x.ValueDecimal == decimalValue);
+
+                        }
+
+                        if (int.TryParse(valor, out var intValue))
+                        {
+                            atributo = await repo.GetQuery()
+                           .FirstOrDefaultAsync(x => x.ValueInt == intValue);
+                        }
+
+                        if(!decimal.TryParse(valor, out var vdecimalValue) && int.TryParse(valor, out var vintValue))
                         {
                             return Result<AttributeValuesD>.Fail("El valor no es un número válido.");
                         }
-
-                        atributo = await repo.GetQuery()
-                            .FirstOrDefaultAsync(x => x.ValueDecimal == decimalValue);
                         break;
 
-                    case "int":
-                        if (!int.TryParse(valor, out var intValue))
-                        {
-                            return Result<AttributeValuesD>.Fail("El valor no es un entero válido.");
-                        }
-
-                        atributo = await repo.GetQuery()
-                            .FirstOrDefaultAsync(x => x.ValueInt == intValue);
-                        break;
-
+                  
                     case "boolean":
                         if (!bool.TryParse(valor, out var boolValue))
                         {

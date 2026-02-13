@@ -10,6 +10,6 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> CreateAsync(VariantAttributesCreateRequest request);
 
-        Task ProcesarAtributosVariante(List<ProductVariantAttributeVM> form, long variantId);
+        Task<Result> ProcesarAtributosVariante(List<ProductVariantAttributeVM> variantsAttributes, long variantId);
     }
 }

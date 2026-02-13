@@ -17,7 +17,7 @@
                 </li>
                 <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
                 <li>
-                    <a href="@Url.Action("Index", "Servicios")" class="text-olive-green-600 hover:text-olive-green-700">Categorías</a>
+                    <a href="@($"/Configuracion/Servicios/Index")" class="text-olive-green-600 hover:text-olive-green-700">Categorías</a>
                 </li>
                 <li class="text-olive-green-500"><i class="fas fa-chevron-right text-sm"></i></li>
                 <li class="text-dark-chocolate font-medium">Detalle</li>
@@ -33,10 +33,10 @@
                 </h1>
             </div>
             <div class="flex gap-2">
-                <a href="@Url.Action("Editar", "Servicios", new { id = Model.Id })" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
+                <a href="@($"/Configuracion/Servicios/Editar/{Model.Id}")" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md">
                     <i class="fas fa-edit mr-2"></i>Editar
                 </a>
-                <a href="@Url.Action("Index", "Servicios")" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
+                <a href="@($"/Configuracion/Servicios/Index")" class="inline-flex items-center gap-2 bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-all duration-200 shadow-md">
                     <i class="fas fa-arrow-left mr-2"></i>Volver
                 </a>
             </div>
