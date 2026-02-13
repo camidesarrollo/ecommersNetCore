@@ -30,7 +30,6 @@ namespace Ecommers.Application.DTOs.Requests.Banners
 
         public string? Image { get; set; }
 
-        [Required(ErrorMessage = "La imagen del banner es obligatoria.")]
         public IFormFile? ImageFile { get; set; }
 
         [Required(ErrorMessage = "El orden de visualización es obligatorio.")]

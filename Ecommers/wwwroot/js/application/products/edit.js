@@ -1,4 +1,4 @@
-﻿import { CambiarEstadoVariante, EliminarImagenProducto } from './products.api.js';
+﻿import { CambiarEstadoVariante, EliminarImagenProducto, EliminarVariante } from './products.api.js';
 import { handleConfirmAction } from "../../bundle/utils/form-helpers.js";
 import { showSpinner, hideSpinner } from "../../bundle/components/spinner.js";
 import { showSuccess, showError, showWarning, showInfo } from '../../bundle/notifications/notyf.config.js';
@@ -100,6 +100,68 @@ window.confirmDeleteImageProducto = function confirmDeleteImageProducto(element,
     return DeleteImageProducto(element, id, index)(element);
 }
 
+const removeVariantBD = async (event, id, index) => {
+    const container = document.getElementById('variantsContainer');
+
+    handleConfirmAction({
+        title: "¿Está seguro de eliminar esta variante?",
+        icon: "warning",
+        confirmText: "Sí, eliminar",
+        cancelText: "Cancelar",
+        spinnerAction: "deleting",
+
+        action: async () => {
+            const accion = await EliminarVariante({ VarianteId: id });
+
+            if (!accion.success) {
+                hideSpinner();
+                showError(accion.message || "Error al eliminar la variante");
+                throw new Error(accion.message || "Error al eliminar la variante");
+            }
+
+            const variantElement = container.querySelector(
+                `[data-variant-index="${index}"]`
+            );
+
+            if (!variantElement) return;
+
+            // Animación de salida
+            variantElement.style.opacity = "0";
+            variantElement.style.transform = "scale(0.95)";
+            variantElement.style.transition = "all 0.3s ease";
+
+            setTimeout(async () => {
+                variantElement.remove();
+
+                updateVariantNumbers();
+                reindexVariant();
+                removeImageInput(event, index);
+
+                // Recalcular variantes después de eliminar
+                const remainingVariants =
+                    container.querySelectorAll(".variant-item");
+
+                // Siempre debe existir al menos una variante
+                if (remainingVariants.length === 0) {
+                    await addVariant();
+                }
+
+                // Si no hay variante predeterminada, marcar la primera
+                ensureDefaultVariant();
+
+                hideSpinner();
+                showSuccess("Variante eliminada correctamente");
+            }, 300);
+        },
+
+        onCancel: () => {
+            hideSpinner();
+        }
+    })(event);
+};
+
+
+
 /* =====================================================
    FORM VALIDATION
 ===================================================== */
@@ -155,3 +217,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+window.removeVariantBD = removeVariantBD;

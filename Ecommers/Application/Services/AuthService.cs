@@ -60,5 +60,19 @@ namespace Ecommers.Application.Services
                 throw;
             }
         }
+
+        public async Task LogoutAsync()
+        {
+            try
+            {
+                await _signInManager.SignOutAsync();
+                _logger.LogInformation("Usuario cerró sesión correctamente.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error durante el cierre de sesión.");
+                throw;
+            }
+        }
     }
 }

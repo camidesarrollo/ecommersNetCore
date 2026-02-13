@@ -1,4 +1,5 @@
 ﻿using Ecommers.Application.DTOs.Requests.Auth;
+using Ecommers.Application.Interfaces;
 using Ecommers.Infrastructure.Persistence.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,12 +10,14 @@ namespace Ecommers.Infrastructure.Web.Controllers
     public class AuthController(
         SignInManager<AspNetUsers> signInManager,
         UserManager<AspNetUsers> userManager,
-        ILogger<AuthController> logger) : Controller
+        ILogger<AuthController> logger,
+        IAuthService authService) : Controller
     {
 
         private readonly SignInManager<AspNetUsers> _signInManager = signInManager;
         private readonly UserManager<AspNetUsers> _userManager = userManager;
         private readonly ILogger<AuthController> _logger = logger;
+        private readonly IAuthService _authService = authService;
 
         public IActionResult Login()
         {
@@ -96,6 +99,13 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Ocurrió un error durante el inicio de sesión. Por favor, inténtalo de nuevo.");
                 return View(model);
             }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _authService.LogoutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

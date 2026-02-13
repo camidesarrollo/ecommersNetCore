@@ -785,6 +785,191 @@ function updateBasePrice() {
     basePriceInput.value = basePrice.toFixed(2);
 }
 
+document.addEventListener("change", function (e) {
+    var actulización = false;
+    if (!e.target.classList.contains("variant-default-checkbox")) return;
+
+    if (e.target.checked) {
+        document.querySelectorAll(".variant-default-checkbox:checked").forEach(cb => {
+            if (cb !== e.target) {
+                cb.checked = false;
+                actulización = true;
+            }
+  
+        });
+
+        if (actulización) {
+            showSuccess('Variante predeterminada actualizada');
+        }
+
+    }
+});
+
+
+const ensureDefaultVariant = () => {
+    const defaults = document.querySelectorAll(
+        ".variant-default-checkbox:checked"
+    );
+
+    if (defaults.length === 0) {
+        const first = document.querySelector(".variant-default-checkbox");
+        if (first) {
+            first.checked = true;
+        }
+    }
+};
+
+function validarVariantes() {
+    const container = document.getElementById("variantsContainer");
+    const variants = container.querySelectorAll(".variant-item");
+
+    // 1️⃣ Debe existir al menos una variante
+    if (variants.length === 0) {
+        showWarning("El producto debe tener al menos una variante");
+        return false;
+    }
+
+    let hasActive = false;
+    let hasDefault = false;
+    let defaultIsActive = true;
+
+    variants.forEach(variant => {
+        const isActiveCheckbox = variant.querySelector(
+            'input[type="checkbox"][name$=".IsActive"]'
+        );
+
+        const isDefaultCheckbox = variant.querySelector(
+            'input[type="checkbox"][name$=".IsDefault"]'
+        );
+
+        const isActive = isActiveCheckbox?.checked === true;
+        const isDefault = isDefaultCheckbox?.checked === true;
+
+        if (isActive) hasActive = true;
+        if (isDefault) hasDefault = true;
+
+        // Si es predeterminada pero no está activa → inválido
+        if (isDefault && !isActive) {
+            defaultIsActive = false;
+        }
+    });
+
+    // 2️⃣ Debe existir al menos una variante activa
+    if (!hasActive) {
+        showWarning("Debe existir al menos una variante activa");
+        return false;
+    }
+
+    // 3️⃣ Debe existir una variante predeterminada
+    if (!hasDefault) {
+        showWarning("Debe seleccionar una variante predeterminada");
+        return false;
+    }
+
+    // 4️⃣ La variante predeterminada debe estar activa
+    if (!defaultIsActive) {
+        showWarning("La variante predeterminada debe estar activa");
+        return false;
+    }
+
+    return true;
+}
+
+function validarImagenesVariantes() {
+    const container = document.getElementById("variantsContainer");
+    const variants = container.querySelectorAll(".variant-item");
+
+    for (const variant of variants) {
+        const isActiveCheckbox = variant.querySelector(
+            'input[type="checkbox"][name$=".IsActive"]'
+        );
+
+        if (!isActiveCheckbox?.checked) continue;
+
+        // Inputs file de la variante
+        const fileInputs = variant.querySelectorAll(
+            'input[type="file"][name^="VariantImages"]'
+        );
+
+        // Previews de imágenes existentes
+        const previews = variant.querySelectorAll("img[data-variant-image]");
+
+        let hasImage = false;
+
+        // 1️⃣ Archivos nuevos
+        fileInputs.forEach(input => {
+            if (input.files && input.files.length > 0) {
+                hasImage = true;
+            }
+        });
+
+        // 2️⃣ Imágenes existentes
+        previews.forEach(img => {
+            if (img.src && !img.src.includes("placeholder")) {
+                hasImage = true;
+            }
+        });
+
+        if (!hasImage) {
+            showWarning(
+                "Cada variante activa debe tener al menos una imagen"
+            );
+
+            // Scroll suave a la variante con error
+            variant.scrollIntoView({ behavior: "smooth", block: "center" });
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function validacionFormulario() {
+    // Imágenes nuevas (input file)
+    const fileInputs = document.querySelectorAll(
+        'input[type="file"][name^="ProductImagesD"]'
+    );
+
+    // Imágenes existentes (preview)
+    const previews = document.querySelectorAll(
+        '[id^="ProductImagesD_preview_"]'
+    );
+
+    let hasValidImage = false;
+
+    // 1️⃣ Verificar archivos seleccionados
+    fileInputs.forEach(input => {
+        if (input.files && input.files.length > 0) {
+            hasValidImage = true;
+        }
+    });
+
+    // 2️⃣ Verificar previews con src válido
+    previews.forEach(img => {
+        if (img.tagName === "IMG" && img.src && !img.src.includes("placeholder")) {
+            hasValidImage = true;
+        }
+    });
+
+    // 3️⃣ Validación final
+    if (!hasValidImage) {
+        showWarning("Debe existir al menos una imagen del producto");
+        return false; // ⛔ bloquear submit
+    }
+
+    var validarVariante = validarVariantes();
+
+    if (!validarVariante()) {
+        return false;
+    }
+    if (!validarImagenesVariantes()) {
+        return false;
+    }
+
+    return true; // ✅ permitir submit
+}
+
 
 /* ===================================================== 
    EXPONER FUNCIONES GLOBALMENTE 
@@ -796,3 +981,8 @@ window.removeVariantImage = removeVariantImage;
 window.previewVariantImage = previewVariantImage;
 window.updatePrimaryVariantImage = updatePrimaryVariantImage;
 window.updateNoVariantImagesMessage = updateNoVariantImagesMessage;
+window.updateVariantNumbers = updateVariantNumbers;
+window.reindexVariant = reindexVariant;
+window.removeImageInput = removeImageInput;
+window.ensureDefaultVariant = ensureDefaultVariant;
+window.validacionFormulario = validacionFormulario;

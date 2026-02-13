@@ -61,7 +61,7 @@
             </div>
         </div>
         <!-- FORM -->
-        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formBanners">
+        <form action="@($"/Configuracion/Banners/Crear")" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formBanners">
             @Html.AntiForgeryToken()
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Ecommers.Domain.Entities.CategoriesD>
-
 @{
     var categorias = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
     bool usarSwiper = categorias.Count > 3;
@@ -7,49 +6,60 @@
 
 @if (!categorias.Any())
 {
-    <!-- No hay categorías -->
     return;
 }
 
-<section class="py-10 bg-white">
+<section class="py-16 bg-gradient-to-b from-beige-50 to-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-
-        <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">
-            Categorías
-        </h2>
+        <!-- Header Section -->
+        <div class="text-center mb-12 space-y-3">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
+                Nuestras Categorías
+            </h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-olive-green-400 via-golden-yellow-500 to-olive-green-400 mx-auto rounded-full"></div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto mt-4">
+                Explora nuestra selección de productos premium organizados por categoría
+            </p>
+        </div>
 
         @if (usarSwiper)
         {
+            <!-- Swiper Resources -->
             <link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
             <link rel="stylesheet" href="~/css/swiper-custom.css" />
             <script src="~/js/bundle/vendors_swiper.js"></script>
 
-            <swiper slides-per-view="2"
-                    space-between="16"
-                    breakpoints='{
-                            "320":  { "slidesPerView": 1 },
-                            "640":  { "slidesPerView": 2 },
-                            "768":  { "slidesPerView": 3 },
-                            "1024": { "slidesPerView": 3 },
-                            "1440": { "slidesPerView": 4 }
-                        }'
-                    class="pb-6">
-
-                @foreach (var cat in categorias)
-                {
-                    <swiper-slide>
-                        @await Html.PartialAsync(
-                        "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
-                                cat
-                                )
-            </swiper-slide>
-                        }
-
-            </swiper>
+            <!-- Swiper Container -->
+            <div class="relative">
+                <swiper slides-per-view="1"
+                        space-between="24"
+                        loop="@(categorias.Count > 4)"
+                        autoplay="true"
+                        autoplay-delay="5000"
+                        navigation="true"
+                        pagination="true"
+                        breakpoints='{
+                                "640":  { "slidesPerView": 2, "spaceBetween": 20 },
+                                "1024": { "slidesPerView": 3, "spaceBetween": 24 },
+                                "1280": { "slidesPerView": 4, "spaceBetween": 28 }
+                            }'
+                        css-class="categories-swiper pb-12">
+                    @foreach (var cat in categorias)
+                    {
+                        <swiper-slide>
+                            @await Html.PartialAsync(
+                            "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                                        cat
+                                        )
+                </swiper-slide>
+                                }
+                </swiper>
+            </div>
         }
         else
         {
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Grid Layout for 3 or fewer categories -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 @foreach (var cat in categorias)
                 {
                     @await Html.PartialAsync(
@@ -59,6 +69,5 @@
                         }
             </div>
         }
-
     </div>
 </section>

@@ -42,7 +42,7 @@
             </div>
 
             <div class="flex gap-2">
-                <form asp-action="Eliminar" method="post" id="formBanner" class="slide-in delay-400">
+                <form action="@($"/Configuracion/Banners/Eliminar")" method="post" id="formBanner" class="slide-in delay-400">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="Id" />
 

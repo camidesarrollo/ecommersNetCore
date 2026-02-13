@@ -327,6 +327,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let isValid = true;
         let firstInvalidField = null;
 
+        if (!validacionFormulario()) {
+            return;
+        }
+
+
         // 🔎 Todos los campos required
         const requiredFields = form.querySelectorAll(
             "input[required]:not([disabled]), select[required], textarea[required]"

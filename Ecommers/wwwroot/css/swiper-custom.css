@@ -1,7 +1,6 @@
 ﻿/* =========================
-   SWIPER CUSTOM STYLES
-   Estilos personalizados para Swiper.js
-   Acordes a la paleta de colores del negocio
+   SWIPER CUSTOM STYLES - ENHANCED
+   Estilos mejorados para Swiper.js con diseño moderno
 ========================= */
 
 /* Contenedor principal del swiper */
@@ -10,6 +9,7 @@
     height: 100%;
     position: relative;
     z-index: 0;
+    padding: 0.5rem 0;
 }
 
 /* Slide individual */
@@ -17,12 +17,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-beige-200);
-    border-radius: 0.75rem;
-    overflow: hidden;
+    background-color: transparent;
+    height: auto;
+    transition: transform 0.3s ease;
 }
 
-    /* Imagen dentro del slide */
     .swiper-slide img {
         width: 100%;
         height: 100%;
@@ -30,196 +29,273 @@
         display: block;
     }
 
-/* ===== BOTONES DE NAVEGACIÓN ===== */
+/* ===== BOTONES DE NAVEGACIÓN MEJORADOS ===== */
 
-/* Botones base */
 .swiper-button-next,
 .swiper-button-prev {
-    color: var(--color-white);
-    background-color: var(--color-olive-green-500);
     width: 2.5rem;
     height: 2.5rem;
+    background: linear-gradient(135deg, var(--color-olive-green-500), var(--color-olive-green-600));
+    color: var(--color-white);
     border-radius: 50%;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(71, 94, 29, 0.25), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    z-index: 10;
 }
 
     .swiper-button-next::after,
     .swiper-button-prev::after {
-        font-size: 1rem;
-        font-weight: 700;
+        font-size: 1.125rem;
+        font-weight: 900;
     }
 
-    /* Hover en botones */
     .swiper-button-next:hover,
     .swiper-button-prev:hover {
-        background-color: var(--color-olive-green-600);
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(71, 94, 29, 0.3);
+        background: linear-gradient(135deg, var(--color-olive-green-600), var(--color-olive-green-700));
+        transform: scale(1.1) translateY(-2px);
+        box-shadow: 0 8px 20px rgba(71, 94, 29, 0.35), 0 4px 8px rgba(0, 0, 0, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
     }
+
+    .swiper-button-next:active,
+    .swiper-button-prev:active {
+        transform: scale(1.05) translateY(0);
+    }
+
+    /* Efecto de pulso en hover */
+    .swiper-button-next::before,
+    .swiper-button-prev::before {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        background: var(--color-olive-green-400);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+        animation: pulse-ring 1.5s ease-out infinite;
+    }
+
+@keyframes pulse-ring {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+.swiper-button-next:hover::before,
+.swiper-button-prev:hover::before {
+    animation: pulse-ring 1s ease-out infinite;
+}
 
 /* Botones deshabilitados */
 .swiper-button-disabled {
-    opacity: 0.35;
+    opacity: 0.25;
     cursor: not-allowed;
     pointer-events: none;
+    background: linear-gradient(135deg, var(--color-beige-400), var(--color-beige-500));
 }
 
-/* Posicionamiento personalizado */
+/* Posicionamiento */
 .swiper-button-prev {
-    left: 10px;
+    left: -1rem;
 }
 
 .swiper-button-next {
-    right: 10px;
+    right: -1rem;
 }
 
-/* ===== PAGINACIÓN ===== */
+/* ===== PAGINACIÓN MEJORADA ===== */
 
-/* Contenedor de paginación */
 .swiper-pagination {
-    bottom: 10px;
+    bottom: 0;
+    padding: 1rem 0;
 }
 
-/* Bullets base */
 .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
     background-color: var(--color-beige-400);
-    opacity: 0.6;
-    transition: all 0.3s ease;
+    opacity: 0.5;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 6px !important;
+    border: 2px solid transparent;
 }
 
-/* Bullet activo */
 .swiper-pagination-bullet-active {
-    background-color: var(--color-olive-green-500);
+    background: linear-gradient(135deg, var(--color-olive-green-500), var(--color-olive-green-600));
     opacity: 1;
-    width: 24px;
-    border-radius: 5px;
+    width: 32px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(71, 94, 29, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Hover en bullets */
 .swiper-pagination-bullet:hover {
-    background-color: var(--color-nut-brown-400);
+    background-color: var(--color-olive-green-400);
     opacity: 0.8;
+    transform: scale(1.2);
 }
 
-/* ===== SCROLLBAR ===== */
+/* ===== SCROLLBAR MEJORADA ===== */
 
 .swiper-scrollbar {
-    background-color: var(--color-beige-400);
+    background-color: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
-    height: 6px;
+    height: 8px;
+    backdrop-filter: blur(4px);
 }
 
 .swiper-scrollbar-drag {
-    background-color: var(--color-olive-green-500);
+    background: linear-gradient(90deg, var(--color-olive-green-500), var(--color-olive-green-600));
     border-radius: 10px;
     cursor: grab;
+    box-shadow: 0 2px 4px rgba(71, 94, 29, 0.2);
 }
 
     .swiper-scrollbar-drag:active {
         cursor: grabbing;
-        background-color: var(--color-olive-green-600);
+        background: linear-gradient(90deg, var(--color-olive-green-600), var(--color-olive-green-700));
     }
 
-/* ===== VARIANTES DE COLORES ===== */
+/* ===== VARIANTES DE COLORES MEJORADAS ===== */
 
-/* Variante Nut Brown (para productos de frutos secos) */
+/* Variante Nut Brown */
 .swiper-nutbrown .swiper-button-next,
 .swiper-nutbrown .swiper-button-prev {
-    background-color: var(--color-nut-brown-500);
+    background: linear-gradient(135deg, var(--color-nut-brown-500), var(--color-nut-brown-600));
 }
 
     .swiper-nutbrown .swiper-button-next:hover,
     .swiper-nutbrown .swiper-button-prev:hover {
-        background-color: var(--color-nut-brown-600);
-        box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
+        background: linear-gradient(135deg, var(--color-nut-brown-600), var(--color-nut-brown-700));
+        box-shadow: 0 8px 20px rgba(139, 94, 60, 0.35);
     }
 
 .swiper-nutbrown .swiper-pagination-bullet-active {
-    background-color: var(--color-nut-brown-500);
+    background: linear-gradient(135deg, var(--color-nut-brown-500), var(--color-nut-brown-600));
 }
 
-/* Variante Golden Yellow (para cereales y semillas) */
+/* Variante Golden Yellow */
 .swiper-golden .swiper-button-next,
 .swiper-golden .swiper-button-prev {
-    background-color: var(--color-golden-yellow-600);
+    background: linear-gradient(135deg, var(--color-golden-yellow-600), var(--color-golden-yellow-700));
     color: var(--color-dark-chocolate-500);
 }
 
     .swiper-golden .swiper-button-next:hover,
     .swiper-golden .swiper-button-prev:hover {
-        background-color: var(--color-golden-yellow-700);
-        box-shadow: 0 4px 12px rgba(244, 196, 48, 0.4);
+        background: linear-gradient(135deg, var(--color-golden-yellow-700), var(--color-golden-yellow-800));
+        box-shadow: 0 8px 20px rgba(244, 196, 48, 0.45);
     }
 
 .swiper-golden .swiper-pagination-bullet-active {
-    background-color: var(--color-golden-yellow-600);
+    background: linear-gradient(135deg, var(--color-golden-yellow-600), var(--color-golden-yellow-700));
 }
 
-/* Variante Burgundy Red (para frutas deshidratadas) */
+/* Variante Burgundy Red */
 .swiper-burgundy .swiper-button-next,
 .swiper-burgundy .swiper-button-prev {
-    background-color: var(--color-burgundy-red-500);
+    background: linear-gradient(135deg, var(--color-burgundy-red-500), var(--color-burgundy-red-600));
 }
 
     .swiper-burgundy .swiper-button-next:hover,
     .swiper-burgundy .swiper-button-prev:hover {
-        background-color: var(--color-burgundy-red-600);
-        box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+        background: linear-gradient(135deg, var(--color-burgundy-red-600), var(--color-burgundy-red-700));
+        box-shadow: 0 8px 20px rgba(139, 0, 0, 0.45);
     }
 
 .swiper-burgundy .swiper-pagination-bullet-active {
-    background-color: var(--color-burgundy-red-500);
+    background: linear-gradient(135deg, var(--color-burgundy-red-500), var(--color-burgundy-red-600));
 }
 
-/* Variante Orange Warm (para snacks energéticos) */
+/* Variante Orange Warm */
 .swiper-orange .swiper-button-next,
 .swiper-orange .swiper-button-prev {
-    background-color: var(--color-orange-warm-500);
-    color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-orange-warm-500), var(--color-orange-warm-600));
 }
 
     .swiper-orange .swiper-button-next:hover,
     .swiper-orange .swiper-button-prev:hover {
-        background-color: var(--color-orange-warm-600);
-        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+        background: linear-gradient(135deg, var(--color-orange-warm-600), var(--color-orange-warm-700));
+        box-shadow: 0 8px 20px rgba(255, 140, 0, 0.45);
     }
 
 .swiper-orange .swiper-pagination-bullet-active {
-    background-color: var(--color-orange-warm-500);
+    background: linear-gradient(135deg, var(--color-orange-warm-500), var(--color-orange-warm-600));
 }
 
-/* ===== EFECTOS Y ANIMACIONES ===== */
+/* ===== EFECTOS Y ANIMACIONES MEJORADOS ===== */
 
-/* Efecto de zoom al hacer hover en slides */
-.swiper-slide-zoom:hover img {
-    transform: scale(1.05);
-    transition: transform 0.5s ease;
+/* Efecto de zoom suave */
+.swiper-slide-zoom {
+    overflow: hidden;
 }
 
-/* Overlay para slides con información */
+    .swiper-slide-zoom:hover img {
+        transform: scale(1.08);
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+/* Overlay mejorado */
 .swiper-slide-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(59, 47, 47, 0.8), transparent);
+    background: linear-gradient(to top, rgba(59, 47, 47, 0.95) 0%, rgba(59, 47, 47, 0.7) 50%, transparent 100%);
     color: var(--color-white);
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.5rem 1.5rem;
     transform: translateY(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
 }
 
 .swiper-slide:hover .swiper-slide-overlay {
     transform: translateY(0);
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== ESTILOS ESPECÍFICOS PARA CATEGORÍAS ===== */
+
+.categories-swiper {
+    padding: 1rem 2.5rem 3rem;
+}
+
+    .categories-swiper .swiper-slide {
+        height: auto;
+        display: flex;
+    }
+
+/* ===== RESPONSIVE MEJORADO ===== */
+
+/* Mobile */
+@media (max-width: 639px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: none; /* Ocultar en móvil para mejor UX */
+    }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 0.875rem;
+        }
+
+    .categories-swiper {
+        padding: 0.5rem 0 2.5rem;
+    }
+}
 
 /* Tablets */
-@media (min-width: 768px) {
+@media (min-width: 640px) and (max-width: 1023px) {
     .swiper-button-next,
     .swiper-button-prev {
         width: 3rem;
@@ -228,8 +304,27 @@
 
         .swiper-button-next::after,
         .swiper-button-prev::after {
-            font-size: 1.25rem;
+            font-size: 1rem;
         }
+
+    .swiper-button-prev {
+        left: -0.5rem;
+    }
+
+    .swiper-button-next {
+        right: -0.5rem;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .swiper-button-prev {
+        left: -1.25rem;
+    }
+
+    .swiper-button-next {
+        right: -1.25rem;
+    }
 
     .swiper-pagination-bullet {
         width: 12px;
@@ -237,92 +332,117 @@
     }
 
     .swiper-pagination-bullet-active {
-        width: 28px;
+        width: 36px;
     }
 }
 
-/* Desktop */
-@media (min-width: 1024px) {
-    .swiper-button-next,
-    .swiper-button-prev {
-        width: 3.5rem;
-        height: 3.5rem;
-    }
-
-        .swiper-button-next::after,
-        .swiper-button-prev::after {
-            font-size: 1.5rem;
-        }
-
-    .swiper-button-prev {
-        left: 20px;
-    }
-
-    .swiper-button-next {
-        right: 20px;
+/* Large Desktop */
+@media (min-width: 1536px) {
+    .categories-swiper {
+        padding: 1.5rem 3rem 3.5rem;
     }
 }
 
-/* ===== THUMBS GALLERY (para galería de miniaturas) ===== */
+/* ===== THUMBS GALLERY MEJORADA ===== */
 
 .swiper-thumbs {
-    height: 80px;
-    margin-top: 10px;
+    height: 90px;
+    margin-top: 1rem;
 }
 
     .swiper-thumbs .swiper-slide {
         opacity: 0.4;
         cursor: pointer;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
+        border: 3px solid transparent;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
         .swiper-thumbs .swiper-slide:hover {
-            opacity: 0.7;
+            opacity: 0.75;
             border-color: var(--color-olive-green-300);
+            transform: translateY(-2px);
         }
 
     .swiper-thumbs .swiper-slide-thumb-active {
         opacity: 1;
         border-color: var(--color-olive-green-500);
-        box-shadow: 0 2px 8px rgba(71, 94, 29, 0.2);
+        box-shadow: 0 4px 12px rgba(71, 94, 29, 0.3);
+        transform: scale(1.05);
     }
 
 /* ===== LAZY LOADING ===== */
 
 .swiper-lazy-preloader {
     border-color: var(--color-olive-green-500) transparent var(--color-olive-green-500) transparent;
+    width: 42px;
+    height: 42px;
+    border-width: 3px;
 }
 
-/* ===== PRODUCTOS: Estilos específicos para galería de productos ===== */
+/* ===== PRODUCTOS ===== */
 
 .product-swiper .swiper-slide {
     background-color: var(--color-white);
     border: 1px solid var(--color-beige-400);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
+
+    .product-swiper .swiper-slide:hover {
+        border-color: var(--color-olive-green-400);
+        box-shadow: 0 8px 24px rgba(71, 94, 29, 0.15);
+    }
 
 .product-swiper .swiper-button-next,
 .product-swiper .swiper-button-prev {
-    background-color: rgba(71, 94, 29, 0.9);
+    background: linear-gradient(135deg, rgba(71, 94, 29, 0.95), rgba(71, 94, 29, 0.85));
+    backdrop-filter: blur(8px);
 }
 
     .product-swiper .swiper-button-next:hover,
     .product-swiper .swiper-button-prev:hover {
-        background-color: var(--color-olive-green-600);
+        background: linear-gradient(135deg, var(--color-olive-green-600), var(--color-olive-green-700));
     }
 
-/* Indicador de imagen principal */
+/* Badge de imagen principal */
 .product-swiper .swiper-slide.is-primary::before {
-    content: "Principal";
+    content: "★ Principal";
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: var(--color-golden-yellow-500);
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, var(--color-golden-yellow-500), var(--color-golden-yellow-600));
     color: var(--color-dark-chocolate-500);
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.25rem;
+    padding: 0.375rem 1rem;
+    border-radius: 0.5rem;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(244, 196, 48, 0.3);
+    letter-spacing: 0.025em;
+}
+
+/* ===== ACCESIBILIDAD ===== */
+
+.swiper-button-next:focus-visible,
+.swiper-button-prev:focus-visible,
+.swiper-pagination-bullet:focus-visible {
+    outline: 3px solid var(--color-olive-green-400);
+    outline-offset: 3px;
+}
+
+/* Reducir movimiento para usuarios con preferencias */
+@media (prefers-reduced-motion: reduce) {
+    .swiper-slide,
+    .swiper-button-next,
+    .swiper-button-prev,
+    .swiper-pagination-bullet {
+        transition: none;
+    }
+}
+.swiper-button-next svg, .swiper-button-prev svg {
+    height: 70%;
+    width: 70%;
 }

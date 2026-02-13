@@ -27,7 +27,6 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
             var menuItems = new List<MenuItem>
             {
                 new() { Name = "Dashboard", Path = "/Dashboard" },
-
                 new() { Name = "Pedidos", Path = "/Dashboard/pedidos", Badge = "5" },
                 new() { Name = "Clientes", Path = "/Dashboard/clientes" },
                 new() { Name = "Analíticas", Path = "/Dashboard/analiticas" }
@@ -37,14 +36,21 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
             {
                 new()
                 {
-                    Title = "Gestión",
+                    Title = "Catálogo",
                     Items =
                     [
                         new() { Name = "Productos", Path = "/Gestion/Products" },
-                        new MenuItem { Name = "Categorías", Path = "/Gestion/Categorias" },
-                        new MenuItem { Name = "MaestroAtributos", Path = "/Gestion/MasterAttributes"},
-                        new MenuItem { Name = "Inventario", Path = "/Gestion/inventario", Badge = "3" },
-                        new MenuItem { Name = "Reportes", Path = "/Gestion/reportes" }
+                        new() { Name = "Categorías", Path = "/Gestion/Categorias" },
+                        new() { Name = "Maestro de atributos", Path = "/Gestion/MasterAttributes" },
+                        new() { Name = "Inventario", Path = "/Gestion/inventario", Badge = "3" }
+                    ]
+                },
+                new()
+                {
+                    Title = "Operación",
+                    Items =
+                    [
+                        new() { Name = "Reportes", Path = "/Gestion/reportes" }
                     ]
                 },
                 new()
@@ -52,13 +58,14 @@ namespace Ecommers.Infrastructure.Web.ViewComponents
                     Title = "Configuración",
                     Items =
                     [
-                        new MenuItem { Name = "Configuraciones", Path = "/Configuracion/Configuraciones" },
-                        new MenuItem { Name = "Banners", Path = "/Configuracion/Banners" },
-                        new MenuItem { Name = "Servicios", Path = "/Configuracion/Servicios" },
-                        new MenuItem { Name = "Ajustes", Path = "/Dashboard/ajustes" }
+                        new() { Name = "Configuraciones", Path = "/Configuracion/Configuraciones" },
+                        new() { Name = "Banners", Path = "/Configuracion/Banners" },
+                        new() { Name = "Servicios", Path = "/Configuracion/Servicios" },
+                        new() { Name = "Ajustes", Path = "/Dashboard/ajustes" }
                     ]
                 }
             };
+
 
             // Marcar activos
             MarcarActivo(menuItems, currentPath);

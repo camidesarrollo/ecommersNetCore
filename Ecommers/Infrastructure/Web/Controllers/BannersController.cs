@@ -49,7 +49,7 @@ namespace Ecommers.Infrastructure.Web.Controllers
         // GET: /Configuracion/Banners/Crear
         // -------------------------------------------------------------------
         [HttpGet("Crear")]
-        public IActionResult Crear()
+        public async Task<IActionResult> Create()
         {
             BannersD bannerss = new() { Id = 0 };
             return View(bannerss);

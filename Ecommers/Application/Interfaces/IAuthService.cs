@@ -6,6 +6,7 @@ namespace Ecommers.Application.Interfaces
     public interface IAuthService
     {
         Task<SignInResult> LoginAsync(LoginRequest model);
+        Task LogoutAsync();
         //Task<IdentityResult> RegisterAsync(RegisterViewModel model);
         //Task LogoutAsync();
         //Task<string> GeneratePasswordResetTokenAsync(string email);

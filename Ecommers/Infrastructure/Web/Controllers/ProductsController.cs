@@ -28,6 +28,7 @@ using Ecommers.Infrastructure.Web.Models.Products;
 using Ecommers.Infrastructure.Web.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ecommers.Infrastructure.Web.Controllers
 {
@@ -123,14 +124,18 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
                 if (!result.IsValid)
                 {
+                    var errores = "";
                     foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                        errores += $"{error.PropertyName}: {error.ErrorMessage}\n";
                     }
 
-                    var vm = await BuildCreateViewModelAsync(model);
-                    return View(vm);
+                    TempData["mensaje"] = errores;
+                    TempData["estado"] = "Error";
+
+                    return HandleResult(null, nameof(Index));
                 }
+
 
                 var producto = model.Products;
                 producto.IsActive = true;
@@ -140,9 +145,8 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
                 if (productoCreado == null)
                 {
-                    _logger.LogError("Error al crear producto");
-                    ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
-                    return View("~/Infrastructure/Web/Views/Products/Index.cshtml");
+
+                    return HandleResult(productoCreado, nameof(Index));
                 }
 
                 if (productoCreado.Data == 0)
@@ -151,20 +155,37 @@ namespace Ecommers.Infrastructure.Web.Controllers
                 }
 
                 // 2. Procesar imágenes del producto
-                await _ProductImagesService.ProcesarImagenesProducto(model.ProductImagesD, producto.Slug, producto.Name, productoCreado.Data);
+                var imagen = await _ProductImagesService.ProcesarImagenesProducto(model.ProductImagesD, producto.Slug, producto.Name, productoCreado.Data);
+
+                if(!imagen.Success)
+                {
+                    return HandleResult(imagen, nameof(Index));
+                }
 
                 // 3. Procesar atributos del producto
-                await _ProductAttributesService.ProcesarAtributosProducto(model.ProductsAttributes, productoCreado.Data);
+                var atributos = await _ProductAttributesService.ProcesarAtributosProducto(model.ProductsAttributes, productoCreado.Data);
+
+                if (!atributos.Success)
+                {
+                    return HandleResult(atributos, nameof(Index));
+
+                }
 
                 // 4. Procesar variantes del producto
-                await _ProductVariantsService.ProcesarCrearVariantesProducto(model.ProductVariants, producto.Slug, productoCreado.Data);
+                var variante = await _ProductVariantsService.ProcesarCrearVariantesProducto(model.ProductVariants, producto.Slug, productoCreado.Data);
+
+                if (!variante.Success)
+                {
+                    return HandleResult(variante, nameof(Index));
+                }
 
                 return HandleResult(productoCreado, nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear producto");
-                ModelState.AddModelError("", "Ocurrió un error al crear el producto. Por favor intente nuevamente.");
+                TempData["mensaje"] = "Ocurrió un error al crear el producto. Por favor intente nuevamente.";
+                TempData["estado"] = "Error";
                 return HandleResult(null, nameof(Index));
             }
         }
@@ -546,11 +567,12 @@ namespace Ecommers.Infrastructure.Web.Controllers
                     Index = request.Index,
                     ProductVariant = new ProductVariantsCreateRequest(),
                     MasterAttributes = MaestroAtributes,
+                    AtrributeValue = await _AtrributeValueService.GetAllActiveAsync(),
                     ProductVariantImages = []
                 };
 
                 // Renderizar la vista parcial a string
-                var html = RenderPartialViewToString("~/Infrastructure/Web/Views/Products/_Partial/_ProductVariants.cshtml", model);
+                var html = RenderPartialViewToString("~/Infrastructure/Web/Views/Products/_Partial/_ProductVariantsCreate.cshtml", model);
 
                 // Verificar que el HTML no esté vacío
                 if (string.IsNullOrWhiteSpace(html))
@@ -784,14 +806,70 @@ namespace Ecommers.Infrastructure.Web.Controllers
 
             foreach (var img in resultVariant.Data.ProductVariantImages.ToList())
             {
-                await _ProductVariantImagesService.DeleteAsync(
+                var deleteResult =  await _ProductVariantImagesService.DeleteAsync(
                     new DeleteRequest<long> { Id = img.Id });
+
+
+                if (!deleteResult.Success)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = $"Error en eliminar la imagen de la variante"
+                    });
+                }
+            }
+
+            foreach (var priceHistory in resultVariant.Data.ProductPriceHistory.ToList())
+            {
+                var deleteResult = await _ProductPriceHistoryService.DeleteAsync(
+                    new DeleteRequest<long> { Id = priceHistory.Id }
+                );
+
+                if (!deleteResult.Success)
+                { 
+                    return Json(new
+                    {
+                        success = false,
+                        message = $"Error en eliminar el hisotiral de la variante"
+                    });
+                }
+            }
+
+            foreach (var variantAttribute in resultVariant.Data.VariantAttributes.ToList())
+            {
+                var deleteResult = await _VariantAttributesService.DeleteAsync(
+                    new DeleteRequest<long> { Id = variantAttribute.Id }
+                );
+
+                if (!deleteResult.Success)
+                {
+
+                    return Json(new
+                    {
+                        success = false,
+                        message = $"Error en eliminar los atributos de la variante"
+                    });
+                }
+            }
+
+            var deleteVariantResult = await _ProductVariantsService.DeleteAsync(
+                        new DeleteRequest<long> { Id = request.VarianteId }
+                    );
+
+            if (!deleteVariantResult.Success)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = $"Error al eliminar la  variante"
+                });
             }
 
             return Json(new
             {
                 success = true,
-                message = "Imagen de la variante eliminada exitosamente"
+                message = "La variante eliminada exitosamente"
             });
         }
 
