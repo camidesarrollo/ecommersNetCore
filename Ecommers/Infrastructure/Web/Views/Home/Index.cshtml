@@ -7,10 +7,48 @@
 @await Component.InvokeAsync("Banners", new { seccion = "Home", activo = true })
 @await Component.InvokeAsync("Servicios")
 @await Component.InvokeAsync("Categorias")
+@await Component.InvokeAsync("ProductoOferta")
+@await Component.InvokeAsync("ProductoEstrella")
 
-<!-- Contenido de la página -->
-<div class="container mx-auto py-8">
-    <h2>Bienvenido a la tienda</h2>
-    <!-- Resto del contenido -->
-</div>
+<!-- Sección de Beneficios con formas orgánicas -->
+<section class="py-20 relative overflow-hidden" style="background-color: var(--color-beige);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-16" style="color: var(--color-olive-green);">
+            ¿Por qué elegirnos?
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="relative">
+                <div class="organic-shape p-8 h-full" style="background: linear-gradient(135deg, var(--color-mint-green) 0%, var(--color-olive-green) 100%);">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: white;">
+                        <i class="fas fa-heart text-3xl" style="color: var(--color-burgundy-red);"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Salud Garantizada</h3>
+                    <p class="text-white">Todos nuestros productos son seleccionados cuidadosamente para garantizar los máximos beneficios nutricionales.</p>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="organic-shape-2 p-8 h-full" style="background: linear-gradient(135deg, var(--color-nut-brown) 0%, var(--color-dark-chocolate) 100%);">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: white;">
+                        <i class="fas fa-globe text-3xl" style="color: var(--color-olive-green);"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Origen Sostenible</h3>
+                    <p class="text-white">Trabajamos directamente con productores que cuidan el medio ambiente y practican agricultura responsable.</p>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="organic-shape-3 p-8 h-full" style="background: linear-gradient(135deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%);">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: white;">
+                        <i class="fas fa-award text-3xl" style="color: var(--color-nut-brown);"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Calidad Premium</h3>
+                    <p class="text-white">Cada lote pasa por rigurosos controles de calidad para asegurar frescura y sabor excepcional.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@await Component.InvokeAsync("RecienLlegados")
 @await Component.InvokeAsync("UnirceComunidad")

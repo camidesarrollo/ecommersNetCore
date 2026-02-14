@@ -260,5 +260,68 @@ namespace Ecommers.Application.Services
             repo.Update(productos);
         }
 
+        public Task<Result<List<vw_RecienLlegados>>> GetRecienLlegadosQueryAsync()
+        {
+            try
+            {
+                List<vw_RecienLlegados> obtenerRecienLlegados = new List<vw_RecienLlegados>();
+                obtenerRecienLlegados = vw_RecienLlegadosQueries.GetTop10(_context).Take(6).ToList();
+                
+                return Task.FromResult(
+                    Result<List<vw_RecienLlegados>>
+                        .Ok(obtenerRecienLlegados, "Productos obtenidos exitosamente")
+                );
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(
+                    Result<List<vw_RecienLlegados>>
+                        .Fail($"Error al obtener productos: {ex.Message}")
+                );
+            }
+        }
+
+        public Task<Result<List<vw_ProductStarMetrics>>> GetProductoStartQueryAsync()
+        {
+            try
+            {
+                List<vw_ProductStarMetrics> startProducts = new List<vw_ProductStarMetrics>();
+                startProducts = vw_ProductStarMetricsQueries.getVarianteDestacadaPorVentas(_context).Take(6).ToList();
+
+                return Task.FromResult(
+                    Result<List<vw_ProductStarMetrics>>
+                        .Ok(startProducts, "Productos obtenidos exitosamente")
+                );
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(
+                    Result<List<vw_ProductStarMetrics>>
+                        .Fail($"Error al obtener productos: {ex.Message}")
+                );
+            }
+        }
+
+        public Task<Result<List<vw_VariantesEnOferta>>> GetProductosOferta()
+        {
+            try
+            {
+                List<vw_VariantesEnOferta> startProducts = new List<vw_VariantesEnOferta>();
+                startProducts = vw_VariantesEnOfertaQueries.Get(_context).ToList();
+
+                return Task.FromResult(
+                    Result<List<vw_VariantesEnOferta>>
+                        .Ok(startProducts, "Productos obtenidos exitosamente")
+                );
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(
+                    Result<List<vw_VariantesEnOferta>>
+                        .Fail($"Error al obtener productos: {ex.Message}")
+                );
+            }
+        }
+
     }
 }

@@ -62,7 +62,7 @@
         </div>
 
         <!-- FORM -->
-            <form asp-action="Editar" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formCategoria">
+            <form action="@($"/Gestion/Categorias/Editar/{@Model.Id}")" method="post" enctype="multipart/form-data" class="slide-in delay-400" id="formCategoria">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Id" />
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

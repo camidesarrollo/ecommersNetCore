@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<Ecommers.Domain.Entities.CategoriesD>
 @{
-    var categorias = Model?.OrderBy(x => x.SortOrder).ToList() ?? new();
+    var categorias = Model?
+        .OrderBy(x => Guid.NewGuid())
+        .Take(4)
+        .ToList() ?? new();
     bool usarSwiper = categorias.Count > 3;
 }
 
@@ -8,7 +11,7 @@
 {
     return;
 }
-
+@* 
 <section class="py-16 bg-gradient-to-b from-beige-50 to-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header Section -->
@@ -69,5 +72,28 @@
                         }
             </div>
         }
+    </div>
+</section> *@
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-16"
+            style="color: var(--color-olive-green);">
+            Explora Nuestras Categorías
+        </h2>
+
+        
+        <div class="asymmetric-grid">
+
+            @for (int i = 0; i < categorias.Count; i++)
+            {
+                var cat = categorias[i];
+                cat.Index = i;
+                @await Html.PartialAsync(
+                "~/Infrastructure/Web/Views/Shared/Components/Categorias/_CategoryItem.cshtml",
+                        cat
+                        )
+            }
+
+        </div>
     </div>
 </section>

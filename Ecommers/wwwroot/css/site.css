@@ -567,7 +567,8 @@
 
 /* Formas orgánicas */
 .organic-shape {
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    /*    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;*/
+    border-radius: 63% 37% 54% 35% / 55% 48% 52% 35%;
 }
 
 .organic-shape-2 {
@@ -575,7 +576,8 @@
 }
 
 .organic-shape-3 {
-    border-radius: 73% 27% 26% 74% / 54% 59% 41% 46%;
+    /*    border-radius: 73% 27% 26% 74% / 54% 59% 41% 46%;*/
+    border-radius: 73% 27% 26% 65% / 54% 59% 41% 17%;
 }
 
 /* Gradientes personalizados */

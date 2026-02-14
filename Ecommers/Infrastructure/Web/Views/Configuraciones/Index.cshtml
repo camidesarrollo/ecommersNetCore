@@ -25,10 +25,6 @@
             </h1>
             <p class="opacity-90">Gestiona las configuraciones generales de la aplicación</p>
         </div>
-        @* <a asp-action="Crear" class="inline-flex items-center gap-2 bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-200 shadow-md hover:shadow-lg">
-            <i class="fas fa-plus"></i>
-            Nueva Configuración
-        </a> *@
     </div>
 </div>
 
@@ -82,12 +78,12 @@
                     <td>@config.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
                     <td>
                         <div class="flex items-center justify-center gap-2">
-                            <a asp-action="Detalle" asp-route-id="@config.Id"
+                            <a href="@($"/Configuracion/Configuraciones/Detalle/{@config.Id}")"
                                class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors duration-200"
                                title="Ver detalles">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a asp-action="Editar" asp-route-id="@config.Id"
+                            <a href="@($"/Configuracion/Configuraciones/Editar/{@config.Id}")"
                                class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors duration-200"
                                title="Editar">
                                 <i class="fas fa-edit"></i>

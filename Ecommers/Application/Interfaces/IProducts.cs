@@ -25,6 +25,13 @@ namespace Ecommers.Application.Interfaces
 
         Task<Result> DeleteAsync(DeleteRequest<long> deleteRequest);
         Task<Result> CambiarEstadoAsync(GetByIdRequest<long> getByIdRequest);
-        
+
+        Task<Result<List<vw_RecienLlegados>>> GetRecienLlegadosQueryAsync();
+
+        Task<Result<List<vw_ProductStarMetrics>>> GetProductoStartQueryAsync();
+
+        Task<Result<List<vw_VariantesEnOferta>>> GetProductosOferta();
+
+
     }
 }

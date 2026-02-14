@@ -23,6 +23,8 @@ public partial class vw_ProductStarMetrics
 
     public decimal Price { get; set; }
 
+    public string? Description { get; set; }
+
     public bool IsActive { get; set; }
 
     public string StockStatus { get; set; } = null!;

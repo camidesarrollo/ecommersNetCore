@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Ecommers.Infrastructure.Persistence.Entities.vw_VariantesEnOferta>
+@{
+	var variantes = Model?.ToList() ?? new();
+    bool usarSwiper = variantes.ToList().Count() > 3;
+}
+
+@if (!variantes.Any())
+{
+    return;
+}
+<!-- Productos en Oferta - Carrusel dinámico -->
+<section class="py-20 relative overflow-hidden" style="background: linear-gradient(135deg, var(--color-mint-green) 0%, var(--color-beige) 100%);">
+    <div class="absolute top-0 right-0 w-64 h-64 organic-shape opacity-10" style="background-color: var(--color-olive-green);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold" style="color: var(--color-olive-green);">
+                ¡Ofertas Especiales!
+            </h2>
+            <button class="px-6 py-3 rounded-full border-2 font-semibold hover:scale-105 transition-all" style="color: var(--color-olive-green); border-color: var(--color-olive-green);">
+                Ver Todo
+            </button>
+        </div>
+
+        @if (usarSwiper)
+        {
+            <link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
+            <link rel="stylesheet" href="~/css/swiper-custom.css" />
+            <script src="~/js/bundle/vendors_swiper.js"></script>
+
+            <!-- Swiper Container -->
+            <div class="relative">
+                <swiper slides-per-view="1"
+                        space-between="24"
+                        loop="@(variantes.Count > 4)"
+                        autoplay="true"
+                        autoplay-delay="5000"
+                        navigation="true"
+                        pagination="true"
+                        breakpoints='{
+                                    "640":  { "slidesPerView": 2, "spaceBetween": 20 },
+                                    "1024": { "slidesPerView": 3, "spaceBetween": 24 },
+                                    "1280": { "slidesPerView": 4, "spaceBetween": 28 }
+                                }'
+                        css-class="categories-swiper pb-12">
+                    @foreach (var cat in variantes)
+                    {
+                        <swiper-slide>
+                            @await Html.PartialAsync(
+                            "~/Infrastructure/Web/Views/Shared/Components/ProductoOferta/_ProductoItem.cshtml",
+                                        cat
+                                        )
+                </swiper-slide>
+                                }
+                </swiper>
+            </div>
+        }
+        else
+        {
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach(var item in variantes)
+                {
+                    @await Html.PartialAsync(
+                            "~/Infrastructure/Web/Views/Shared/Components/ProductoOferta/_ProductoItem.cshtml",
+                                        item
+                                        )
+						}
+	                )
+            </div>
+        }
+
+        
+    </div>
+</section>

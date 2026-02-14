@@ -7,7 +7,8 @@ namespace Ecommers.Application.Interfaces
     {
         Task<SignInResult> LoginAsync(LoginRequest model);
         Task LogoutAsync();
-        //Task<IdentityResult> RegisterAsync(RegisterViewModel model);
+        Task<SignInResult> LoginWithGoogleAsync(LoginGoogleRequest request);
+        Task<IdentityResult> RegisterAsync(RegisterRequest request);
         //Task LogoutAsync();
         //Task<string> GeneratePasswordResetTokenAsync(string email);
         //Task<IdentityResult> ResetPasswordAsync(string email, string token, string newPassword);

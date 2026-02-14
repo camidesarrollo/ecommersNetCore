@@ -1,4 +1,8 @@
 ﻿ <!-- Productos Recientes - Grid creativo -->
+@model IEnumerable<Ecommers.Infrastructure.Persistence.Entities.vw_RecienLlegados>
+@if (Model.Any())
+{
+
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-12">
@@ -11,17 +15,21 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                <!-- Producto compacto 1 -->
-                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1582036492021-c3e5d96c73af?w=300" alt="Producto" class="w-full h-40 object-cover">
-                    <div class="p-4">
-                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Anacardos</h4>
-                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">250g</p>
-                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$14.99</span>
+                @foreach(var item in Model)
+                {
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                        <img src="@item.ImageUrl" alt="Producto" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">@item.ProductName</h4>
+                            <p class="text-sm mb-2" style="color: var(--color-gray-dark);">@item.PesoNeto</p>
+                            <span class="text-lg font-bold" style="color: var(--color-olive-green);">$@item.Price</span>
+                        </div>
                     </div>
-                </div>
+                }
+                <!-- Producto compacto 1 -->
 
-                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+
+                @* <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
                     <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300" alt="Producto" class="w-full h-40 object-cover">
                     <div class="p-4">
                         <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Mix Fitness</h4>
@@ -64,7 +72,8 @@
                         <p class="text-sm mb-2" style="color: var(--color-gray-dark);">500g</p>
                         <span class="text-lg font-bold" style="color: var(--color-olive-green);">$13.99</span>
                     </div>
-                </div>
+                </div> *@
             </div>
         </div>
     </section>
+}

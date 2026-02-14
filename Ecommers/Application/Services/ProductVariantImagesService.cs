@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Ecommers.Application.DTOs.Common;
 using Ecommers.Application.DTOs.Requests.ProductVariantImages;
-using Ecommers.Application.DTOs.Requests.ProductVariantImages;
 using Ecommers.Application.Interfaces;
 using Ecommers.Domain.Common;
 using Ecommers.Domain.Entities;

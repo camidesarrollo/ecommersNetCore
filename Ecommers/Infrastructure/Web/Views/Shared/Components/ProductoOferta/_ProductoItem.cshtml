@@ -1,0 +1,22 @@
+﻿@model Ecommers.Infrastructure.Persistence.Entities.vw_VariantesEnOferta
+<div class="bg-white rounded-3xl overflow-hidden hover-lift shadow-lg">
+    <div class="relative">
+        <div class="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-white z-10" style="background-color: var(--color-burgundy-red);">
+            -@Model.PorcentajeDescuento%
+        </div>
+        <img src="@Model.VariantImageUrl" alt="Almendras" class="w-full h-64 object-cover">
+    </div>
+    <div class="p-6">
+        <h3 class="font-bold text-xl mb-2" style="color: var(--color-gray-dark);">@Model.ProductName</h3>
+        <p class="text-sm mb-4" style="color: var(--color-gray-dark);">@Model.VariantName</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <span class="text-2xl font-bold" style="color: var(--color-olive-green);">$@Model.PrecioActual</span>
+                <span class="text-sm line-through ml-2" style="color: var(--color-gray-dark);">$@Model.PrecioOriginal</span>
+            </div>
+            <button class="w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-olive-green);">
+                <i class="fas fa-shopping-cart text-white"></i>
+            </button>
+        </div>
+    </div>
+</div>

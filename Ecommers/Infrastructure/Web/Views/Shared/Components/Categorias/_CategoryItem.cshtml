@@ -1,5 +1,5 @@
 ﻿@model Ecommers.Domain.Entities.CategoriesD
-
+@* 
 <a href="#" class="group block h-full">
     <div class="relative h-full flex flex-col rounded-3xl overflow-hidden shadow-xl
                 bg-gradient-to-br @Model.BgClass
@@ -95,4 +95,48 @@
                     rounded-bl-full opacity-50 group-hover:opacity-70
                     transition-opacity duration-300"></div>
     </div>
-</a>
+</a> *@
+
+@{
+    var layouts = new[]
+    {
+                new { Span = "span-7", Height = "400px", TitleSize = "text-4xl", Padding = "p-8", ButtonSize = "px-6 py-3", ButtonText = "Ver Más", Gradient = "linear-gradient(135deg, var(--color-nut-brown) 0%, var(--color-dark-chocolate) 100%)", ButtonColor = "var(--color-nut-brown)" },
+                new { Span = "span-5", Height = "400px", TitleSize = "text-3xl", Padding = "p-8", ButtonSize = "px-6 py-3", ButtonText = "Explorar", Gradient = "linear-gradient(135deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%)", ButtonColor = "var(--color-golden-yellow-dark)" },
+                new { Span = "span-4", Height = "300px", TitleSize = "text-2xl", Padding = "p-6", ButtonSize = "px-4 py-2", ButtonText = "Ver", Gradient = "linear-gradient(135deg, var(--color-burgundy-red) 0%, var(--color-orange-warm) 100%)", ButtonColor = "var(--color-burgundy-red)" },
+                new { Span = "span-8", Height = "300px", TitleSize = "text-4xl", Padding = "p-8", ButtonSize = "px-6 py-3", ButtonText = "Descubrir", Gradient = "linear-gradient(135deg, var(--color-dark-chocolate) 0%, var(--color-nut-brown) 100%)", ButtonColor = "var(--color-dark-chocolate)" }
+                };
+
+    var layout = layouts[Model.Index % layouts.Length];
+}
+
+
+<div class="@layout.Span relative overflow-hidden rounded-3xl hover-lift cursor-pointer group"
+     style="background: @layout.Gradient; height: @layout.Height;">
+
+    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+
+    <div class="relative h-full @layout.Padding flex flex-col justify-end">
+        <h3 class="@layout.TitleSize font-bold text-white mb-2">
+            @Model.Name
+        </h3>
+
+        @if (!string.IsNullOrEmpty(Model.ShortDescription))
+        {
+            <p class="text-white mb-4">
+                @Model.ShortDescription
+            </p>
+        }
+
+        <button class="self-start @layout.ButtonSize bg-white rounded-full font-semibold"
+                style="color: @layout.ButtonColor;">
+            @layout.ButtonText
+            <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+
+    <div class="absolute top-0 right-0 w-1/2 h-full opacity-30">
+        <img src="@Model.Image"
+             alt="@Model.Name"
+             class="w-full h-full object-cover">
+    </div>
+</div>

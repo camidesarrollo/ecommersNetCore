@@ -1,5 +1,5 @@
 ﻿@model Ecommers.Domain.Entities.ServiciosD
-<div id="BgClassView" class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition">
+@* <div id="BgClassView" class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition">
 
     <div class="flex justify-center mb-4">
         <img id="ImageFilePreview"  src="@Model.Image"
@@ -16,5 +16,50 @@
             @Model.Description
         </p>
     </div>
+
+</div> *@
+
+@{
+    var backgroundColors = new[]
+    {
+                        "",
+                        "",
+                        "",
+                        ""
+                        };
+
+    var organicShapes = new[]
+    {
+                            "organic-shape",
+                            "organic-shape-2",
+                            "organic-shape-3",
+                            "organic-shape"
+                            };
+
+    var bgColor = backgroundColors[Model.Id % backgroundColors.Length];
+    var shapeClass = organicShapes[Model.Id % organicShapes.Length];
+    var animationDelay = $"{Model.Id * 0.1}s";
+
+}
+
+
+<div class="text-center p-6 bg-white rounded-3xl hover-lift scale-in"
+     style="animation-delay: @animationDelay;">
+
+    <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center @shapeClass"
+         style="background-color: @bgColor;">
+
+        <img src="@Model.Image"
+             alt="@Model.Name"
+             class="w-10 h-10" />
+    </div>
+
+    <h3 class="font-bold text-lg mb-2" style="color: var(--color-gray-dark);">
+        @Model.Name
+    </h3>
+
+    <p class="text-sm" style="color: var(--color-gray-dark);">
+        @Model.Description
+    </p>
 
 </div>

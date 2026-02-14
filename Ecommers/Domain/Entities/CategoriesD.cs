@@ -24,6 +24,8 @@ namespace Ecommers.Domain.Entities
 
         public bool ? CanDelete { get; set; }
 
-        public bool EsNuevo  { get; set; } 
+        public bool EsNuevo  { get; set; }
+
+        public int Index;
     }
 }

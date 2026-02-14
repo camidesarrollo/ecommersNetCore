@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<form asp-action="Editar" method="post" enctype="multipart/form-data" id="formConfiguracion">
+<form action="@($"/Configuracion/Configuraciones/Editar/{@Model.Id}")" method="post" enctype="multipart/form-data" id="formConfiguracion">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Id" />
 
