@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Frutos Secos y Productos Naturales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Importar estilos personalizados */
+        :root {
+            --color-olive-green: #475E1D;
+            --color-olive-green-dark: #31430E;
+            --color-nut-brown: #8B5E3C;
+            --color-nut-brown-dark: #6B4529;
+            --color-golden-yellow: #F4C430;
+            --color-golden-yellow-dark: #D4A017;
+            --color-burgundy-red: #8B0000;
+            --color-burgundy-red-dark: #650000;
+            --color-beige: #F5F5DC;
+            --color-beige-dark: #E6E6C7;
+            --color-mint-green: #98FF98;
+            --color-mint-green-dark: #7DE67D;
+            --color-dark-chocolate: #3B2F2F;
+            --color-orange-warm: #FF8C00;
+            --color-orange-warm-dark: #CC7000;
+            --color-gray-light: #E5E5E5;
+            --color-gray-dark: #4B4B4B;
+            --color-lime-yellow: #DFFF00;
+            --color-magenta-strong: #FF00FF;
+        }
+
+        /* Animaciones personalizadas */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .scale-in {
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        /* Formas orgánicas */
+        .organic-shape {
+            border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+        }
+
+        .organic-shape-2 {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+
+        .organic-shape-3 {
+            border-radius: 73% 27% 26% 74% / 54% 59% 41% 46%;
+        }
+
+        /* Gradientes personalizados */
+        .bg-gradient-warm {
+            background: linear-gradient(135deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%);
+        }
+
+        .bg-gradient-earth {
+            background: linear-gradient(135deg, var(--color-nut-brown) 0%, var(--color-dark-chocolate) 100%);
+        }
+
+        .bg-gradient-fresh {
+            background: linear-gradient(135deg, var(--color-mint-green) 0%, var(--color-olive-green) 100%);
+        }
+
+        .bg-gradient-vibrant {
+            background: linear-gradient(135deg, var(--color-burgundy-red) 0%, var(--color-orange-warm) 100%);
+        }
+
+        /* Grid asimétrico */
+        .asymmetric-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        .span-5 { grid-column: span 5; }
+        .span-7 { grid-column: span 7; }
+        .span-4 { grid-column: span 4; }
+        .span-8 { grid-column: span 8; }
+
+        /* Hover effects */
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Clip path para diseños únicos */
+        .clip-diagonal {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .clip-curve {
+            clip-path: ellipse(100% 90% at 50% 10%);
+        }
+
+        @media (max-width: 768px) {
+            .asymmetric-grid {
+                grid-template-columns: 1fr;
+            }
+            .span-5, .span-7, .span-4, .span-8 {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Hero Banner con diseño dinámico -->
+    <section class="relative overflow-hidden" style="background: linear-gradient(135deg, var(--color-beige) 0%, var(--color-mint-green) 100%);">
+        <div class="absolute top-0 right-0 w-1/3 h-full organic-shape opacity-20" style="background-color: var(--color-olive-green);"></div>
+        <div class="absolute bottom-0 left-0 w-1/4 h-2/3 organic-shape-2 opacity-10" style="background-color: var(--color-nut-brown);"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="slide-in-left">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6" style="color: var(--color-olive-green);">
+                        Naturaleza<br/>
+                        <span style="color: var(--color-nut-brown);">en cada bocado</span>
+                    </h1>
+                    <p class="text-xl mb-8" style="color: var(--color-gray-dark);">
+                        Descubre nuestra selección premium de frutos secos, semillas y productos naturales
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="px-8 py-4 rounded-full font-semibold text-white transition-all hover:scale-105" style="background-color: var(--color-olive-green);">
+                            Ver Productos
+                        </button>
+                        <button class="px-8 py-4 rounded-full font-semibold border-2 transition-all hover:scale-105" style="color: var(--color-nut-brown); border-color: var(--color-nut-brown);">
+                            Ofertas Especiales
+                        </button>
+                    </div>
+                </div>
+                <div class="slide-in-right relative">
+                    <div class="organic-shape-3 p-8 float-animation" style="background-color: var(--color-golden-yellow);">
+                        <img src="https://images.unsplash.com/photo-1508747703725-719777637510?w=600" alt="Frutos secos" class="rounded-lg shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios con iconos flotantes -->
+    <section class="py-16 relative overflow-hidden" style="background-color: var(--color-beige);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center p-6 bg-white rounded-3xl hover-lift scale-in">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center organic-shape" style="background-color: var(--color-mint-green);">
+                        <i class="fas fa-shipping-fast text-3xl" style="color: var(--color-olive-green);"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-gray-dark);">Envío Gratis</h3>
+                    <p class="text-sm" style="color: var(--color-gray-dark);">En compras superiores a $50</p>
+                </div>
+
+                <div class="text-center p-6 bg-white rounded-3xl hover-lift scale-in" style="animation-delay: 0.1s;">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center organic-shape-2" style="background-color: var(--color-golden-yellow);">
+                        <i class="fas fa-leaf text-3xl" style="color: var(--color-olive-green);"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-gray-dark);">100% Natural</h3>
+                    <p class="text-sm" style="color: var(--color-gray-dark);">Sin conservantes ni aditivos</p>
+                </div>
+
+                <div class="text-center p-6 bg-white rounded-3xl hover-lift scale-in" style="animation-delay: 0.2s;">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center organic-shape-3" style="background-color: var(--color-orange-warm);">
+                        <i class="fas fa-certificate text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-gray-dark);">Calidad Premium</h3>
+                    <p class="text-sm" style="color: var(--color-gray-dark);">Productos seleccionados</p>
+                </div>
+
+                <div class="text-center p-6 bg-white rounded-3xl hover-lift scale-in" style="animation-delay: 0.3s;">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center organic-shape" style="background-color: var(--color-burgundy-red);">
+                        <i class="fas fa-undo text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-gray-dark);">Devoluciones</h3>
+                    <p class="text-sm" style="color: var(--color-gray-dark);">30 días de garantía</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorías con diseño asimétrico -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16" style="color: var(--color-olive-green);">
+                Explora Nuestras Categorías
+            </h2>
+
+            <div class="asymmetric-grid">
+                <!-- Frutos Secos - Grande -->
+                <div class="span-7 relative overflow-hidden rounded-3xl hover-lift cursor-pointer group" style="background: linear-gradient(135deg, var(--color-nut-brown) 0%, var(--color-dark-chocolate) 100%); height: 400px;">
+                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    <div class="relative h-full p-8 flex flex-col justify-end">
+                        <h3 class="text-4xl font-bold text-white mb-2">Frutos Secos</h3>
+                        <p class="text-white text-lg mb-4">Almendras, nueces, pistachos y más</p>
+                        <button class="self-start px-6 py-3 bg-white rounded-full font-semibold" style="color: var(--color-nut-brown);">
+                            Ver Más <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-0 right-0 w-1/2 h-full opacity-30">
+                        <img src="https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=600" alt="Frutos secos" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Semillas - Pequeño -->
+                <div class="span-5 relative overflow-hidden rounded-3xl hover-lift cursor-pointer group" style="background: linear-gradient(135deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%); height: 400px;">
+                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    <div class="relative h-full p-8 flex flex-col justify-end">
+                        <h3 class="text-3xl font-bold text-white mb-2">Semillas</h3>
+                        <p class="text-white mb-4">Chía, girasol, calabaza</p>
+                        <button class="self-start px-6 py-3 bg-white rounded-full font-semibold" style="color: var(--color-golden-yellow-dark);">
+                            Explorar <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Frutas Deshidratadas - Pequeño -->
+                <div class="span-4 relative overflow-hidden rounded-3xl hover-lift cursor-pointer group" style="background: linear-gradient(135deg, var(--color-burgundy-red) 0%, var(--color-orange-warm) 100%); height: 300px;">
+                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    <div class="relative h-full p-6 flex flex-col justify-end">
+                        <h3 class="text-2xl font-bold text-white mb-2">Frutas Deshidratadas</h3>
+                        <button class="self-start px-4 py-2 bg-white rounded-full text-sm font-semibold" style="color: var(--color-burgundy-red);">
+                            Ver <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chocolates - Grande -->
+                <div class="span-8 relative overflow-hidden rounded-3xl hover-lift cursor-pointer group" style="background: linear-gradient(135deg, var(--color-dark-chocolate) 0%, var(--color-nut-brown) 100%); height: 300px;">
+                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    <div class="relative h-full p-8 flex flex-col justify-end">
+                        <h3 class="text-4xl font-bold text-white mb-2">Chocolates Artesanales</h3>
+                        <p class="text-white text-lg mb-4">Deliciosos chocolates con frutos secos</p>
+                        <button class="self-start px-6 py-3 bg-white rounded-full font-semibold" style="color: var(--color-dark-chocolate);">
+                            Descubrir <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos en Oferta - Carrusel dinámico -->
+    <section class="py-20 relative overflow-hidden" style="background: linear-gradient(135deg, var(--color-mint-green) 0%, var(--color-beige) 100%);">
+        <div class="absolute top-0 right-0 w-64 h-64 organic-shape opacity-10" style="background-color: var(--color-olive-green);"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold" style="color: var(--color-olive-green);">
+                    ¡Ofertas Especiales!
+                </h2>
+                <button class="px-6 py-3 rounded-full border-2 font-semibold hover:scale-105 transition-all" style="color: var(--color-olive-green); border-color: var(--color-olive-green);">
+                    Ver Todo
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Producto 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden hover-lift shadow-lg">
+                    <div class="relative">
+                        <div class="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-white z-10" style="background-color: var(--color-burgundy-red);">
+                            -25%
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1567954970774-58d6aa6c50dc?w=400" alt="Almendras" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2" style="color: var(--color-gray-dark);">Almendras Premium</h3>
+                        <p class="text-sm mb-4" style="color: var(--color-gray-dark);">500g | Natural sin sal</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--color-olive-green);">$15.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--color-gray-dark);">$21.99</span>
+                            </div>
+                            <button class="w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-olive-green);">
+                                <i class="fas fa-shopping-cart text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden hover-lift shadow-lg">
+                    <div class="relative">
+                        <div class="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-white z-10" style="background-color: var(--color-burgundy-red);">
+                            -30%
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1589927986089-35812378d0df?w=400" alt="Mix tropical" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2" style="color: var(--color-gray-dark);">Mix Tropical</h3>
+                        <p class="text-sm mb-4" style="color: var(--color-gray-dark);">350g | Frutas deshidratadas</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--color-olive-green);">$12.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--color-gray-dark);">$18.99</span>
+                            </div>
+                            <button class="w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-olive-green);">
+                                <i class="fas fa-shopping-cart text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="bg-white rounded-3xl overflow-hidden hover-lift shadow-lg">
+                    <div class="relative">
+                        <div class="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-white z-10" style="background-color: var(--color-burgundy-red);">
+                            -20%
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1559667228-e3da9c195a8a?w=400" alt="Nueces" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2" style="color: var(--color-gray-dark);">Nueces de Castilla</h3>
+                        <p class="text-sm mb-4" style="color: var(--color-gray-dark);">400g | Sin cáscara</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--color-olive-green);">$19.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--color-gray-dark);">$24.99</span>
+                            </div>
+                            <button class="w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-olive-green);">
+                                <i class="fas fa-shopping-cart text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="bg-white rounded-3xl overflow-hidden hover-lift shadow-lg">
+                    <div class="relative">
+                        <div class="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-white z-10" style="background-color: var(--color-burgundy-red);">
+                            -15%
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400" alt="Pistachos" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2" style="color: var(--color-gray-dark);">Pistachos Tostados</h3>
+                        <p class="text-sm mb-4" style="color: var(--color-gray-dark);">300g | Ligeramente salados</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--color-olive-green);">$22.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--color-gray-dark);">$26.99</span>
+                            </div>
+                            <button class="w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-olive-green);">
+                                <i class="fas fa-shopping-cart text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Producto Estrella con diseño diagonal -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative overflow-hidden rounded-3xl" style="background: linear-gradient(135deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%);">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-12">
+                    <div class="order-2 lg:order-1">
+                        <span class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-4" style="background-color: var(--color-burgundy-red); color: white;">
+                            ⭐ PRODUCTO ESTRELLA
+                        </span>
+                        <h2 class="text-5xl font-bold mb-6 text-white">
+                            Mix Energético<br/>
+                            Power Plus
+                        </h2>
+                        <p class="text-xl mb-6 text-white">
+                            Combinación perfecta de almendras, nueces, arándanos y chocolate negro. 
+                            La energía que necesitas para tu día.
+                        </p>
+                        <ul class="mb-8 space-y-3">
+                            <li class="flex items-center text-white">
+                                <i class="fas fa-check-circle mr-3 text-2xl"></i>
+                                <span class="text-lg">Rico en antioxidantes</span>
+                            </li>
+                            <li class="flex items-center text-white">
+                                <i class="fas fa-check-circle mr-3 text-2xl"></i>
+                                <span class="text-lg">Alto contenido proteico</span>
+                            </li>
+                            <li class="flex items-center text-white">
+                                <i class="fas fa-check-circle mr-3 text-2xl"></i>
+                                <span class="text-lg">Sin azúcares añadidos</span>
+                            </li>
+                        </ul>
+                        <div class="flex items-center gap-6 mb-8">
+                            <span class="text-5xl font-bold text-white">$24.99</span>
+                            <span class="text-2xl line-through" style="color: rgba(255,255,255,0.7);">$34.99</span>
+                        </div>
+                        <button class="px-10 py-5 bg-white rounded-full font-bold text-xl hover:scale-105 transition-all shadow-xl" style="color: var(--color-orange-warm);">
+                            <i class="fas fa-shopping-cart mr-3"></i>Agregar al Carrito
+                        </button>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <div class="relative">
+                            <div class="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-20" style="background-color: var(--color-burgundy-red);"></div>
+                            <img src="https://images.unsplash.com/photo-1608797178974-15b35a64ede9?w=600" alt="Mix energético" class="relative z-10 rounded-3xl shadow-2xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Beneficios con formas orgánicas -->
+    <section class="py-20 relative overflow-hidden" style="background-color: var(--color-beige);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16" style="color: var(--color-olive-green);">
+                ¿Por qué elegirnos?
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="relative">
+                    <div class="organic-shape p-8 h-full" style="background: linear-gradient(135deg, var(--color-mint-green) 0%, var(--color-olive-green) 100%);">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: white;">
+                            <i class="fas fa-heart text-3xl" style="color: var(--color-burgundy-red);"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Salud Garantizada</h3>
+                        <p class="text-white">Todos nuestros productos son seleccionados cuidadosamente para garantizar los máximos beneficios nutricionales.</p>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="organic-shape-2 p-8 h-full" style="background: linear-gradient(135deg, var(--color-nut-brown) 0%, var(--color-dark-chocolate) 100%);">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: white;">
+                            <i class="fas fa-globe text-3xl" style="color: var(--color-olive-green);"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Origen Sostenible</h3>
+                        <p class="text-white">Trabajamos directamente con productores que cuidan el medio ambiente y practican agricultura responsable.</p>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="organic-shape-3 p-8 h-full" style="background: linear-gradient(135deg, var(--color-golden-yellow) 0%, var(--color-orange-warm) 100%);">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: white;">
+                            <i class="fas fa-award text-3xl" style="color: var(--color-nut-brown);"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Calidad Premium</h3>
+                        <p class="text-white">Cada lote pasa por rigurosos controles de calidad para asegurar frescura y sabor excepcional.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos Recientes - Grid creativo -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold" style="color: var(--color-olive-green);">
+                    Recién Llegados
+                </h2>
+                <button class="px-6 py-3 rounded-full font-semibold hover:scale-105 transition-all text-white" style="background-color: var(--color-olive-green);">
+                    Ver Todos
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <!-- Producto compacto 1 -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1582036492021-c3e5d96c73af?w=300" alt="Producto" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Anacardos</h4>
+                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">250g</p>
+                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$14.99</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300" alt="Producto" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Mix Fitness</h4>
+                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">400g</p>
+                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$16.99</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=300" alt="Producto" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Dátiles Medjool</h4>
+                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">300g</p>
+                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$11.99</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1599909533744-2e668c6e25aa?w=300" alt="Producto" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Avellanas</h4>
+                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">350g</p>
+                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$18.99</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1568568698505-321bcdcf2e54?w=300" alt="Producto" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Arándanos Secos</h4>
+                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">200g</p>
+                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$9.99</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl overflow-hidden hover-lift cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=300" alt="Producto" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold mb-1" style="color: var(--color-gray-dark);">Semillas de Chía</h4>
+                        <p class="text-sm mb-2" style="color: var(--color-gray-dark);">500g</p>
+                        <span class="text-lg font-bold" style="color: var(--color-olive-green);">$13.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter con diseño creativo -->
+    <section class="py-20 relative overflow-hidden" style="background: linear-gradient(135deg, var(--color-burgundy-red) 0%, var(--color-orange-warm) 100%);">
+        <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" style="background-color: white; transform: translate(-50%, -50%);"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-10" style="background-color: white; transform: translate(50%, 50%);"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                ¡Únete a nuestra comunidad!
+            </h2>
+            <p class="text-xl text-white mb-8">
+                Recibe ofertas exclusivas, recetas saludables y tips de nutrición
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
+                <input type="email" placeholder="Tu correo electrónico" class="flex-1 px-6 py-4 rounded-full text-lg focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-50">
+                <button class="px-8 py-4 bg-white rounded-full font-bold text-lg hover:scale-105 transition-all" style="color: var(--color-burgundy-red);">
+                    Suscribirme
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12" style="background-color: var(--color-dark-chocolate);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
+                <div>
+                    <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Sobre Nosotros</h3>
+                    <p class="text-sm opacity-80">Tu tienda de confianza para productos naturales y saludables.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Enlaces Rápidos</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Productos</a></li>
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Ofertas</a></li>
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Blog</a></li>
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Ayuda</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Preguntas Frecuentes</a></li>
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Envíos</a></li>
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Devoluciones</a></li>
+                        <li><a href="#" class="opacity-80 hover:opacity-100">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Síguenos</h3>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-facebook-f" style="color: var(--color-dark-chocolate);"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-instagram" style="color: var(--color-dark-chocolate);"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-twitter" style="color: var(--color-dark-chocolate);"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-20 mt-8 pt-8 text-center text-sm text-white opacity-60">
+                <p>&copy; 2024 Frutos Secos & Naturales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
