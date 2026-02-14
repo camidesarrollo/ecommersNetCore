@@ -7,8 +7,10 @@
 @await Component.InvokeAsync("Banners", new { seccion = "Home", activo = true })
 @await Component.InvokeAsync("Servicios")
 @await Component.InvokeAsync("Categorias")
+
 <!-- Contenido de la página -->
 <div class="container mx-auto py-8">
     <h2>Bienvenido a la tienda</h2>
     <!-- Resto del contenido -->
 </div>
+@await Component.InvokeAsync("UnirceComunidad")

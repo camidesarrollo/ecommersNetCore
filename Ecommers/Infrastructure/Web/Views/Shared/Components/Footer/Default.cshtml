@@ -12,88 +12,66 @@
                 MetaViewport = "width=device-width, initial-scale=1"
             };
 }
-<footer class="bg-gray-50 text-gray-800 py-12">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-            <!-- Sección: Sucursales -->
+<footer class="py-12" style="background-color: var(--color-dark-chocolate);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
             <div>
-                <h3 class="text-lg font-semibold mb-4">SUCURSALES</h3>
-                <ul id="footer-sucursales" class="space-y-2 text-sm">
-                    <li>
-                       @config.Direccion
-                    </li>
+                <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Sobre Nosotros</h3>
+                <p class="text-sm opacity-80  mb-4">Tu tienda de confianza para productos naturales y saludables.</p>
+                <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Sucursales</h3>
+                <p class="text-sm opacity-80  mb-4">  @config.Direccion</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Enlaces Rápidos</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Productos</a></li>
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Ofertas</a></li>
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Blog</a></li>
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Contacto</a></li>
                 </ul>
             </div>
-
-            <!-- Sección: Navegación -->
             <div>
-                <h3 class="text-lg font-semibold mb-4">ENLACES</h3>
-                <ul id="footer-enlaces" class="space-y-2 text-sm">
-                    <!-- Aquí se inyectarán los enlaces -->
+                <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Ayuda</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Preguntas Frecuentes</a></li>
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Envíos</a></li>
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Devoluciones</a></li>
+                    <li><a href="#" class="opacity-80 hover:opacity-100">Términos y Condiciones</a></li>
                 </ul>
             </div>
-
-            <!-- Sección: Contacto / Logo -->
-            <div class="flex flex-col items-start md:items-end">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="rounded-full p-2 bg-gradient-to-br from-yellow-700 to-yellow-500 text-white text-xl animate-bounce">
-                        <img src="@config.Logo" alt="Logo" class="w-10 h-10" />
-                    </div>
-                    <span class="font-bold text-xl text-gray-800">@config.NombreAplicacion</span>
-                </div>
-
-                <!-- WhatsApp -->
-                <div class="flex items-center space-x-2 mb-2 text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.149-.672.15-.198.297-.767.967-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.173.198-.297.297-.495.099-.198.05-.372-.025-.521-.074-.149-.672-1.611-.92-2.207-.242-.579-.487-.501-.672-.51-.173-.007-.372-.008-.571-.008-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.571-.347z"/>
-                    </svg>
-                    <span id="footer-telefono">@config.TelefonoContacto</span>
-                </div>
-
-                <!-- Email -->
-                <div id="footer-email" class="text-sm mb-4">@config.EmailContacto</div>
-
-                <!-- Redes sociales -->
-                <div id="footer-redes" class="flex space-x-4">
+            <div>
+                <h3 class="font-bold text-xl mb-4" style="color: var(--color-golden-yellow);">Síguenos</h3>
+                <div class="flex gap-4">
                     @if (!string.IsNullOrEmpty(Model?.Facebook))
                     {
-                        <a id="FacebookFooter" href="@Model.Facebook" target="_blank" aria-label="Facebook"
-                           class="flex items-center justify-center p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition w-10 h-10">
-                            <i class="text-blue-600 fab fa-facebook-f text-lg"></i>
+                        <a href="@Model?.Facebook" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-facebook-f" style="color: var(--color-dark-chocolate);"></i>
                         </a>
                     }
-
-                    @if (!string.IsNullOrEmpty(Model?.Twitter))
-                    {
-                        <a id="TwitterFooter" href="@Model.Twitter" target="_blank" aria-label="Twitter"
-                           class="flex items-center justify-center p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition w-10 h-10">
-                            <i class="text-blue-400 fab fa-twitter text-lg"></i>
-                        </a>
-                    }
-
                     @if (!string.IsNullOrEmpty(Model?.Instagram))
                     {
-                        <a id="InstagramFooter" href="@Model.Instagram" target="_blank" aria-label="Instagram"
-                           class="flex items-center justify-center p-2 rounded-full bg-gray-100 hover:bg-pink-100 transition w-10 h-10">
-                            <i class="text-pink-500 fab fa-instagram text-lg"></i>
+                        <a href="@Model?.Instagram" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-instagram" style="color: var(--color-dark-chocolate);"></i>
                         </a>
                     }
-
+                    @if (!string.IsNullOrEmpty(Model?.Twitter))
+                    {
+                        <a href="@Model?.Twitter" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-twitter" style="color: var(--color-dark-chocolate);"></i>
+                        </a>
+                    }
+                    
                     @if (!string.IsNullOrEmpty(Model?.Tiktok))
                     {
-                        <a id="TiktokFooter" href="@Model.Tiktok" target="_blank" aria-label="Tiktok"
-                           class="flex items-center justify-center p-2 rounded-full bg-gray-100 hover:bg-black transition w-10 h-10">
-                            <i class="text-black fab fa-tiktok text-lg"></i>
+                        <a href="@Model?.Tiktok" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all" style="background-color: var(--color-golden-yellow);">
+                            <i class="fab fa-twitter" style="color: var(--color-dark-chocolate);"></i>
                         </a>
                     }
                 </div>
             </div>
         </div>
-
-        <!-- Footer bottom -->
-        <div class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500">
-            © <span id="footer-year">@DateTime.Now.Year</span> <span id="footer-empresa"></span>@config.AbreviacionEmpresa . Todos los derechos reservados.
+        <div class="border-t border-white border-opacity-20 mt-8 pt-8 text-center text-sm text-white opacity-60">
+            <p>&copy; 2024 Frutos Secos & Naturales. Todos los derechos reservados.</p>
         </div>
     </div>
 </footer>

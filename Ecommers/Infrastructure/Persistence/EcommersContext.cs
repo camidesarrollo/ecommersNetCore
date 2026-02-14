@@ -60,12 +60,19 @@ public class EcommersContext : IdentityDbContext<
 
     public virtual DbSet<vw_ProductFullDetails> vw_ProductFullDetails { get; set; }
 
+    public virtual DbSet<vw_ProductStarMetrics> vw_ProductStarMetrics { get; set; }
+
     public virtual DbSet<vw_Products> vw_Products { get; set; }
+
+    public virtual DbSet<vw_ProductsAdministrador> vw_ProductsAdministrador { get; set; }
 
     public virtual DbSet<vw_ProductsWithVariants> vw_ProductsWithVariants { get; set; }
 
     public virtual DbSet<vw_VariantAttributes> vw_VariantAttributes { get; set; }
 
+    public virtual DbSet<vw_VariantesEnOferta> vw_VariantesEnOferta { get; set; }
+
+    
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-FVE26L4\\MSSQLSERVER01;Database=Ecommers;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -574,11 +581,93 @@ public class EcommersContext : IdentityDbContext<
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<vw_ProductStarMetrics>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_ProductStarMetrics");
+
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Revenue_30_Days).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.Revenue_90_Days).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.SKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Slug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.StarLevel)
+                .HasMaxLength(11)
+                .IsUnicode(false);
+            entity.Property(e => e.StarScore).HasColumnType("numeric(38, 6)");
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TotalRevenue).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.TrendPercentage).HasColumnType("decimal(28, 13)");
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<vw_Products>(entity =>
         {
             entity
                 .HasNoKey()
                 .ToView("vw_Products");
+
+            entity.Property(e => e.BasePrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Brand).HasMaxLength(500);
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CategorySlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CountryOfOrigin).HasMaxLength(500);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAtFormatted).HasMaxLength(4000);
+            entity.Property(e => e.DefaultSKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.MainImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.MaxVariantPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.MinVariantPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ShortDescription).HasColumnType("text");
+            entity.Property(e => e.Slug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(8)
+                .IsUnicode(false);
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAtFormatted).HasMaxLength(4000);
+        });
+
+        modelBuilder.Entity<vw_ProductsAdministrador>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_ProductsAdministrador");
 
             entity.Property(e => e.BasePrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Brand).HasMaxLength(500);
@@ -667,6 +756,60 @@ public class EcommersContext : IdentityDbContext<
                 .IsUnicode(false);
             entity.Property(e => e.Unit)
                 .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.VariantName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<vw_VariantesEnOferta>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_VariantesEnOferta");
+
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CategorySlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.EstadoDisponibilidad)
+                .HasMaxLength(16)
+                .IsUnicode(false);
+            entity.Property(e => e.FechaActualizacion).HasMaxLength(4000);
+            entity.Property(e => e.FechaCreacion).HasMaxLength(4000);
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Marca).HasMaxLength(500);
+            entity.Property(e => e.MontoDescuento).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.PesoNeto).HasMaxLength(500);
+            entity.Property(e => e.PorcentajeDescuento).HasColumnType("decimal(5, 2)");
+            entity.Property(e => e.PrecioActual).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.PrecioOriginal).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductSlug)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.SKU)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ShortDescription).HasColumnType("text");
+            entity.Property(e => e.StockStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Tamano).HasMaxLength(500);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.VariantImageUrl)
+                .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.VariantName)
                 .HasMaxLength(255)
